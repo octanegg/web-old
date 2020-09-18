@@ -14,6 +14,14 @@ import {
   Heading,
   Link,
   useToast,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalCloseButton,
+  ModalBody,
+  ModalFooter,
+  useDisclosure,
+  Modal,
 } from "@chakra-ui/core";
 import { useState, useEffect } from "react";
 import {
@@ -22,6 +30,7 @@ import {
   getMatchOld,
   getTeamByID,
   getTeamByName,
+  resetGameOld,
   updateMatch,
   updateMatchOld,
 } from "../../providers/api";
@@ -34,9 +43,11 @@ const Card = ({ title, width, children }) => {
       padding="1rem"
       width={width}
     >
-      <Heading size="md" paddingBottom="0.5rem">
-        {title}
-      </Heading>
+      {title && (
+        <Heading size="md" paddingBottom="0.5rem">
+          {title}
+        </Heading>
+      )}
       {children}
     </Box>
   );
@@ -44,7 +55,7 @@ const Card = ({ title, width, children }) => {
 
 const SelectionCard = ({ title, onChange, data, display }) => {
   return (
-    <Card title={title} width={["100%", 1 / 3]}>
+    <Card title={title} width={["100%", 1 / 2]}>
       <Select onChange={onChange} placeholder="Select...">
         {data.map((item, i) => (
           <option key={i} value={i}>
@@ -56,9 +67,8 @@ const SelectionCard = ({ title, onChange, data, display }) => {
   );
 };
 
-const AdminNav = ({ events, setMatch }) => {
+const AdminNav = ({ events, setMatches }) => {
   const [event, setEvent] = useState();
-  const [matches, setMatches] = useState();
 
   const fetchMatches = async (e) => {
     const res = await getMatches(event._id, e.target.value);
@@ -84,26 +94,7 @@ const AdminNav = ({ events, setMatch }) => {
           display={(stage) => stage.name}
         />
       )}
-      {matches && (
-        <SelectionCard
-          title="Matches"
-          onChange={(e) => setMatch(matches[e.target.value])}
-          data={matches}
-          display={(match) => `${match.octane_id}`}
-        />
-      )}
     </Stack>
-  );
-};
-
-const MatchInput = ({ label, value, onChange }) => {
-  return (
-    <Flex>
-      <FormControl>
-        <FormLabel>{label}</FormLabel>
-        <Input value={value} onChange={onChange} />
-      </FormControl>
-    </Flex>
   );
 };
 
@@ -115,6 +106,8 @@ const MatchCard = ({ match }) => {
     orange_score: "",
   });
   const toast = useToast();
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const [game, setGame] = useState();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -168,77 +161,136 @@ const MatchCard = ({ match }) => {
     });
   };
 
+  const resetGame = async () => {
+    resetGameOld(match.octane_id, game);
+    onClose();
+  };
+
   return (
-    <Card title={`Match ${match.octane_id}`} width="100%" key={match._id}>
+    <Card title={match.octane_id} width="100%" key={match._id}>
       <Stack justify="left" direction={["column", "row"]}>
-        <MatchInput
-          label="Blue Team"
-          value={fields.blue || ""}
-          onChange={(e) => {
-            const value = e.currentTarget.value;
-            setFields((prev) => ({
-              ...prev,
-              blue: value,
-            }));
-          }}
-        />
-        <MatchInput
-          label="Blue Score"
-          value={fields.blue_score || "0"}
-          onChange={(e) => {
-            const value = e.currentTarget.value;
-            setFields((prev) => ({
-              ...prev,
-              blue_score: value,
-            }));
-          }}
-        />
-        <MatchInput
-          label="Orange Score"
-          value={fields.orange_score || "0"}
-          onChange={(e) => {
-            const value = e.currentTarget.value;
-            setFields((prev) => ({
-              ...prev,
-              orange_score: value,
-            }));
-          }}
-        />
-        <MatchInput
-          label="Orange Team"
-          value={fields.orange || ""}
-          onChange={(e) => {
-            const value = e.currentTarget.value;
-            setFields((prev) => ({
-              ...prev,
-              orange: value,
-            }));
-          }}
-        />
-        <Spacer />
-        <Button
-          variant="outline"
-          colorScheme="black"
-          onClick={() => doUpdate()}
+        <Flex>
+          <Input
+            value={fields.blue || ""}
+            onChange={(e) => {
+              const value = e.currentTarget.value;
+              setFields((prev) => ({
+                ...prev,
+                blue: value,
+              }));
+            }}
+          />
+        </Flex>
+        <Stack
+          justify="left"
+          direction={["row", "row"]}
+          width={["100%", 1 / 8]}
         >
-          Update
-        </Button>
+          <Flex>
+            <Input
+              value={fields.blue_score || "0"}
+              onChange={(e) => {
+                const value = e.currentTarget.value;
+                setFields((prev) => ({
+                  ...prev,
+                  blue_score: value,
+                }));
+              }}
+            />
+          </Flex>
+          <Flex>
+            <Input
+              value={fields.orange_score || "0"}
+              onChange={(e) => {
+                const value = e.currentTarget.value;
+                setFields((prev) => ({
+                  ...prev,
+                  orange_score: value,
+                }));
+              }}
+            />
+          </Flex>
+        </Stack>
+        <Flex>
+          <Input
+            value={fields.orange || ""}
+            onChange={(e) => {
+              const value = e.currentTarget.value;
+              setFields((prev) => ({
+                ...prev,
+                orange: value,
+              }));
+            }}
+          />
+        </Flex>
+        <Spacer />
+        <Flex>
+          <Button variant="outline" colorScheme="red" onClick={onOpen}>
+            Reset
+          </Button>
+        </Flex>
+        <Flex>
+          <Button
+            variant="solid"
+            colorScheme="green"
+            onClick={() => doUpdate()}
+          >
+            Update
+          </Button>
+        </Flex>
       </Stack>
+
+      <Modal isOpen={isOpen} onClose={onClose}>
+        <ModalOverlay>
+          <ModalContent>
+            <ModalHeader>Delete a game from {match.octane_id}</ModalHeader>
+            <ModalCloseButton />
+            <ModalBody pb={6}>
+              <FormControl>
+                <FormLabel>Game Number</FormLabel>
+                <Input
+                  value={game || ""}
+                  onChange={(e) => {
+                    const value = e.currentTarget.value;
+                    setGame(value);
+                  }}
+                />
+              </FormControl>
+            </ModalBody>
+            <ModalFooter>
+              <Stack direction={["column", "row"]}>
+                <Button variant="outline" onClick={onClose}>
+                  Cancel
+                </Button>
+                <Button
+                  variant="solid"
+                  colorScheme="red"
+                  onClick={resetGame}
+                  isDisabled={game == ""}
+                >
+                  Reset
+                </Button>
+              </Stack>
+            </ModalFooter>
+          </ModalContent>
+        </ModalOverlay>
+      </Modal>
     </Card>
   );
 };
 
 const Admin = ({ events }) => {
-  const [match, setMatch] = useState();
+  const [matches, setMatches] = useState();
 
   return (
     <VStack align="stretch">
-      <AdminNav events={events} setMatch={setMatch} />
-      {match && (
-        <Center>
-          <MatchCard match={match} />
-        </Center>
-      )}
+      <AdminNav events={events} setMatches={setMatches} />
+      {matches &&
+        matches.map((match) => (
+          <Center key={match.octane_id}>
+            <MatchCard match={match} />
+          </Center>
+        ))}
     </VStack>
   );
 };

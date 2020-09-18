@@ -3,7 +3,10 @@ export function getEvents() {
 }
 
 export function getMatches(event, stage) {
-  return fetch(process.env.API_URL + `/matches?event=${event}&stage=${stage}`);
+  return fetch(
+    process.env.API_URL +
+      `/matches?event=${event}&stage=${stage}&sort=octane_id&order=asc`
+  );
 }
 
 export function getMatch(id) {
@@ -25,6 +28,19 @@ export function updateMatch(match) {
       "Content-Type": "application/json",
     },
     body: JSON.stringify(match),
+  });
+}
+
+export function resetGameOld(id, game) {
+  return fetch(process.env.API_URL + "/admin/reset-game", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      octane_id: id,
+      game: game,
+    }),
   });
 }
 
