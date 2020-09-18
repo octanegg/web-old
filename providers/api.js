@@ -1,7 +1,5 @@
 export function getEvents() {
-  return fetch(
-    process.env.API_URL + "/events?name=RLCS X North America Fall Regional 2"
-  );
+  return fetch(process.env.API_URL + "/events?sort=start_date&order=desc");
 }
 
 export function getMatches(event, stage) {

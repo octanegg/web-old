@@ -2,6 +2,7 @@ import {
   VStack,
   Center,
   HStack,
+  Stack,
   Button,
   Input,
   Flex,
@@ -43,7 +44,7 @@ const Card = ({ title, width, children }) => {
 
 const SelectionCard = ({ title, onChange, data, display }) => {
   return (
-    <Card title={title} width={1 / 3}>
+    <Card title={title} width={["100%", 1 / 3]}>
       <Select onChange={onChange} placeholder="Select...">
         {data.map((item, i) => (
           <option key={i} value={i}>
@@ -66,7 +67,7 @@ const AdminNav = ({ events, setMatch }) => {
   };
 
   return (
-    <HStack justify="left">
+    <Stack justify="left" direction={["column", "row"]}>
       {events && (
         <SelectionCard
           title="Events"
@@ -91,7 +92,7 @@ const AdminNav = ({ events, setMatch }) => {
           display={(match) => `${match.octane_id}`}
         />
       )}
-    </HStack>
+    </Stack>
   );
 };
 
@@ -169,7 +170,7 @@ const MatchCard = ({ match }) => {
 
   return (
     <Card title={`Match ${match.octane_id}`} width="100%" key={match._id}>
-      <HStack justify="left">
+      <Stack justify="left" direction={["column", "row"]}>
         <MatchInput
           label="Blue Team"
           value={fields.blue || ""}
@@ -222,7 +223,7 @@ const MatchCard = ({ match }) => {
         >
           Update
         </Button>
-      </HStack>
+      </Stack>
     </Card>
   );
 };
