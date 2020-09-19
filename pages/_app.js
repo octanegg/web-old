@@ -1,7 +1,7 @@
 import React from "react";
 import { theme, ThemeProvider, CSSReset } from "@chakra-ui/core";
-import Navbar from "../components/navbar";
-import Content from "../components/content";
+import Navbar from "../components/Navbar";
+import Content from "../components/Content";
 
 const App = ({ Component, pageProps }) => {
   return (

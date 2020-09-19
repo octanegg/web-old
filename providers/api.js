@@ -48,6 +48,20 @@ export function getMatchOld(id) {
   return fetch(process.env.API_URL + `/admin/get-match/${id}`);
 }
 
+export function getGamesOld(id, blue, orange) {
+  return fetch(process.env.API_URL + "/admin/get-games", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      octane_id: id,
+      blue: blue,
+      orange: orange,
+    }),
+  });
+}
+
 export function updateMatchOld(match, blue, orange) {
   return fetch(process.env.API_URL + "/admin/update-match", {
     method: "POST",
