@@ -1,149 +1,143 @@
 import {
   Box,
-  Button,
-  Center,
-  Flex,
-  FormControl,
-  FormLabel,
-  Input,
-  Spacer,
-  Spinner,
   Stack,
   Tab,
   TabList,
   TabPanel,
   TabPanels,
   Tabs,
-  VStack,
+  useToast,
 } from "@chakra-ui/core";
 import { useEffect, useState } from "react";
-import { getGamesOld } from "../../providers/api";
+import {
+  deleteGameOld,
+  getGamesOld,
+  insertGameOld,
+} from "../../providers/old-api";
+import GameForm from "./GameForm";
 
-const PlayerRow = ({ player }) => {
-  return (
-    <Stack direction={["column", "row"]}>
-      <Flex>
-        <FormControl>
-          <FormLabel>Player</FormLabel>
-          <Input value={player.player} />
-        </FormControl>
-      </Flex>
-      <Flex>
-        <FormControl>
-          <FormLabel>Score</FormLabel>
-          <Input value={player.score} />
-        </FormControl>
-      </Flex>
-      <Flex>
-        <FormControl>
-          <FormLabel>Goals</FormLabel>
-          <Input value={player.goals} />
-        </FormControl>
-      </Flex>
-      <Flex>
-        <FormControl>
-          <FormLabel>Assists</FormLabel>
-          <Input value={player.assists} />
-        </FormControl>
-      </Flex>
-      <Flex>
-        <FormControl>
-          <FormLabel>Saves</FormLabel>
-          <Input value={player.saves} />
-        </FormControl>
-      </Flex>
-      <Flex>
-        <FormControl>
-          <FormLabel>Shots</FormLabel>
-          <Input value={player.shots} />
-        </FormControl>
-      </Flex>
-    </Stack>
-  );
-};
-
-export const GamesContainer = ({ match, teams }) => {
+export const GamesContainer = ({ match, date, handleChange }) => {
   const [games, setGames] = useState([]);
-  const [isLoading, setLoading] = useState(true);
+  const toast = useToast();
+  const [selectedTab, setSelectedTab] = useState(0);
 
   useEffect(() => {
     const fetchData = async () => {
-      const res = await getGamesOld(match, teams.blue, teams.orange);
+      const res = await getGamesOld(
+        match.octane_id,
+        match.blue.name || "blue",
+        match.orange.name || "orange"
+      );
       const data = await res.json();
       setGames(data);
-      setLoading(false);
     };
 
     fetchData();
-  }, [match, teams]);
+  }, [match]);
+
+  const updateGame = async (game, isNew) => {
+    if (
+      games &&
+      games.filter((item) => item.number == game.number).length > 1
+    ) {
+      toast({
+        title: "Unable to add game.",
+        description: "Game number already exists.",
+        status: "error",
+        duration: 5000,
+        isClosable: true,
+      });
+      return;
+    }
+    game.date = date;
+    game.octane_id = match.octane_id;
+    game.blue.name = match.blue.name;
+    game.orange.name = match.orange.name;
+    setGames((prev) =>
+      prev
+        ? prev.concat([game]).sort((a, b) => {
+            return a.number - b.number;
+          })
+        : [game]
+    );
+    setSelectedTab(games ? games.length : 0);
+
+    if (isNew) {
+      const blueGoals = game.blue.players.reduce(
+        (sum, { goals }) => sum + goals,
+        0
+      );
+      const orangeGoals = game.orange.players.reduce(
+        (sum, { goals }) => sum + goals,
+        0
+      );
+
+      blueGoals > orangeGoals
+        ? handleChange("blue_score", match.blue.score + 1)
+        : handleChange("orange_score", match.orange.score + 1);
+    }
+
+    await insertGameOld(game);
+
+    const method = isNew ? "Inserted" : "Updated";
+    toast({
+      title: `${method} Game.`,
+      description: `Successfully ${method.toLowerCase()} ${game.number}.`,
+      status: "success",
+      duration: 5000,
+      isClosable: true,
+    });
+  };
+
+  const deleteGame = async (game, alert) => {
+    setGames(games.filter((g) => g.number !== game.number));
+    await deleteGameOld(game);
+    if (alert) {
+      toast({
+        title: "Deleted game.",
+        description: `Successfully deleted ${game.number}`,
+        status: "success",
+        duration: 5000,
+        isClosable: true,
+      });
+    }
+  };
 
   return (
     <Stack direction="row" justify="space-between">
-      {games && (
-        <Tabs variant="soft-rounded" width={3 / 4}>
-          <TabList>
-            {games.map((game, index) => (
-              <Tab>Game {game.number}</Tab>
+      <Tabs variant="soft-rounded" width={3 / 4} defaultIndex={selectedTab}>
+        <TabList>
+          {games &&
+            games.map((game) => (
+              <Tab key={game.number}>Game {game.number}</Tab>
             ))}
-          </TabList>
-
-          <TabPanels>
-            {games.map((game) => (
-              <TabPanel>
-                <VStack>
-                  <Stack direction={["column", "row"]} width="100%">
-                    <Flex>
-                      <FormControl>
-                        <FormLabel>Game #</FormLabel>
-                        <Input value={game.number} />
-                      </FormControl>
-                    </Flex>
-                    <Flex>
-                      <FormControl>
-                        <FormLabel>Map</FormLabel>
-                        <Input value={game.map} />
-                      </FormControl>
-                    </Flex>
-                    <Flex>
-                      <FormControl>
-                        <FormLabel>Duration</FormLabel>
-                        <Input value={game.duration} />
-                      </FormControl>
-                    </Flex>
-                    <Spacer />
-                    <Flex>
-                      <Button variant="outline" colorScheme="red" isDisabled>
-                        Delete
-                      </Button>
-                    </Flex>
-                    <Flex>
-                      <Button variant="solid" colorScheme="blue" isDisabled>
-                        Save
-                      </Button>
-                    </Flex>
-                  </Stack>
-                  {game.blue.players.map((player) => (
-                    <PlayerRow player={player} />
-                  ))}
-                  {game.orange.players.map((player) => (
-                    <PlayerRow player={player} />
-                  ))}
-                </VStack>
+          <Tab>
+            <Box>+ New</Box>
+          </Tab>
+        </TabList>
+        <TabPanels>
+          {games &&
+            games.map((game) => (
+              <TabPanel key={game.number}>
+                <GameForm
+                  game={game}
+                  updateGame={updateGame}
+                  deleteGame={deleteGame}
+                />
               </TabPanel>
             ))}
-          </TabPanels>
-        </Tabs>
-      )}
-      {!isLoading && (
-        <Button variant="solid" colorScheme="green" isDisabled>
-          New
-        </Button>
-      )}
-      {isLoading && (
-        <Center>
-          <Spinner size="xl" />
-        </Center>
-      )}
+          <TabPanel>
+            <GameForm
+              game={{
+                octane_id: match.octane_id,
+                blue: { name: match.blue.name },
+                orange: { name: match.orange.name },
+              }}
+              updateGame={updateGame}
+            />
+          </TabPanel>
+        </TabPanels>
+      </Tabs>
     </Stack>
   );
 };
