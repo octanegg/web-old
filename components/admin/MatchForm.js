@@ -10,7 +10,6 @@ import {
 } from "@chakra-ui/core";
 import { useState, useEffect } from "react";
 import { useIsFirstRender } from "../../hooks/useIsFirstRender";
-import { getMatchOld } from "../../providers/old-api";
 import Card from "./Card";
 import { GamesContainer } from "./GamesContainer";
 
@@ -153,15 +152,5 @@ export const MatchForm = ({ match, enqueue }) => {
     </Card>
   );
 };
-
-export async function getStaticProps() {
-  const res = await getMatchOld(match.octane_id);
-  const events = await res.json();
-  return {
-    props: {
-      events: events.data,
-    },
-  };
-}
 
 export default MatchForm;

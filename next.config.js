@@ -8,6 +8,11 @@ module.exports = (phase) => {
           ? "http://localhost:8080"
           : "https://zsr-core.octane.gg";
       })(),
+      REDIRECT_URI: (() => {
+        return phase === PHASE_DEVELOPMENT_SERVER
+          ? "http://localhost:3000"
+          : "https://zsr.octane.gg";
+      })(),
     },
   };
 };

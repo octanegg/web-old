@@ -1,6 +1,17 @@
-import React from "react";
-import { Link, Flex, Heading, Box, Wrap } from "@chakra-ui/core";
+import React, { useEffect, useState } from "react";
+import {
+  Link,
+  Button,
+  Flex,
+  Heading,
+  Box,
+  Wrap,
+  Spacer,
+  Spinner,
+} from "@chakra-ui/core";
 import NextLink from "next/link";
+import { useAuth0 } from "@auth0/auth0-react";
+import AuthProvider from "./Auth";
 
 const NavItem = ({ path, children }) => (
   <Box padding="0 1rem">
@@ -10,7 +21,42 @@ const NavItem = ({ path, children }) => (
   </Box>
 );
 
+const LoginButton = () => {
+  const { loginWithRedirect } = useAuth0();
+
+  return (
+    <Button variant="ghost" onClick={() => loginWithRedirect()}>
+      Log In
+    </Button>
+  );
+};
+
+const LogoutButton = () => {
+  const { logout } = useAuth0();
+
+  return (
+    <Button
+      variant="ghost"
+      onClick={() => logout({ returnTo: window.location.origin })}
+    >
+      Log Out
+    </Button>
+  );
+};
+
 const Navbar = (props) => {
+  const [nickname, setNickname] = useState()
+  const { isAuthenticated, isLoading, getIdTokenClaims } = useAuth0();
+
+  const getUserRoles = async () => {
+    const claims = await getIdTokenClaims();
+    setNickname(claims ? claims.nickname : '')
+  };
+
+  useEffect(() => {
+    getUserRoles();
+  }, [isAuthenticated]);
+
   return (
     <Flex
       as="nav"
@@ -26,10 +72,27 @@ const Navbar = (props) => {
           <NextLink href="/">Octane</NextLink>
         </Heading>
       </Flex>
-
       <Wrap width="auto" flexGrow={1}>
-        <NavItem path="/admin/events">Events</NavItem>
+          <NavItem path="#">News</NavItem>
+          <NavItem path="#">Events</NavItem>
+          <NavItem path="#">Matches</NavItem>
+          <NavItem path="#">Players</NavItem>
+          <NavItem path="#">Teams</NavItem>
+        <AuthProvider roles={["admin"]}>
+          <NavItem path="/admin/events">Admin</NavItem>
+        </AuthProvider>
       </Wrap>
+      <Spacer />
+      {nickname && <Flex>Hello, {nickname}</Flex>}
+      <Flex>
+        {isLoading ? (
+          <Spinner />
+        ) : !isAuthenticated ? (
+          <LoginButton />
+        ) : (
+          <LogoutButton />
+        )}
+      </Flex>
     </Flex>
   );
 };

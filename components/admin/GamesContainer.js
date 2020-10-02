@@ -1,3 +1,4 @@
+import { useAuth0 } from "@auth0/auth0-react";
 import {
   Box,
   Stack,
@@ -20,10 +21,13 @@ export const GamesContainer = ({ match, date, handleChange }) => {
   const [games, setGames] = useState([]);
   const toast = useToast();
   const [selectedTab, setSelectedTab] = useState(0);
+  const { getAccessTokenSilently } = useAuth0();
 
   useEffect(() => {
     const fetchData = async () => {
+      const token = await getAccessTokenSilently();
       const res = await getGamesOld(
+        token,
         match.octane_id,
         match.blue.name || "blue",
         match.orange.name || "orange"
@@ -77,7 +81,8 @@ export const GamesContainer = ({ match, date, handleChange }) => {
         : handleChange("orange_score", match.orange.score + 1);
     }
 
-    await insertGameOld(game);
+    const token = await getAccessTokenSilently();
+    await insertGameOld(token, game);
 
     const method = isNew ? "Inserted" : "Updated";
     toast({
@@ -91,7 +96,8 @@ export const GamesContainer = ({ match, date, handleChange }) => {
 
   const deleteGame = async (game, alert) => {
     setGames(games.filter((g) => g.number !== game.number));
-    await deleteGameOld(game);
+    const token = await getAccessTokenSilently();
+    await deleteGameOld(token, game);
     if (alert) {
       toast({
         title: "Deleted game.",
