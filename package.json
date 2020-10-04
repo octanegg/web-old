@@ -1,5 +1,5 @@
 {
-  "name": "zsr",
+  "name": "octane",
   "version": "1.0.0",
   "scripts": {
     "dev": "next dev",

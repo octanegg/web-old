@@ -3,15 +3,11 @@ const { PHASE_DEVELOPMENT_SERVER } = require("next/constants");
 module.exports = (phase) => {
   return {
     env: {
-      API_URL: (() => {
-        return phase === PHASE_DEVELOPMENT_SERVER
-          ? "http://localhost:8080"
-          : "https://zsr-core.octane.gg";
-      })(),
+      API_URL: "https://zsr.octane.gg",
       REDIRECT_URI: (() => {
         return phase === PHASE_DEVELOPMENT_SERVER
           ? "http://localhost:3000"
-          : "https://zsr.octane.gg";
+          : "https://beta.octane.gg";
       })(),
     },
   };
