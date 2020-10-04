@@ -30,8 +30,10 @@ export const GamesContainer = ({ match, date, handleChange }) => {
           },
         }
       );
-      const data = await res.json();
-      setGames(data);
+      if (res.status === 200) {
+        const data = await res.json();
+        setGames(data);
+      }
     };
 
     fetchData();
@@ -147,15 +149,41 @@ export const GamesContainer = ({ match, date, handleChange }) => {
                 />
               </TabPanel>
             ))}
-          <TabPanel>
-            <GameForm
-              game={{
-                octane_id: match.octane_id,
-                blue: { name: match.blue.name },
-                orange: { name: match.orange.name },
-              }}
-              updateGame={updateGame}
-            />
+          <TabPanel key={games ? games.length : 0}>
+            {games && games.length > 0 ? (
+              <GameForm
+                game={{
+                  octane_id: match.octane_id,
+                  number: games.length + 1,
+                  blue: {
+                    name: match.blue.name,
+                    players: games[0].blue.players.map((player) => ({
+                      player: player.player,
+                    })),
+                  },
+                  orange: {
+                    name: match.orange.name,
+                    players: games[0].orange.players.map((player) => ({
+                      player: player.player,
+                    })),
+                  },
+                }}
+                updateGame={updateGame}
+              />
+            ) : (
+              <GameForm
+                game={{
+                  octane_id: match.octane_id,
+                  blue: {
+                    name: match.blue.name,
+                  },
+                  orange: {
+                    name: match.orange.name,
+                  },
+                }}
+                updateGame={updateGame}
+              />
+            )}
           </TabPanel>
         </TabPanels>
       </Tabs>

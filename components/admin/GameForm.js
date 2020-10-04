@@ -141,7 +141,7 @@ const PlayerRow = ({ data, prefix, index, update }) => {
   );
 };
 
-const GameForm = ({ game, updateGame, deleteGame, isNew }) => {
+const GameForm = ({ game, updateGame, deleteGame }) => {
   const [number, setNumber] = useState(game.number || 1);
   const [map, setMap] = useState(game.map || "DFH Stadium");
   const [duration, setDuration] = useState(game.duration || 300);
@@ -165,6 +165,7 @@ const GameForm = ({ game, updateGame, deleteGame, isNew }) => {
 
     game.number = number;
     setNumber(number + 1);
+    setDuration(300);
     updateGame(game, !deleteGame);
   };
 
@@ -246,7 +247,7 @@ const GameForm = ({ game, updateGame, deleteGame, isNew }) => {
         .fill()
         .map((_, index) => (
           <PlayerRow
-            key={index}
+            key={"blue" + index + number}
             data={bluePlayers[index]}
             prefix="T1"
             index={index}
@@ -257,7 +258,7 @@ const GameForm = ({ game, updateGame, deleteGame, isNew }) => {
         .fill()
         .map((_, index) => (
           <PlayerRow
-            key={index}
+            key={"orange" + index + number}
             data={orangePlayers[index]}
             prefix="T2"
             index={index}

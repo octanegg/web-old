@@ -2,7 +2,8 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { Spinner } from "@chakra-ui/core";
 import { useEffect, useState } from "react";
 
-const AuthProvider = ({ children, roles }) => {
+export const AdminOnly = ({ children }) => {
+  const roles = ["admin"]
   const [allowed, setAllowed] = useState(false);
   const { isAuthenticated, isLoading, getIdTokenClaims } = useAuth0();
 
@@ -13,7 +14,7 @@ const AuthProvider = ({ children, roles }) => {
   };
 
   useEffect(() => {
-    roles && getUserRoles();
+    getUserRoles();
   }, [roles]);
 
   return isLoading ? (
@@ -25,8 +26,4 @@ const AuthProvider = ({ children, roles }) => {
   );
 };
 
-export const AdminOnly = ({ children }) => {
-  return <AuthProvider roles={["admin"]}>{children}</AuthProvider>;
-};
-
-export default AuthProvider;
+export default AdminOnly;
