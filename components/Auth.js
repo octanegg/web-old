@@ -13,8 +13,8 @@ const AuthProvider = ({ children, roles }) => {
   };
 
   useEffect(() => {
-    getUserRoles();
-  }, [isAuthenticated]);
+    roles && getUserRoles();
+  }, [roles]);
 
   return isLoading ? (
     <Spinner />
@@ -23,6 +23,10 @@ const AuthProvider = ({ children, roles }) => {
   ) : (
     <div></div>
   );
+};
+
+export const AdminOnly = ({ children }) => {
+  return <AuthProvider roles={["admin"]}>{children}</AuthProvider>;
 };
 
 export default AuthProvider;

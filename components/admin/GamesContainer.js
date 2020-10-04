@@ -10,11 +10,6 @@ import {
   useToast,
 } from "@chakra-ui/core";
 import { useEffect, useState } from "react";
-import {
-  deleteGameOld,
-  getGamesOld,
-  insertGameOld,
-} from "../../providers/old-api";
 import GameForm from "./GameForm";
 
 export const GamesContainer = ({ match, date, handleChange }) => {
@@ -26,11 +21,14 @@ export const GamesContainer = ({ match, date, handleChange }) => {
   useEffect(() => {
     const fetchData = async () => {
       const token = await getAccessTokenSilently();
-      const res = await getGamesOld(
-        token,
-        match.octane_id,
-        match.blue.name || "blue",
-        match.orange.name || "orange"
+      const res = await fetch(
+        process.env.API_URL +
+          `/deprecated/games/${match.octane_id}/${match.blue.name}/${match.orange.name}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
       );
       const data = await res.json();
       setGames(data);
@@ -82,7 +80,14 @@ export const GamesContainer = ({ match, date, handleChange }) => {
     }
 
     const token = await getAccessTokenSilently();
-    await insertGameOld(token, game);
+    await fetch(process.env.API_URL + "/deprecated/games", {
+      method: "PUT",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(game),
+    });
 
     const method = isNew ? "Inserted" : "Updated";
     toast({
@@ -97,7 +102,17 @@ export const GamesContainer = ({ match, date, handleChange }) => {
   const deleteGame = async (game, alert) => {
     setGames(games.filter((g) => g.number !== game.number));
     const token = await getAccessTokenSilently();
-    await deleteGameOld(token, game);
+    await fetch(process.env.API_URL + "/deprecated/games", {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        octane_id: game.octane_id,
+        number: game.number,
+      }),
+    });
     if (alert) {
       toast({
         title: "Deleted game.",

@@ -3,9 +3,7 @@ import { VStack, Center, Stack, Button, Spinner } from "@chakra-ui/core";
 import { useEffect, useState } from "react";
 import Card, { SelectionCard, DropdownCard } from "../../components/admin/Card";
 import MatchForm from "../../components/admin/MatchForm";
-import AuthProvider from "../../components/Auth";
-import { getEvents, getMatches } from "../../providers/api";
-import { getMatchesOld, updateMatchOld } from "../../providers/old-api";
+import { AdminOnly } from "../../components/Auth";
 
 const MatchContainer = ({ event, stage }) => {
   const [pending, setPending] = useState({});
@@ -16,7 +14,12 @@ const MatchContainer = ({ event, stage }) => {
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
-      const res = await getMatches(event._id, parseInt(stage));
+      const res = await fetch(
+        process.env.API_URL +
+          `/matches?event=${event._id}&stage=${parseInt(
+            stage
+          )}&sort=start_date&order=desc`
+      );
       const matches = await res.json();
 
       setMatches([]);
@@ -24,7 +27,14 @@ const MatchContainer = ({ event, stage }) => {
         const token = await getAccessTokenSilently();
         const e1 = matches.data[0].octane_id.substring(0, 3);
         const s1 = matches.data[0].octane_id.substring(3, 5);
-        const res2 = await getMatchesOld(token, e1, s1);
+        const res2 = await fetch(
+          process.env.API_URL + `/deprecated/matches/${e1}/${s1}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
         const matches2 = await res2.json();
         setMatches(matches2);
 
@@ -32,7 +42,14 @@ const MatchContainer = ({ event, stage }) => {
         const e2 = lastMatch.octane_id.substring(0, 3);
         const s2 = lastMatch.octane_id.substring(3, 5);
         if (s2 != s1) {
-          const res3 = await getMatchesOld(token, e2, s2);
+          const res3 = await fetch(
+            process.env.API_URL + `/deprecated/matches/${e2}/${s2}`,
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            }
+          );
           const matches3 = await res3.json();
 
           if (matches2[0] != matches3[0]) {
@@ -48,7 +65,14 @@ const MatchContainer = ({ event, stage }) => {
 
   const updatePending = async () => {
     const token = await getAccessTokenSilently();
-    await updateMatchOld(token, Object.values(pending));
+    await fetch(process.env.API_URL + "/deprecated/matches", {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(Object.values(pending)),
+    });
     setPending([]);
   };
 
@@ -89,7 +113,7 @@ const Matches = ({ events }) => {
   const [stage, setStage] = useState(0);
 
   return (
-    <AuthProvider roles={["admin"]}>
+    <AdminOnly>
       <VStack align="stretch">
         <Stack justify="left" direction={["column", "row"]}>
           <DropdownCard
@@ -116,12 +140,12 @@ const Matches = ({ events }) => {
           />
         )}
       </VStack>
-    </AuthProvider>
+    </AdminOnly>
   );
 };
 
 export async function getStaticProps() {
-  const res = await getEvents();
+  const res = await fetch(process.env.API_URL + "/events?sort=name&order=asc");
   const events = await res.json();
   return {
     props: {

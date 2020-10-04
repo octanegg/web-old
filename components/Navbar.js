@@ -11,7 +11,7 @@ import {
 } from "@chakra-ui/core";
 import NextLink from "next/link";
 import { useAuth0 } from "@auth0/auth0-react";
-import AuthProvider from "./Auth";
+import { AdminOnly } from "./Auth";
 
 const NavItem = ({ path, children }) => (
   <Box padding="0 1rem">
@@ -45,12 +45,12 @@ const LogoutButton = () => {
 };
 
 const Navbar = (props) => {
-  const [nickname, setNickname] = useState()
+  const [nickname, setNickname] = useState();
   const { isAuthenticated, isLoading, getIdTokenClaims } = useAuth0();
 
   const getUserRoles = async () => {
     const claims = await getIdTokenClaims();
-    setNickname(claims ? claims.nickname : '')
+    setNickname(claims ? claims.nickname : "");
   };
 
   useEffect(() => {
@@ -73,14 +73,14 @@ const Navbar = (props) => {
         </Heading>
       </Flex>
       <Wrap width="auto" flexGrow={1}>
-          <NavItem path="#">News</NavItem>
-          <NavItem path="#">Events</NavItem>
-          <NavItem path="#">Matches</NavItem>
-          <NavItem path="#">Players</NavItem>
-          <NavItem path="#">Teams</NavItem>
-        <AuthProvider roles={["admin"]}>
+        <NavItem path="#">News</NavItem>
+        <NavItem path="#">Events</NavItem>
+        <NavItem path="#">Matches</NavItem>
+        <NavItem path="#">Players</NavItem>
+        <NavItem path="#">Teams</NavItem>
+        <AdminOnly>
           <NavItem path="/admin/events">Admin</NavItem>
-        </AuthProvider>
+        </AdminOnly>
       </Wrap>
       <Spacer />
       {nickname && <Flex>Hello, {nickname}</Flex>}
