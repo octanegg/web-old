@@ -1,33 +1,40 @@
-import React, { useEffect, useState } from "react";
-import {
-  Link,
-  Button,
-  Flex,
-  Heading,
-  Box,
-  Wrap,
-  Spacer,
-  Spinner,
-} from "@chakra-ui/core";
-import NextLink from "next/link";
+import styles from "./Navbar.module.scss";
+
+import React, { useState } from "react";
+import { Button, Flex, Box, Spacer, Spinner, Image } from "@chakra-ui/core";
+import Link from "next/link";
 import { useAuth0 } from "@auth0/auth0-react";
 import { AdminOnly } from "./Auth";
 
-const NavItem = ({ path, children }) => (
-  <Box padding="0 1rem">
-    <Link display="block" as={NextLink} href={path}>
-      {children}
-    </Link>
+const NavItem = (props) => (
+  <Box
+    className={styles.navItem}
+    borderRightWidth={{ base: "none", xl: 1 }}
+    mb={{ base: ".5rem", xl: 0 }}
+    ml={{ base: "1rem", xl: "0" }}
+    fontSize={{ base: "1.1rem", xl: "1rem" }}
+    {...props}
+  >
+    {props.children}
   </Box>
+);
+
+const NavLink = ({ path, children }) => (
+  <NavItem>
+    <Link href={path}>{children}</Link>
+  </NavItem>
 );
 
 const LoginButton = () => {
   const { loginWithRedirect } = useAuth0();
 
   return (
-    <Button variant="ghost" onClick={() => loginWithRedirect()}>
+    <NavItem
+      onClick={() => loginWithRedirect()}
+      borderLeftWidth={{ base: "none", xl: 1 }}
+    >
       Log In
-    </Button>
+    </NavItem>
   );
 };
 
@@ -35,63 +42,85 @@ const LogoutButton = () => {
   const { logout } = useAuth0();
 
   return (
-    <Button
-      variant="ghost"
+    <NavItem
       onClick={() => logout({ returnTo: window.location.origin })}
+      borderLeftWidth={{ base: "none", xl: 1 }}
     >
       Log Out
-    </Button>
+    </NavItem>
   );
 };
 
 const Navbar = (props) => {
-  const [nickname, setNickname] = useState();
-  const { isAuthenticated, isLoading, getIdTokenClaims } = useAuth0();
+  const [showMenu, setShowMenu] = useState(false);
+  const { isAuthenticated, isLoading } = useAuth0();
 
-  const getUserRoles = async () => {
-    const claims = await getIdTokenClaims();
-    setNickname(claims ? claims.nickname : "");
-  };
-
-  useEffect(() => {
-    getUserRoles();
-  }, [isAuthenticated]);
+  const toggleMenu = () => setShowMenu(!showMenu);
 
   return (
     <Flex
-      as="nav"
       align="center"
-      justify="space-between"
-      wrap="wrap"
-      padding="1rem"
-      borderBottom="1px solid black"
       {...props}
+      width="100%"
+      className={styles.navbar}
+      justify="center"
     >
-      <Flex align="center" marginRight="1.5rem">
-        <Heading as="h1" size="lg" letterSpacing={"-.1rem"}>
-          <NextLink href="/">Octane</NextLink>
-        </Heading>
-      </Flex>
-      <Wrap width="auto" flexGrow={1}>
-        <NavItem path="#">News</NavItem>
-        <NavItem path="#">Events</NavItem>
-        <NavItem path="#">Matches</NavItem>
-        <NavItem path="#">Players</NavItem>
-        <NavItem path="#">Teams</NavItem>
-        <AdminOnly>
-          <NavItem path="/admin/events">Admin</NavItem>
-        </AdminOnly>
-      </Wrap>
-      <Spacer />
-      {nickname && <Flex>Hello, {nickname}</Flex>}
-      <Flex>
-        {isLoading ? (
-          <Spinner />
-        ) : !isAuthenticated ? (
-          <LoginButton />
-        ) : (
-          <LogoutButton />
-        )}
+      <Flex
+        align="center"
+        as="nav"
+        wrap="wrap"
+        width={{ base: "90%", xl: "60%" }}
+      >
+        <Flex>
+          <Image
+            width="2rem"
+            padding="5px 0"
+            ml={{ base: 0, xl: "1.5rem" }}
+            mr={{ base: 0, xl: "1.5rem" }}
+            mb={{ base: showMenu ? ".5rem" : 0, xl: 0 }}
+            src="/images/logo.png"
+          />
+        </Flex>
+        <Spacer display={{ base: "block", xl: "none" }} />
+        <Box
+          display={{ base: "block", xl: "none" }}
+          mr={{ base: "0.5rem" }}
+          onClick={toggleMenu}
+        >
+          <svg
+            fill="white"
+            width="20px"
+            viewBox="0 0 20 20"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <title>Menu</title>
+            <path d="M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z" />
+          </svg>
+        </Box>
+        <Box
+          display={{ base: showMenu ? "block" : "none", xl: "flex" }}
+          width={{ base: "100%", xl: "auto" }}
+          height="100%"
+          alignItems="center"
+          flexGrow={1}
+        >
+          <NavLink path="#">News</NavLink>
+          <NavLink path="#">Events</NavLink>
+          <NavLink path="#">Matches</NavLink>
+          <NavLink path="#">Players</NavLink>
+          <NavLink path="#">Teams</NavLink>
+          <AdminOnly>
+            <NavLink path="/admin/events">Admin</NavLink>
+          </AdminOnly>
+          <Spacer />
+          {isLoading ? (
+            <Spinner ml="auto" />
+          ) : !isAuthenticated ? (
+            <LoginButton />
+          ) : (
+            <LogoutButton />
+          )}
+        </Box>
       </Flex>
     </Flex>
   );

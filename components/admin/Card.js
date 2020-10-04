@@ -4,7 +4,12 @@ import { useState } from "react";
 
 export const Card = ({ title, width, children }) => {
   return (
-    <Box border="1px solid black" padding="1rem" width={width}>
+    <Box
+      border="1px solid black"
+      padding="1rem"
+      width={width}
+      backgroundColor="#fff"
+    >
       {title && (
         <Heading size="md" paddingBottom="0.5rem">
           {title}
@@ -77,7 +82,7 @@ export const DropdownCard = ({ title, items, itemToString, onChange }) => {
                 overflowY="scroll"
                 position="absolute"
                 backgroundColor="white"
-                width="38%"
+                width="25%"
                 zIndex={100}
                 border="1px solid black"
                 cursor="pointer"

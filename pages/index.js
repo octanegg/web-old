@@ -1,6 +1,5 @@
 import RecentArticles from "../components/homepage/RecentArticles";
-import { Flex } from "@chakra-ui/core";
-
+import { Content } from "../components/Layout";
 
 const ARTICLES_MOCK = [
   {
@@ -21,9 +20,9 @@ const ARTICLES_MOCK = [
 ];
 
 const Home = () => {
-  return <Flex justify="center" height="100%" className="ahhh">
+  return <Content>
     <RecentArticles articles={ARTICLES_MOCK} />
-  </Flex>;
+  </Content>;
 };
 
 export default Home;
