@@ -1,0 +1,18 @@
+$border-color: #ccc;
+$primary-color: #2fca7e;
+$secondary-color: #001628;
+
+.navbar {
+    height: 4rem;
+    justify-content: space-between;
+    align-content: center;
+    flex-wrap: wrap;
+    padding: 1rem;
+    border-bottom: 1px solid $border-color;
+    background-color: $secondary-color;
+    color: white;
+}
+
+.logo {
+    width: 2rem;
+}
