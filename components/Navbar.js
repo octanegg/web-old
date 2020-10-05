@@ -8,6 +8,7 @@ import {
   Box,
   Wrap,
   Spacer,
+  Text,
   Spinner,
   Image
 } from "@chakra-ui/core";
@@ -16,7 +17,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { AdminOnly } from "./Auth";
 
 const NavItem = ({ path, children }) => (
-  <Flex padding="0 1rem" align="center">
+  <Flex padding="0 1rem" align="center" className={styles.navItem}>
     <Link display="block" as={NextLink} href={path}>
       {children}
     </Link>
@@ -27,7 +28,7 @@ const LoginButton = () => {
   const { loginWithRedirect } = useAuth0();
 
   return (
-    <Button variant="ghost" onClick={() => loginWithRedirect()}>
+    <Button className={styles.navButton} variant="ghost" onClick={() => loginWithRedirect()}>
       Log In
     </Button>
   );
@@ -40,6 +41,7 @@ const LogoutButton = () => {
     <Button
       variant="ghost"
       justifySelf="flex-end"
+      className={styles.navButton}
       onClick={() => logout({ returnTo: window.location.origin })}
     >
       Log Out
@@ -76,9 +78,9 @@ const Navbar = (props) => {
         <AdminOnly>
           <NavItem path="/admin/events">Admin</NavItem>
         </AdminOnly>
-      </Wrap>
-      {nickname && <Flex>Hello, {nickname}</Flex>}
+      </Wrap>      
       <Flex>
+      {nickname && <Flex align="center" marginRight="1rem">Hello, {nickname}</Flex>}
         {isLoading ? (
           <Spinner />
         ) : !isAuthenticated ? (

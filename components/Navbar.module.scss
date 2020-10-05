@@ -1,6 +1,6 @@
 $border-color: #ccc;
 $primary-color: #2fca7e;
-$secondary-color: #001628;
+$secondary-color: #001424;
 
 .navbar {
     height: 4rem;
@@ -13,6 +13,22 @@ $secondary-color: #001628;
     color: white;
 }
 
+.navItem {
+    border-color: lighten($secondary-color, 30);
+    border-width: 0;
+    transition: border-width 0.1s ease-out, background-color .2s ease-out;
+    &:hover {
+        border-bottom-width: 5px;        
+    }
+}
+
+.navButton {
+    &:hover {
+        background-color: lighten($secondary-color, 10) !important;
+    }
+}
+
 .logo {
     width: 2rem;
+    margin-right: 1rem;
 }
