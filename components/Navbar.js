@@ -17,18 +17,18 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { AdminOnly } from "./Auth";
 
 const NavItem = ({ path, children }) => (
-  <Flex padding="0 1rem" align="center" className={styles.navItem}>
+  <Box className={styles.navItem} mb={{ base: ".5rem", md: 0 }} ml={{ base: "1rem", md: "1rem" }} fontSize={{ base: "1.1rem", md: "1rem" }}>
     <Link display="block" as={NextLink} href={path}>
       {children}
     </Link>
-  </Flex>
+  </Box>
 );
 
 const LoginButton = () => {
   const { loginWithRedirect } = useAuth0();
 
   return (
-    <Button className={styles.navButton} variant="ghost" onClick={() => loginWithRedirect()}>
+    <Button className={styles.navButton} ml={{ base: 0, md: "auto" }} variant="outline" onClick={() => loginWithRedirect()}>
       Log In
     </Button>
   );
@@ -37,20 +37,15 @@ const LoginButton = () => {
 const LogoutButton = () => {
   const { logout } = useAuth0();
 
-  return (
-    <Button
-      variant="ghost"
-      justifySelf="flex-end"
-      className={styles.navButton}
-      onClick={() => logout({ returnTo: window.location.origin })}
-    >
-      Log Out
-    </Button>
-  );
+  return <Button variant="outline" justifySelf="flex-end" className={styles.navButton}
+    onClick={() => logout({ returnTo: window.location.origin })}>
+    Log Out
+    </Button>;
 };
 
 const Navbar = (props) => {
   const [nickname, setNickname] = useState();
+  const [showMenu, setShowMenu] = useState(false);
   const { isAuthenticated, isLoading, getIdTokenClaims } = useAuth0();
 
   const getUserRoles = async () => {
@@ -58,18 +53,27 @@ const Navbar = (props) => {
     setNickname(claims ? claims.nickname : "");
   };
 
+  const toggleMenu = () => setShowMenu(!showMenu);
+
   useEffect(() => {
     getUserRoles();
   }, [isAuthenticated]);
 
   return (
-    <Flex
-      align="center"
-      className={styles.navbar}
-      {...props}
-    >
-      <Wrap width="auto">
-        <Image src="/images/logo.png" className={styles.logo} />
+    <Flex align="center" as="nav" wrap="wrap" className={styles.navbar} {...props}>
+      <Box>
+        <Image width="2rem" mr={{ base: 0, md: "1.5rem" }} mb={{ base: showMenu ? ".5rem" : 0, md: 0 }} src="/images/logo.png" className={styles.logo} />
+      </Box>
+      <Box display={{ base: "block", md: "none" }} mr={{ base: "0.5rem" }} onClick={toggleMenu}>
+        <svg fill="white" width="12px" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+          <title>Menu</title>
+          <path d="M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z" />
+        </svg>
+      </Box>
+      <Box display={{ base: showMenu ? "block" : "none", md: "flex" }}
+        width={{ base: "100%", md: "auto" }}
+        alignItems="center"
+        flexGrow={1}>
         <NavItem path="#">News</NavItem>
         <NavItem path="#">Events</NavItem>
         <NavItem path="#">Matches</NavItem>
@@ -78,17 +82,13 @@ const Navbar = (props) => {
         <AdminOnly>
           <NavItem path="/admin/events">Admin</NavItem>
         </AdminOnly>
-      </Wrap>      
-      <Flex>
-      {nickname && <Flex align="center" marginRight="1rem">Hello, {nickname}</Flex>}
-        {isLoading ? (
-          <Spinner />
-        ) : !isAuthenticated ? (
-          <LoginButton />
-        ) : (
-              <LogoutButton />
-            )}
-      </Flex>
+        {isLoading ? <Spinner /> :
+          !isAuthenticated ? <LoginButton /> : <Flex ml={{ base: 0, md: "auto" }}>
+            {nickname && <Flex mr="1rem" align="center">Hello, {nickname}</Flex>}
+            <LogoutButton />
+          </Flex>
+        }
+      </Box>
     </Flex>
   );
 };
