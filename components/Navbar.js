@@ -1,23 +1,13 @@
 import styles from "./Navbar.module.scss";
 
 import React, { useEffect, useState } from "react";
-import {
-  Link,
-  Button,
-  Flex,
-  Box,
-  Wrap,
-  Spacer,
-  Text,
-  Spinner,
-  Image
-} from "@chakra-ui/core";
+import { Link, Button, Flex, Box, Wrap, Spacer, Text, Spinner, Image, Input, InputGroup, InputLeftElement, Icon } from "@chakra-ui/core";
 import NextLink from "next/link";
 import { useAuth0 } from "@auth0/auth0-react";
 import { AdminOnly } from "./Auth";
 
 const NavItem = ({ path, children }) => (
-  <Box className={styles.navItem} mb={{ base: ".5rem", md: 0 }} ml={{ base: "1rem", md: "1rem" }} fontSize={{ base: "1.1rem", md: "1rem" }}>
+  <Box className={styles.navItem} borderRightWidth={{ base: "none", md: 1 }} mb={{ base: ".5rem", md: 0 }} ml={{ base: "1rem", md: "0" }} fontSize={{ base: "1.1rem", md: "1rem" }}>
     <Link display="block" as={NextLink} href={path}>
       {children}
     </Link>
@@ -62,7 +52,7 @@ const Navbar = (props) => {
   return (
     <Flex align="center" as="nav" wrap="wrap" className={styles.navbar} {...props}>
       <Box>
-        <Image width="2rem" mr={{ base: 0, md: "1.5rem" }} mb={{ base: showMenu ? ".5rem" : 0, md: 0 }} src="/images/logo.png" className={styles.logo} />
+        <Image width="1.9rem" mr={{ base: 0, md: "1.5rem" }} mb={{ base: showMenu ? ".5rem" : 0, md: 0 }} src="/images/logo.png" />
       </Box>
       <Box display={{ base: "block", md: "none" }} mr={{ base: "0.5rem" }} onClick={toggleMenu}>
         <svg fill="white" width="12px" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
@@ -82,7 +72,7 @@ const Navbar = (props) => {
         <AdminOnly>
           <NavItem path="/admin/events">Admin</NavItem>
         </AdminOnly>
-        {isLoading ? <Spinner /> :
+        {isLoading ? <Spinner ml="auto" /> :
           !isAuthenticated ? <LoginButton /> : <Flex ml={{ base: 0, md: "auto" }}>
             {nickname && <Flex mr="1rem" align="center">Hello, {nickname}</Flex>}
             <LogoutButton />

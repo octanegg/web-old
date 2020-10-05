@@ -1,6 +1,6 @@
 $border-color: #ccc;
 $primary-color: #2fca7e;
-$secondary-color: #001424;
+$secondaryColor: #1a2f42;
 
 .navbar {
     justify-content: space-between;
@@ -8,14 +8,15 @@ $secondary-color: #001424;
     flex-wrap: wrap;
     padding: 0.5rem;
     border-bottom: 1px solid $border-color;
-    background-color: $secondary-color;
+    background-color: $secondaryColor;
     color: white;
     transition: height 0.2s ease-out;
 }
 
 .navItem {
-    margin-right: 1.5rem;
-    border-color: lighten($secondary-color, 30);
+    padding: 0 1rem;
+    border-color: lighten($secondaryColor, 30);
+    border-right-color: lighten($secondaryColor, 15);
     border-width: 0;
     transition: border-width 0.1s ease-out, background-color 0.2s ease-out;
     &:hover {
@@ -25,6 +26,6 @@ $secondary-color: #001424;
 
 .navButton {
     &:hover {
-        background-color: lighten($secondary-color, 10) !important;
+        background-color: lighten($secondaryColor, 10) !important;
     }
 }
