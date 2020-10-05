@@ -11,6 +11,7 @@ const App = ({ Component, pageProps }) => {
       <CSSReset />
       <Head>
         <title>Octane</title>
+        <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
       </Head>
       <Auth0Provider
         domain="octanegg.us.auth0.com"
