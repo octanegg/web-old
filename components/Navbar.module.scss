@@ -1,0 +1,31 @@
+$border-color: #ccc;
+$primary-color: #2fca7e;
+$secondaryColor: #1a2f42;
+
+.navbar {
+    justify-content: space-between;
+    align-content: center;
+    flex-wrap: wrap;
+    padding: 0.5rem;
+    border-bottom: 1px solid $border-color;
+    background-color: $secondaryColor;
+    color: white;
+    transition: height 0.2s ease-out;
+}
+
+.navItem {
+    padding: 0 1rem;
+    border-color: lighten($secondaryColor, 30);
+    border-right-color: lighten($secondaryColor, 15);
+    border-width: 0;
+    transition: border-width 0.1s ease-out, background-color 0.2s ease-out;
+    &:hover {
+        border-bottom-width: 5px;
+    }
+}
+
+.navButton {
+    &:hover {
+        background-color: lighten($secondaryColor, 10) !important;
+    }
+}
