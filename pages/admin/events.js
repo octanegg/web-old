@@ -1,9 +1,10 @@
 import { useAuth0 } from "@auth0/auth0-react";
-import { VStack, Center, Stack, Button, Spinner } from "@chakra-ui/core";
+import { VStack, Center, Stack, Button, Spinner, Flex } from "@chakra-ui/core";
 import { useEffect, useState } from "react";
 import Card, { SelectionCard, DropdownCard } from "../../components/admin/Card";
 import MatchForm from "../../components/admin/MatchForm";
 import { AdminOnly } from "../../components/Auth";
+import { Content } from "../../components/Layout";
 
 const MatchContainer = ({ event, stage }) => {
   const [pending, setPending] = useState({});
@@ -114,37 +115,39 @@ const Matches = ({ events }) => {
 
   return (
     <AdminOnly>
-      <VStack align="stretch">
-        <Stack justify="left" direction={["column", "row"]}>
-          <DropdownCard
-            title="Events"
-            items={events}
-            itemToString={(event) => event && event.name}
-            onChange={(event) => event && setEvent(event) && setStage(0)}
-          />
+      <Content>
+        <VStack align="stretch" width="100%">
+          <Stack justify="left" direction={["column", "row"]}>
+            <DropdownCard
+              title="Events"
+              items={events}
+              itemToString={(event) => event && event.name}
+              onChange={(event) => event && setEvent(event) && setStage(0)}
+            />
+            {event && (
+              <SelectionCard
+                key={event._id}
+                title="Stages"
+                onChange={(e) => setStage(e.target.value)}
+                data={event.stages}
+                display={(stage) => stage.name}
+                value={stage}
+              />
+            )}
+          </Stack>
           {event && (
-            <SelectionCard
-              key={event._id}
-              title="Stages"
-              onChange={(e) => setStage(e.target.value)}
-              data={event.stages}
-              display={(stage) => stage.name}
-              value={stage}
+            <MatchContainer
+              event={event}
+              stage={stage < event.stages.length ? stage : 0}
             />
           )}
-        </Stack>
-        {event && (
-          <MatchContainer
-            event={event}
-            stage={stage < event.stages.length ? stage : 0}
-          />
-        )}
-      </VStack>
+        </VStack>
+      </Content>
     </AdminOnly>
   );
 };
 
-export async function getStaticProps() {
+export async function getServerSideProps() {
   const res = await fetch(process.env.API_URL + "/events?sort=name&order=asc");
   const events = await res.json();
   return {

@@ -3,29 +3,27 @@ $primary-color: #2fca7e;
 $secondaryColor: #1a2f42;
 
 .navbar {
-    justify-content: space-between;
-    align-content: center;
-    flex-wrap: wrap;
-    padding: 0.5rem;
-    border-bottom: 1px solid $border-color;
-    background-color: $secondaryColor;
-    color: white;
-    transition: height 0.2s ease-out;
+  justify-content: space-between;
+  align-content: center;
+  flex-wrap: wrap;
+  border-bottom: 1px solid $border-color;
+  background-color: $secondaryColor;
+  color: #ddd;
 }
 
 .navItem {
-    padding: 0 1rem;
-    border-color: lighten($secondaryColor, 30);
-    border-right-color: lighten($secondaryColor, 15);
-    border-width: 0;
-    transition: border-width 0.1s ease-out, background-color 0.2s ease-out;
-    &:hover {
-        border-bottom-width: 5px;
-    }
+  padding: 0.8rem 1rem;
+  border-color: darken($secondaryColor, 10);
+  border-top: 4px solid transparent;
+  border-bottom: 4px solid transparent;
+  cursor: pointer;
+  &:hover {
+    border-bottom: 4px solid lighten($secondaryColor, 40);
+  }
 }
 
 .navButton {
-    &:hover {
-        background-color: lighten($secondaryColor, 10) !important;
-    }
+  &:hover {
+    background-color: lighten($secondaryColor, 10) !important;
+  }
 }
