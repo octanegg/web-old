@@ -144,7 +144,7 @@ const Matches = ({ events }) => {
   );
 };
 
-export async function getStaticProps() {
+export async function getServerSideProps() {
   const res = await fetch(process.env.API_URL + "/events?sort=name&order=asc");
   const events = await res.json();
   return {
