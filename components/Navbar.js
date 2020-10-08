@@ -9,19 +9,19 @@ import { AdminOnly } from "./Auth";
 const NavItem = (props) => (
   <Box
     className={styles.navItem}
-    borderRightWidth={{ base: "none", xl: 1 }}
-    mb={{ base: ".5rem", xl: 0 }}
-    ml={{ base: "1rem", xl: "0" }}
-    fontSize={{ base: "1.1rem", xl: "1rem" }}
+    mb={{ base: ".5rem", lg: 0 }}
+    ml={{ base: "1rem", lg: 0 }}
+    fontSize={{ base: "1.1rem", lg: "1rem" }}
+    borderRightWidth={{ base: "none", lg: 1 }}
     {...props}
   >
     {props.children}
   </Box>
 );
 
-const NavLink = ({ path, children }) => (
-  <NavItem>
-    <Link href={path}>{children}</Link>
+const NavLink = (props) => (
+  <NavItem {...props}>
+    <Link href={props.href}>{props.children}</Link>
   </NavItem>
 );
 
@@ -31,7 +31,7 @@ const LoginButton = () => {
   return (
     <NavItem
       onClick={() => loginWithRedirect()}
-      borderLeftWidth={{ base: "none", xl: 1 }}
+      borderLeftWidth={{ base: "none", lg: 1 }}
     >
       Log In
     </NavItem>
@@ -42,10 +42,7 @@ const LogoutButton = () => {
   const { logout } = useAuth0();
 
   return (
-    <NavItem
-      onClick={() => logout({ returnTo: window.location.origin })}
-      borderLeftWidth={{ base: "none", xl: 1 }}
-    >
+    <NavItem onClick={() => logout({ returnTo: window.location.origin })}>
       Log Out
     </NavItem>
   );
@@ -71,20 +68,19 @@ const Navbar = (props) => {
         wrap="wrap"
         width={{ base: "90%", xl: "60%" }}
       >
-        <Flex>
-          <Link href="/"><Image
-            cursor="pointer"
-            width="2rem"
-            padding="5px 0"
-            ml={{ base: 0, xl: "1.5rem" }}
-            mr={{ base: 0, xl: "1.5rem" }}
-            mb={{ base: showMenu ? ".5rem" : 0, xl: 0 }}
-            src="/images/logo.png"
-          /></Link>
+        <Flex padding={{ base: "0.5rem 1rem", lg: "0rem 1rem" }}>
+          <Link href="/">
+            <Image
+              cursor="pointer"
+              width="2rem"
+              mb={{ base: showMenu ? ".5rem" : 0, lg: 0 }}
+              src="/images/logo.png"
+            />
+          </Link>
         </Flex>
-        <Spacer display={{ base: "block", xl: "none" }} />
+        <Spacer display={{ base: "block", lg: "none" }} />
         <Box
-          display={{ base: "block", xl: "none" }}
+          display={{ base: "block", lg: "none" }}
           mr={{ base: "0.5rem" }}
           onClick={toggleMenu}
         >
@@ -99,28 +95,35 @@ const Navbar = (props) => {
           </svg>
         </Box>
         <Box
-          display={{ base: showMenu ? "block" : "none", xl: "flex" }}
-          width={{ base: "100%", xl: "auto" }}
+          display={{ base: showMenu ? "block" : "none", lg: "flex" }}
+          width={{ base: "100%", lg: "auto" }}
           height="100%"
           alignItems="center"
           flexGrow={1}
         >
-          <NavLink path="#">News</NavLink>
-          <NavLink path="#">Events</NavLink>
-          <NavLink path="#">Matches</NavLink>
-          <NavLink path="#">Players</NavLink>
-          <NavLink path="#">Teams</NavLink>
-          <AdminOnly>
-            <NavLink path="/admin/events">Admin</NavLink>
-          </AdminOnly>
+          <NavLink borderLeftWidth={{ base: "none", lg: 1 }} href="#">
+            News
+          </NavLink>
+          <NavLink href="#">Events</NavLink>
+          <NavLink href="#">Matches</NavLink>
+          <NavLink href="#">Players</NavLink>
+          <NavLink href="#">Teams</NavLink>
           <Spacer />
+          <AdminOnly>
+            <NavLink
+              href="/admin/events"
+              borderLeftWidth={{ base: "none", lg: 1 }}
+            >
+              Admin
+            </NavLink>
+          </AdminOnly>
           {isLoading ? (
             <Spinner ml="auto" />
           ) : !isAuthenticated ? (
             <LoginButton />
           ) : (
-                <LogoutButton />
-              )}
+            <LogoutButton />
+          )}
         </Box>
       </Flex>
     </Flex>

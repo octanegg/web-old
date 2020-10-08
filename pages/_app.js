@@ -40,6 +40,10 @@ const App = ({ Component, pageProps }) => {
       <Head>
         <title>Octane</title>
         <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap"
+          rel="stylesheet"
+        />
       </Head>
       <Auth0Provider
         domain="octanegg.us.auth0.com"

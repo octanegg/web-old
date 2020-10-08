@@ -6,19 +6,17 @@ $secondaryColor: #1a2f42;
   justify-content: space-between;
   align-content: center;
   flex-wrap: wrap;
-  border-bottom: 1px solid $border-color;
   background-color: $secondaryColor;
   color: #ddd;
 }
 
 .navItem {
-  padding: 0.8rem 1rem;
+  padding: 1rem;
   border-color: darken($secondaryColor, 10);
-  border-top: 4px solid transparent;
-  border-bottom: 4px solid transparent;
+  transition: border-bottom 0.2s ease-out;
   cursor: pointer;
   &:hover {
-    border-bottom: 4px solid lighten($secondaryColor, 40);
+    box-shadow: 0 -4px 1px -1px lighten($primary-color, 10) inset;
   }
 }
 
