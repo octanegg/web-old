@@ -4,8 +4,6 @@ import numeral from "numeral";
 
 const TeamStatsTable = (props) => {
 
-    const IGNORED_FIELDS = ["goal_participation", "shooting_percentage", "mvp"];
-
     const renameFields = (value) => {
         const { isOverview } = props;
 
@@ -25,20 +23,20 @@ const TeamStatsTable = (props) => {
         }
     }
 
-    const { data, isOverview, orderBy } = props;
+    const { data, isOverview, orderBy, columns } = props;
     const playersOrder = Object.keys(data).sort((a, b) => data[b][orderBy || "rating"] - data[a][orderBy || "rating"]);
 
     return <table className={styles.table}>
         <thead>
             <tr>
                 <th>Player</th>
-                {Object.keys(Object.values(data)[0]).filter(stat => !IGNORED_FIELDS.some(_ => _ === stat)).map(stat => <th key={stat}>{renameFields(stat)}</th>)}
+                {(columns || Object.keys(Object.values(data)[0])).map(stat => <th key={stat}>{renameFields(stat)}</th>)}
             </tr>
         </thead>
         <tbody>
             {playersOrder.map(player => <tr key={player}>
                 <td>{player}</td>
-                {Object.entries(data[player]).filter(([stat, value]) => !IGNORED_FIELDS.some(_ => _ === stat)).map(([stat, value]) => <td key={`${player}|${stat}`}>{numeral(value).format(isOverview || stat === "rating" ? "0.00" : "0")}</td>)}
+                {(columns || Object.keys(data[player])).map(stat => <td key={`${player}|${stat}`}>{numeral(data[player][stat]).format(isOverview || stat === "rating" ? "0.00" : "0")}</td>)}
             </tr>)}
         </tbody>
     </table>;

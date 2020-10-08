@@ -1,40 +1,84 @@
 import styles from "./[matchId].module.scss";
 
+import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import { Flex } from "@chakra-ui/core";
+import { Flex, Spinner, Text } from "@chakra-ui/core";
 import MatchInfo from "../../components/match/MatchInfo";
 import Scoreboards from "../../components/match/Scoreboards";
 import { Content } from "../../components/Layout";
 
-const DUMMY_MATCH_DATA = {
-  Team1: "G2 Esports",
-  Team2: "Team Envy",
-  EventName: "RLCS X North America Fall Regional 3 Finals",
-  stats: 1,
-  StageName: "Overall",
-  EventHyphenated: "rlcs-x-north-america-fall-regional-three-finals",
-  StageHyphenated: "overall",
-  Date: "2020-10-04T00:00:00.000Z",
-  Time: "-",
-  Games: 6,
-  Team1Wins: 2,
-  Team2Wins: 4,
-  Team1Goals: 11,
-  Team2Goals: 17,
-};
+import { getCleanGameData, calcPlayersOverview } from "../../utility/dataFormatting";
 
 const MatchPage = (props) => {
   const router = useRouter();
   const { matchId } = router.query;
 
-  return (
-    <Content leftNav={<div></div>} rightNav={<div></div>}>
-      <Flex flexDirection="column" align="center" width="100%">
-        <MatchInfo matchId={matchId} />
-        <Scoreboards matchId={matchId} />
-      </Flex>
-    </Content>
-  );
+  const [error, setError] = useState();
+  const [matchData, setMatchData] = useState();
+  const [scoreboardsData, setScoreboardsData] = useState();
+
+  useEffect(() => {
+    if (matchId && !matchData && !scoreboardsData) {
+      _loadMatchData(matchId);
+      _loadGamesData(matchId);
+    }
+  }, [matchId]);
+
+  const _loadMatchData = async (matchId) => {
+    // fetch match data from zsr
+    const result = await fetch(`https://zsr.octane.gg/matches/${matchId}`);
+
+    if (!result.ok) result.status === 404 ?
+      setError("Match not found! 😥") :
+      setError("Something went wrong.. Please try again in a few minutes!");
+    else {
+      const data = await result.json();
+      setMatchData({
+        event: data.event,
+        date: data.date,
+        blueTeam: data.blue?.team?.name,
+        blueTeamWins: data.blue?.score,
+        orangeTeam: data.orange?.team?.name,
+        orangeTeamWins: data.orange?.score
+      });
+    }
+  };
+
+  const _loadGamesData = async (matchId) => {
+    const result = await fetch(`https://zsr.octane.gg/games?match=${matchId}`);
+
+    if (result.ok) {
+      const gamesData = await result.json();
+
+      const cleanGamesData = getCleanGameData(gamesData.data);
+      const overviewData = calcPlayersOverview(cleanGamesData.map(game => ({ blue: game.blue?.players, orange: game.orange?.players })));
+
+      setScoreboardsData({
+        games: cleanGamesData,
+        overview: overviewData,
+        blueWins: cleanGamesData.filter(game => game.blue.winner).length,
+        orangeWins: cleanGamesData.filter(game => game.orange.winner).length
+      })
+    }
+  }
+
+  const sumTeamGoals = (teamColor) => {
+    if (!scoreboardsData) return 0;
+
+    return scoreboardsData.games.reduce((all, current) => ([...all, ...current[teamColor]?.players.map(player => player.stats)]), [])
+      .reduce((sum, currentStats) => sum + (currentStats.goals || 0), 0);
+  }
+
+  return <Content leftNav={<div></div>} rightNav={<div></div>}>
+    <Flex flexDirection="column" align="center" width="100%">
+      {!error && (!matchData || !scoreboardsData) ? <Spinner mt="2rem" /> :
+        error ? <Text color="#aaa" fontSize="2rem" fontWeight="bold" textAlign="center">{error}</Text> :
+          <>
+            <MatchInfo {...matchData} blueTeamGoals={sumTeamGoals("blue")} orangeTeamGoals={sumTeamGoals("orange")} />
+            <Scoreboards {...scoreboardsData} />
+          </>}
+    </Flex>
+  </Content>;
 };
 
 export default MatchPage;

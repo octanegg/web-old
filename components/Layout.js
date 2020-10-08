@@ -12,7 +12,6 @@ export const Content = ({ children, leftNav, rightNav }) => {
     <Flex width="100%" wrap="nowrap">
       {leftNav && <SideNav>{leftNav}</SideNav>}
       {children}
-
       {rightNav && <SideNav>{rightNav}</SideNav>}
     </Flex>
   </Flex>;
