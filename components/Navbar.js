@@ -72,14 +72,15 @@ const Navbar = (props) => {
         width={{ base: "90%", xl: "60%" }}
       >
         <Flex>
-          <Image
+          <Link href="/"><Image
+            cursor="pointer"
             width="2rem"
             padding="5px 0"
             ml={{ base: 0, xl: "1.5rem" }}
             mr={{ base: 0, xl: "1.5rem" }}
             mb={{ base: showMenu ? ".5rem" : 0, xl: 0 }}
             src="/images/logo.png"
-          />
+          /></Link>
         </Flex>
         <Spacer display={{ base: "block", xl: "none" }} />
         <Box
@@ -118,8 +119,8 @@ const Navbar = (props) => {
           ) : !isAuthenticated ? (
             <LoginButton />
           ) : (
-            <LogoutButton />
-          )}
+                <LogoutButton />
+              )}
         </Box>
       </Flex>
     </Flex>
