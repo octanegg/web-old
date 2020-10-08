@@ -1,0 +1,9 @@
+.footerIcon {
+    width: 24px;
+    margin: 0 0.75rem;
+    cursor: pointer;
+    transition: filter 0.25s ease-out;
+    &:hover {
+        filter: brightness(2.1);
+    }
+}

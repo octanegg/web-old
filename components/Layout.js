@@ -1,4 +1,5 @@
 import Navbar from "./Navbar";
+import Footer from "./Footer";
 const { Flex } = require("@chakra-ui/core");
 
 const SideNav = ({ children }) => {
@@ -21,6 +22,7 @@ const Layout = ({ children }) => {
   return <Flex direction="column" backgroundColor="whitesmoke" align="center" minHeight="100vh">
     <Navbar />
     {children}
+    <Footer />
   </Flex>;
 };
 
