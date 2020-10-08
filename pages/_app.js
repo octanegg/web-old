@@ -1,7 +1,6 @@
 import React from "react";
 import { theme, ThemeProvider, CSSReset } from "@chakra-ui/core";
-import Navbar from "../components/Navbar";
-import Content from "../components/Content";
+import Layout from "../components/Layout";
 import Head from "next/head";
 import { Auth0Provider } from "@auth0/auth0-react";
 
@@ -29,12 +28,14 @@ const CUSTOM_COLORS = {
     700: "#126740",
     800: "#043f25",
     900: "#001708",
-  }
+  },
 };
 
 const App = ({ Component, pageProps }) => {
   return (
-    <ThemeProvider theme={{ ...theme, colors: { ...theme.colors, ...CUSTOM_COLORS } }}>
+    <ThemeProvider
+      theme={{ ...theme, colors: { ...theme.colors, ...CUSTOM_COLORS } }}
+    >
       <CSSReset />
       <Head>
         <title>Octane</title>
@@ -47,10 +48,9 @@ const App = ({ Component, pageProps }) => {
         audience="zsr.octane.gg"
         scope="modify:admin"
       >
-        <Navbar />
-        <Content>
+        <Layout>
           <Component {...pageProps} />
-        </Content>
+        </Layout>
       </Auth0Provider>
     </ThemeProvider>
   );
