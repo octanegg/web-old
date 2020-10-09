@@ -67,6 +67,7 @@ const Navbar = (props) => {
         as="nav"
         wrap="wrap"
         width={{ base: "90%", xl: "60%" }}
+        maxWidth="1280px"
       >
         <Flex padding={{ base: "0.5rem 1rem", lg: "0rem 1rem" }}>
           <Link href="/">

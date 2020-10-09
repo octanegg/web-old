@@ -1,4 +1,4 @@
-import styles from "./[matchId].module.scss";
+import styles from "./[id].module.scss";
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
@@ -11,22 +11,22 @@ import { getCleanGameData, calcPlayersOverview } from "../../utility/dataFormatt
 
 const MatchPage = (props) => {
   const router = useRouter();
-  const { matchId } = router.query;
+  const { id } = router.query;
 
   const [error, setError] = useState();
   const [matchData, setMatchData] = useState();
   const [scoreboardsData, setScoreboardsData] = useState();
 
   useEffect(() => {
-    if (matchId && !matchData && !scoreboardsData) {
-      _loadMatchData(matchId);
-      _loadGamesData(matchId);
+    if (id && !matchData && !scoreboardsData) {
+      _loadMatchData(id);
+      _loadGamesData(id);
     }
-  }, [matchId]);
+  }, [id]);
 
-  const _loadMatchData = async (matchId) => {
+  const _loadMatchData = async (id) => {
     // fetch match data from zsr
-    const result = await fetch(`${process.env.API_URL}/matches/${matchId}`);
+    const result = await fetch(`${process.env.API_URL}/matches/${id}`);
 
     if (!result.ok) result.status === 404 ?
       setError("Match not found! 😥") :
@@ -44,8 +44,8 @@ const MatchPage = (props) => {
     }
   };
 
-  const _loadGamesData = async (matchId) => {
-    const result = await fetch(`${process.env.API_URL}/games?match=${matchId}`);
+  const _loadGamesData = async (id) => {
+    const result = await fetch(`${process.env.API_URL}/games?match=${id}`);
 
     if (result.ok) {
       const gamesData = await result.json();
