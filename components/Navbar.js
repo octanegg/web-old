@@ -105,7 +105,7 @@ const Navbar = (props) => {
             News
           </NavLink>
           <NavLink href="#">Events</NavLink>
-          <NavLink href="#">Matches</NavLink>
+          <NavLink href="/matches">Matches</NavLink>
           <NavLink href="#">Players</NavLink>
           <NavLink href="#">Teams</NavLink>
           <Spacer />

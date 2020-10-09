@@ -26,7 +26,7 @@ const MatchPage = (props) => {
 
   const _loadMatchData = async (matchId) => {
     // fetch match data from zsr
-    const result = await fetch(`https://zsr.octane.gg/matches/${matchId}`);
+    const result = await fetch(`${process.env.API_URL}/matches/${matchId}`);
 
     if (!result.ok) result.status === 404 ?
       setError("Match not found! 😥") :
@@ -45,7 +45,7 @@ const MatchPage = (props) => {
   };
 
   const _loadGamesData = async (matchId) => {
-    const result = await fetch(`https://zsr.octane.gg/games?match=${matchId}`);
+    const result = await fetch(`${process.env.API_URL}/games?match=${matchId}`);
 
     if (result.ok) {
       const gamesData = await result.json();

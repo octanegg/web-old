@@ -21,8 +21,10 @@ export const Content = ({ children, leftNav, rightNav }) => {
     <Flex
       width={{ base: "95%", lg: "100%", xl: "60%" }}
       backgroundColor={{ base: "", lg: "white" }}
-      border={{ base: "", lg: "1px solid #ccc" }}
+      borderLeft={{ base: "", lg: "1px solid #ccc" }}
+      borderRight={{ base: "", lg: "1px solid #ccc" }}
       justify="space-between"
+      minHeight="100vh"
     >
       <Flex width="100%" wrap="nowrap">
         {leftNav && <SideNav>{leftNav}</SideNav>}
