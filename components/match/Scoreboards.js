@@ -115,8 +115,8 @@ const Scoreboards = (props) => {
       border="1px solid #ddd"
       shadow="0 1px 3px -1px rgba(0, 0, 0, 0.4)"
     >
-      <Tabs variant="soft-rounded" isFitted>
-        <TabList width="100%" overflowY="auto" mb="1rem">
+      <Tabs backgroundColor="white" variant="soft-rounded" isFitted>
+        <TabList borderBottom="1px solid #ddd" width="100%" overflowX="auto" mb="1rem">
           <Tab>Overview</Tab>
           {games.map((game) => (
             <Tab key={game.number}>G{game.number}</Tab>
