@@ -1,27 +1,61 @@
-import React from "react";
-import { Flex, Box, Text, Link } from "@chakra-ui/core";
+import React from 'react'
+import { Flex, Box, Text, Link } from '@chakra-ui/core'
 
-const TitleToLink = (title) => `/news/${title.toLowerCase().replace(/ /g, "-")}`;
+const TitleToLink = (title) => `/news/${title.toLowerCase().replace(/ /g, '-')}`
 
-const RecentArticles = (props) => {
-    const { articles } = props;
+const Article = ({ article, isBanner }) => {
+  const { title, description, image } = article
 
-    return <Flex width={{ base: "100%", md: "75%" }} margin={{ base: "0 auto", md: "2rem auto" }} height={{ base: "auto", md: "50vh" }} wrap="wrap">
+  return (
+    <Flex
+      border="1px solid #ccc"
+      background={`linear-gradient(rgba(0,0,0,0.75), rgba(0,0,0,0.75)), url(${image})`}
+      backgroundPosition="center"
+      backgroundSize="cover"
+      width={isBanner ? '100%' : '50%'}
+      direction="column"
+      padding="0.5rem"
+      paddingTop={isBanner ? '10rem' : '2rem'}
+    >
+      <Text
+        fontSize={isBanner ? '32px' : '20px'}
+        fontWeight="bold"
+        textTransform="uppercase"
+        color="#49fca4"
+        lineHeight={isBanner ? '3rem' : '1.5rem'}
+      >
+        {title}
+      </Text>
+      <Text fontSize={isBanner ? '16px' : '14px'} color="white">
+        {isBanner
+          ? description.split(' ').slice(0, 15).join(' ')
+          : description.split(' ').slice(0, 6).join(' ')}{' '}
+        ...
+      </Text>
+      <Link
+        href={TitleToLink(title)}
+        color="white"
+        fontStyle="italic"
+        textTransform="uppercase"
+        fontSize="12px"
+      >
+        Read more..
+      </Link>
+    </Flex>
+  )
+}
+
+const RecentArticles = ({ articles }) => {
+  return (
+    <Flex direction="column">
+      {articles && <Article isBanner article={articles[0]} />}
+      <Flex direction="row">
         {articles?.map((article, index) => {
-            const { title, description } = article;
-            const isFirst = index === 0;
-
-            return <Box key={index} width={isFirst ? "100%" : "50%"} minHeight={isFirst ? "66%" : "33%"} border="1px solid #ccc" boxSizing="border-box"
-                background={`linear-gradient(rgba(0,0,0,0.75), rgba(0,0,0,0.75)), url(${article.image})`} backgroundPosition="center" backgroundSize="cover"
-                userSelect="none">
-                <Flex padding={isFirst ? "1rem" : "0.5rem"} flexDirection="column" justify="flex-end" height="100%" width="100%">
-                    <Text fontSize={isFirst ? "3rem" : "1.5rem"} lineHeight={isFirst ? "3rem" : "1.5rem"} fontWeight="bold" textTransform="uppercase" color="#49fca4">{title}</Text>
-                    <Text fontSize={isFirst ? "1.5rem" : "1rem"} color="white" isTruncated>{description}</Text>
-                    <Link href={TitleToLink(title)} color="white" textDecoration="underline">Read more..</Link>
-                </Flex>
-            </Box>
+          return index > 0 && <Article article={article} key={index} />
         })}
-    </Flex>;
-};
+      </Flex>
+    </Flex>
+  )
+}
 
-export default RecentArticles;
+export default RecentArticles
