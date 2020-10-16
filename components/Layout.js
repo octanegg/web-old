@@ -1,6 +1,6 @@
-import Navbar from "./Navbar";
-import Footer from "./Footer";
-const { Flex } = require("@chakra-ui/core");
+import Navbar from './Navbar'
+import Footer from './Footer'
+const { Flex } = require('@chakra-ui/core')
 
 const SideNav = ({ children }) => {
   return (
@@ -8,34 +8,36 @@ const SideNav = ({ children }) => {
       height="400px"
       width="20%"
       backgroundColor="#b8bec6"
-      margin="2rem"
-      display={{ base: "none", lg: "block" }}
+      marginLeft="1rem"
+      marginRight="1rem"
+      display={{ base: 'none', lg: 'block' }}
     >
       {children}
     </Flex>
-  );
-};
+  )
+}
 
 export const Content = ({ children, leftNav, rightNav }) => {
   return (
     <Flex
-      width={{ base: "95%", lg: "100%", xl: "60%" }}
-      margin="1rem auto"
-      backgroundColor={{ base: "", lg: "white" }}
-      borderLeft={{ base: "", lg: "1px solid #ccc" }}
-      borderRight={{ base: "", lg: "1px solid #ccc" }}
+      width={{ base: '95%', lg: '100%', xl: '70%' }}
+      backgroundColor={{ base: '', lg: 'white' }}
+      borderLeft={{ base: '', lg: '1px solid #ccc' }}
+      borderRight={{ base: '', lg: '1px solid #ccc' }}
       justify="space-between"
       minHeight="100vh"
       maxWidth="1280px"
     >
-      <Flex width="100%" wrap="nowrap">
+      <Flex width="100%" wrap="nowrap" margin="1rem auto">
         {leftNav && <SideNav>{leftNav}</SideNav>}
-        {children}
+        <Flex flexDirection="column" align="center" width="100%">
+          {children}
+        </Flex>
         {rightNav && <SideNav>{rightNav}</SideNav>}
       </Flex>
     </Flex>
-  );
-};
+  )
+}
 
 const Layout = ({ children }) => {
   return (
@@ -50,7 +52,7 @@ const Layout = ({ children }) => {
       {children}
       <Footer />
     </Flex>
-  );
-};
+  )
+}
 
-export default Layout;
+export default Layout

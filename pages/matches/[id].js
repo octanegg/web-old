@@ -70,14 +70,12 @@ const MatchPage = (props) => {
   }
 
   return <Content leftNav={<div></div>} rightNav={<div></div>}>
-    <Flex flexDirection="column" align="center" width="100%">
-      {!error && (!matchData || !scoreboardsData) ? <Spinner mt="2rem" /> :
+      {!error && (!matchData || !scoreboardsData) ? <Spinner  /> :
         error ? <Text color="#aaa" fontSize="2rem" fontWeight="bold" textAlign="center">{error}</Text> :
           <>
             <MatchInfo {...matchData} blueTeamGoals={sumTeamGoals("blue")} orangeTeamGoals={sumTeamGoals("orange")} />
             <Scoreboards {...scoreboardsData} />
           </>}
-    </Flex>
   </Content>;
 };
 

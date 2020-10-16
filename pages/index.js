@@ -1,3 +1,4 @@
+import { Flex } from "@chakra-ui/core";
 import RecentArticles from "../components/homepage/RecentArticles";
 import { Content } from "../components/Layout";
 
@@ -20,8 +21,8 @@ const ARTICLES_MOCK = [
 ];
 
 const Home = () => {
-  return <Content>
-    <RecentArticles articles={ARTICLES_MOCK} />
+  return <Content leftNav={<div></div>} rightNav={<div></div>}>
+      <RecentArticles articles={ARTICLES_MOCK} />
   </Content>;
 };
 
