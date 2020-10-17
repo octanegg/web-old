@@ -1,134 +1,151 @@
-import styles from "./Navbar.module.scss";
+import React, { useState } from 'react'
+import { Flex, Spacer, Image, Link } from '@chakra-ui/core'
+import NextLink from 'next/link'
+import { useAuth0 } from '@auth0/auth0-react'
+import { AdminOnly } from './Auth'
+import { useHover } from 'react-use'
 
-import React, { useState } from "react";
-import { Button, Flex, Box, Spacer, Spinner, Image } from "@chakra-ui/core";
-import Link from "next/link";
-import { useAuth0 } from "@auth0/auth0-react";
-import { AdminOnly } from "./Auth";
-
-const NavItem = (props) => (
-  <Box
-    className={styles.navItem}
-    mb={{ base: ".5rem", lg: 0 }}
-    ml={{ base: "1rem", lg: 0 }}
-    fontSize={{ base: "1.1rem", lg: "1rem" }}
-    borderRightWidth={{ base: "none", lg: 1 }}
-    {...props}
-  >
-    {props.children}
-  </Box>
-);
-
-const NavLink = (props) => (
-  <NavItem {...props}>
-    <Link href={props.href}>{props.children}</Link>
-  </NavItem>
-);
-
-const LoginButton = () => {
-  const { loginWithRedirect } = useAuth0();
-
-  return (
-    <NavItem
-      onClick={() => loginWithRedirect()}
-      borderLeftWidth={{ base: "none", lg: 1 }}
+const NavItem = ({ href, leftBorder, rightBorder, onClick, children }) => {
+  const [hoverable, hovered] = useHover((hovered) => (
+    <Flex
+      fontSize="sm"
+      borderColor="black"
+      borderRightWidth={rightBorder && '1px'}
+      borderLeftWidth={leftBorder && '1px'}
+      borderBottomWidth={{ base: '1px', md: '0px' }}
+      transition="box-shadow 0.2s ease-out"
+      cursor="pointer"
+      boxShadow={hovered && '0 -4px 1px -1px #2EC97B inset'}
     >
-      Log In
-    </NavItem>
-  );
-};
+      {href ? (
+        <NextLink href={href}>
+          <Link display="block" padding={4} textDecoration="none !important">
+            {children}
+          </Link>
+        </NextLink>
+      ) : (
+        <Flex display="block" padding={4} onClick={onClick}>
+          {children}
+        </Flex>
+      )}
+    </Flex>
+  ))
+  return hoverable
+}
 
-const LogoutButton = () => {
-  const { logout } = useAuth0();
+const NavImage = ({ src, href }) => (
+  <Flex
+    cursor="pointer"
+    paddingTop={{ base: 2, md: 0 }}
+    paddingBottom={{ base: 2, md: 0 }}
+  >
+    <NextLink href={href}>
+      <Link display="block" paddingLeft={4} paddingRight={4}>
+        <Image src={src} width="1.75rem" />
+      </Link>
+    </NextLink>
+  </Flex>
+)
 
+const AdminNav = () => {
   return (
-    <NavItem onClick={() => logout({ returnTo: window.location.origin })}>
+    <AdminOnly>
+      <NavItem href="/admin/events" leftBorder>
+        Admin
+      </NavItem>
+    </AdminOnly>
+  )
+}
+
+const AuthNav = ({ isAuthenticated }) => {
+  const { loginWithRedirect, logout } = useAuth0()
+  return isAuthenticated ? (
+    <NavItem
+      onClick={() => logout({ returnTo: window.location.origin })}
+      leftBorder
+      rightBorder
+    >
       Log Out
     </NavItem>
-  );
-};
+  ) : (
+    <NavItem onClick={() => loginWithRedirect()} leftBorder rightBorder>
+      Log In
+    </NavItem>
+  )
+}
 
-const Navbar = (props) => {
-  const [showMenu, setShowMenu] = useState(false);
-  const { isAuthenticated, isLoading } = useAuth0();
+const HamburgerNav = ({ onClick }) => {
+  return (
+    <Flex display={{ base: 'block', md: 'none' }} padding={4} onClick={onClick}>
+      <svg
+        fill="white"
+        width="20px"
+        viewBox="0 0 20 20"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <title>Menu</title>
+        <path d="M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z" />
+      </svg>
+    </Flex>
+  )
+}
 
-  const toggleMenu = () => setShowMenu(!showMenu);
+const Navbar = () => {
+  const [showMenu, setShowMenu] = useState(false)
+  const { isAuthenticated } = useAuth0()
+
+  const toggleMenu = () => setShowMenu(!showMenu)
 
   return (
     <Flex
-      align="center"
-      {...props}
-      width="100%"
-      className={styles.navbar}
+      width="full"
+      backgroundColor="secondary.800"
       justify="center"
+      color="whitesmoke"
     >
       <Flex
-        align="center"
-        as="nav"
-        wrap="wrap"
-        width={{ base: "90%", xl: "70%" }}
-        maxWidth="1280px"
+        width="6xl"
+        maxWidth="6xl"
+        direction={{ base: 'column', md: 'row' }}
       >
-        <Flex padding={{ base: "0.5rem 1rem", lg: "0rem 1rem" }}>
-          <Link href="/">
-            <Image
-              cursor="pointer"
-              width="2rem"
-              mb={{ base: showMenu ? ".5rem" : 0, lg: 0 }}
-              src="/images/logo.png"
-            />
-          </Link>
+        <Flex
+          align="center"
+          justify="space-around"
+          borderBottom={{ base: '1px solid black', md: '' }}
+        >
+          <NavImage href="/" src="/images/logo.png" />
+          <Spacer display={{ base: 'block', md: 'none' }} />
+          <HamburgerNav onClick={toggleMenu} />
         </Flex>
-        <Spacer display={{ base: "block", lg: "none" }} />
-        <Box
-          display={{ base: "block", lg: "none" }}
-          mr={{ base: "0.5rem" }}
-          onClick={toggleMenu}
+        <Flex
+          width="full"
+          display={{ base: showMenu ? 'flex' : 'none', md: 'flex' }}
+          flexWrap="wrap"
+          justify="space-between"
+          direction={{ base: 'column', md: 'row' }}
         >
-          <svg
-            fill="white"
-            width="20px"
-            viewBox="0 0 20 20"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <title>Menu</title>
-            <path d="M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z" />
-          </svg>
-        </Box>
-        <Box
-          display={{ base: showMenu ? "block" : "none", lg: "flex" }}
-          width={{ base: "100%", lg: "auto" }}
-          height="100%"
-          alignItems="center"
-          flexGrow={1}
-        >
-          <NavLink borderLeftWidth={{ base: "none", lg: 1 }} href="#">
+          <NavItem href="#" leftBorder>
             News
-          </NavLink>
-          <NavLink href="#">Events</NavLink>
-          <NavLink href="/matches">Matches</NavLink>
-          <NavLink href="#">Players</NavLink>
-          <NavLink href="#">Teams</NavLink>
-          <Spacer />
-          <AdminOnly>
-            <NavLink
-              href="/admin/events"
-              borderLeftWidth={{ base: "none", lg: 1 }}
-            >
-              Admin
-            </NavLink>
-          </AdminOnly>
-          {isLoading ? (
-            <Spinner ml="auto" />
-          ) : !isAuthenticated ? (
-            <LoginButton />
-          ) : (
-            <LogoutButton />
-          )}
-        </Box>
+          </NavItem>
+          <NavItem href="#" leftBorder>
+            Events
+          </NavItem>
+          <NavItem href="/matches" leftBorder>
+            Matches
+          </NavItem>
+          <NavItem href="#" leftBorder>
+            Players
+          </NavItem>
+          <NavItem href="#" leftBorder rightBorder>
+            Teams
+          </NavItem>
+          <Spacer display={{ base: 'none', md: 'block' }} />
+          <AdminNav />
+          <AuthNav isAuthenticated={isAuthenticated} />
+        </Flex>
       </Flex>
     </Flex>
-  );
-};
+  )
+}
 
-export default Navbar;
+export default Navbar
