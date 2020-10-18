@@ -8,18 +8,6 @@ const theme = {
   ...defaultTheme,
   colors: {
     ...defaultTheme.colors,
-    secondary: {
-      50: '#e8f4fd',
-      100: '#c8dae9',
-      200: '#a7c1d8',
-      300: '#83a8c9',
-      400: '#618fb9',
-      500: '#4875a0',
-      600: '#375b7d',
-      700: '#274159',
-      800: '#1A2F42', // Octane Blue
-      900: '#020e16',
-    },
     primary: {
       50: '#e0fdef',
       100: '#bbf2d7',
@@ -32,7 +20,30 @@ const theme = {
       800: '#043f24',
       900: '#001708',
     },
-    border: '#cccccc',
+    secondary: {
+      50: '#e8f4fd',
+      100: '#c8dae9',
+      200: '#a7c1d8',
+      300: '#83a8c9',
+      400: '#618fb9',
+      500: '#4875a0',
+      600: '#375b7d',
+      700: '#274159',
+      800: '#1A2F42', // Octane Blue
+      900: '#020e16',
+    },
+    border: '#ddd',
+    gray: '#b8bec6',
+  },
+  shadows: {
+    ...defaultTheme.shadows,
+    background: '0 1px 3px -1px rgba(0, 0, 0, 0.4)',
+    navbar: '0 -4px 1px -1px #2EC97B inset',
+  },
+  borders: {
+    ...defaultTheme.borders,
+    navbar: '1px solid black',
+    outline: '1px solid #ddd',
   },
 }
 
@@ -53,8 +64,7 @@ const App = ({ Component, pageProps }) => {
         clientId="LJoXQ3CUO1oOuxJXIe26oxgaqG457dDt"
         redirectUri={process.env.REDIRECT_URI}
         audience="zsr.octane.gg"
-        scope="modify:admin"
-      >
+        scope="modify:admin">
         <Layout>
           <Component {...pageProps} />
         </Layout>

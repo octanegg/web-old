@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState } from 'react'
 import {
   Flex,
   TabList,
@@ -9,14 +9,15 @@ import {
   Image,
   Text,
   Spinner,
-} from "@chakra-ui/core";
-import numeral from "numeral";
+} from '@chakra-ui/core'
+import numeral from 'numeral'
 
-import TeamStatsTable from "./TeamStatsTable";
-import { getTeamLogoUrl } from "../../utility";
+import TeamStatsTable from './TeamStatsTable'
+import { getTeamLogoUrl } from '../../utility'
 
-const DEFAULT_ORDER = ["score", "goals", "assists", "saves", "shots", "rating"];
+const DEFAULT_ORDER = ['score', 'goals', 'assists', 'saves', 'shots', 'rating']
 
+// TODO: Clean up
 const GameDataPanel = ({
   blueTeam,
   orangeTeam,
@@ -27,19 +28,14 @@ const GameDataPanel = ({
 }) => (
   <Flex width="100%" flexDirection="column">
     {!isOverview && (
-      <Flex
-        width="100%"
-        justify="center"
-        fontSize={{ base: "0.75rem", md: "1rem" }}
-        mb="1rem"
-      >
-        <Text mr={"3rem"}>
+      <Flex width="100%" justify="center" fontSize={{ base: '0.75rem', md: '1rem' }} mb="1rem">
+        <Text mr={'3rem'}>
           <b>Map: </b>
           {data.map}
         </Text>
         <Text>
           <b>Match Length: </b>
-          {numeral(data.duration).format("00:00:00").substring(2)}
+          {numeral(data.duration).format('00:00:00').substring(2)}
         </Text>
       </Flex>
     )}
@@ -55,8 +51,8 @@ const GameDataPanel = ({
         isOverview
           ? data?.blue
           : data.blue.players.reduce((all, current) => {
-              all[current.name] = current.stats;
-              return all;
+              all[current.name] = current.stats
+              return all
             }, {})
       }
     />
@@ -72,13 +68,13 @@ const GameDataPanel = ({
         isOverview
           ? data?.orange
           : data.orange.players.reduce((all, current) => {
-              all[current.name] = current.stats;
-              return all;
+              all[current.name] = current.stats
+              return all
             }, {})
       }
     />
   </Flex>
-);
+)
 
 const TeamBlock = ({ teamName, teamScore, winner }) => (
   <Flex
@@ -86,26 +82,21 @@ const TeamBlock = ({ teamName, teamScore, winner }) => (
     ml="1rem"
     fontWeight="bold"
     align="center"
-    fontSize={{ base: "1rem", md: "1.25rem" }}
-  >
-    <Image
-      width={{ base: "2rem", md: "3rem" }}
-      mr="0.5rem"
-      src={getTeamLogoUrl(teamName)}
-    />
+    fontSize={{ base: '1rem', md: '1.25rem' }}>
+    <Image width={{ base: '2rem', md: '3rem' }} mr="0.5rem" src={getTeamLogoUrl(teamName)} />
     <Text mr="0.2rem">{teamName}</Text>
     <Text>
       (
-      <Text as="span" color={winner ? "#15b415" : "#d33d3d"}>
+      <Text as="span" color={winner ? '#15b415' : '#d33d3d'}>
         {teamScore}
       </Text>
       )
     </Text>
   </Flex>
-);
+)
 
 const Scoreboards = (props) => {
-  const { games, overview, blueWins, orangeWins } = props;
+  const { games, overview, blueWins, orangeWins } = props
 
   return (
     <Flex
@@ -113,8 +104,7 @@ const Scoreboards = (props) => {
       width="100%"
       flexDirection="column"
       border="1px solid #ddd"
-      shadow="0 1px 3px -1px rgba(0, 0, 0, 0.4)"
-    >
+      shadow="background">
       <Tabs backgroundColor="white" variant="soft-rounded" isFitted>
         <TabList borderBottom="1px solid #ddd" width="100%" overflowX="auto" mb="1rem">
           <Tab>Overview</Tab>
@@ -147,7 +137,7 @@ const Scoreboards = (props) => {
         </TabPanels>
       </Tabs>
     </Flex>
-  );
-};
+  )
+}
 
-export default Scoreboards;
+export default Scoreboards

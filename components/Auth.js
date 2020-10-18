@@ -1,29 +1,23 @@
-import { useAuth0 } from "@auth0/auth0-react";
-import { Spinner } from "@chakra-ui/core";
-import { useEffect, useState } from "react";
+import { useAuth0 } from '@auth0/auth0-react'
+import { Spinner } from '@chakra-ui/core'
+import { useEffect, useState } from 'react'
 
 export const AdminOnly = ({ children }) => {
-  const roles = ["admin"]
-  const [allowed, setAllowed] = useState(false);
-  const { isAuthenticated, isLoading, getIdTokenClaims } = useAuth0();
+  const roles = ['admin']
+  const [allowed, setAllowed] = useState(false)
+  const { isAuthenticated, getIdTokenClaims } = useAuth0()
 
   const getUserRoles = async () => {
-    const claims = await getIdTokenClaims();
-    const userRoles = claims ? claims["http://octane.gg/claims/role"] : [];
-    setAllowed(roles.every((v) => userRoles.includes(v)));
-  };
+    const claims = await getIdTokenClaims()
+    const userRoles = claims ? claims['http://octane.gg/claims/role'] : []
+    setAllowed(roles.every((v) => userRoles.includes(v)))
+  }
 
   useEffect(() => {
-    getUserRoles();
-  }, [roles]);
+    getUserRoles()
+  }, [roles])
 
-  return isLoading ? (
-    <Spinner />
-  ) : isAuthenticated && allowed ? (
-    children
-  ) : (
-    <div></div>
-  );
-};
+  return isAuthenticated && allowed ? children : <></>
+}
 
-export default AdminOnly;
+export default AdminOnly

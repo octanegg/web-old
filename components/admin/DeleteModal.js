@@ -8,7 +8,7 @@ import {
   ModalHeader,
   ModalOverlay,
   Stack,
-} from "@chakra-ui/core";
+} from '@chakra-ui/core'
 
 const DeleteModal = ({ isOpen, onClose, onSubmit, header, body }) => {
   return (
@@ -19,7 +19,7 @@ const DeleteModal = ({ isOpen, onClose, onSubmit, header, body }) => {
           <ModalCloseButton />
           <ModalBody pb={6}>{body}</ModalBody>
           <ModalFooter>
-            <Stack direction={["column", "row"]}>
+            <Stack direction={['column', 'row']}>
               <Button variant="outline" onClick={onClose}>
                 Cancel
               </Button>
@@ -27,10 +27,9 @@ const DeleteModal = ({ isOpen, onClose, onSubmit, header, body }) => {
                 variant="solid"
                 colorScheme="red"
                 onClick={() => {
-                  onSubmit();
-                  onClose();
-                }}
-              >
+                  onSubmit()
+                  onClose()
+                }}>
                 Delete
               </Button>
             </Stack>
@@ -38,7 +37,7 @@ const DeleteModal = ({ isOpen, onClose, onSubmit, header, body }) => {
         </ModalContent>
       </ModalOverlay>
     </Modal>
-  );
-};
+  )
+}
 
-export default DeleteModal;
+export default DeleteModal

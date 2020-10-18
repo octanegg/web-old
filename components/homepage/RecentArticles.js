@@ -8,25 +8,25 @@ const Article = ({ article, isBanner }) => {
 
   return (
     <Flex
-      border="1px solid #ccc"
+      border="outline"
       background={`linear-gradient(rgba(0,0,0,0.75), rgba(0,0,0,0.75)), url(${image})`}
       backgroundPosition="center"
       backgroundSize="cover"
-      width={isBanner ? '100%' : '50%'}
+      width={isBanner ? 'full' : '50%'}
       direction="column"
-      padding="0.5rem"
-      paddingTop={isBanner ? '10rem' : '2rem'}
-    >
+      paddingLeft={2}
+      paddingRight={2}
+      paddingBottom={2}
+      paddingTop={isBanner ? 40 : 8}>
       <Text
-        fontSize={isBanner ? '32px' : '20px'}
+        fontSize={isBanner ? '4xl' : 'xl'}
         fontWeight="bold"
         textTransform="uppercase"
-        color="#49fca4"
-        lineHeight={isBanner ? '3rem' : '1.5rem'}
-      >
+        color="primary.300"
+        lineHeight={isBanner ? 'tall' : 'base'}>
         {title}
       </Text>
-      <Text fontSize={isBanner ? '16px' : '14px'} color="white">
+      <Text fontSize={isBanner ? 'md' : 'sm'} color="whitesmoke">
         {isBanner
           ? description.split(' ').slice(0, 15).join(' ')
           : description.split(' ').slice(0, 6).join(' ')}{' '}
@@ -34,11 +34,10 @@ const Article = ({ article, isBanner }) => {
       </Text>
       <Link
         href={TitleToLink(title)}
-        color="white"
+        color="whitesmoke"
         fontStyle="italic"
         textTransform="uppercase"
-        fontSize="12px"
-      >
+        fontSize="xs">
         Read more..
       </Link>
     </Flex>

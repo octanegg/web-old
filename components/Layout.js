@@ -5,13 +5,12 @@ const { Flex } = require('@chakra-ui/core')
 const SideNav = ({ children }) => {
   return (
     <Flex
-      height="400px"
-      width="20%"
-      backgroundColor="#b8bec6"
-      marginLeft="1rem"
-      marginRight="1rem"
-      display={{ base: 'none', lg: 'block' }}
-    >
+      height="xl" // TODO: only until filled with content
+      width={56}
+      backgroundColor="gray"
+      marginLeft={4}
+      marginRight={4}
+      display={{ base: 'none', lg: 'block' }}>
       {children}
     </Flex>
   )
@@ -20,17 +19,16 @@ const SideNav = ({ children }) => {
 export const Content = ({ children, leftNav, rightNav }) => {
   return (
     <Flex
-      width={{ base: '95%', lg: '100%', xl: '70%' }}
-      backgroundColor={{ base: '', lg: 'white' }}
-      borderLeft={{ base: '', lg: '1px solid #ccc' }}
-      borderRight={{ base: '', lg: '1px solid #ccc' }}
+      width={{ base: 'full', xl: '6xl' }}
+      backgroundColor="white"
+      borderLeft={{ base: '', lg: 'outline' }}
+      borderRight={{ base: '', lg: 'outline' }}
       justify="space-between"
       minHeight="100vh"
-      maxWidth="1280px"
-    >
-      <Flex width="100%" wrap="nowrap" margin="1rem auto">
+      maxWidth="6xl">
+      <Flex width="full" wrap="nowrap" marginTop={4} marginBottom={4} justify="center">
         {leftNav && <SideNav>{leftNav}</SideNav>}
-        <Flex flexDirection="column" align="center" width="100%">
+        <Flex flexDirection="column" align="center" width="full">
           {children}
         </Flex>
         {rightNav && <SideNav>{rightNav}</SideNav>}
@@ -46,8 +44,7 @@ const Layout = ({ children }) => {
       backgroundColor="whitesmoke"
       align="center"
       minHeight="100vh"
-      fontFamily="Open Sans"
-    >
+      fontFamily='"Open Sans", "Segoe UI", Tahoma, sans-serif'>
       <Navbar />
       {children}
       <Footer />

@@ -1,34 +1,27 @@
-import styles from "./Footer.module.scss";
-
-import { Flex, Image } from "@chakra-ui/core";
-import Link from "next/link";
+import { Flex, Image } from '@chakra-ui/core'
 
 const FooterIcon = ({ icon, href }) => (
   <a href={href} target="_blank">
-    <Image className={styles.footerIcon} src={`/images/${icon}.svg`} />
+    <Image width={6} marginLeft={3} marginRight={3} cursor="pointer" src={`/images/${icon}.svg`} />
   </a>
-);
+)
 
 const Footer = (props) => {
   return (
     <Flex
-      borderTop="1px solid #ccc"
-      width="100%"
-      mt="auto"
+      borderTop="outline"
+      width="full"
       justify="center"
-      padding=".5rem 0"
-      backgroundColor="#1a2f42"
-    >
+      paddingTop={2}
+      paddingBottom={2}
+      backgroundColor="secondary.800">
       <FooterIcon icon="twitter" href="http://twitter.com/octane_gg" />
       <FooterIcon icon="discord" href="http://discord.gg/gxHfxWq" />
       <FooterIcon icon="twitch" href="https://www.twitch.tv/octanegg" />
       <FooterIcon icon="facebook" href="https://t.co/OVFoXPjaIO?amp=1" />
-      <FooterIcon
-        icon="youtube"
-        href="https://www.youtube.com/channel/UC5zqB1onki6tt0gtExFP97A"
-      />
+      <FooterIcon icon="youtube" href="https://www.youtube.com/channel/UC5zqB1onki6tt0gtExFP97A" />
     </Flex>
-  );
-};
+  )
+}
 
-export default Footer;
+export default Footer

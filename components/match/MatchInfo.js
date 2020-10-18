@@ -3,6 +3,7 @@ import { Flex, Spinner, Text, Image, Spacer } from '@chakra-ui/core'
 
 import { getTeamLogoUrl } from '../../utility'
 
+// TODO: Clean up
 const TeamBlock = ({ teamName, position }) => (
   <Flex
     align="center"
@@ -10,14 +11,9 @@ const TeamBlock = ({ teamName, position }) => (
     flexDirection={{
       base: 'column',
       md: position !== 1 ? 'row' : 'row-reverse',
-    }}
-  >
+    }}>
     <Image src={getTeamLogoUrl(teamName)} width={{ base: '20vw', md: '33%' }} />
-    <Text
-      textAlign="center"
-      fontSize={{ base: '1.2rem', md: '2rem' }}
-      fontWeight="medium"
-    >
+    <Text textAlign="center" fontSize={{ base: '1.2rem', md: '2rem' }} fontWeight="medium">
       {teamName}
     </Text>
   </Flex>
@@ -41,19 +37,12 @@ const MatchInfo = (props) => {
       align="center"
       flexDirection="column"
       border="1px solid #ddd"
-      shadow="0 1px 3px -1px rgba(0, 0, 0, 0.4)"
+      shadow="background"
       background={`linear-gradient(0deg, rgba(255,255,255,1) 15%, rgba(255,255,255,0.85)), url("${getTeamLogoUrl(
-        blueTeam,
-      )}") no-repeat 0 50%/50%, url("${getTeamLogoUrl(
-        orangeTeam,
-      )}") no-repeat 100% 50%/50%`}
-    >
+        blueTeam
+      )}") no-repeat 0 50%/50%, url("${getTeamLogoUrl(orangeTeam)}") no-repeat 100% 50%/50%`}>
       <Flex flexDirection="row" justify="space-around" width="100%">
-        <Flex
-          flexDirection="row"
-          align="center"
-          mb={{ base: '0.5rem', md: '1rem' }}
-        >
+        <Flex flexDirection="row" align="center" mb={{ base: '0.5rem', md: '1rem' }}>
           <Image
             src="https://www.octane.gg/event-logos/rlcs-x-north-america-fall-regional-one-swiss-stage-two.png"
             width="32px"
@@ -81,8 +70,7 @@ const MatchInfo = (props) => {
         mb={{ base: '0.5rem', md: '1rem' }}
         width="100%"
         justify="center"
-        align={{ base: 'flex-start', md: 'center' }}
-      >
+        align={{ base: 'flex-start', md: 'center' }}>
         <TeamBlock teamName={blueTeam} position={1} />
         <Flex flexDirection="column" align="center">
           <Text fontSize="1rem" color="gray">

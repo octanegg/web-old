@@ -1,15 +1,10 @@
-import { Box, Heading, Select, Input, List, ListItem } from "@chakra-ui/core";
-import Downshift from "downshift";
-import { useState } from "react";
+import { Box, Heading, Select, Input, List, ListItem } from '@chakra-ui/core'
+import Downshift from 'downshift'
+import { useState } from 'react'
 
 export const Card = ({ title, width, children }) => {
   return (
-    <Box
-      border="1px solid black"
-      padding="1rem"
-      width={width}
-      backgroundColor="#fff"
-    >
+    <Box border="1px solid black" padding="1rem" width={width} backgroundColor="#fff">
       {title && (
         <Heading size="md" paddingBottom="0.5rem">
           {title}
@@ -17,19 +12,12 @@ export const Card = ({ title, width, children }) => {
       )}
       {children}
     </Box>
-  );
-};
+  )
+}
 
-export const SelectionCard = ({
-  title,
-  onChange,
-  data,
-  display,
-  placeholder,
-  value,
-}) => {
+export const SelectionCard = ({ title, onChange, data, display, placeholder, value }) => {
   return (
-    <Card title={title} width={["100%", 1 / 2]}>
+    <Card title={title} width={['100%', 1 / 2]}>
       <Select onChange={onChange} placeholder={placeholder} value={value}>
         {data.map((item, i) => (
           <option key={i} value={i}>
@@ -38,24 +26,23 @@ export const SelectionCard = ({
         ))}
       </Select>
     </Card>
-  );
-};
+  )
+}
 
 export const DropdownCard = ({ title, items, itemToString, onChange }) => {
-  const [lastSelected, setLastSelected] = useState();
+  const [lastSelected, setLastSelected] = useState()
 
   return (
-    <Card title={title} width={["100%", 1 / 2]}>
+    <Card title={title} width={['100%', 1 / 2]}>
       <Downshift
         id={title}
         onChange={(selected) => {
           if (selected) {
-            setLastSelected(selected);
-            onChange(selected);
+            setLastSelected(selected)
+            onChange(selected)
           }
         }}
-        itemToString={itemToString}
-      >
+        itemToString={itemToString}>
         {({
           getInputProps,
           getItemProps,
@@ -71,7 +58,7 @@ export const DropdownCard = ({ title, items, itemToString, onChange }) => {
               {...getInputProps()}
               placeholder="Select..."
               onFocus={() => {
-                clearSelection();
+                clearSelection()
               }}
               onBlur={() => selectItem(lastSelected)}
             />
@@ -85,15 +72,12 @@ export const DropdownCard = ({ title, items, itemToString, onChange }) => {
                 width="25%"
                 zIndex={100}
                 border="1px solid black"
-                cursor="pointer"
-              >
+                cursor="pointer">
                 {items
                   .filter(
                     (item) =>
                       !inputValue ||
-                      itemToString(item)
-                        .toLowerCase()
-                        .includes(inputValue.toLowerCase())
+                      itemToString(item).toLowerCase().includes(inputValue.toLowerCase())
                   )
                   .map((item, index) => (
                     <ListItem
@@ -104,8 +88,7 @@ export const DropdownCard = ({ title, items, itemToString, onChange }) => {
                       })}
                       padding={2}
                       borderBottom="1px solid black"
-                      _hover={{ backgroundColor: "#eee" }}
-                    >
+                      _hover={{ backgroundColor: '#eee' }}>
                       {itemToString(item)}
                     </ListItem>
                   ))}
@@ -115,7 +98,7 @@ export const DropdownCard = ({ title, items, itemToString, onChange }) => {
         )}
       </Downshift>
     </Card>
-  );
-};
+  )
+}
 
-export default Card;
+export default Card
