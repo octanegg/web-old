@@ -37,7 +37,7 @@ const MatchInfo = (props) => {
       align="center"
       flexDirection="column"
       border="1px solid #ddd"
-      shadow="background"
+      shadow="main"
       background={`linear-gradient(0deg, rgba(255,255,255,1) 15%, rgba(255,255,255,0.85)), url("${getTeamLogoUrl(
         blueTeam
       )}") no-repeat 0 50%/50%, url("${getTeamLogoUrl(orangeTeam)}") no-repeat 100% 50%/50%`}>

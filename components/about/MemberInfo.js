@@ -1,56 +1,39 @@
-import { Flex, Image, Text, Divider } from '@chakra-ui/core'
+import { Flex, Image, Text, Divider, Link, Stack } from '@chakra-ui/core'
+import NextLink from 'next/link'
 
 // TODO: Clean up
-const MemberInfo = (props) => {
-  const { photo, twitter, name, role, children } = props
+const MemberInfo = ({ info }) => {
+  const { name, twitter, roles, pic, description } = info
 
   return (
-    <Flex
-      width={{ base: '100%', md: '45%' }}
-      flexDirection="column"
-      align="center"
-      margin="1rem"
+    <Stack
+      spacing={4}
+      padding={4}
+      marginBottom={4}
       border="1px solid #ddd"
-      padding="1rem"
-      shadow="0 1px 3px -1px rgba(0, 0, 0, 0.4)"
-      backgroundColor="white">
-      <Flex flexDirection={{ base: 'column', md: 'row' }} align="center" padding="1rem 2rem">
-        <Image
-          border="5px solid #2fca7e"
-          mb={{ base: '0.5rem', md: 0 }}
-          src={photo}
-          rounded="full"
-          width={{ base: '50%', md: '25%' }}
-          mr={{ base: 0, md: '2rem' }}
-        />
-        <Flex flexDirection="column">
-          <Text fontSize={{ base: '1.3rem', md: '1.6rem' }} fontWeight="500" color="#1a2f42">
-            {name}
-          </Text>
-          <Text fontSize={{ base: '0.8rem', md: '0.95rem' }} fontStyle="italic">
-            {role}
-          </Text>
-          <Flex
-            align="center"
-            fontWeight="medium"
-            textDecor="underline"
-            fontSize={{ base: '0.8rem', md: '0.95rem' }}>
-            <Image src="/images/twitter-dark.svg" width={{ base: '18px', md: '24px' }} mr=".5rem" />
-            <a href={`https://twitter.com/${twitter}`}>
-              <Text>@{twitter}</Text>
-            </a>
+      shadow="main"
+      color="secondary.800"
+      flexBasis={{ base: '100%', md: '47%', lg: '32%' }}>
+      <Stack direction={{ base: 'column', lg: 'row' }} align="center" spacing={4}>
+        <Image border="pic" src={pic} rounded="full" width={32} />
+        <Flex flexDirection="column" align="center">
+          <Text fontSize="xl">{name}</Text>
+          <Flex align="center" fontSize="xs" paddingTop={1} paddingBottom={1}>
+            <Image src="/images/twitter-dark.svg" width={4} marginRight={2} />
+            <NextLink href={`https://twitter.com/${twitter}`}>
+              <Link>@{twitter}</Link>
+            </NextLink>
           </Flex>
+          {roles.map((role) => (
+            <Text fontSize="sm" fontStyle="italic" align="center">
+              {role}
+            </Text>
+          ))}
         </Flex>
-      </Flex>
+      </Stack>
       <Divider />
-      <Flex
-        fontSize={{ base: '0.8rem', md: '1rem' }}
-        width={{ base: '95%', md: '80%' }}
-        padding=".5rem"
-        margin="0 auto">
-        {children}
-      </Flex>
-    </Flex>
+      <Text fontSize="md">{description}</Text>
+    </Stack>
   )
 }
 

@@ -9,7 +9,7 @@ const FooterIcon = ({ icon, href }) => (
 const Footer = (props) => {
   return (
     <Flex
-      borderTop="outline"
+      borderTop="main"
       width="full"
       justify="center"
       paddingTop={2}

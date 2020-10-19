@@ -1,132 +1,26 @@
 import { Content } from '../../components/Layout'
 import MemberInfo from '../../components/about/MemberInfo'
-import { Flex, Text } from '@chakra-ui/core'
+import { Flex, Stack, Text } from '@chakra-ui/core'
+
+const staff = [
+  {
+    name: 'Zeebo',
+    twitter: 'ZeeboDesigns',
+    roles: ['Lead Graphic Designer', 'Full Stack Developer'],
+    pic: 'https://pbs.twimg.com/profile_images/1211645238210703360/8-xQrKyz_400x400.jpg',
+    description:
+      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec ipsum lacus, dapibus vel elit ac, commodo hendrerit ipsum. Aliquam consequat in magna ac semper. Cras blandit, erat eget dignissim sagittis, est quam lobortis ipsum, id dictum velit lorem id lacus. Cras at vulputate lacus, vitae egestas nulla. Quisque et urna quis est gravida consectetur.',
+  },
+]
 
 const AboutUs = () => {
   return (
     <Content>
-      <Flex flexWrap="wrap" flex="1 0 45%" justify="center">
-        <MemberInfo
-          name="Zeebo"
-          role="Lead Graphic Designer, Full Stack Developer"
-          twitter="ZeeboDesigns"
-          photo="https://pbs.twimg.com/profile_images/1211645238210703360/8-xQrKyz_400x400.jpg">
-          <Text>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-            incididunt ut labore et dolore magna aliqua. Nunc sed augue lacus viverra vitae congue
-            eu. Vitae congue eu consequat ac felis donec. Adipiscing commodo elit at imperdiet dui.
-            Mauris rhoncus aenean vel elit scelerisque mauris pellentesque. Lobortis scelerisque
-            fermentum dui faucibus in ornare quam viverra orci. Pretium aenean pharetra magna ac
-            placerat vestibulum. In eu mi bibendum neque egestas congue quisque egestas. Ac orci
-            phasellus egestas tellus rutrum tellus. Malesuada nunc vel risus commodo viverra. Amet
-            nisl purus in mollis. Quisque non tellus orci ac auctor augue mauris. Amet risus nullam
-            eget felis eget nunc. Ac ut consequat semper viverra nam libero. Sagittis nisl rhoncus
-            mattis rhoncus urna neque. Neque ornare aenean euismod elementum. Urna condimentum
-            mattis pellentesque id nibh tortor. Ac feugiat sed lectus vestibulum mattis ullamcorper
-            velit sed. Nec sagittis aliquam malesuada bibendum arcu vitae.
-          </Text>
-        </MemberInfo>
-        <MemberInfo
-          name="Zeebo"
-          role="Lead Graphic Designer, Full Stack Developer"
-          twitter="ZeeboDesigns"
-          photo="https://pbs.twimg.com/profile_images/1211645238210703360/8-xQrKyz_400x400.jpg">
-          <Text>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-            incididunt ut labore et dolore magna aliqua. Nunc sed augue lacus viverra vitae congue
-            eu. Vitae congue eu consequat ac felis donec. Adipiscing commodo elit at imperdiet dui.
-            Mauris rhoncus aenean vel elit scelerisque mauris pellentesque. Lobortis scelerisque
-            fermentum dui faucibus in ornare quam viverra orci. Pretium aenean pharetra magna ac
-            placerat vestibulum. In eu mi bibendum neque egestas congue quisque egestas. Ac orci
-            phasellus egestas tellus rutrum tellus. Malesuada nunc vel risus commodo viverra. Amet
-            nisl purus in mollis. Quisque non tellus orci ac auctor augue mauris. Amet risus nullam
-            eget felis eget nunc. Ac ut consequat semper viverra nam libero. Sagittis nisl rhoncus
-            mattis rhoncus urna neque. Neque ornare aenean euismod elementum. Urna condimentum
-            mattis pellentesque id nibh tortor. Ac feugiat sed lectus vestibulum mattis ullamcorper
-            velit sed. Nec sagittis aliquam malesuada bibendum arcu vitae.
-          </Text>
-        </MemberInfo>
-        <MemberInfo
-          name="Zeebo"
-          role="Lead Graphic Designer, Full Stack Developer"
-          twitter="ZeeboDesigns"
-          photo="https://pbs.twimg.com/profile_images/1211645238210703360/8-xQrKyz_400x400.jpg">
-          <Text>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-            incididunt ut labore et dolore magna aliqua. Nunc sed augue lacus viverra vitae congue
-            eu. Vitae congue eu consequat ac felis donec. Adipiscing commodo elit at imperdiet dui.
-            Mauris rhoncus aenean vel elit scelerisque mauris pellentesque. Lobortis scelerisque
-            fermentum dui faucibus in ornare quam viverra orci. Pretium aenean pharetra magna ac
-            placerat vestibulum. In eu mi bibendum neque egestas congue quisque egestas. Ac orci
-            phasellus egestas tellus rutrum tellus. Malesuada nunc vel risus commodo viverra. Amet
-            nisl purus in mollis. Quisque non tellus orci ac auctor augue mauris. Amet risus nullam
-            eget felis eget nunc. Ac ut consequat semper viverra nam libero. Sagittis nisl rhoncus
-            mattis rhoncus urna neque. Neque ornare aenean euismod elementum. Urna condimentum
-            mattis pellentesque id nibh tortor. Ac feugiat sed lectus vestibulum mattis ullamcorper
-            velit sed. Nec sagittis aliquam malesuada bibendum arcu vitae.
-          </Text>
-        </MemberInfo>
-        <MemberInfo
-          name="Zeebo"
-          role="Lead Graphic Designer, Full Stack Developer"
-          twitter="ZeeboDesigns"
-          photo="https://pbs.twimg.com/profile_images/1211645238210703360/8-xQrKyz_400x400.jpg">
-          <Text>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-            incididunt ut labore et dolore magna aliqua. Nunc sed augue lacus viverra vitae congue
-            eu. Vitae congue eu consequat ac felis donec. Adipiscing commodo elit at imperdiet dui.
-            Mauris rhoncus aenean vel elit scelerisque mauris pellentesque. Lobortis scelerisque
-            fermentum dui faucibus in ornare quam viverra orci. Pretium aenean pharetra magna ac
-            placerat vestibulum. In eu mi bibendum neque egestas congue quisque egestas. Ac orci
-            phasellus egestas tellus rutrum tellus. Malesuada nunc vel risus commodo viverra. Amet
-            nisl purus in mollis. Quisque non tellus orci ac auctor augue mauris. Amet risus nullam
-            eget felis eget nunc. Ac ut consequat semper viverra nam libero. Sagittis nisl rhoncus
-            mattis rhoncus urna neque. Neque ornare aenean euismod elementum. Urna condimentum
-            mattis pellentesque id nibh tortor. Ac feugiat sed lectus vestibulum mattis ullamcorper
-            velit sed. Nec sagittis aliquam malesuada bibendum arcu vitae.
-          </Text>
-        </MemberInfo>
-        <MemberInfo
-          name="Zeebo"
-          role="Lead Graphic Designer, Full Stack Developer"
-          twitter="ZeeboDesigns"
-          photo="https://pbs.twimg.com/profile_images/1211645238210703360/8-xQrKyz_400x400.jpg">
-          <Text>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-            incididunt ut labore et dolore magna aliqua. Nunc sed augue lacus viverra vitae congue
-            eu. Vitae congue eu consequat ac felis donec. Adipiscing commodo elit at imperdiet dui.
-            Mauris rhoncus aenean vel elit scelerisque mauris pellentesque. Lobortis scelerisque
-            fermentum dui faucibus in ornare quam viverra orci. Pretium aenean pharetra magna ac
-            placerat vestibulum. In eu mi bibendum neque egestas congue quisque egestas. Ac orci
-            phasellus egestas tellus rutrum tellus. Malesuada nunc vel risus commodo viverra. Amet
-            nisl purus in mollis. Quisque non tellus orci ac auctor augue mauris. Amet risus nullam
-            eget felis eget nunc. Ac ut consequat semper viverra nam libero. Sagittis nisl rhoncus
-            mattis rhoncus urna neque. Neque ornare aenean euismod elementum. Urna condimentum
-            mattis pellentesque id nibh tortor. Ac feugiat sed lectus vestibulum mattis ullamcorper
-            velit sed. Nec sagittis aliquam malesuada bibendum arcu vitae.
-          </Text>
-        </MemberInfo>
-        <MemberInfo
-          name="Zeebo"
-          role="Lead Graphic Designer, Full Stack Developer"
-          twitter="ZeeboDesigns"
-          photo="https://pbs.twimg.com/profile_images/1211645238210703360/8-xQrKyz_400x400.jpg">
-          <Text>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-            incididunt ut labore et dolore magna aliqua. Nunc sed augue lacus viverra vitae congue
-            eu. Vitae congue eu consequat ac felis donec. Adipiscing commodo elit at imperdiet dui.
-            Mauris rhoncus aenean vel elit scelerisque mauris pellentesque. Lobortis scelerisque
-            fermentum dui faucibus in ornare quam viverra orci. Pretium aenean pharetra magna ac
-            placerat vestibulum. In eu mi bibendum neque egestas congue quisque egestas. Ac orci
-            phasellus egestas tellus rutrum tellus. Malesuada nunc vel risus commodo viverra. Amet
-            nisl purus in mollis. Quisque non tellus orci ac auctor augue mauris. Amet risus nullam
-            eget felis eget nunc. Ac ut consequat semper viverra nam libero. Sagittis nisl rhoncus
-            mattis rhoncus urna neque. Neque ornare aenean euismod elementum. Urna condimentum
-            mattis pellentesque id nibh tortor. Ac feugiat sed lectus vestibulum mattis ullamcorper
-            velit sed. Nec sagittis aliquam malesuada bibendum arcu vitae.
-          </Text>
-        </MemberInfo>
-      </Flex>
+      <Stack direction="row" spacing={0} flexWrap="wrap" justify="space-around">
+        {[0, 1, 2, 3, 4].map(() => (
+          <MemberInfo info={staff[0]} />
+        ))}
+      </Stack>
     </Content>
   )
 }

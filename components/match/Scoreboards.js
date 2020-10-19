@@ -99,12 +99,7 @@ const Scoreboards = (props) => {
   const { games, overview, blueWins, orangeWins } = props
 
   return (
-    <Flex
-      margin="2rem 0"
-      width="100%"
-      flexDirection="column"
-      border="1px solid #ddd"
-      shadow="background">
+    <Flex margin="2rem 0" width="100%" flexDirection="column" border="1px solid #ddd" shadow="main">
       <Tabs backgroundColor="white" variant="soft-rounded" isFitted>
         <TabList borderBottom="1px solid #ddd" width="100%" overflowX="auto" mb="1rem">
           <Tab>Overview</Tab>

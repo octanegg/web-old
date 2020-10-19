@@ -8,7 +8,7 @@ const Article = ({ article, isBanner }) => {
 
   return (
     <Flex
-      border="outline"
+      border="main"
       background={`linear-gradient(rgba(0,0,0,0.75), rgba(0,0,0,0.75)), url(${image})`}
       backgroundPosition="center"
       backgroundSize="cover"

@@ -37,13 +37,14 @@ const theme = {
   },
   shadows: {
     ...defaultTheme.shadows,
-    background: '0 1px 3px -1px rgba(0, 0, 0, 0.4)',
+    main: '0 1px 3px -1px rgba(0, 0, 0, 0.4)',
     navbar: '0 -4px 1px -1px #2EC97B inset',
   },
   borders: {
     ...defaultTheme.borders,
+    main: '1px solid #ddd',
     navbar: '1px solid black',
-    outline: '1px solid #ddd',
+    pic: '5px solid #44d48c',
   },
 }
 
