@@ -23,12 +23,20 @@ const ARTICLES_MOCK = [
   },
 ]
 
-const Home = () => {
+const Home = ({ articles }) => {
   return (
     <Content leftNav={<div></div>} rightNav={<div></div>}>
-      <RecentArticles articles={ARTICLES_MOCK} />
+      <RecentArticles articles={articles} />
     </Content>
   )
+}
+
+export async function getServerSideProps() {
+  const res = await fetch(process.env.CONTENT_URL + '/articles?_sort=published_at:desc&_limit=3')
+  const articles = await res.json()
+  return {
+    props: { articles },
+  }
 }
 
 export default Home
