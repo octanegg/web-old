@@ -1,47 +1,86 @@
-import { Flex, Image, Spacer, Stack, Text } from '@chakra-ui/core'
+import { Flex, Image, Stack, Text, Link } from '@chakra-ui/core'
 import moment from 'moment'
-import Link from 'next/link'
+import NextLink from 'next/link'
 import { Content } from '../../components/Layout'
 
 const Team = ({ side, isReversed }) => {
-  const { team, score } = side
+  const { team, score, winner } = side
   return (
-    <Flex direction={isReversed ? 'row-reverse' : 'row'} width={56} justify="flex-end">
-      {team ? <Text>{team.name}</Text> : <Text fontStyle="italic">TBD</Text>}
-      <Flex width={6} marginLeft={isReversed && 4} marginRight={!isReversed && 4}>
+    <Flex direction={isReversed ? 'row-reverse' : 'row'} width="full" justify="flex-end">
+      {team ? (
+        <Text textAlign={isReversed ? 'left' : 'right'}>{team.name}</Text>
+      ) : (
+        <Text fontStyle="italic">TBD</Text>
+      )}
+      <Flex minWidth={6} marginLeft={2} marginRight={2}>
         {team && <Image height={6} src={`https://octane.gg/team-logos/${team.name}.png`} />}
       </Flex>
-      <Text>{score}</Text>
+      <Text fontWeight={winner ? 'bold' : 'semi'} color={winner ? 'win' : 'loss'}>
+        {score}
+      </Text>
+    </Flex>
+  )
+}
+
+const PaginationButton = ({ href, children }) => {
+  return (
+    <Flex
+      variant="solid"
+      backgroundColor="primary.400"
+      border="main"
+      borderRadius="5px"
+      color="secondary.800"
+      fontWeight="semi"
+      fontSize="xs"
+      textTransform="uppercase"
+      _hover={{ color: 'whitesmoke' }}>
+      <NextLink href={href}>
+        <Link
+          paddingTop={1}
+          paddingBottom={1}
+          paddingLeft={2}
+          paddingRight={2}
+          textDecoration="none !important">
+          {children}
+        </Link>
+      </NextLink>
     </Flex>
   )
 }
 
 const Match = (props) => {
-  const { _id, blue, orange, event } = props.match
+  const { _id, blue, orange, event, stage } = props.match
   return (
-    <Link href={`/matches/${_id}`}>
+    <NextLink href={`/matches/${_id}`}>
       <Flex
         {...props}
         backgroundColor="white"
         width="full"
         borderBottom="main"
-        borderLeft="main"
+        borderLeft={`tier.${event.tier}`}
         borderRight="main"
         padding={2}
         align="center"
         cursor="pointer"
         fontSize="sm"
+        justify="space-between"
         _hover={{ backgroundColor: 'hover' }}>
-        <Flex direction="row" width="full">
+        <Flex direction="row" width={{ base: 'full', sm: '55%' }}>
           <Team side={blue} />
           <Text marginLeft={1} marginRight={1}>
             -
           </Text>
           <Team side={orange} isReversed />
         </Flex>
-        <Spacer />
-        <Flex align="center" width="full" justify="flex-end">
-          <Text fontStyle="italic">{event.name}</Text>
+        <Flex align="center" width="45%" justify="flex-end" display={{ base: 'none', sm: 'flex' }}>
+          <Flex direction="column" align="flex-end" width="full">
+            <Text fontWeight="semi" textAlign="right">
+              {event.name}
+            </Text>
+            <Text fontStyle="italic" extAlign="right">
+              {stage.name}
+            </Text>
+          </Flex>
           <Image
             width={8}
             marginLeft={2}
@@ -49,7 +88,7 @@ const Match = (props) => {
           />
         </Flex>
       </Flex>
-    </Link>
+    </NextLink>
   )
 }
 
@@ -67,10 +106,10 @@ const Heading = (props) => {
   )
 }
 
-const Matches = ({ matches }) => {
+const Matches = ({ matches, page }) => {
   return (
     <Content leftNav={<div></div>} rightNav={<div></div>}>
-      <Stack width="full" spacing={0}>
+      <Stack width="full" spacing={1}>
         {matches.map((match, index) => {
           const isFirst = index == 0
           const newDay = isFirst || !moment(match.date).isSame(matches[index - 1].date, 'day')
@@ -86,15 +125,23 @@ const Matches = ({ matches }) => {
           )
         })}
       </Stack>
+      <Stack direction="row" justify="flex-end" width="full" marginTop={4}>
+        {page > 1 && <PaginationButton href={`/matches?page=${page - 1}`}>Prev</PaginationButton>}
+        <PaginationButton href={`/matches?page=${page + 1}`}>Next</PaginationButton>
+      </Stack>
     </Content>
   )
 }
 
-export async function getServerSideProps() {
-  const res = await fetch(process.env.API_URL + '/matches?sort=date&order=desc&page=1&perPage=50')
+export async function getServerSideProps({ query }) {
+  const page = parseInt(query.page) || 1
+  const res = await fetch(
+    process.env.API_URL +
+      `/matches?sort=date&before=${moment().toISOString()}&order=desc&page=${page}&perPage=50`
+  )
   const matches = await res.json()
   return {
-    props: { matches: matches.data },
+    props: { matches: matches.data, page },
   }
 }
 

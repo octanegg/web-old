@@ -25,6 +25,7 @@ export const Content = ({ children, leftNav, rightNav }) => {
       justify="space-between"
       minHeight="100vh"
       backgroundColor="whitesmoke"
+      boxShadow="0 0 2px rgba(0, 0, 0, 0.05)"
       maxWidth="6xl">
       <Flex width="full" wrap="nowrap" marginTop={4} marginBottom={4} justify="center">
         {leftNav && <SideNav marginLeft={4}>{leftNav}</SideNav>}

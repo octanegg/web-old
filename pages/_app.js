@@ -35,6 +35,8 @@ const theme = {
     border: '#ddd',
     gray: '#b8bec6',
     hover: '#e8f4fd',
+    win: '#09A503',
+    loss: '#E40B0C',
   },
   shadows: {
     ...defaultTheme.shadows,
@@ -46,6 +48,14 @@ const theme = {
     main: '1px solid #ddd',
     navbar: '1px solid black',
     pic: '5px solid #44d48c',
+    tier: {
+      S: '3px solid gold',
+      A: '3px solid #2EC97B',
+      B: '3px solid #274159',
+      C: '3px solid #83a8c9',
+      Monthly: '3px solid #c8dae9',
+      Weekly: '3px solid #c8dae9',
+    },
   },
   fontWeights: {
     light: 300,
