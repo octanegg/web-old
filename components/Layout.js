@@ -24,6 +24,7 @@ export const Content = ({ children, leftNav, rightNav }) => {
       borderRight={{ base: '', lg: 'main' }}
       justify="space-between"
       minHeight="100vh"
+      backgroundColor="whitesmoke"
       maxWidth="6xl">
       <Flex width="full" wrap="nowrap" marginTop={4} marginBottom={4} justify="center">
         {leftNav && <SideNav marginLeft={4}>{leftNav}</SideNav>}
@@ -45,7 +46,7 @@ const Layout = ({ children }) => {
   return (
     <Flex
       direction="column"
-      backgroundColor="whitesmoke"
+      backgroundColor="#E4E7EA"
       align="center"
       minHeight="100vh"
       fontFamily='"Open Sans", "Segoe UI", Tahoma, sans-serif'>

@@ -8,7 +8,7 @@ const News = ({ article }) => {
   return (
     <Content leftNav={<div></div>} rightNav={<div></div>}>
       <Stack
-        shadow="main"
+        backgroundColor="white"
         border="main"
         paddingTop={4}
         paddingLeft={8}

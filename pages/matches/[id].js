@@ -89,7 +89,7 @@ const MatchPage = (props) => {
             blueTeamGoals={sumTeamGoals('blue')}
             orangeTeamGoals={sumTeamGoals('orange')}
           />
-          <Scoreboards {...scoreboardsData} />
+          {scoreboardsData.games.length > 0 && <Scoreboards {...scoreboardsData} />}
         </>
       )}
     </Content>
