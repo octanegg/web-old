@@ -17,15 +17,15 @@ const MatchContainer = ({ event, stage }) => {
       setLoading(true)
       const res = await fetch(
         process.env.API_URL +
-          `/matches?event=${event._id}&stage=${parseInt(stage)}&sort=start_date&order=desc`
+          `/matches?event=${event._id}&stage=${parseInt(stage)}&sort=start_date:desc`
       )
       const matches = await res.json()
 
       setMatches([])
-      if (matches.data.length > 0) {
+      if (matches.matches.length > 0) {
         const token = await getAccessTokenSilently()
-        const e1 = matches.data[0].octane_id.substring(0, 3)
-        const s1 = matches.data[0].octane_id.substring(3, 5)
+        const e1 = matches.matches[0].octane_id.substring(0, 3)
+        const s1 = matches.matches[0].octane_id.substring(3, 5)
         const res2 = await fetch(process.env.API_URL + `/deprecated/matches/${e1}/${s1}`, {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -34,7 +34,7 @@ const MatchContainer = ({ event, stage }) => {
         const matches2 = await res2.json()
         setMatches(matches2)
 
-        const lastMatch = matches.data[matches.data.length - 1]
+        const lastMatch = matches.matches[matches.matches.length - 1]
         const e2 = lastMatch.octane_id.substring(0, 3)
         const s2 = lastMatch.octane_id.substring(3, 5)
         if (s2 != s1) {
@@ -136,11 +136,11 @@ const Matches = ({ events }) => {
 }
 
 export async function getServerSideProps() {
-  const res = await fetch(process.env.API_URL + '/events?sort=name&order=asc')
+  const res = await fetch(process.env.API_URL + '/events?sort=name:asc')
   const events = await res.json()
   return {
     props: {
-      events: events.data,
+      events: events.events,
     },
   }
 }

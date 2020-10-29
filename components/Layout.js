@@ -33,8 +33,8 @@ export const Content = ({ children, leftNav, rightNav }) => {
           flexDirection="column"
           align="center"
           width="full"
-          marginLeft={leftNav && rightNav && 4}
-          marginRight={leftNav && rightNav && 4}>
+          marginLeft={4}
+          marginRight={4}>
           {children}
         </Flex>
         {rightNav && <SideNav marginRight={4}>{rightNav}</SideNav>}

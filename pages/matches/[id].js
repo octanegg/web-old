@@ -49,7 +49,7 @@ const MatchPage = (props) => {
     if (result.ok) {
       const gamesData = await result.json()
 
-      const cleanGamesData = getCleanGameData(gamesData.data)
+      const cleanGamesData = getCleanGameData(gamesData.games)
       const overviewData = calcPlayersOverview(
         cleanGamesData.map((game) => ({ blue: game.blue?.players, orange: game.orange?.players }))
       )

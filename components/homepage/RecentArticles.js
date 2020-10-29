@@ -28,6 +28,7 @@ const Article = ({ article, isBanner }) => {
           fontWeight="bold"
           textTransform="uppercase"
           color="primary.300"
+          width={{ base: 'full', md: '80%' }}
           lineHeight={isBanner ? 'tall' : 'base'}>
           {title}
         </Flex>

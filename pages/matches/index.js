@@ -13,7 +13,12 @@ const Team = ({ side, isReversed }) => {
         <Text fontStyle="italic">TBD</Text>
       )}
       <Flex minWidth={6} marginLeft={2} marginRight={2}>
-        {team && <Image height={6} src={`https://octane.gg/team-logos/${team.name}.png`} />}
+        {team && (
+          <Image
+            height={6}
+            src={`https://octane.gg/team-logos/${team.name}.png` /* TODO: use griffon for logos */}
+          />
+        )}
       </Flex>
       <Text fontWeight={winner ? 'bold' : 'semi'} color={winner ? 'win' : 'loss'}>
         {score}
@@ -57,7 +62,7 @@ const Match = (props) => {
         backgroundColor="white"
         width="full"
         borderBottom="main"
-        borderLeft={`tier.${event.tier}`}
+        borderLeft={`region.${event.region}`}
         borderRight="main"
         padding={2}
         align="center"
@@ -137,11 +142,11 @@ export async function getServerSideProps({ query }) {
   const page = parseInt(query.page) || 1
   const res = await fetch(
     process.env.API_URL +
-      `/matches?sort=date&before=${moment().toISOString()}&order=desc&page=${page}&perPage=50`
+      `/matches?before=${moment().toISOString()}&sort=date:desc&page=${page}&perPage=50`
   )
   const matches = await res.json()
   return {
-    props: { matches: matches.data, page },
+    props: { matches: matches.matches, page },
   }
 }
 

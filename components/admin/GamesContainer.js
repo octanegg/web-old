@@ -1,11 +1,10 @@
 import { useAuth0 } from '@auth0/auth0-react'
-import { Box, Stack, Tab, TabList, TabPanel, TabPanels, Tabs, useToast } from '@chakra-ui/core'
+import { Box, Stack, Tab, TabList, TabPanel, TabPanels, Tabs } from '@chakra-ui/core'
 import { useEffect, useState } from 'react'
 import GameForm from './GameForm'
 
 export const GamesContainer = ({ match, date, handleChange }) => {
   const [games, setGames] = useState([])
-  const toast = useToast()
   const [selectedTab, setSelectedTab] = useState(0)
   const { getAccessTokenSilently } = useAuth0()
 
@@ -32,13 +31,6 @@ export const GamesContainer = ({ match, date, handleChange }) => {
 
   const updateGame = async (game, isNew) => {
     if (games && games.filter((item) => item.number == game.number).length > 1) {
-      toast({
-        title: 'Unable to add game.',
-        description: 'Game number already exists.',
-        status: 'error',
-        duration: 5000,
-        isClosable: true,
-      })
       return
     }
     game.date = date
@@ -72,18 +64,9 @@ export const GamesContainer = ({ match, date, handleChange }) => {
       },
       body: JSON.stringify(game),
     })
-
-    const method = isNew ? 'Inserted' : 'Updated'
-    toast({
-      title: `${method} Game.`,
-      description: `Successfully ${method.toLowerCase()} ${game.number}.`,
-      status: 'success',
-      duration: 5000,
-      isClosable: true,
-    })
   }
 
-  const deleteGame = async (game, alert) => {
+  const deleteGame = async (game) => {
     setGames(games.filter((g) => g.number !== game.number))
     const token = await getAccessTokenSilently()
     await fetch(process.env.API_URL + '/deprecated/games', {
@@ -97,15 +80,6 @@ export const GamesContainer = ({ match, date, handleChange }) => {
         number: game.number,
       }),
     })
-    if (alert) {
-      toast({
-        title: 'Deleted game.',
-        description: `Successfully deleted ${game.number}`,
-        status: 'success',
-        duration: 5000,
-        isClosable: true,
-      })
-    }
   }
 
   return (

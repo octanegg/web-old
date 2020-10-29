@@ -48,13 +48,13 @@ const theme = {
     main: '1px solid #ddd',
     navbar: '1px solid black',
     pic: '5px solid #44d48c',
-    tier: {
-      S: '3px solid gold',
-      A: '3px solid #2EC97B',
-      B: '3px solid #274159',
-      C: '3px solid #83a8c9',
-      Monthly: '3px solid #c8dae9',
-      Weekly: '3px solid #c8dae9',
+    region: {
+      // TODO: make better colors
+      NA: '3px solid #d43d2a',
+      EU: '3px solid #08597a',
+      OCE: '3px solid #d5b758',
+      SAM: '3px solid #9cb27a',
+      ASIA: '3px solid #a25e9d'
     },
   },
   fontWeights: {
