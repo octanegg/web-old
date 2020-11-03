@@ -4,6 +4,10 @@ import Layout from '../components/Layout'
 import Head from 'next/head'
 import { Auth0Provider } from '@auth0/auth0-react'
 
+// TODO: Temporary dirty date-picker
+import 'react-datepicker/dist/react-datepicker.css';
+import './date-picker.css';
+
 const theme = {
   ...defaultTheme,
   colors: {

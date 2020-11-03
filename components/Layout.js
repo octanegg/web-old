@@ -1,6 +1,6 @@
 import Navbar from './Navbar'
 import Footer from './Footer'
-const { Flex } = require('@chakra-ui/core')
+const { Flex, Stack } = require('@chakra-ui/core')
 
 const SideNav = (props) => {
   return (
@@ -27,18 +27,17 @@ export const Content = ({ children, leftNav, rightNav }) => {
       backgroundColor="whitesmoke"
       boxShadow="0 0 2px rgba(0, 0, 0, 0.05)"
       maxWidth="6xl">
-      <Flex width="full" wrap="nowrap" marginTop={4} marginBottom={4} justify="center">
+      <Stack width="full" direction="row" marginTop={4} marginBottom={4} spacing={4}>
         {leftNav && <SideNav marginLeft={4}>{leftNav}</SideNav>}
         <Flex
           flexDirection="column"
           align="center"
           width="full"
-          marginLeft={4}
-          marginRight={4}>
+          marginRight={{base: 4, lg: 0}}>
           {children}
         </Flex>
         {rightNav && <SideNav marginRight={4}>{rightNav}</SideNav>}
-      </Flex>
+      </Stack>
     </Flex>
   )
 }

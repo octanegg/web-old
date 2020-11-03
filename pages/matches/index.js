@@ -82,7 +82,7 @@ const Match = (props) => {
             <Text fontWeight="semi" textAlign="right">
               {event.name}
             </Text>
-            <Text fontStyle="italic" extAlign="right">
+            <Text fontStyle="italic" textAlign="right">
               {stage.name}
             </Text>
           </Flex>

@@ -3,6 +3,8 @@ import { useState, useEffect } from 'react'
 import { useIsFirstRender } from '../../hooks/useIsFirstRender'
 import Card from './Card'
 import { GamesContainer } from './GamesContainer'
+import ReactDatePicker from 'react-datepicker'
+import moment from 'moment'
 
 export const MatchForm = ({ match, enqueue }) => {
   const [scoreline, setScoreline] = useState({
@@ -10,6 +12,7 @@ export const MatchForm = ({ match, enqueue }) => {
     orange: match.orange.name,
     blue_score: match.blue.score,
     orange_score: match.orange.score,
+    date: new Date(match.date),
   })
   const [details, showDetails] = useState(false)
   const isFirstRender = useIsFirstRender()
@@ -21,7 +24,8 @@ export const MatchForm = ({ match, enqueue }) => {
           match.blue.name != scoreline.blue ||
           match.orange.name != scoreline.orange ||
           match.blue.score != scoreline.blue_score ||
-          match.orange.score != scoreline.orange_score
+          match.orange.score != scoreline.orange_score ||
+          match.date != scoreline.date
         ) {
           enqueue((prev) => ({
             ...prev,
@@ -37,6 +41,7 @@ export const MatchForm = ({ match, enqueue }) => {
                 old: match.orange.name,
                 new: scoreline.orange,
               },
+              date: scoreline.date,
             },
           }))
 
@@ -44,6 +49,7 @@ export const MatchForm = ({ match, enqueue }) => {
           match.orange.name = scoreline.orange
           match.blue.score = scoreline.blue_score
           match.orange.score = scoreline.orange_score
+          match.date = scoreline.date
         }
       }, 500)
 
@@ -107,6 +113,16 @@ export const MatchForm = ({ match, enqueue }) => {
               name="team"
               onChange={(e) => handleChange('orange', e.target.value)}
               onFocus={(e) => e.currentTarget.select()}
+            />
+          </Flex>
+          <Flex>
+            <ReactDatePicker
+              selected={scoreline.date}
+              onChange={(d) => handleChange('date', d)}
+              showPopperArrow={false}
+              showTimeSelect
+              timeIntervals={15}
+              dateFormat="MMM d yyyy HH:mm"
             />
           </Flex>
           <Spacer />
