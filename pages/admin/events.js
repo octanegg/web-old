@@ -20,35 +20,27 @@ const MatchContainer = ({ event, stage }) => {
           `/matches?event=${event._id}&stage=${parseInt(stage)}&sort=start_date:desc`
       )
       const matches = await res.json()
-
-      setMatches([])
+      let newMatches = []
       if (matches.matches.length > 0) {
         const token = await getAccessTokenSilently()
-        const e1 = matches.matches[0].octane_id.substring(0, 3)
-        const s1 = matches.matches[0].octane_id.substring(3, 5)
-        const res2 = await fetch(process.env.API_URL + `/deprecated/matches/${e1}/${s1}`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        })
-        const matches2 = await res2.json()
-        setMatches(matches2)
+        const event = matches.matches[0].octane_id.substring(0, 3)
+        const allStages = matches.matches.map((m) => m.octane_id.substring(3, 5))
+        const unqStages = allStages
+          .filter((s, i) => allStages.indexOf(s) == i)
+          .sort((a, b) => a - b)
 
-        const lastMatch = matches.matches[matches.matches.length - 1]
-        const e2 = lastMatch.octane_id.substring(0, 3)
-        const s2 = lastMatch.octane_id.substring(3, 5)
-        if (s2 != s1) {
-          const res3 = await fetch(process.env.API_URL + `/deprecated/matches/${e2}/${s2}`, {
+        for (const stage of unqStages) {
+          const res2 = await fetch(process.env.API_URL + `/deprecated/matches/${event}/${stage}`, {
             headers: {
               Authorization: `Bearer ${token}`,
             },
           })
-          const matches3 = await res3.json()
+          const resp = await res2.json()
 
-          if (matches2[0] != matches3[0]) {
-            setMatches(matches2.concat(matches3))
-          }
+          newMatches = newMatches.concat(resp)
         }
+
+        setMatches(newMatches)
       }
       setLoading(false)
     }

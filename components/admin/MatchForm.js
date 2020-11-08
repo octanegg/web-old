@@ -123,6 +123,7 @@ export const MatchForm = ({ match, enqueue }) => {
               showTimeSelect
               timeIntervals={15}
               dateFormat="MMM d yyyy HH:mm"
+              tabIndex="-1"
             />
           </Flex>
           <Spacer />
