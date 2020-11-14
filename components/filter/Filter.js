@@ -25,23 +25,4 @@ export const FilterLabel = (props) => {
   )
 }
 
-export const SwitchFilter = ({ label, width, isEnabled, onChange }) => {
-  return (
-    <Box direction="column" width={width || 'auto'} height={16} height="full" textAlign="left">
-      <FilterLabel>{label}</FilterLabel>
-      <Box height="auto" marginTop={3}>
-        <Switch
-          onChange={onChange}
-          checked={isEnabled}
-          checkedIcon={false}
-          uncheckedIcon={false}
-          onColor="#1A2F42"
-          height={21}
-          width={42}
-        />
-      </Box>
-    </Box>
-  )
-}
-
 export default Filter

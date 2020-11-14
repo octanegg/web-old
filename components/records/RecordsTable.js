@@ -10,8 +10,9 @@ import {
   ImageTwoTier,
   Loading,
 } from '../../components/table/Table'
+import moment from 'moment'
 
-export const RecordsTable = ({ stat, mode, tier, player, qualifier }) => {
+export const RecordsTable = ({ filter }) => {
   const [records, setRecords] = useState([])
   const [loading, setLoading] = useState(true)
 
@@ -20,35 +21,36 @@ export const RecordsTable = ({ stat, mode, tier, player, qualifier }) => {
       setRecords([])
       setLoading(true)
 
-      const filter =
-        `?mode=${mode}` +
-        (tier ? `&tier=${tier}` : '') +
-        (player ? `&player=${player}` : '') +
-        (qualifier ? `&qualifier=${qualifier}` : '')
-      const res = await fetch(process.env.API_URL + `/records/${stat}${filter}`)
+      const query =
+        '?' +
+        Object.entries(filter)
+          .filter(([k, v]) => !['', 'stat', 'category', 'type'].includes(k) && v != '')
+          .map(([k, v]) => `${k}=${v}`)
+          .join('&')
+      const res = await fetch(process.env.API_URL + `/records/${filter.stat}${query}`)
       const data = await res.json()
 
       setRecords(data)
       setLoading(false)
     }
     fetchRecords()
-  }, [stat, tier, mode, player])
+  }, [filter])
 
   return loading ? (
     <Loading />
   ) : (
-    <Table key={stat}>
+    <Table>
       <Header>
         <HeaderItem width="2rem"></HeaderItem>
         <HeaderItem>Player</HeaderItem>
         <HeaderItem>Match</HeaderItem>
-        <HeaderItem width="4rem">{stat}</HeaderItem>
+        <HeaderItem width="4rem">{filter.stat}</HeaderItem>
       </Header>
       <Body>
         {records &&
           records.length > 0 &&
           records.map((record, rank) => (
-            <RecordsRow key={rank} record={record} stat={stat} rank={rank + 1} />
+            <RecordsRow key={rank} record={record} stat={filter.stat} rank={rank + 1} />
           ))}
       </Body>
     </Table>
@@ -72,7 +74,9 @@ const RecordsRow = ({ record, stat, rank }) => {
         <ImageTwoTier
           src={`https://octane.gg/team-logos/${team.name}.png`}
           label={player.tag}
-          description={team.name}
+          description={<Text fontWeight="regular" fontStyle="italic" fontSize="xs">
+          {team.name}
+        </Text>}
           width={{ base: '7rem', sm: 40 }}
         />
       </Cell>
@@ -80,15 +84,38 @@ const RecordsRow = ({ record, stat, rank }) => {
         <Flex direction="row" marginLeft={2} marginRight={2}>
           <ImageTwoTier
             src={`https://octane.gg/team-logos/${opponent.name}.png`}
-            prefix="vs"
+            prefix={
+              <Text fontSize="xs" fontStyle="italic">
+                vs
+              </Text>
+            }
             label={opponent.name}
-            description={`on ${new Date(date).toDateString()}`}
+            description={
+              <React.Fragment>
+                {winner ? (
+                  <Text fontWeight="bold" fontSize="xs" color="win">
+                    W
+                  </Text>
+                ) : (
+                  <Text fontWeight="bold" fontSize="xs" color="loss">
+                    L
+                  </Text>
+                )}
+                <Text fontWeight="regular" fontStyle="italic" fontSize="xs" marginLeft={1}>
+                  {moment(date).format('MMM Do, YYYY')}
+                </Text>
+              </React.Fragment>
+            }
           />
           <Spacer />
           <ImageTwoTier
             src={`https://octane.gg/event-logos/rlcs-x-north-america-fall-regional-one-swiss-stage-two.png`}
             label={event.name}
-            description={stage.name}
+            description={
+              <Text fontWeight="regular" fontStyle="italic" fontSize="xs">
+                {stage.name}
+              </Text>
+            }
             display={{ base: 'none', md: 'flex' }}
             reversed
           />

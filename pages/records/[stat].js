@@ -5,6 +5,8 @@ import Filter, { SwitchFilter } from '../../components/filter/Filter'
 import { DropdownButton, DropdownInput } from '../../components/filter/Dropdown'
 import { useRouter } from 'next/router'
 import RecordsTable from '../../components/records/RecordsTable'
+import { DateFilter } from '../../components/filter/Date'
+import moment from 'moment'
 
 const options = [
   {
@@ -28,44 +30,44 @@ const options = [
   // },
 ]
 
-const Records = ({
-  initialCategory,
-  initialType,
-  initialStat,
-  initialTier,
-  initialMode,
-  initialPlayer,
-}) => {
+const Records = ({ initialFilter }) => {
   const router = useRouter()
-  const [category, setCategory] = useState(
-    options.find((option) => option.label == initialCategory)
-  )
-  const [type, setType] = useState(
-    category && category.options.find((option) => option.label == initialType)
-  )
-  const [stat, setStat] = useState(initialStat)
-  const [tier, setTier] = useState(initialTier)
-  const [mode, setMode] = useState(initialMode)
-  const [player, setPlayer] = useState(initialPlayer)
   const [players, setPlayers] = useState([])
+  const [teams, setTeams] = useState([])
+  const [filter, setFilter] = useState(initialFilter)
 
   useEffect(() => {
-    const fetchPlayers = async () => {
-      const res = await fetch(process.env.API_URL + `/players`)
-      const data = await res.json()
-      setPlayers(data.players)
+    const fetchData = async () => {
+      const resPlayers = await fetch(process.env.API_URL + `/players`)
+      const playersData = await resPlayers.json()
+      setPlayers(playersData.players)
+
+      const resTeams = await fetch(process.env.API_URL + `/teams`)
+      const teamsData = await resTeams.json()
+      setTeams(teamsData.teams)
     }
-    fetchPlayers()
+    fetchData()
   }, [])
 
   useEffect(() => {
     const route = () => {
-      const filter =
-        `?mode=${mode}` + (tier ? `&tier=${tier}` : '') + (player ? `&player=${player}` : '')
-      router.push(`/records/${stat}${filter}`)
+      const query =
+        '?' +
+        Object.entries(filter)
+          .filter(([k, v]) => !['', 'stat', 'category', 'type'].includes(k) && v != '')
+          .map(([k, v]) => `${k}=${v}`)
+          .join('&')
+      router.push(`/records/${filter.stat}${query}`)
     }
     route()
-  }, [stat, tier, mode, player])
+  }, [filter])
+
+  const updateFilter = (key, value) => {
+    setFilter((prev) => ({
+      ...prev,
+      [key]: value,
+    }))
+  }
 
   return (
     <Content leftNav={<div></div>} rightNav={<div></div>}>
@@ -78,76 +80,131 @@ const Records = ({
               toString={(option) =>
                 option ? option.label[0].toUpperCase() + option.label.substring(1) : 'Select...'
               }
-              onChange={({ selectedItem }) => setCategory(selectedItem)}
-              initialSelectedItem={category}
+              onChange={({ selectedItem }) => updateFilter('category', selectedItem.label)}
+              initialSelectedItem={filter.category}
+              isDisabled={true}
             />
-            {category && (
-              <DropdownButton
-                label="type"
-                data={category.options}
-                toString={(option) =>
-                  option ? option.label[0].toUpperCase() + option.label.substring(1) : 'Select...'
-                }
-                onChange={({ selectedItem }) => setType(selectedItem)}
-                initialSelectedItem={type}
-              />
-            )}
-            {type && (
-              <DropdownButton
-                label="stat"
-                data={type.options}
-                toString={(option) =>
-                  option ? option[0].toUpperCase() + option.substring(1) : 'Select...'
-                }
-                onChange={({ selectedItem }) => setStat(selectedItem)}
-                initialSelectedItem={stat}
-              />
-            )}
+            <DropdownButton
+              label="type"
+              data={filter.category.options}
+              toString={(option) =>
+                option ? option.label[0].toUpperCase() + option.label.substring(1) : 'Select...'
+              }
+              onChange={({ selectedItem }) => updateFilter('type', selectedItem)}
+              initialSelectedItem={filter.type}
+              isDisabled={true}
+            />
+            <DropdownButton
+              label="stat"
+              data={filter.type.options}
+              toString={(option) =>
+                option ? option[0].toUpperCase() + option.substring(1) : 'Select...'
+              }
+              onChange={({ selectedItem }) => updateFilter('stat', selectedItem)}
+              initialSelectedItem={filter.stat}
+            />
           </Stack>
           <Stack width="full" direction={{ base: 'column', md: 'row' }}>
             <DropdownButton
               label="tier"
-              width={32}
+              width={24}
               data={['All', 'S', 'A', 'B', 'C']}
               toString={(tier) => (tier ? tier : 'All')}
-              onChange={({ selectedItem }) => setTier(selectedItem == 'All' ? '' : selectedItem)}
-              initialSelectedItem={tier}
+              onChange={({ selectedItem }) =>
+                updateFilter('tier', selectedItem == 'All' ? '' : selectedItem)
+              }
+              initialSelectedItem={filter.tier}
+            />
+            <DropdownButton
+              label="region"
+              width={24}
+              data={['All', 'NA', 'EU', 'OCE', 'SAM', 'ASIA']}
+              toString={(region) => (region ? region : 'All')}
+              onChange={({ selectedItem }) =>
+                updateFilter('region', selectedItem == 'All' ? '' : selectedItem)
+              }
+              initialSelectedItem={filter.tier}
             />
             <DropdownButton
               label="mode"
-              width={32}
+              width={24}
               data={[3, 2, 1]}
               toString={(mode) => (mode ? `${mode}v${mode}` : 'Select...')}
-              onChange={({ selectedItem }) => setMode(selectedItem)}
-              initialSelectedItem={mode}
+              onChange={({ selectedItem }) => updateFilter('mode', selectedItem)}
+              initialSelectedItem={filter.mode}
             />
-            {players.length > 0 && (
+            <DateFilter
+              label="after"
+              width={32}
+              date={filter.after ? new Date(filter.after) : ''}
+              onChange={(e) => updateFilter('after', e ? moment(e).format('YYYY-MM-DD') : '')}
+            />
+            <DateFilter
+              label="before"
+              width={32}
+              date={filter.before ? new Date(filter.before) : ''}
+              onChange={(e) => updateFilter('before', e ? moment(e).format('YYYY-MM-DD') : '')}
+            />
+          </Stack>
+          {players.length > 0 && teams.length > 0 && (
+            <Stack width="full" direction={{ base: 'column', md: 'row' }}>
               <DropdownInput
                 label="player"
                 width={56}
                 data={players}
-                toString={(player) => (player ? player.tag : 'Select...')}
-                onChange={({ selectedItem }) => setPlayer(selectedItem._id)}
-                initialSelectedItem={players.find((p) => p._id == player)}
+                toString={(player) => (player ? player.tag : '')}
+                onChange={({ selectedItem }) =>
+                  updateFilter('player', selectedItem ? selectedItem._id : '')
+                }
+                initialSelectedItem={players.find((p) => p._id == filter.player)}
               />
-            )}
-          </Stack>
+              <DropdownInput
+                label="team"
+                width={56}
+                data={teams}
+                toString={(team) => (team ? team.name : '')}
+                onChange={({ selectedItem }) =>
+                  updateFilter('team', selectedItem ? selectedItem._id : '')
+                }
+                initialSelectedItem={teams.find((t) => t._id == filter.team)}
+              />
+              <DropdownInput
+                label="opponent"
+                width={56}
+                data={teams}
+                toString={(team) => (team ? team.name : '')}
+                onChange={({ selectedItem }) =>
+                  updateFilter('opponent', selectedItem ? selectedItem._id : '')
+                }
+                initialSelectedItem={teams.find((t) => t._id == filter.opponent)}
+              />
+            </Stack>
+          )}
         </Filter>
-        <RecordsTable stat={stat} tier={tier} mode={mode} player={player} />
+        <RecordsTable filter={filter} />
       </Stack>
     </Content>
   )
 }
 
 export async function getServerSideProps({ params, query }) {
+  const category = options.find((option) => option.label == 'game')
+  const type = category.options.find((option) => option.label == 'player')
   return {
     props: {
-      initialCategory: 'game',
-      initialType: 'player',
-      initialStat: params.stat,
-      initialMode: query.mode || 3,
-      initialTier: query.tier || '',
-      initialPlayer: query.player || '',
+      initialFilter: {
+        category,
+        type,
+        stat: params.stat,
+        mode: query.mode || 3,
+        tier: query.tier || '',
+        tier: query.region || '',
+        player: query.player || '',
+        team: query.team || '',
+        opponent: query.opponent || '',
+        before: query.before || '',
+        after: query.after || '',
+      },
     },
   }
 }

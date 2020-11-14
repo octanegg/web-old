@@ -48,7 +48,7 @@ export const ImageTwoTier = (props) => {
   return (
     <Flex direction={reversed ? 'row-reverse' : 'row'} align="center" {...props}>
       {prefix && (
-        <Flex fontSize="xs" fontStyle="italic">
+        <Flex justify="center" align="center">
           {prefix}
         </Flex>
       )}
@@ -63,13 +63,7 @@ export const ImageTwoTier = (props) => {
         <Text fontWeight="bold" fontSize="sm" align={reversed ? 'end' : 'start'}>
           {label}
         </Text>
-        <Text
-          fontWeight="regular"
-          fontStyle="italic"
-          fontSize="xs"
-          align={reversed ? 'end' : 'start'}>
-          {description}
-        </Text>
+        <Flex align={reversed ? 'end' : 'start'}>{description}</Flex>
       </Flex>
     </Flex>
   )
