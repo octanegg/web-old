@@ -21,8 +21,8 @@ export const Body = ({ children }) => {
   return <tbody>{children}</tbody>
 }
 
-export const Row = ({ children }) => {
-  return <tr>{children}</tr>
+export const Row = ({ children, className }) => {
+  return <tr className={styles[className]}>{children}</tr>
 }
 
 export const Cell = ({ children }) => {

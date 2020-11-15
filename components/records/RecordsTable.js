@@ -63,8 +63,12 @@ const RecordsRow = ({ record, stat, rank }) => {
   const { event, stage } = match
   const value = stats.core[stat]
 
+  const momentDate = moment(date)
+  const isLastWeek = momentDate.isAfter(moment().subtract(7, 'day'))
+  const isLastMonth = momentDate.isAfter(moment().subtract(30, 'day'))
+
   return (
-    <Row key={rank}>
+    <Row key={rank} className={isLastWeek ? 'primary-100' : isLastMonth ? 'primary-50' : ''}>
       <Cell>
         <Text fontSize="sm" fontWeight="bold">
           {rank}
@@ -74,9 +78,11 @@ const RecordsRow = ({ record, stat, rank }) => {
         <ImageTwoTier
           src={`https://octane.gg/team-logos/${team.name}.png`}
           label={player.tag}
-          description={<Text fontWeight="regular" fontStyle="italic" fontSize="xs">
-          {team.name}
-        </Text>}
+          description={
+            <Text fontWeight="regular" fontStyle="italic" fontSize="xs">
+              {team.name}
+            </Text>
+          }
           width={{ base: '7rem', sm: 40 }}
         />
       </Cell>
@@ -102,7 +108,7 @@ const RecordsRow = ({ record, stat, rank }) => {
                   </Text>
                 )}
                 <Text fontWeight="regular" fontStyle="italic" fontSize="xs" marginLeft={1}>
-                  {moment(date).format('MMM Do, YYYY')}
+                  {momentDate.format('MMM Do, YYYY')}
                 </Text>
               </React.Fragment>
             }

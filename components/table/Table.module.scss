@@ -20,6 +20,12 @@
     }
   }
   tbody {
+    tr.primary-50 {
+      background-color: #e0fdef !important;
+    }
+    tr.primary-100 {
+      background-color: #bbf2d7 !important;
+    }
     tr {
       border-bottom: 1px solid #ccc;
       &:nth-child(even) {

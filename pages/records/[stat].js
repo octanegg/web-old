@@ -123,7 +123,7 @@ const Records = ({ initialFilter }) => {
               onChange={({ selectedItem }) =>
                 updateFilter('region', selectedItem == 'All' ? '' : selectedItem)
               }
-              initialSelectedItem={filter.tier}
+              initialSelectedItem={filter.region}
             />
             <DropdownButton
               label="mode"
@@ -132,6 +132,21 @@ const Records = ({ initialFilter }) => {
               toString={(mode) => (mode ? `${mode}v${mode}` : 'Select...')}
               onChange={({ selectedItem }) => updateFilter('mode', selectedItem)}
               initialSelectedItem={filter.mode}
+            />
+            <DropdownButton
+              label="W/L"
+              width={24}
+              data={['All', 'Wins', 'Losses']}
+              toString={(win) => (win ? win : 'All')}
+              onChange={({ selectedItem }) =>
+                updateFilter(
+                  'winner',
+                  selectedItem == 'Wins' ? 'true' : selectedItem == 'Losses' ? 'false' : ''
+                )
+              }
+              initialSelectedItem={
+                filter.winner == 'true' ? 'Wins' : filter.winner == 'false' ? 'Losses' : 'All'
+              }
             />
             <DateFilter
               label="after"
@@ -198,7 +213,8 @@ export async function getServerSideProps({ params, query }) {
         stat: params.stat,
         mode: query.mode || 3,
         tier: query.tier || '',
-        tier: query.region || '',
+        region: query.region || '',
+        winner: query.winner || '',
         player: query.player || '',
         team: query.team || '',
         opponent: query.opponent || '',
