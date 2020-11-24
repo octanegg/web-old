@@ -167,6 +167,7 @@ const GameForm = ({ game, updateGame, deleteGame }) => {
               <option value="Forbidden Temple">Forbidden Temple</option>
               <option value="Mannfield">Mannfield</option>
               <option value="Neo Tokyo">Neo Tokyo</option>
+              <option value="Rivals Arena">Rivals Arena</option>
               <option value="Salty Shores">Salty Shores</option>
               <option value="Urban Central">Urban Central</option>
               <option value="Utopia Coliseum">Utopia Coliseum</option>
