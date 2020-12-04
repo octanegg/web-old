@@ -13,8 +13,13 @@ export const Header = ({ children }) => {
   )
 }
 
-export const HeaderItem = ({ children, width }) => {
-  return <th style={{ ...(width && { width: width }) }}>{children}</th>
+export const HeaderItem = ({ children, width, align }) => {
+  return (
+    <th
+      style={{ ...(width && { width: width }), textAlign: align, paddingLeft: 4, paddingRight: 4 }}>
+      {children}
+    </th>
+  )
 }
 
 export const Body = ({ children }) => {

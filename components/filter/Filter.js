@@ -1,6 +1,4 @@
-import { Box, Stack, Text } from '@chakra-ui/core'
-import { useState } from 'react'
-import Switch from 'react-switch'
+import { Stack, Text } from '@chakra-ui/core'
 
 export const Filter = ({ children }) => {
   return (

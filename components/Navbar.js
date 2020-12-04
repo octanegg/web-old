@@ -108,7 +108,7 @@ const Navbar = () => {
           <NavItem href="/matches" leftBorder>
             Matches
           </NavItem>
-          <NavItem href="#" leftBorder>
+          <NavItem href="/stats/players" leftBorder>
             Stats
           </NavItem>
           <NavItem href="/records/goals" leftBorder rightBorder>

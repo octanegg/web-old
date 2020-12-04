@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
-import RecordsTable from '../../components/table/RecordsTable'
+import StatsTable from '../../components/table/StatsTable'
 import { DateFilter } from '../../components/filter/Date'
 import { DropdownButton, DropdownInput } from '../../components/filter/Dropdown'
 import { Content } from '../../components/Layout'
@@ -8,36 +8,15 @@ import moment from 'moment'
 import { Stack } from '@chakra-ui/core'
 import Filter from '../../components/filter/Filter'
 
-const options = [
-  {
-    label: 'game',
-    options: [
-      { label: 'player', options: ['score', 'goals', 'assists', 'saves', 'shots', 'rating'] },
-      // { label: 'team', options: ['score', 'goals', 'assists', 'saves', 'shots'] },
-      // { label: 'total', options: ['score', 'goals', 'assists', 'saves', 'shots'] },
-      // { label: 'differential', options: ['score', 'goals', 'assists', 'saves', 'shots'] },
-      // { label: 'overtime', options: ['overtime'] },
-    ],
-  },
-  // {
-  //   label: 'match',
-  //   options: [
-  //     { label: 'player', options: ['score', 'goals', 'assists', 'saves', 'shots'] },
-  //     { label: 'team', options: ['score', 'goals', 'assists', 'saves', 'shots'] },
-  //     { label: 'total', options: ['score', 'goals', 'assists', 'saves', 'shots'] },
-  //     { label: 'differential', options: ['score', 'goals', 'assists', 'saves', 'shots'] },
-  //   ],
-  // },
-]
 const FilterOrchestrator = ({ filter, setFilter, children }) => {
-  const [players, setPlayers] = useState([])
+  const [events, setEvents] = useState([])
   const [teams, setTeams] = useState([])
 
   useEffect(() => {
     const fetchData = async () => {
-      const resPlayers = await fetch(process.env.API_URL + `/players`)
-      const playersData = await resPlayers.json()
-      setPlayers(playersData.players)
+      const resEvents = await fetch(process.env.API_URL + `/events`)
+      const eventsData = await resEvents.json()
+      setEvents(eventsData.events)
 
       const resTeams = await fetch(process.env.API_URL + `/teams`)
       const teamsData = await resTeams.json()
@@ -57,39 +36,6 @@ const FilterOrchestrator = ({ filter, setFilter, children }) => {
     <Content leftNav={<div></div>} rightNav={<div></div>}>
       <Stack direction="column" width="full">
         <Filter>
-          {options && (
-            <Stack width="full" direction={{ base: 'column', md: 'row' }}>
-              <DropdownButton
-                label="category"
-                data={options}
-                toString={(option) =>
-                  option ? option.label[0].toUpperCase() + option.label.substring(1) : 'Select...'
-                }
-                onChange={({ selectedItem }) => updateFilter('category', selectedItem.label)}
-                initialSelectedItem={filter.category}
-                isDisabled={true}
-              />
-              <DropdownButton
-                label="type"
-                data={filter.category.options}
-                toString={(option) =>
-                  option ? option.label[0].toUpperCase() + option.label.substring(1) : 'Select...'
-                }
-                onChange={({ selectedItem }) => updateFilter('type', selectedItem)}
-                initialSelectedItem={filter.type}
-                isDisabled={true}
-              />
-              <DropdownButton
-                label="stat"
-                data={filter.type.options}
-                toString={(option) =>
-                  option ? option[0].toUpperCase() + option.substring(1) : 'Select...'
-                }
-                onChange={({ selectedItem }) => updateFilter('stat', selectedItem)}
-                initialSelectedItem={filter.stat}
-              />
-            </Stack>
-          )}
           <Stack width="full" direction={{ base: 'column', md: 'row' }}>
             <DropdownButton
               label="tier"
@@ -147,17 +93,17 @@ const FilterOrchestrator = ({ filter, setFilter, children }) => {
               onChange={(e) => updateFilter('before', e ? moment(e).format('YYYY-MM-DD') : '')}
             />
           </Stack>
-          {players.length > 0 && teams.length > 0 && (
+          {events.length > 0 && teams.length > 0 && (
             <Stack width="full" direction={{ base: 'column', md: 'row' }}>
               <DropdownInput
-                label="player"
+                label="event"
                 width={56}
-                data={players}
-                toString={(player) => (player ? player.tag : '')}
+                data={events}
+                toString={(event) => (event ? event.name : '')}
                 onChange={({ selectedItem }) =>
-                  updateFilter('player', selectedItem ? selectedItem._id : '')
+                  updateFilter('event', selectedItem ? selectedItem._id : '')
                 }
-                initialSelectedItem={players.find((p) => p._id == filter.player)}
+                initialSelectedItem={events.find((e) => e._id == filter.event)}
               />
               <DropdownInput
                 label="team"
@@ -197,35 +143,30 @@ const Records = ({ initialFilter }) => {
       const query =
         '?' +
         Object.entries(filter)
-          .filter(([k, v]) => !['', 'stat', 'category', 'type'].includes(k) && v != '')
+          .filter(([k, v]) => ![''].includes(k) && v != '')
           .map(([k, v]) => `${k}=${v}`)
           .join('&')
-      router.push(`/records/${filter.stat}${query}`)
+      router.push(`/stats/players${query}`)
     }
     route()
   }, [filter])
 
   return (
-    <FilterOrchestrator filter={filter} setFilter={setFilter} options={options}>
-      <RecordsTable filter={filter} />
+    <FilterOrchestrator filter={filter} setFilter={setFilter}>
+      <StatsTable filter={filter} />
     </FilterOrchestrator>
   )
 }
 
-export async function getServerSideProps({ params, query }) {
-  const category = options.find((option) => option.label == 'game')
-  const type = category.options.find((option) => option.label == 'player')
+export async function getServerSideProps({ query }) {
   return {
     props: {
       initialFilter: {
-        category,
-        type,
-        stat: params.stat,
         mode: query.mode || 3,
         tier: query.tier || '',
         region: query.region || '',
         winner: query.winner || '',
-        player: query.player || '',
+        event: query.event || '',
         team: query.team || '',
         opponent: query.opponent || '',
         before: query.before || '',
