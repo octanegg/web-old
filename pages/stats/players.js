@@ -14,7 +14,7 @@ const FilterOrchestrator = ({ filter, setFilter, children }) => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const resEvents = await fetch(process.env.API_URL + `/events`)
+      const resEvents = await fetch(process.env.API_URL + `/events?sort=name:asc`)
       const eventsData = await resEvents.json()
       setEvents(eventsData.events)
 
@@ -93,22 +93,13 @@ const FilterOrchestrator = ({ filter, setFilter, children }) => {
               onChange={(e) => updateFilter('before', e ? moment(e).format('YYYY-MM-DD') : '')}
             />
           </Stack>
-          {events.length > 0 && teams.length > 0 && (
+          {teams.length > 0 && (
             <Stack width="full" direction={{ base: 'column', md: 'row' }}>
               <DropdownInput
-                label="event"
-                width={56}
-                data={events}
-                toString={(event) => (event ? event.name : '')}
-                onChange={({ selectedItem }) =>
-                  updateFilter('event', selectedItem ? selectedItem._id : '')
-                }
-                initialSelectedItem={events.find((e) => e._id == filter.event)}
-              />
-              <DropdownInput
                 label="team"
-                width={56}
+                width={64}
                 data={teams}
+                maxItems={50}
                 toString={(team) => (team ? team.name : '')}
                 onChange={({ selectedItem }) =>
                   updateFilter('team', selectedItem ? selectedItem._id : '')
@@ -117,14 +108,43 @@ const FilterOrchestrator = ({ filter, setFilter, children }) => {
               />
               <DropdownInput
                 label="opponent"
-                width={56}
+                width={64}
                 data={teams}
+                maxItems={50}
                 toString={(team) => (team ? team.name : '')}
                 onChange={({ selectedItem }) =>
                   updateFilter('opponent', selectedItem ? selectedItem._id : '')
                 }
                 initialSelectedItem={teams.find((t) => t._id == filter.opponent)}
               />
+            </Stack>
+          )}
+          {events.length > 0 && (
+            <Stack width="full" direction={{ base: 'column', md: 'row' }}>
+              <DropdownInput
+                label="event"
+                width="sm"
+                data={events}
+                toString={(event) => (event ? event.name : '')}
+                onChange={({ selectedItem }) =>
+                  updateFilter('event', selectedItem ? selectedItem._id : '')
+                }
+                initialSelectedItem={events.find((e) => e._id == filter.event)}
+              />
+              {filter.event && (
+                <DropdownButton
+                  label="stage"
+                  width={32}
+                  data={['All'].concat(events.find((e) => e._id == filter.event).stages)}
+                  toString={(stage) => (stage && stage != 'All' ? stage.name : 'All')}
+                  onChange={({ selectedItem }) =>
+                    updateFilter('stage', selectedItem == 'All' ? '' : selectedItem._id)
+                  }
+                  initialSelectedItem={events
+                    .find((e) => e._id == filter.event)
+                    .stages.find((s) => s._id == filter.stage)}
+                />
+              )}
             </Stack>
           )}
         </Filter>
@@ -143,7 +163,7 @@ const Records = ({ initialFilter }) => {
       const query =
         '?' +
         Object.entries(filter)
-          .filter(([k, v]) => ![''].includes(k) && v != '')
+          .filter(([k, v]) => ![''].includes(k) && v !== '')
           .map(([k, v]) => `${k}=${v}`)
           .join('&')
       router.push(`/stats/players${query}`)
@@ -153,7 +173,7 @@ const Records = ({ initialFilter }) => {
 
   return (
     <FilterOrchestrator filter={filter} setFilter={setFilter}>
-      <StatsTable filter={filter} />
+      <StatsTable filter={filter} isSortable />
     </FilterOrchestrator>
   )
 }

@@ -64,6 +64,7 @@ export const DropdownInput = ({
   initialSelectedItem,
   width,
   isDisabled,
+  maxItems,
 }) => {
   const [items, setItems] = useState(data)
   const {
@@ -94,6 +95,7 @@ export const DropdownInput = ({
       items={items}
       label={label}
       toString={toString}
+      maxItems={maxItems}
       getMenuProps={getMenuProps}
       getItemProps={getItemProps}
       getLabelProps={getLabelProps}
@@ -117,6 +119,7 @@ const DropdownField = ({
   items,
   width,
   label,
+  maxItems,
   getLabelProps,
   getBoxProps,
   toString,
@@ -145,7 +148,7 @@ const DropdownField = ({
         {...getMenuProps()}>
         {isOpen &&
           items.length > 0 &&
-          items.length < 50 &&
+          (!maxItems || items.length < 50) &&
           items.map((item, index) => (
             <ListItem
               fontSize="sm"

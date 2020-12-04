@@ -153,6 +153,7 @@ const FilterOrchestrator = ({ filter, setFilter, children }) => {
                 label="player"
                 width={56}
                 data={players}
+                maxItems={50}
                 toString={(player) => (player ? player.tag : '')}
                 onChange={({ selectedItem }) =>
                   updateFilter('player', selectedItem ? selectedItem._id : '')
@@ -163,6 +164,7 @@ const FilterOrchestrator = ({ filter, setFilter, children }) => {
                 label="team"
                 width={56}
                 data={teams}
+                maxItems={50}
                 toString={(team) => (team ? team.name : '')}
                 onChange={({ selectedItem }) =>
                   updateFilter('team', selectedItem ? selectedItem._id : '')
@@ -173,6 +175,7 @@ const FilterOrchestrator = ({ filter, setFilter, children }) => {
                 label="opponent"
                 width={56}
                 data={teams}
+                maxItems={50}
                 toString={(team) => (team ? team.name : '')}
                 onChange={({ selectedItem }) =>
                   updateFilter('opponent', selectedItem ? selectedItem._id : '')
@@ -197,7 +200,7 @@ const Records = ({ initialFilter }) => {
       const query =
         '?' +
         Object.entries(filter)
-          .filter(([k, v]) => !['', 'stat', 'category', 'type'].includes(k) && v != '')
+          .filter(([k, v]) => !['', 'stat', 'category', 'type'].includes(k) && v !== '')
           .map(([k, v]) => `${k}=${v}`)
           .join('&')
       router.push(`/records/${filter.stat}${query}`)

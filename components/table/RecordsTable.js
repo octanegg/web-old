@@ -24,7 +24,7 @@ export const RecordsTable = ({ filter }) => {
       const query =
         '?' +
         Object.entries(filter)
-          .filter(([k, v]) => !['', 'stat', 'category', 'type'].includes(k) && v != '')
+          .filter(([k, v]) => !['', 'stat', 'category', 'type'].includes(k) && v !== '')
           .map(([k, v]) => `${k}=${v}`)
           .join('&')
       const res = await fetch(process.env.API_URL + `/stats/records/${filter.stat}${query}`)

@@ -13,10 +13,17 @@ export const Header = ({ children }) => {
   )
 }
 
-export const HeaderItem = ({ children, width, align }) => {
+export const HeaderItem = ({ children, width, align, onClick }) => {
   return (
     <th
-      style={{ ...(width && { width: width }), textAlign: align, paddingLeft: 4, paddingRight: 4 }}>
+      style={{
+        ...(width && { width: width }),
+        ...(onClick && { cursor: 'pointer' }),
+        textAlign: align,
+        paddingLeft: 4,
+        paddingRight: 4,
+      }}
+      onClick={onClick}>
       {children}
     </th>
   )
