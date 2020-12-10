@@ -61,7 +61,7 @@ const FilterOrchestrator = ({ filter, setFilter, children }) => {
               label="mode"
               width={24}
               data={[3, 2, 1]}
-              toString={(mode) => (mode ? `${mode}v${mode}` : 'Select...')}
+              toString={(mode) => `${mode}v${mode}`}
               onChange={({ selectedItem }) => updateFilter('mode', selectedItem)}
               initialSelectedItem={filter.mode}
             />
@@ -126,23 +126,29 @@ const FilterOrchestrator = ({ filter, setFilter, children }) => {
                 width="sm"
                 data={events}
                 toString={(event) => (event ? event.name : '')}
-                onChange={({ selectedItem }) =>
+                onChange={({ selectedItem }) => {
                   updateFilter('event', selectedItem ? selectedItem._id : '')
-                }
+                  updateFilter('stage', '')
+                }}
                 initialSelectedItem={events.find((e) => e._id == filter.event)}
               />
               {filter.event && (
                 <DropdownButton
+                  key={filter.stage}
                   label="stage"
-                  width={32}
+                  width={40}
                   data={['All'].concat(events.find((e) => e._id == filter.event).stages)}
                   toString={(stage) => (stage && stage != 'All' ? stage.name : 'All')}
                   onChange={({ selectedItem }) =>
                     updateFilter('stage', selectedItem == 'All' ? '' : selectedItem._id)
                   }
-                  initialSelectedItem={events
-                    .find((e) => e._id == filter.event)
-                    .stages.find((s) => s._id == filter.stage)}
+                  initialSelectedItem={
+                    filter.stage === ''
+                      ? 'All'
+                      : events
+                          .find((e) => e._id == filter.event)
+                          .stages.find((s) => s._id == filter.stage)
+                  }
                 />
               )}
             </Stack>
@@ -173,7 +179,7 @@ const Records = ({ initialFilter }) => {
 
   return (
     <FilterOrchestrator filter={filter} setFilter={setFilter}>
-      <StatsTable filter={filter} isSortable />
+      <StatsTable key={filter} filter={filter} isSortable />
     </FilterOrchestrator>
   )
 }

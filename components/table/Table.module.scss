@@ -28,6 +28,9 @@
     }
     tr {
       border-bottom: 1px solid #ccc;
+      &:hover {
+        background-color: #e8f4fd;
+      }
       &:nth-child(even) {
         background-color: #f6f6f9;
       }
