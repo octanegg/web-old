@@ -1,29 +1,29 @@
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
-import StatsTable from '../../components/table/StatsTable'
-import { DateFilter } from '../../components/filter/Date'
-import { DropdownButton, DropdownInput } from '../../components/filter/Dropdown'
-import { Content } from '../../components/Layout'
+import RecordsTable from '../../../../components/table/RecordsTable'
+import { DateFilter } from '../../../../components/filter/Date'
+import { DropdownButton, DropdownInput } from '../../../../components/filter/Dropdown'
+import { Content } from '../../../../components/Layout'
 import moment from 'moment'
 import { Stack } from '@chakra-ui/core'
-import Filter from '../../components/filter/Filter'
+import Filter from '../../../../components/filter/Filter'
 
 const FilterOrchestrator = ({ filter, setFilter, children }) => {
-  const [events, setEvents] = useState([])
-  const [teams, setTeams] = useState([])
-
-  useEffect(() => {
-    const fetchData = async () => {
-      const resEvents = await fetch(process.env.API_URL + `/events?sort=name:asc`)
-      const eventsData = await resEvents.json()
-      setEvents(eventsData.events)
-
-      const resTeams = await fetch(process.env.API_URL + `/teams`)
-      const teamsData = await resTeams.json()
-      setTeams(teamsData.teams)
-    }
-    fetchData()
-  }, [])
+  const options = {
+    games: {
+      players: ['score', 'goals', 'assists', 'saves', 'shots', 'rating'],
+      teams: ['score', 'goals', 'assists', 'saves', 'shots'],
+      totals: ['score', 'goals', 'assists', 'saves', 'shots'],
+      differentials: ['score', 'goals', 'assists', 'saves', 'shots'],
+      overtimes: [],
+    },
+    matches: {
+      players: ['score', 'goals', 'assists', 'saves', 'shots'],
+      teams: ['score', 'goals', 'assists', 'saves', 'shots'],
+      totals: ['score', 'goals', 'assists', 'saves', 'shots'],
+      differentials: ['score', 'goals', 'assists', 'saves', 'shots'],
+    },
+  }
 
   const updateFilter = (key, value) => {
     setFilter((prev) => ({
@@ -36,6 +36,24 @@ const FilterOrchestrator = ({ filter, setFilter, children }) => {
     <Content leftNav={<div></div>} rightNav={<div></div>}>
       <Stack direction="column" width="full">
         <Filter>
+          {options && (
+            <Stack width="full" direction={{ base: 'column', md: 'row' }}>
+              <DropdownButton
+                label="category"
+                data={Object.keys(options)}
+                toString={(option) => option[0].toUpperCase() + option.substring(1)}
+                onChange={({ selectedItem }) => updateFilter('category', selectedItem)}
+                initialSelectedItem={filter.category}
+              />
+              <DropdownButton
+                label="type"
+                data={Object.keys(options[filter.category])}
+                toString={(option) => option[0].toUpperCase() + option.substring(1)}
+                onChange={({ selectedItem }) => updateFilter('type', selectedItem)}
+                initialSelectedItem={filter.type}
+              />
+            </Stack>
+          )}
           <Stack width="full" direction={{ base: 'column', md: 'row' }}>
             <DropdownButton
               label="tier"
@@ -61,7 +79,7 @@ const FilterOrchestrator = ({ filter, setFilter, children }) => {
               label="mode"
               width={24}
               data={[3, 2, 1]}
-              toString={(mode) => `${mode}v${mode}`}
+              toString={(mode) => (mode ? `${mode}v${mode}` : 'Select...')}
               onChange={({ selectedItem }) => updateFilter('mode', selectedItem)}
               initialSelectedItem={filter.mode}
             />
@@ -93,66 +111,6 @@ const FilterOrchestrator = ({ filter, setFilter, children }) => {
               onChange={(e) => updateFilter('before', e ? moment(e).format('YYYY-MM-DD') : '')}
             />
           </Stack>
-          {teams.length > 0 && (
-            <Stack width="full" direction={{ base: 'column', md: 'row' }}>
-              <DropdownInput
-                label="team"
-                width={64}
-                data={teams}
-                maxItems={50}
-                toString={(team) => (team ? team.name : '')}
-                onChange={({ selectedItem }) =>
-                  updateFilter('team', selectedItem ? selectedItem._id : '')
-                }
-                initialSelectedItem={teams.find((t) => t._id == filter.team)}
-              />
-              <DropdownInput
-                label="opponent"
-                width={64}
-                data={teams}
-                maxItems={50}
-                toString={(team) => (team ? team.name : '')}
-                onChange={({ selectedItem }) =>
-                  updateFilter('opponent', selectedItem ? selectedItem._id : '')
-                }
-                initialSelectedItem={teams.find((t) => t._id == filter.opponent)}
-              />
-            </Stack>
-          )}
-          {events.length > 0 && (
-            <Stack width="full" direction={{ base: 'column', md: 'row' }}>
-              <DropdownInput
-                label="event"
-                width="sm"
-                data={events}
-                toString={(event) => (event ? event.name : '')}
-                onChange={({ selectedItem }) => {
-                  updateFilter('event', selectedItem ? selectedItem._id : '')
-                  updateFilter('stage', '')
-                }}
-                initialSelectedItem={events.find((e) => e._id == filter.event)}
-              />
-              {filter.event && (
-                <DropdownButton
-                  key={filter.stage}
-                  label="stage"
-                  width={40}
-                  data={['All'].concat(events.find((e) => e._id == filter.event).stages)}
-                  toString={(stage) => (stage && stage != 'All' ? stage.name : 'All')}
-                  onChange={({ selectedItem }) =>
-                    updateFilter('stage', selectedItem == 'All' ? '' : selectedItem._id)
-                  }
-                  initialSelectedItem={
-                    filter.stage === ''
-                      ? 'All'
-                      : events
-                          .find((e) => e._id == filter.event)
-                          .stages.find((s) => s._id == filter.stage)
-                  }
-                />
-              )}
-            </Stack>
-          )}
         </Filter>
         {children}
       </Stack>
@@ -166,33 +124,40 @@ const Records = ({ initialFilter }) => {
 
   useEffect(() => {
     const route = () => {
+      if (filter.type != 'overtimes') {
+        filter.stat = 'score'
+      }
       const query =
         '?' +
         Object.entries(filter)
-          .filter(([k, v]) => ![''].includes(k) && v !== '')
+          .filter(([k, v]) => !['', 'stat', 'category', 'type'].includes(k) && v !== '')
           .map(([k, v]) => `${k}=${v}`)
           .join('&')
-      router.push(`/stats/players${query}`)
+      router.push(
+        `/records/${filter.category}/${filter.type}${filter.stat ? `/${filter.stat}` : ''}${query}`
+      )
     }
     route()
   }, [filter])
 
   return (
     <FilterOrchestrator filter={filter} setFilter={setFilter}>
-      <StatsTable filter={filter} isSortable />
+      <RecordsTable key={filter.type} filter={filter} />
     </FilterOrchestrator>
   )
 }
 
-export async function getServerSideProps({ query }) {
+export async function getServerSideProps({ params, query }) {
   return {
     props: {
       initialFilter: {
+        category: params.category || 'games',
+        type: params.type || 'overtimes',
         mode: query.mode || 3,
         tier: query.tier || '',
         region: query.region || '',
         winner: query.winner || '',
-        event: query.event || '',
+        player: query.player || '',
         team: query.team || '',
         opponent: query.opponent || '',
         before: query.before || '',

@@ -58,24 +58,30 @@ export const Loading = () => {
 export const ImageTwoTier = (props) => {
   const { src, prefix, label, description, reversed } = props
   return (
-    <Flex direction={reversed ? 'row-reverse' : 'row'} align="center" {...props}>
+    <Flex
+      direction={reversed ? 'row-reverse' : 'row'}
+      marginLeft={2}
+      marginRight={2}
+      align="center"
+      {...props}>
       {prefix && (
-        <Flex justify="center" align="center">
+        <Flex justify="center" align="center" marginRight={2}>
           {prefix}
         </Flex>
       )}
-      <Flex minWidth={6} marginLeft={2} display={{ base: 'none', sm: 'flex' }}>
+      <Flex minWidth={6} display={{ base: 'none', sm: 'flex' }}>
         <Image height={6} src={src} />
       </Flex>
       <Flex
         direction="column"
-        marginLeft={2}
+        marginLeft={!reversed && 2}
+        marginRight={reversed && 2}
         justify="flex-start"
         align={reversed ? 'flex-end' : 'flex-start'}>
         <Text fontWeight="bold" fontSize="sm" align={reversed ? 'end' : 'start'}>
           {label}
         </Text>
-        <Flex align={reversed ? 'end' : 'start'}>{description}</Flex>
+        {description && <Flex align={reversed ? 'end' : 'start'}>{description}</Flex>}
       </Flex>
     </Flex>
   )

@@ -1,50 +1,45 @@
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
-import RecordsTable from '../../components/table/RecordsTable'
-import { DateFilter } from '../../components/filter/Date'
-import { DropdownButton, DropdownInput } from '../../components/filter/Dropdown'
-import { Content } from '../../components/Layout'
+import RecordsTable from '../../../../components/table/RecordsTable'
+import { DateFilter } from '../../../../components/filter/Date'
+import { DropdownButton, DropdownInput } from '../../../../components/filter/Dropdown'
+import { Content } from '../../../../components/Layout'
 import moment from 'moment'
 import { Stack } from '@chakra-ui/core'
-import Filter from '../../components/filter/Filter'
+import Filter from '../../../../components/filter/Filter'
 
-const options = [
-  {
-    label: 'game',
-    options: [
-      { label: 'player', options: ['score', 'goals', 'assists', 'saves', 'shots', 'rating'] },
-      // { label: 'team', options: ['score', 'goals', 'assists', 'saves', 'shots'] },
-      // { label: 'total', options: ['score', 'goals', 'assists', 'saves', 'shots'] },
-      // { label: 'differential', options: ['score', 'goals', 'assists', 'saves', 'shots'] },
-      // { label: 'overtime', options: ['overtime'] },
-    ],
-  },
-  // {
-  //   label: 'match',
-  //   options: [
-  //     { label: 'player', options: ['score', 'goals', 'assists', 'saves', 'shots'] },
-  //     { label: 'team', options: ['score', 'goals', 'assists', 'saves', 'shots'] },
-  //     { label: 'total', options: ['score', 'goals', 'assists', 'saves', 'shots'] },
-  //     { label: 'differential', options: ['score', 'goals', 'assists', 'saves', 'shots'] },
-  //   ],
-  // },
-]
 const FilterOrchestrator = ({ filter, setFilter, children }) => {
-  const [players, setPlayers] = useState([])
-  const [teams, setTeams] = useState([])
+  // const [players, setPlayers] = useState([])
+  // const [teams, setTeams] = useState([])
 
-  useEffect(() => {
-    const fetchData = async () => {
-      const resPlayers = await fetch(process.env.API_URL + `/players`)
-      const playersData = await resPlayers.json()
-      setPlayers(playersData.players)
+  const options = {
+    games: {
+      players: ['score', 'goals', 'assists', 'saves', 'shots', 'rating'],
+      teams: ['score', 'goals', 'assists', 'saves', 'shots'],
+      totals: ['score', 'goals', 'assists', 'saves', 'shots'],
+      differentials: ['score', 'goals', 'assists', 'saves', 'shots'],
+      overtimes: [],
+    },
+    matches: {
+      players: ['score', 'goals', 'assists', 'saves', 'shots'],
+      teams: ['score', 'goals', 'assists', 'saves', 'shots'],
+      totals: ['score', 'goals', 'assists', 'saves', 'shots'],
+      differentials: ['score', 'goals', 'assists', 'saves', 'shots'],
+    },
+  }
 
-      const resTeams = await fetch(process.env.API_URL + `/teams`)
-      const teamsData = await resTeams.json()
-      setTeams(teamsData.teams)
-    }
-    fetchData()
-  }, [])
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     const resPlayers = await fetch(process.env.API_URL + `/players`)
+  //     const playersData = await resPlayers.json()
+  //     setPlayers(playersData.players)
+
+  //     const resTeams = await fetch(process.env.API_URL + `/teams`)
+  //     const teamsData = await resTeams.json()
+  //     setTeams(teamsData.teams)
+  //   }
+  //   fetchData()
+  // }, [])
 
   const updateFilter = (key, value) => {
     setFilter((prev) => ({
@@ -61,33 +56,27 @@ const FilterOrchestrator = ({ filter, setFilter, children }) => {
             <Stack width="full" direction={{ base: 'column', md: 'row' }}>
               <DropdownButton
                 label="category"
-                data={options}
-                toString={(option) =>
-                  option ? option.label[0].toUpperCase() + option.label.substring(1) : 'Select...'
-                }
-                onChange={({ selectedItem }) => updateFilter('category', selectedItem.label)}
+                data={Object.keys(options)}
+                toString={(option) => option[0].toUpperCase() + option.substring(1)}
+                onChange={({ selectedItem }) => updateFilter('category', selectedItem)}
                 initialSelectedItem={filter.category}
-                isDisabled={true}
               />
               <DropdownButton
                 label="type"
-                data={filter.category.options}
-                toString={(option) =>
-                  option ? option.label[0].toUpperCase() + option.label.substring(1) : 'Select...'
-                }
+                data={Object.keys(options[filter.category])}
+                toString={(option) => option[0].toUpperCase() + option.substring(1)}
                 onChange={({ selectedItem }) => updateFilter('type', selectedItem)}
                 initialSelectedItem={filter.type}
-                isDisabled={true}
               />
-              <DropdownButton
-                label="stat"
-                data={filter.type.options}
-                toString={(option) =>
-                  option ? option[0].toUpperCase() + option.substring(1) : 'Select...'
-                }
-                onChange={({ selectedItem }) => updateFilter('stat', selectedItem)}
-                initialSelectedItem={filter.stat}
-              />
+              {options[filter.category][filter.type] && (
+                <DropdownButton
+                  label="stat"
+                  data={options[filter.category][filter.type]}
+                  toString={(option) => option[0].toUpperCase() + option.substring(1)}
+                  onChange={({ selectedItem }) => updateFilter('stat', selectedItem)}
+                  initialSelectedItem={filter.stat}
+                />
+              )}
             </Stack>
           )}
           <Stack width="full" direction={{ base: 'column', md: 'row' }}>
@@ -147,7 +136,7 @@ const FilterOrchestrator = ({ filter, setFilter, children }) => {
               onChange={(e) => updateFilter('before', e ? moment(e).format('YYYY-MM-DD') : '')}
             />
           </Stack>
-          {players.length > 0 && teams.length > 0 && (
+          {/* {players.length > 0 && teams.length > 0 && (
             <Stack width="full" direction={{ base: 'column', md: 'row' }}>
               <DropdownInput
                 label="player"
@@ -183,7 +172,7 @@ const FilterOrchestrator = ({ filter, setFilter, children }) => {
                 initialSelectedItem={teams.find((t) => t._id == filter.opponent)}
               />
             </Stack>
-          )}
+          )} */}
         </Filter>
         {children}
       </Stack>
@@ -197,33 +186,36 @@ const Records = ({ initialFilter }) => {
 
   useEffect(() => {
     const route = () => {
+      if (filter.type == 'overtimes') {
+        filter.stat = ''
+      }
       const query =
         '?' +
         Object.entries(filter)
           .filter(([k, v]) => !['', 'stat', 'category', 'type'].includes(k) && v !== '')
           .map(([k, v]) => `${k}=${v}`)
           .join('&')
-      router.push(`/records/${filter.stat}${query}`)
+      router.push(
+        `/records/${filter.category}/${filter.type}${filter.stat ? `/${filter.stat}` : ''}${query}`
+      )
     }
     route()
   }, [filter])
 
   return (
-    <FilterOrchestrator filter={filter} setFilter={setFilter} options={options}>
-      <RecordsTable filter={filter} />
+    <FilterOrchestrator filter={filter} setFilter={setFilter}>
+      <RecordsTable key={filter.type} filter={filter} />
     </FilterOrchestrator>
   )
 }
 
 export async function getServerSideProps({ params, query }) {
-  const category = options.find((option) => option.label == 'game')
-  const type = category.options.find((option) => option.label == 'player')
   return {
     props: {
       initialFilter: {
-        category,
-        type,
-        stat: params.stat,
+        category: params.category || 'games',
+        type: params.type || 'players',
+        stat: params.stat || 'score',
         mode: query.mode || 3,
         tier: query.tier || '',
         region: query.region || '',

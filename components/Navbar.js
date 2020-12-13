@@ -111,7 +111,7 @@ const Navbar = () => {
           <NavItem href="/stats/players" leftBorder>
             Stats
           </NavItem>
-          <NavItem href="/records/goals" leftBorder rightBorder>
+          <NavItem href="/records/games/players/goals" leftBorder rightBorder>
             Records
           </NavItem>
           <Spacer display={{ base: 'none', md: 'block' }} />
