@@ -1,4 +1,4 @@
-import { Text } from '@chakra-ui/core'
+import { Flex, Image, Text } from '@chakra-ui/core'
 import { useEffect, useState } from 'react'
 import { Table, Header, HeaderItem, Body, Row, Cell, Loading } from './Table'
 import { TriangleDownIcon, TriangleUpIcon } from '@chakra-ui/icons'
@@ -99,15 +99,14 @@ const StatsRow = ({ stat }) => {
   return (
     <Row key={player}>
       <Cell>
-        <Text
-          fontSize="sm"
-          fontWeight="bold"
-          textAlign="left"
-          marginLeft={2}
-          width={24}
-          width="full">
-          {player.tag}
-        </Text>
+        <Flex align="center" justify="center">
+          <Flex minWidth={6} justify="center">
+            <Image src={`https://www.octane.gg/flags/${player.country}.png`} />
+          </Flex>
+          <Text fontSize="sm" fontWeight="bold" textAlign="left" width={24} width="full">
+            {player.tag}
+          </Text>
+        </Flex>
       </Cell>
       <Cell>
         <Text fontSize="sm" textAlign="center">

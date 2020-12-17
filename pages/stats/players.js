@@ -2,29 +2,13 @@ import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import StatsTable from '../../components/table/StatsTable'
 import { DateFilter } from '../../components/filter/Date'
-import { DropdownButton, DropdownInput } from '../../components/filter/Dropdown'
+import { DropdownButton } from '../../components/filter/Dropdown'
 import { Content } from '../../components/Layout'
 import moment from 'moment'
 import { Stack } from '@chakra-ui/core'
 import Filter from '../../components/filter/Filter'
 
 const FilterOrchestrator = ({ filter, setFilter, children }) => {
-  const [events, setEvents] = useState([])
-  const [teams, setTeams] = useState([])
-
-  useEffect(() => {
-    const fetchData = async () => {
-      const resEvents = await fetch(process.env.API_URL + `/events?sort=name:asc`)
-      const eventsData = await resEvents.json()
-      setEvents(eventsData.events)
-
-      const resTeams = await fetch(process.env.API_URL + `/teams`)
-      const teamsData = await resTeams.json()
-      setTeams(teamsData.teams)
-    }
-    fetchData()
-  }, [])
-
   const updateFilter = (key, value) => {
     setFilter((prev) => ({
       ...prev,
@@ -93,66 +77,6 @@ const FilterOrchestrator = ({ filter, setFilter, children }) => {
               onChange={(e) => updateFilter('before', e ? moment(e).format('YYYY-MM-DD') : '')}
             />
           </Stack>
-          {teams.length > 0 && (
-            <Stack width="full" direction={{ base: 'column', md: 'row' }}>
-              <DropdownInput
-                label="team"
-                width={64}
-                data={teams}
-                maxItems={50}
-                toString={(team) => (team ? team.name : '')}
-                onChange={({ selectedItem }) =>
-                  updateFilter('team', selectedItem ? selectedItem._id : '')
-                }
-                initialSelectedItem={teams.find((t) => t._id == filter.team)}
-              />
-              <DropdownInput
-                label="opponent"
-                width={64}
-                data={teams}
-                maxItems={50}
-                toString={(team) => (team ? team.name : '')}
-                onChange={({ selectedItem }) =>
-                  updateFilter('opponent', selectedItem ? selectedItem._id : '')
-                }
-                initialSelectedItem={teams.find((t) => t._id == filter.opponent)}
-              />
-            </Stack>
-          )}
-          {events.length > 0 && (
-            <Stack width="full" direction={{ base: 'column', md: 'row' }}>
-              <DropdownInput
-                label="event"
-                width="sm"
-                data={events}
-                toString={(event) => (event ? event.name : '')}
-                onChange={({ selectedItem }) => {
-                  updateFilter('event', selectedItem ? selectedItem._id : '')
-                  updateFilter('stage', '')
-                }}
-                initialSelectedItem={events.find((e) => e._id == filter.event)}
-              />
-              {filter.event && (
-                <DropdownButton
-                  key={filter.stage}
-                  label="stage"
-                  width={40}
-                  data={['All'].concat(events.find((e) => e._id == filter.event).stages)}
-                  toString={(stage) => (stage && stage != 'All' ? stage.name : 'All')}
-                  onChange={({ selectedItem }) =>
-                    updateFilter('stage', selectedItem == 'All' ? '' : selectedItem._id)
-                  }
-                  initialSelectedItem={
-                    filter.stage === ''
-                      ? 'All'
-                      : events
-                          .find((e) => e._id == filter.event)
-                          .stages.find((s) => s._id == filter.stage)
-                  }
-                />
-              )}
-            </Stack>
-          )}
         </Filter>
         {children}
       </Stack>
