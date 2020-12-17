@@ -48,7 +48,7 @@ export const RecordsTable = ({ filter }) => {
       <Header>
         <HeaderItem width="2rem"></HeaderItem>
         <HeaderItem>Player</HeaderItem>
-        <HeaderItem>Game</HeaderItem>
+        <HeaderItem>Matchup</HeaderItem>
         <HeaderItem width="4rem">{filter.stat}</HeaderItem>
       </Header>
       <Body>
@@ -64,7 +64,7 @@ export const RecordsTable = ({ filter }) => {
       <Header>
         <HeaderItem width="2rem"></HeaderItem>
         <HeaderItem>Team</HeaderItem>
-        <HeaderItem>Game</HeaderItem>
+        <HeaderItem>Matchup</HeaderItem>
         <HeaderItem width="4rem">{filter.stat}</HeaderItem>
       </Header>
       <Body>
@@ -108,11 +108,11 @@ export const RecordsTable = ({ filter }) => {
   )
 }
 
-const PlayerRow = ({ record, stat, rank }) => {
-  const { game, team, opponent, winner, player, stats } = record
-  const { match, date } = game
+const PlayerRow = ({ record, rank }) => {
+  const { game, team, opponent, winner, player, stat } = record
+  const match = game ? game.match : record.match
+  const date = game ? game.date : record.date
   const { event, stage } = match
-  const value = stats.core[stat]
 
   const momentDate = moment(date)
   const isLastWeek = momentDate.isAfter(moment().subtract(7, 'day'))
@@ -180,7 +180,7 @@ const PlayerRow = ({ record, stat, rank }) => {
       </Cell>
       <Cell>
         <Text fontSize="sm" fontWeight="bold">
-          {value % 1 === 0 ? value : value.toFixed(3)}
+          {stat % 1 === 0 ? stat : stat.toFixed(3)}
         </Text>
       </Cell>
     </Row>
@@ -189,7 +189,8 @@ const PlayerRow = ({ record, stat, rank }) => {
 
 const TeamRow = ({ record, rank }) => {
   const { game, team, opponent, winner, stat } = record
-  const { match, date } = game
+  const match = game ? game.match : record.match
+  const date = game ? game.date : record.date
   const { event, stage } = match
 
   const momentDate = moment(date)

@@ -20,7 +20,7 @@ const FilterOrchestrator = ({ filter, setFilter, children }) => {
       differentials: ['score', 'goals', 'assists', 'saves', 'shots'],
       overtimes: [],
     },
-    matches: {
+    series: {
       players: ['score', 'goals', 'assists', 'saves', 'shots'],
       teams: ['score', 'goals', 'assists', 'saves', 'shots'],
       totals: ['score', 'goals', 'assists', 'saves', 'shots'],
