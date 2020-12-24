@@ -1,6 +1,5 @@
 import { Content } from '../../components/Layout'
 import { Stack } from '@chakra-ui/core'
-import MatchesTable from '../../components/table/MatchesTable'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import Filter from '../../components/filter/Filter'
@@ -71,14 +70,14 @@ const Events = ({ initialFilter }) => {
           .filter(([k, v]) => !['', 'before', 'after', 'sort'].includes(k) && v !== '')
           .map(([k, v]) => `${k}=${v}`)
           .join('&')
-      router.push(`/events${query}`)
+      router.push(`/events/archive${query}`)
     }
     route()
   }, [filter])
 
   return (
     <FilterOrchestrator filter={filter} setFilter={setFilter}>
-      <EventsTable filter={filter} after={moment().toISOString()} sort="start_date:asc" />
+      <EventsTable filter={filter} before={moment().toISOString()} sort="start_date:desc" />
     </FilterOrchestrator>
   )
 }

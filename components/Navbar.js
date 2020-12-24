@@ -108,7 +108,7 @@ const Navbar = () => {
           <NavItem href="/matches/archive" leftBorder>
             Results
           </NavItem>
-          <NavItem href="/events" leftBorder>
+          <NavItem href="/events/archive" leftBorder>
             Events
           </NavItem>
           <NavItem href="/stats/players" leftBorder>
