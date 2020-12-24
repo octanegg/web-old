@@ -102,11 +102,14 @@ const Navbar = () => {
           <NavItem href="#" leftBorder>
             News
           </NavItem>
-          <NavItem href="#" leftBorder>
-            Events
-          </NavItem>
           <NavItem href="/matches" leftBorder>
             Matches
+          </NavItem>
+          <NavItem href="/matches/archive" leftBorder>
+            Results
+          </NavItem>
+          <NavItem href="/events" leftBorder>
+            Events
           </NavItem>
           <NavItem href="/stats/players" leftBorder>
             Stats

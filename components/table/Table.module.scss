@@ -3,41 +3,54 @@
   background-color: white;
   border: 1px solid #ddd;
   color: #1a2f42;
+  text-align: center;
   thead {
     tr {
       background-color: #f6f6f9;
       border-bottom: 2px solid #1a2f42;
       th {
-        padding: 0.25rem 0;
         font-size: 10px;
         font-weight: bold;
         text-transform: uppercase;
-        border-left: 1px solid #ccc;
-        &:first-of-type {
-          border-left: none;
-        }
       }
     }
   }
   tbody {
+    tr {
+      padding: 0;
+      &:hover {
+        background-color: #e8f4fd !important;
+      }
+      &:nth-child(even) {
+        background-color: #f3f8fb;
+      }
+      td {
+        padding: 0;
+      }
+    }
     tr.primary-50 {
       background-color: #e0fdef !important;
     }
     tr.primary-100 {
       background-color: #bbf2d7 !important;
     }
+  }
+}
+
+table.bordered {
+  thead {
+    th {
+      border-left: 1px solid #ccc;
+      &:first-of-type {
+        border-left: none;
+      }
+    }
+  }
+  tbody {
     tr {
       border-bottom: 1px solid #ccc;
-      &:hover {
-        background-color: #e8f4fd;
-      }
-      &:nth-child(even) {
-        background-color: #f6f6f9;
-      }
       td {
-        padding: 0.5rem 0;
         border-left: 1px solid #ccc;
-        text-align: center;
         &:first-of-type {
           border-left: none;
         }

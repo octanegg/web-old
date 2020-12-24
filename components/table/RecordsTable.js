@@ -41,72 +41,52 @@ export const RecordsTable = ({ filter }) => {
     fetchRecords()
   }, [filter])
 
+  const Header =
+    filter.type === 'players' ? PlayerHeader : filter.type === 'teams' ? TeamHeader : GameHeader
+
+  const Row = filter.type === 'players' ? PlayerRow : filter.type === 'teams' ? TeamRow : GameRow
+
   return loading ? (
     <Loading />
-  ) : filter.type === 'players' ? (
-    <Table>
-      <Header>
-        <HeaderItem width="2rem"></HeaderItem>
-        <HeaderItem>Player</HeaderItem>
-        <HeaderItem>Matchup</HeaderItem>
-        <HeaderItem width="4rem">{filter.stat}</HeaderItem>
-      </Header>
-      <Body>
-        {records &&
-          records.length > 0 &&
-          records.map((record, rank) => (
-            <PlayerRow key={rank} record={record} stat={filter.stat} rank={rank + 1} />
-          ))}
-      </Body>
-    </Table>
-  ) : filter.type === 'teams' ? (
-    <Table>
-      <Header>
-        <HeaderItem width="2rem"></HeaderItem>
-        <HeaderItem>Team</HeaderItem>
-        <HeaderItem>Matchup</HeaderItem>
-        <HeaderItem width="4rem">{filter.stat}</HeaderItem>
-      </Header>
-      <Body>
-        {records &&
-          records.length > 0 &&
-          records.map((record, rank) => <TeamRow key={rank} record={record} rank={rank + 1} />)}
-      </Body>
-    </Table>
-  ) : filter.type === 'overtimes' ? (
-    <Table>
-      <Header>
-        <HeaderItem width="2rem"></HeaderItem>
-        <HeaderItem>Winner</HeaderItem>
-        <HeaderItem>Loser</HeaderItem>
-        <HeaderItem>Event</HeaderItem>
-        <HeaderItem width="4rem">Duration</HeaderItem>
-      </Header>
-      <Body>
-        {records &&
-          records.length > 0 &&
-          records.map((record, rank) => (
-            <GameRow key={rank} record={record} rank={rank + 1} isDuration />
-          ))}
-      </Body>
-    </Table>
   ) : (
-    <Table>
-      <Header>
-        <HeaderItem width="2rem"></HeaderItem>
-        <HeaderItem>Winner</HeaderItem>
-        <HeaderItem>Loser</HeaderItem>
-        <HeaderItem>Event</HeaderItem>
-        <HeaderItem width="4rem">{filter.stat}</HeaderItem>
-      </Header>
+    <Table isBordered>
+      <Header stat={filter.stat} />
       <Body>
         {records &&
           records.length > 0 &&
-          records.map((record, rank) => <GameRow key={rank} record={record} rank={rank + 1} />)}
+          records.map((record, rank) => <Row key={rank} record={record} rank={rank + 1} />)}
       </Body>
     </Table>
   )
 }
+
+const PlayerHeader = ({ stat }) => (
+  <Header>
+    <HeaderItem width="2rem"></HeaderItem>
+    <HeaderItem>Player</HeaderItem>
+    <HeaderItem>Matchup</HeaderItem>
+    <HeaderItem width="4rem">{stat}</HeaderItem>
+  </Header>
+)
+
+const TeamHeader = ({ stat }) => (
+  <Header>
+    <HeaderItem width="2rem"></HeaderItem>
+    <HeaderItem>Team</HeaderItem>
+    <HeaderItem>Matchup</HeaderItem>
+    <HeaderItem width="4rem">{stat}</HeaderItem>
+  </Header>
+)
+
+const GameHeader = ({ stat }) => (
+  <Header>
+    <HeaderItem width="2rem"></HeaderItem>
+    <HeaderItem>Winner</HeaderItem>
+    <HeaderItem>Loser</HeaderItem>
+    <HeaderItem>Event</HeaderItem>
+    <HeaderItem width="4rem">{stat || 'Duration'}</HeaderItem>
+  </Header>
+)
 
 const PlayerRow = ({ record, rank }) => {
   const { game, team, opponent, winner, player, stat } = record
@@ -121,9 +101,9 @@ const PlayerRow = ({ record, rank }) => {
   return (
     <Row key={rank} className={isLastWeek ? 'primary-100' : isLastMonth ? 'primary-50' : ''}>
       <Cell>
-        <Text fontSize="sm" fontWeight="bold">
+        <Flex fontSize="sm" fontWeight="bold" height={14} width={8} align="center" justify="center">
           {rank}
-        </Text>
+        </Flex>
       </Cell>
       <Cell>
         <ImageTwoTier
@@ -179,7 +159,7 @@ const PlayerRow = ({ record, rank }) => {
         </Flex>
       </Cell>
       <Cell>
-        <Text fontSize="sm" fontWeight="bold">
+        <Text fontSize="sm" fontWeight="bold" width={16}>
           {stat % 1 === 0 ? stat : stat.toFixed(3)}
         </Text>
       </Cell>
@@ -200,9 +180,9 @@ const TeamRow = ({ record, rank }) => {
   return (
     <Row key={rank} className={isLastWeek ? 'primary-100' : isLastMonth ? 'primary-50' : ''}>
       <Cell>
-        <Text fontSize="sm" fontWeight="bold">
+        <Flex fontSize="sm" fontWeight="bold" height={14} align="center" justify="center">
           {rank}
-        </Text>
+        </Flex>
       </Cell>
       <Cell>
         <ImageTwoTier
@@ -275,9 +255,9 @@ const GameRow = ({ record, rank, isDuration }) => {
   return (
     <Row key={rank} className={isLastWeek ? 'primary-100' : isLastMonth ? 'primary-50' : ''}>
       <Cell>
-        <Text fontSize="sm" fontWeight="bold">
+        <Flex fontSize="sm" fontWeight="bold" height={14} align="center" justify="center">
           {rank}
-        </Text>
+        </Flex>
       </Cell>
       <Cell>
         <ImageTwoTier
@@ -312,11 +292,10 @@ const GameRow = ({ record, rank, isDuration }) => {
       </Cell>
       <Cell>
         <Text fontSize="sm" fontWeight="bold">
-          {isDuration
-            ? `${Math.floor(duration / 60)}:${
-                duration % 60 < 10 ? '0' + (duration % 60) : duration % 60
-              }`
-            : stat}
+          {stat ||
+            `${Math.floor(duration / 60)}:${
+              duration % 60 < 10 ? '0' + (duration % 60) : duration % 60
+            }`}
         </Text>
       </Cell>
     </Row>

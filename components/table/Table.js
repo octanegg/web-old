@@ -1,8 +1,8 @@
 import { Flex, Image, Spinner, Text } from '@chakra-ui/core'
 import styles from './Table.module.scss'
 
-export const Table = ({ children }) => {
-  return <table className={styles.table}>{children}</table>
+export const Table = ({ children, isBordered }) => {
+  return <table className={`${styles.table} ${isBordered && styles.bordered}`}>{children}</table>
 }
 
 export const Header = ({ children }) => {
@@ -20,8 +20,7 @@ export const HeaderItem = ({ children, width, align, onClick }) => {
         ...(width && { width: width }),
         ...(onClick && { cursor: 'pointer' }),
         textAlign: align,
-        paddingLeft: 4,
-        paddingRight: 4,
+        padding: 4,
       }}
       onClick={onClick}>
       {children}

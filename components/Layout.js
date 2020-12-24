@@ -19,7 +19,6 @@ export const Content = ({ children, leftNav, rightNav }) => {
   return (
     <Flex
       width={{ base: 'full', xl: '6xl' }}
-      backgroundColor="white"
       borderLeft={{ base: '', lg: 'main' }}
       borderRight={{ base: '', lg: 'main' }}
       justify="space-between"
@@ -29,11 +28,7 @@ export const Content = ({ children, leftNav, rightNav }) => {
       maxWidth="6xl">
       <Stack width="full" direction="row" marginTop={4} marginBottom={4} spacing={4}>
         {leftNav && <SideNav marginLeft={4}>{leftNav}</SideNav>}
-        <Flex
-          flexDirection="column"
-          align="center"
-          width="full"
-          marginRight={{base: 4, lg: 0}}>
+        <Flex flexDirection="column" align="center" width="full" marginRight={{ base: 4, lg: 0 }}>
           {children}
         </Flex>
         {rightNav && <SideNav marginRight={4}>{rightNav}</SideNav>}

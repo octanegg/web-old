@@ -68,14 +68,14 @@ const Matches = ({ initialFilter }) => {
           .filter(([k, v]) => !['', 'perPage', 'before', 'after', 'sort'].includes(k) && v !== '')
           .map(([k, v]) => `${k}=${v}`)
           .join('&')
-      router.push(`/matches${query}`)
+      router.push(`/matches/archive${query}`)
     }
     route()
   }, [filter])
 
   return (
     <FilterOrchestrator filter={filter} setFilter={setFilter}>
-      <MatchesTable filter={filter} after={moment().toISOString()} sort='date:asc'/>
+      <MatchesTable filter={filter} before={moment().toISOString()} sort='date:desc' />
     </FilterOrchestrator>
   )
 }

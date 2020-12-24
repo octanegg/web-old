@@ -84,7 +84,7 @@ const FilterOrchestrator = ({ filter, setFilter, children }) => {
   )
 }
 
-const Records = ({ initialFilter }) => {
+const Stats = ({ initialFilter }) => {
   const router = useRouter()
   const [filter, setFilter] = useState(initialFilter)
 
@@ -126,4 +126,4 @@ export async function getServerSideProps({ query }) {
   }
 }
 
-export default Records
+export default Stats

@@ -5,8 +5,8 @@ import Head from 'next/head'
 import { Auth0Provider } from '@auth0/auth0-react'
 
 // TODO: Temporary dirty date-picker
-import 'react-datepicker/dist/react-datepicker.css';
-import './date-picker.css';
+import 'react-datepicker/dist/react-datepicker.css'
+import './date-picker.css'
 
 const theme = {
   ...defaultTheme,
@@ -58,7 +58,8 @@ const theme = {
       EU: '3px solid #08597a',
       OCE: '3px solid #d5b758',
       SAM: '3px solid #9cb27a',
-      ASIA: '3px solid #a25e9d'
+      ASIA: '3px solid #a25e9d',
+      INT: '3px solid ##645ea2',
     },
   },
   fontWeights: {

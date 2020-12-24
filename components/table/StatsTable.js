@@ -1,7 +1,13 @@
 import { Flex, Image, Text } from '@chakra-ui/core'
 import { useEffect, useState } from 'react'
 import { Table, Header, HeaderItem, Body, Row, Cell, Loading } from './Table'
-import { TriangleDownIcon, TriangleUpIcon } from '@chakra-ui/icons'
+import {
+  ChevronDownIcon,
+  ChevronUpIcon,
+  TriangleDownIcon,
+  TriangleUpIcon,
+  UpDownIcon,
+} from '@chakra-ui/icons'
 
 export const StatsTable = ({ filter, isSortable }) => {
   const [stats, setStats] = useState([])
@@ -52,13 +58,13 @@ export const StatsTable = ({ filter, isSortable }) => {
   }
 
   const SortIcon = ({ field }) => {
-    return sort == field ? order ? <TriangleUpIcon /> : <TriangleDownIcon /> : <></>
+    return sort == field ? order ? <ChevronUpIcon /> : <ChevronDownIcon /> : <UpDownIcon />
   }
 
   return loading ? (
     <Loading />
   ) : (
-    <Table>
+    <Table isBordered>
       <Header>
         <HeaderItem align="left">Player</HeaderItem>
         <HeaderItem onClick={isSortable && (() => updateSort('games'))} width="4.5rem">
@@ -82,6 +88,16 @@ export const StatsTable = ({ filter, isSortable }) => {
         <HeaderItem onClick={isSortable && (() => updateSort('averages.shots'))} width="4.5rem">
           Shots <SortIcon field="averages.shots" />
         </HeaderItem>
+        <HeaderItem
+          onClick={isSortable && (() => updateSort('averages.shootingPercentage'))}
+          width="4.5rem">
+          SH % <SortIcon field="averages.shootingPercentage" />
+        </HeaderItem>
+        <HeaderItem
+          onClick={isSortable && (() => updateSort('averages.goalParticipation'))}
+          width="4.5rem">
+          GP % <SortIcon field="averages.goalParticipation" />
+        </HeaderItem>
         <HeaderItem onClick={isSortable && (() => updateSort('averages.rating'))} width="4.5rem">
           Rating <SortIcon field="averages.rating" />
         </HeaderItem>
@@ -99,7 +115,7 @@ const StatsRow = ({ stat }) => {
   return (
     <Row key={player}>
       <Cell>
-        <Flex align="center" justify="center">
+        <Flex align="center" justify="center" padding={1}>
           <Flex minWidth={6} justify="center">
             <Image src={`https://www.octane.gg/flags/${player.country}.png`} />
           </Flex>
@@ -130,6 +146,12 @@ const StatsRow = ({ stat }) => {
       </Cell>
       <Cell>
         <Text fontSize="sm">{averages.shots.toFixed(2)}</Text>
+      </Cell>
+      <Cell>
+        <Text fontSize="sm">{(averages.shootingPercentage * 100).toFixed(2)} %</Text>
+      </Cell>
+      <Cell>
+        <Text fontSize="sm">{(averages.goalParticipation * 100).toFixed(2)} %</Text>
       </Cell>
       <Cell>
         <Text fontSize="sm" fontWeight="bold">
