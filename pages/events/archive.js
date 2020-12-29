@@ -77,7 +77,7 @@ const Events = ({ initialFilter }) => {
 
   return (
     <FilterOrchestrator filter={filter} setFilter={setFilter}>
-      <EventsTable filter={filter} before={moment().toISOString()} sort="start_date:desc" />
+      <EventsTable filter={filter} />
     </FilterOrchestrator>
   )
 }
@@ -89,6 +89,8 @@ export async function getServerSideProps({ query }) {
         mode: query.mode || '',
         tier: query.tier || '',
         region: query.region || '',
+        before: moment().toISOString(),
+        sort: 'start_date:desc',
       },
     },
   }

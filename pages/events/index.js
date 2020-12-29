@@ -78,7 +78,14 @@ const Events = ({ initialFilter }) => {
 
   return (
     <FilterOrchestrator filter={filter} setFilter={setFilter}>
-      <EventsTable filter={filter} after={moment().toISOString()} sort="start_date:asc" />
+      <EventsTable
+        filter={{
+          date: moment().toISOString(),
+          sort: 'start_date:asc',
+        }}
+        isOngoing
+      />
+      <EventsTable filter={filter} />
     </FilterOrchestrator>
   )
 }
@@ -90,6 +97,8 @@ export async function getServerSideProps({ query }) {
         mode: query.mode || '',
         tier: query.tier || '',
         region: query.region || '',
+        after: moment().toISOString(),
+        sort: 'start_date:asc',
       },
     },
   }

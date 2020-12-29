@@ -77,9 +77,9 @@ export const ImageTwoTier = (props) => {
         marginRight={reversed && 2}
         justify="flex-start"
         align={reversed ? 'flex-end' : 'flex-start'}>
-        <Text fontWeight="bold" fontSize="sm" align={reversed ? 'end' : 'start'}>
+        <Flex fontWeight="bold" fontSize="sm" align={reversed ? 'end' : 'start'}>
           {label}
-        </Text>
+        </Flex>
         {description && <Flex align={reversed ? 'end' : 'start'}>{description}</Flex>}
       </Flex>
     </Flex>
