@@ -1,66 +1,46 @@
 import { Content } from '../../components/Layout'
-import { Stack } from '@chakra-ui/core'
+import { Spacer, Stack, Text } from '@chakra-ui/core'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
-import Filter from '../../components/filter/Filter'
-import { DropdownButton } from '../../components/filter/Dropdown'
 import moment from 'moment'
 import EventsTable from '../../components/table/EventsTable'
+import { Button, ButtonLink } from '../../components/common/Button'
+import { EditIcon } from '@chakra-ui/icons'
+import Dropdown from '../../components/common/Dropdown'
 
-const FilterOrchestrator = ({ filter, setFilter, children }) => {
-  const updateFilter = (key, value) => {
-    setFilter((prev) => ({
-      ...prev,
-      [key]: value,
-    }))
-  }
+const Navigation = ({ defaultOpen, children }) => {
+  const [open, setOpen] = useState(defaultOpen)
 
   return (
-    <Content leftNav={<div></div>} rightNav={<div></div>}>
-      <Stack direction="column" width="full">
-        <Filter>
-          <Stack width="full" direction={{ base: 'column', md: 'row' }}>
-            <DropdownButton
-              label="tier"
-              width={24}
-              data={['All', 'S', 'A', 'B', 'C']}
-              toString={(tier) => (tier ? tier : 'All')}
-              onChange={({ selectedItem }) =>
-                updateFilter('tier', selectedItem == 'All' ? '' : selectedItem)
-              }
-              initialSelectedItem={filter.tier}
-            />
-            <DropdownButton
-              label="region"
-              width={24}
-              data={['All', 'NA', 'EU', 'OCE', 'SAM', 'ASIA', 'INT']}
-              toString={(region) => (region ? region : 'All')}
-              onChange={({ selectedItem }) =>
-                updateFilter('region', selectedItem == 'All' ? '' : selectedItem)
-              }
-              initialSelectedItem={filter.region}
-            />
-            <DropdownButton
-              label="mode"
-              width={24}
-              data={['All', 3, 2, 1]}
-              toString={(mode) => (mode && mode !== 'All' ? `${mode}v${mode}` : 'All')}
-              onChange={({ selectedItem }) =>
-                updateFilter('mode', selectedItem == 'All' ? '' : selectedItem)
-              }
-              initialSelectedItem={filter.mode}
-            />
-          </Stack>
-        </Filter>
-        {children}
+    <React.Fragment>
+      <Stack width="full" direction="row" padding={2}>
+        <ButtonLink label="Ongoing & Upcoming" href="/events" />
+        <ButtonLink label="Completed" href="/events/archive" isActive />
+        <Spacer />
+        <Button
+          label={
+            <Text>
+              <EditIcon /> Filters
+            </Text>
+          }
+          onClick={() => setOpen(!open)}
+        />
       </Stack>
-    </Content>
+      {open && children}
+    </React.Fragment>
   )
 }
 
 const Events = ({ initialFilter }) => {
   const router = useRouter()
   const [filter, setFilter] = useState(initialFilter)
+
+  const updateFilter = (key, value) => {
+    setFilter((prev) => ({
+      ...prev,
+      [key]: value,
+    }))
+  }
 
   useEffect(() => {
     const route = () => {
@@ -76,9 +56,36 @@ const Events = ({ initialFilter }) => {
   }, [filter])
 
   return (
-    <FilterOrchestrator filter={filter} setFilter={setFilter}>
+    <Content>
+      <Navigation defaultOpen={filter.tier || filter.region || filter.mode}>
+        <Stack width="full" direction="row" padding={2}>
+          <Dropdown
+            label={
+              filter.tier
+                ? filter.tier.length == 1
+                  ? `${filter.tier}-Tier`
+                  : filter.tier
+                : 'All Tiers'
+            }
+            items={['All', 'S', 'A', 'B', 'C', 'Monthly', 'Weekly', 'Qualifier', 'Show Match']}
+            itemToString={(tier) => (tier ? (tier.length == 1 ? `${tier}-Tier` : tier) : 'All')}
+            onChange={(item) => updateFilter('tier', item == 'All' ? '' : item)}
+          />
+          <Dropdown
+            label={filter.region || 'All Regions'}
+            items={['All', 'NA', 'EU', 'OCE', 'SAM', 'ASIA', 'INT']}
+            onChange={(item) => updateFilter('region', item == 'All' ? '' : item)}
+          />
+          <Dropdown
+            label={filter.mode ? `${filter.mode}v${filter.mode}` : 'All Modes'}
+            items={['All', 3, 2, 1]}
+            itemToString={(mode) => (mode !== 'All' ? `${mode}v${mode}` : 'All')}
+            onChange={(item) => updateFilter('mode', item == 'All' ? '' : item)}
+          />
+        </Stack>
+      </Navigation>
       <EventsTable filter={filter} />
-    </FilterOrchestrator>
+    </Content>
   )
 }
 

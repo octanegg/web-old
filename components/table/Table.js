@@ -42,13 +42,7 @@ export const Cell = ({ children }) => {
 
 export const Loading = () => {
   return (
-    <Flex
-      width="full"
-      justify="center"
-      align="center"
-      height="sm"
-      backgroundColor="white"
-      border="main">
+    <Flex width="full" justify="center" align="center" height="sm">
       <Spinner width={24} height={24} color="secondary.800" />
     </Flex>
   )

@@ -18,26 +18,25 @@ const theme = {
       200: '#94e8be',
       300: '#6cdea4',
       400: '#44d48c',
-      500: '#2EC97B', // Octane Green
+      500: '#30C97B', // Octane Green
       600: '#1e9158',
       700: '#12683e',
       800: '#043f24',
       900: '#001708',
     },
     secondary: {
-      50: '#e8f4fd',
-      100: '#c8dae9',
-      200: '#a7c1d8',
-      300: '#83a8c9',
-      400: '#618fb9',
-      500: '#4875a0',
-      600: '#375b7d',
-      700: '#274159',
-      800: '#1A2F42', // Octane Blue
-      900: '#020e16',
+      50: '#E4F2FF',
+      100: '#D8E6FE',
+      200: '#BECCE4',
+      300: '#A5B3CB',
+      400: '#8B99B1',
+      500: '#728098',
+      600: '#58667e',
+      700: '#3F4D65',
+      800: '#25334B', // Octane Blue
+      900: '#0C1A32',
     },
     border: '#ddd',
-    gray: '#b8bec6',
     hover: '#e8f4fd',
     win: '#09A503',
     loss: '#E40B0C',
@@ -63,11 +62,15 @@ const theme = {
     },
   },
   fontWeights: {
+    thin: 100,
+    extraLight: 200,
     light: 300,
     regular: 400,
+    medium: 500,
     semi: 600,
     bold: 700,
     extra: 800,
+    black: 900,
   },
 }
 
@@ -78,8 +81,13 @@ const App = ({ Component, pageProps }) => {
       <Head>
         <title>Octane</title>
         <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
-        <link
+        {/* <link
           href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,600;0,700;0,800;1,300;1,400;1,600;1,700;1,800&display=swap"
+          rel="stylesheet"
+        /> */}
+        <link rel="preconnect" href="https://fonts.gstatic.com"></link>
+        <link
+          href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap"
           rel="stylesheet"
         />
       </Head>

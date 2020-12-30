@@ -9,11 +9,12 @@ const NavItem = ({ href, leftBorder, rightBorder, onClick, children }) => {
   const [hoverable, hovered] = useHover((hovered) => (
     <Flex
       fontSize="sm"
-      borderRight={rightBorder && 'navbar'}
-      borderLeft={leftBorder && 'navbar'}
+      fontWeight="medium"
       borderBottom={{ base: 'navbar', md: 'none' }}
       transition="box-shadow 0.1s ease-out"
       cursor="pointer"
+      marginLeft={1}
+      marginRight={1}
       boxShadow={hovered && 'navbar'}>
       {href ? (
         <NextLink href={href}>
