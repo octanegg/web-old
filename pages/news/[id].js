@@ -1,4 +1,4 @@
-import { Content } from '../../components/Layout'
+import { Content } from '../../components/common/Layout'
 import ReactMarkdown from 'react-markdown'
 import { Flex, Image, Link, Spacer, Stack, Text } from '@chakra-ui/core'
 import NextLink from 'next/link'

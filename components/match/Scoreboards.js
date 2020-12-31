@@ -13,7 +13,7 @@ import {
 import numeral from 'numeral'
 
 import TeamStatsTable from './TeamStatsTable'
-import { getTeamLogoUrl } from '../../utility'
+import { getTeamLogoUrl } from '../../util'
 
 const DEFAULT_ORDER = ['score', 'goals', 'assists', 'saves', 'shots', 'rating']
 

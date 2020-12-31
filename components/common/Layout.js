@@ -1,6 +1,6 @@
 import Navbar from './Navbar'
 import Footer from './Footer'
-const { Flex, Stack } = require('@chakra-ui/core')
+const { Flex } = require('@chakra-ui/core')
 
 export const Content = ({ children, leftNav, rightNav }) => {
   return (
@@ -14,6 +14,8 @@ export const Content = ({ children, leftNav, rightNav }) => {
       maxWidth="6xl"
       flexDirection="column"
       align="center"
+      paddingTop={2}
+      paddingBottom={2}
       width="full">
       {children}
     </Flex>

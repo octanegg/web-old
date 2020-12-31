@@ -1,82 +1,47 @@
-import { Content } from '../../components/Layout'
+import { Content } from '../../components/common/Layout'
 import { Stack } from '@chakra-ui/core'
-import MatchesTable from '../../components/table/MatchesTable'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
-import Filter from '../../components/filter/Filter'
-import { DropdownButton } from '../../components/filter/Dropdown'
 import moment from 'moment'
-
-const FilterOrchestrator = ({ filter, setFilter, children }) => {
-  const updateFilter = (key, value) => {
-    setFilter((prev) => ({
-      ...prev,
-      [key]: value,
-    }))
-  }
-
-  return (
-    <Content leftNav={<div></div>} rightNav={<div></div>}>
-      <Stack direction="column" width="full">
-        <Filter>
-          <Stack width="full" direction={{ base: 'column', md: 'row' }}>
-            <DropdownButton
-              label="tier"
-              width={24}
-              data={['All', 'S', 'A', 'B', 'C']}
-              toString={(tier) => (tier ? tier : 'All')}
-              onChange={({ selectedItem }) =>
-                updateFilter('tier', selectedItem == 'All' ? '' : selectedItem)
-              }
-              initialSelectedItem={filter.tier}
-            />
-            <DropdownButton
-              label="region"
-              width={24}
-              data={['All', 'NA', 'EU', 'OCE', 'SAM', 'ASIA', 'INT']}
-              toString={(region) => (region ? region : 'All')}
-              onChange={({ selectedItem }) =>
-                updateFilter('region', selectedItem == 'All' ? '' : selectedItem)
-              }
-              initialSelectedItem={filter.region}
-            />
-            <DropdownButton
-              label="mode"
-              width={24}
-              data={[3, 2, 1]}
-              toString={(mode) => `${mode}v${mode}`}
-              onChange={({ selectedItem }) => updateFilter('mode', selectedItem)}
-              initialSelectedItem={filter.mode}
-            />
-          </Stack>
-        </Filter>
-        {children}
-      </Stack>
-    </Content>
-  )
-}
+import MatchesTable from '../../components/tables/MatchesTable'
+import { ButtonLink } from '../../components/common/Button'
+import { ModeFilter, RegionFilter, TierFilter } from '../../components/filters/Filters'
+import { buildQuery, route } from '../../util/routes'
+import Navigation from '../../components/common/Navigation'
 
 const Matches = ({ initialFilter }) => {
   const router = useRouter()
   const [filter, setFilter] = useState(initialFilter)
 
+  const updateFilter = (key, value) => {
+    setFilter((prev) => ({
+      ...prev,
+      [key]: value == 'All' ? '' : value,
+    }))
+  }
+
   useEffect(() => {
-    const route = () => {
-      const query =
-        '?' +
-        Object.entries(filter)
-          .filter(([k, v]) => !['', 'perPage', 'before', 'after', 'sort'].includes(k) && v !== '')
-          .map(([k, v]) => `${k}=${v}`)
-          .join('&')
-      router.push(`/matches${query}`)
-    }
-    route()
+    route(router, '/matches', buildQuery(filter, ['', 'perPage', 'before', 'after', 'sort']))
   }, [filter])
 
   return (
-    <FilterOrchestrator filter={filter} setFilter={setFilter}>
-      <MatchesTable filter={filter} after={moment().toISOString()} sort='date:asc'/>
-    </FilterOrchestrator>
+    <Content>
+      <Navigation
+        defaultOpen={filter.tier || filter.region || filter.mode}
+        left={
+          <Stack direction="row">
+            <ButtonLink href="/matches" isActive>
+              Ongoing & Upcoming
+            </ButtonLink>
+            <ButtonLink href="/matches/archive">Completed</ButtonLink>
+          </Stack>
+        }>
+        <TierFilter active={filter.tier} onChange={(item) => updateFilter('tier', item)} />
+        <RegionFilter active={filter.region} onChange={(item) => updateFilter('region', item)} />
+        <ModeFilter active={filter.mode} onChange={(item) => updateFilter('mode', item)} />
+      </Navigation>
+      <MatchesTable filter={filter} />
+    </Content>
   )
 }
 
@@ -87,7 +52,10 @@ export async function getServerSideProps({ query }) {
         mode: query.mode || 3,
         tier: query.tier || '',
         region: query.region || '',
+        after: moment().toISOString(),
         page: query.page || 1,
+        perPage: 50,
+        sort: 'date:asc',
       },
     },
   }

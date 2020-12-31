@@ -1,4 +1,4 @@
-import { Content } from '../../components/Layout'
+import { Content } from '../../components/common/Layout'
 import { Stack, Text } from '@chakra-ui/core'
 
 const Team = ({ team }) => {

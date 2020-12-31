@@ -5,7 +5,7 @@
   text-align: center;
   thead {
     tr {
-      background-color: #f6f6f9;
+      background-color: #fff;
       border-bottom: 2px solid #1a2f42;
       th {
         font-size: 10px;
@@ -18,7 +18,7 @@
     tr {
       padding: 0;
       &:hover {
-        background-color: #e8f4fd !important;
+        background-color: #e0fdef !important;
       }
       &:nth-child(even) {
         background-color: #f3f8fb;
@@ -32,28 +32,6 @@
     }
     tr.primary-100 {
       background-color: #bbf2d7 !important;
-    }
-  }
-}
-
-table.bordered {
-  thead {
-    th {
-      border-left: 1px solid #ccc;
-      &:first-of-type {
-        border-left: none;
-      }
-    }
-  }
-  tbody {
-    tr {
-      border-bottom: 1px solid #ccc;
-      td {
-        border-left: 1px solid #ccc;
-        &:first-of-type {
-          border-left: none;
-        }
-      }
     }
   }
 }

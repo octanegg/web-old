@@ -1,4 +1,4 @@
-import { Content } from '../../components/Layout'
+import { Content } from '../../components/common/Layout'
 import MemberInfo from '../../components/about/MemberInfo'
 import { Flex, Stack, Text } from '@chakra-ui/core'
 

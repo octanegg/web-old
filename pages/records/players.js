@@ -2,7 +2,7 @@ import { Content } from '../../components/common/Layout'
 import { Stack } from '@chakra-ui/core'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
-import StatsTable from '../../components/tables/StatsTable'
+import RecordsTable from '../../components/tables/RecordsTable'
 import { ButtonLink } from '../../components/common/Button'
 import {
   ModeFilter,
@@ -10,6 +10,7 @@ import {
   TierFilter,
   ResultsFilter,
   DateRangeFilter,
+  RecordsFilter,
 } from '../../components/filters/Filters'
 import { buildQuery, route } from '../../util/routes'
 import Navigation from '../../components/common/Navigation'
@@ -26,20 +27,30 @@ const Stats = ({ initialFilter }) => {
   }
 
   useEffect(() => {
-    route(router, '/stats/players', buildQuery(filter, ['']))
+    route(router, '/records/players', buildQuery(filter, ['', 'type']))
   }, [filter])
 
   return (
     <Content>
       <Navigation
-        defaultOpen={filter.tier || filter.region || filter.mode || filter.before || filter.after}
+        defaultOpen={true}
         left={
-          <Stack direction="row">
-            <ButtonLink href="/stats/players" isActive>
+            <Stack direction="row">
+            <ButtonLink href="/records/players" isActive>
               Players
             </ButtonLink>
+            <ButtonLink href="/records/teams">Teams</ButtonLink>
+            <ButtonLink href="/records/totals">Totals</ButtonLink>
+            <ButtonLink href="/records/differentials">Differentials</ButtonLink>
           </Stack>
         }>
+        <RecordsFilter
+          category={filter.category}
+          type={filter.type}
+          stat={filter.stat}
+          onCategoryChange={(item) => updateFilter('category', item)}
+          onStatChange={(item) => updateFilter('stat', item)}
+        />
         <TierFilter active={filter.tier} onChange={(item) => updateFilter('tier', item)} />
         <RegionFilter active={filter.region} onChange={(item) => updateFilter('region', item)} />
         <ModeFilter active={filter.mode} onChange={(item) => updateFilter('mode', item)} />
@@ -53,7 +64,7 @@ const Stats = ({ initialFilter }) => {
           }}
         />
       </Navigation>
-      <StatsTable filter={filter} isSortable />
+      <RecordsTable filter={filter} />
     </Content>
   )
 }
@@ -67,6 +78,9 @@ export async function getServerSideProps({ query }) {
         region: query.region || '',
         before: query.before || '',
         after: query.after || '',
+        category: query.category || 'games',
+        stat: query.stat || 'score',
+        type: 'players',
       },
     },
   }

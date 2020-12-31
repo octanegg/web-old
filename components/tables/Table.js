@@ -13,7 +13,7 @@ export const Header = ({ children }) => {
   )
 }
 
-export const HeaderItem = ({ children, width, align, onClick }) => {
+export const HeaderItem = ({ children, width, align, paddingLeft, onClick }) => {
   return (
     <th
       style={{
@@ -21,6 +21,7 @@ export const HeaderItem = ({ children, width, align, onClick }) => {
         ...(onClick && { cursor: 'pointer' }),
         textAlign: align,
         padding: 4,
+        paddingLeft: paddingLeft,
       }}
       onClick={onClick}>
       {children}
@@ -38,14 +39,6 @@ export const Row = ({ children, className }) => {
 
 export const Cell = ({ children }) => {
   return <td>{children}</td>
-}
-
-export const Loading = () => {
-  return (
-    <Flex width="full" justify="center" align="center" height="sm">
-      <Spinner width={24} height={24} color="secondary.800" />
-    </Flex>
-  )
 }
 
 export const ImageTwoTier = (props) => {

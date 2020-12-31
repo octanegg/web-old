@@ -1,6 +1,6 @@
 import React from 'react'
 import { theme as defaultTheme, ThemeProvider, CSSReset } from '@chakra-ui/core'
-import Layout from '../components/Layout'
+import Layout from '../components/common/Layout'
 import Head from 'next/head'
 import { Auth0Provider } from '@auth0/auth0-react'
 
@@ -45,21 +45,14 @@ const theme = {
     ...defaultTheme.shadows,
     main: '0 1px 3px -1px rgba(0, 0, 0, 0.4)',
     navbar: '0 -4px 1px -1px #2EC97B inset',
+    focus: '#e0fdef 0px 0px 0px 4px',
   },
   borders: {
     ...defaultTheme.borders,
     main: '1px solid #ddd',
     navbar: '1px solid black',
     pic: '5px solid #44d48c',
-    region: {
-      // TODO: make better colors
-      NA: '3px solid #d43d2a',
-      EU: '3px solid #08597a',
-      OCE: '3px solid #d5b758',
-      SAM: '3px solid #9cb27a',
-      ASIA: '3px solid #a25e9d',
-      INT: '3px solid ##645ea2',
-    },
+    focus: '1px solid #44d48c',
   },
   fontWeights: {
     thin: 100,

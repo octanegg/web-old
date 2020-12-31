@@ -1,6 +1,6 @@
 import { Text } from '@chakra-ui/core'
 import Link from 'next/link'
-import { Content } from '../components/Layout'
+import { Content } from '../components/common/Layout'
 
 const Error = () => {
   return (

@@ -2,46 +2,75 @@ import { Button as ChakraButton } from '@chakra-ui/core'
 import Link from 'next/link'
 
 const buttonTypes = {
-  ghost: {
-    color: 'secondary.600',
-    variant: 'ghost',
-    _hover: { backgroundColor: 'primary.50', color: 'secondary.800' },
-  },
-  selected: {
-    backgroundColor: 'primary.50',
-    color: 'primary.600',
-    _hover: {},
+  link: {
+    default: {
+      color: 'secondary.600',
+      variant: 'ghost',
+      fontWeight: 'bold',
+      height: 7,
+      size: 'sm',
+      fontSize: 'xs',
+      _hover: { backgroundColor: 'primary.50', color: 'secondary.700' },
+      _focus: { outline: 'none' },
+    },
+    selected: {
+      backgroundColor: 'primary.50',
+      color: 'primary.600',
+      fontWeight: 'bold',
+      height: 7,
+      size: 'sm',
+      fontSize: 'xs',
+      _hover: {},
+      _focus: { outline: 'none' },
+    },
   },
   default: {
     backgroundColor: 'secondary.50',
     color: 'secondary.700',
+    fontWeight: 'bold',
+    height: 7,
+    size: 'sm',
+    fontSize: 'xs',
     _hover: { backgroundColor: 'secondary.100' },
+    _focus: { outline: 'none' },
+  },
+  cancel: {
+    size: 'sm',
+    fontSize: 'xs',
+    colorScheme: 'gray',
+    variant: 'ghost',
+    fontWeight: 'bold',
+    _focus: { outline: 'none' },
+    _hover: { backgroundColor: 'secondary.50' },
+  },
+  submit: {
+    size: 'sm',
+    fontSize: 'xs',
+    fontWeight: 'bold',
+    color: '#fff',
+    backgroundColor: 'primary.500',
+    _focus: { outline: 'none' },
+    _hover: {},
   },
 }
 
-export const Button = ({ label, buttonType, onClick }) => {
+export const Button = ({ buttonType, buttonProps, onClick, children }) => {
   const props = buttonType ? buttonTypes[buttonType] : buttonTypes.default
   return (
-    <ChakraButton
-      fontWeight="bold"
-      size="xs"
-      _focus={{ outline: 'none' }}
-      {...props}
-      onClick={onClick}>
-      {label}
+    <ChakraButton onClick={onClick} {...(buttonProps || props)}>
+      {children}
     </ChakraButton>
   )
 }
 
-export const ButtonLink = ({ label, isActive, href }) => {
+export const ButtonLink = ({ isActive, href, children }) => {
   return (
     <Link href={href}>
       <Button
         fontWeight="bold"
         size="xs"
-        buttonType={isActive ? 'selected' : 'ghost'}
-        label={label}>
-        {label}
+        buttonProps={isActive ? buttonTypes.link.selected : buttonTypes.link.default}>
+        {children}
       </Button>
     </Link>
   )

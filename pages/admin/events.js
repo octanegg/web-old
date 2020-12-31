@@ -3,8 +3,8 @@ import { VStack, Center, Stack, Button, Spinner, Flex } from '@chakra-ui/core'
 import { useEffect, useState } from 'react'
 import Card, { SelectionCard, DropdownCard } from '../../components/admin/Card'
 import MatchForm from '../../components/admin/MatchForm'
-import { AdminOnly } from '../../components/Auth'
-import { Content } from '../../components/Layout'
+import { AdminOnly } from '../../components/common/Auth'
+import { Content } from '../../components/common/Layout'
 
 const MatchContainer = ({ event, stage }) => {
   const [pending, setPending] = useState({})

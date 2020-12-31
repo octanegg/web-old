@@ -3,9 +3,9 @@ import { useRouter } from 'next/router'
 import { Flex, Spinner, Text } from '@chakra-ui/core'
 import MatchInfo from '../../components/match/MatchInfo'
 import Scoreboards from '../../components/match/Scoreboards'
-import { Content } from '../../components/Layout'
+import { Content } from '../../components/common/Layout'
 
-import { getCleanGameData, calcPlayersOverview } from '../../utility/dataFormatting'
+import { getCleanGameData, calcPlayersOverview } from '../../util/dataFormatting'
 
 const MatchPage = (props) => {
   const router = useRouter()

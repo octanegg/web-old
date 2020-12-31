@@ -8,9 +8,11 @@ import {
   Row,
   Cell,
   ImageTwoTier,
-  Loading,
-} from '../../components/table/Table'
+} from '../../components/tables/Table'
 import moment from 'moment'
+import Loading from '../common/Loading'
+import { apiFetch } from '../../util/fetch'
+import { buildQuery } from '../../util/routes'
 
 export const RecordsTable = ({ filter }) => {
   const [records, setRecords] = useState([])
@@ -21,19 +23,13 @@ export const RecordsTable = ({ filter }) => {
       setRecords([])
       setLoading(true)
 
-      const query =
-        '?' +
-        Object.entries(filter)
-          .filter(([k, v]) => !['', 'stat', 'category', 'type'].includes(k) && v !== '')
-          .map(([k, v]) => `${k}=${v}`)
-          .join('&')
-      const res = await fetch(
-        process.env.API_URL +
-          `/records/${filter.category}/${filter.type}${
-            filter.stat ? `/${filter.stat}` : ''
-          }${query}`
+      const data = await apiFetch(
+        `/records/${filter.category}/${filter.type}/${filter.stat}`,
+        buildQuery(filter, ['', 'category', 'type', 'stat'])
       )
-      const data = await res.json()
+      if (!data) {
+        return
+      }
 
       setRecords(data)
       setLoading(false)

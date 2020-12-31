@@ -106,16 +106,13 @@ const Navbar = () => {
           <NavItem href="/matches" leftBorder>
             Matches
           </NavItem>
-          <NavItem href="/matches/archive" leftBorder>
-            Results
-          </NavItem>
-          <NavItem href="/events/archive" leftBorder>
+          <NavItem href="/events" leftBorder>
             Events
           </NavItem>
-          <NavItem href="/stats/players" leftBorder>
+          <NavItem href="/stats/players?mode=3" leftBorder>
             Stats
           </NavItem>
-          <NavItem href="/records/games/players/goals" leftBorder rightBorder>
+          <NavItem href="/records/players?category=games&stat=goals" leftBorder rightBorder>
             Records
           </NavItem>
           <Spacer display={{ base: 'none', md: 'block' }} />
