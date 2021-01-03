@@ -67,11 +67,12 @@ export const StatsTable = ({ filter, isSortable }) => {
       setLoading(true)
 
       const data = await apiFetch('/stats/players', buildQuery(filter, ['']))
-      if (!data) {
+      if (!data.stats) {
+        setLoading(false)
         return
       }
 
-      setStats(doSort(data, sort, order))
+      setStats(doSort(data.stats, sort, order))
       setLoading(false)
     }
     fetchRecords()

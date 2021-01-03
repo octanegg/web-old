@@ -19,6 +19,7 @@ export const MatchesTable = ({ filter }) => {
 
       const data = await apiFetch('/matches', buildQuery(filter, ['']))
       if (!data.matches) {
+        setLoading(false)
         return
       }
 

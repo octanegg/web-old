@@ -4,7 +4,9 @@
   color: #1a2f42;
   text-align: center;
   thead {
+    width: 100%;
     tr {
+      width: 100%;
       background-color: #fff;
       border-bottom: 2px solid #1a2f42;
       th {
@@ -15,7 +17,9 @@
     }
   }
   tbody {
+    width: 100%;
     tr {
+      width: 100%;
       padding: 0;
       &:hover {
         background-color: #e0fdef !important;

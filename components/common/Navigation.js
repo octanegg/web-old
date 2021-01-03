@@ -24,7 +24,7 @@ const Navigation = ({ defaultOpen, left, children }) => {
         </Button>
       </Stack>
       {open && (
-        <Stack width="full" direction="row" padding={2}>
+        <Stack width="full" direction="row" paddingTop={2} paddingBottom={2}>
           {children}
         </Stack>
       )}

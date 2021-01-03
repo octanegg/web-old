@@ -1,6 +1,7 @@
 import { Flex, Image, Stack, Text } from '@chakra-ui/core'
 import { toDateString } from '../../util/dates'
 import DropdownList, { DropdownDate } from '../common/Dropdown'
+import { tiers, regions, modes, results, recordTypes, recordStats } from '../../util/constants'
 
 export const Filter = ({ children }) => {
   return (
@@ -24,47 +25,6 @@ export const FilterLabel = (props) => {
     </Text>
   )
 }
-
-const tiers = ['All', 'S', 'A', 'B', 'C', 'Monthly', 'Weekly', 'Qualifier', 'Show Match']
-const modes = ['All', 3, 2, 1]
-const results = ['All', 'Wins', 'Losses']
-const regions = [
-  {
-    id: 'All',
-    image: 'https://octane.gg/flags/int.png',
-    label: 'All Regions',
-  },
-  {
-    id: 'NA',
-    image: 'https://octane.gg/flags/na.png',
-    label: 'North America',
-  },
-  {
-    id: 'EU',
-    image: 'https://octane.gg/flags/eu.png',
-    label: 'Europe',
-  },
-  {
-    id: 'OCE',
-    image: 'https://octane.gg/flags/au.png',
-    label: 'Oceania',
-  },
-  {
-    id: 'SAM',
-    image: 'https://octane.gg/flags/sam.png',
-    label: 'South America',
-  },
-  {
-    id: 'ASIA',
-    image: 'https://octane.gg/flags/int.png',
-    label: 'Asia',
-  },
-  {
-    id: 'INT',
-    image: 'https://octane.gg/flags/int.png',
-    label: 'International',
-  },
-]
 
 export const TierFilter = ({ active, onChange }) => (
   <DropdownList
@@ -103,7 +63,6 @@ export const ResultsFilter = ({ active, onChange }) => (
   <DropdownList
     label={active == 'true' ? 'Wins' : active == 'false' ? 'Losses' : 'All Results'}
     items={results}
-    itemToLabel={(result) => result}
     itemToId={(result) => (result == 'Wins' ? 'true' : result == 'Losses' ? 'false' : 'All')}
     onChange={onChange}
   />
@@ -118,30 +77,25 @@ export const DateRangeFilter = ({ after, before, onChange }) => (
   />
 )
 
-export const RecordsFilter = ({ category, type, stat, onCategoryChange, onStatChange }) => {
-  const categories = ['games', 'series']
-  const stats = {
-    players: ['score', 'goals', 'assists', 'saves', 'shots', 'rating'],
-    teams: ['score', 'goals', 'assists', 'saves', 'shots'],
-    totals: ['score', 'goals', 'assists', 'saves', 'shots'],
-    differentials: ['score', 'goals', 'assists', 'saves', 'shots'],
-  }
+export const RecordsTypeFilter = ({ active, onChange }) => (
+  <DropdownList
+    label={active[0].toUpperCase() + active.substring(1)}
+    items={recordTypes}
+    itemToLabel={(item) => item[0].toUpperCase() + item.substring(1)}
+    onChange={onChange}
+  />
+)
 
+export const RecordsStatsFilter = ({ type, active, onChange }) => {
+  const stats = recordStats[type]
   return (
-    <React.Fragment>
-      <DropdownList
-        label={category[0].toUpperCase() + category.substring(1)}
-        items={categories}
-        itemToLabel={(result) => result[0].toUpperCase() + result.substring(1)}
-        onChange={onCategoryChange}
-      />
-      <DropdownList
-        label={stat[0].toUpperCase() + stat.substring(1)}
-        items={stats[type]}
-        itemToLabel={(result) => result[0].toUpperCase() + result.substring(1)}
-        onChange={onStatChange}
-      />
-    </React.Fragment>
+    <DropdownList
+      label={stats.find((stat) => stat.id == active)?.label}
+      items={stats}
+      itemToId={(item) => item.id}
+      itemToLabel={(item) => item.label}
+      onChange={onChange}
+    />
   )
 }
 

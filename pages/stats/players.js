@@ -62,7 +62,7 @@ export async function getServerSideProps({ query }) {
   return {
     props: {
       initialFilter: {
-        mode: query.mode || '',
+        mode: query.mode || 3,
         tier: query.tier || '',
         region: query.region || '',
         before: query.before || '',

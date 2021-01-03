@@ -34,7 +34,7 @@ export const DropdownDate = ({ label, startDate, endDate, onChange }) => {
 
   const handleSubmit = () => {
     setIsOpen(false)
-    onChange([start || '2015-07-07', end || start])
+    onChange([start || '', end || start || ''])
   }
 
   return (

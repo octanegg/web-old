@@ -20,6 +20,7 @@ export const Link = ({ href, align, children }) => {
   return (
     <NextLink passHref={true} href={href}>
       <ChakraLink
+        fontSize="sm"
         fontWeight="bold"
         color="secondary.800"
         cursor="pointer"

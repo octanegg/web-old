@@ -27,11 +27,12 @@ export const RecordsTable = ({ filter }) => {
         `/records/${filter.category}/${filter.type}/${filter.stat}`,
         buildQuery(filter, ['', 'category', 'type', 'stat'])
       )
-      if (!data) {
+      if (!data.records) {
+        setLoading(false)
         return
       }
 
-      setRecords(data)
+      setRecords(data.records)
       setLoading(false)
     }
     fetchRecords()
@@ -48,9 +49,9 @@ export const RecordsTable = ({ filter }) => {
     <Table isBordered>
       <Header stat={filter.stat} />
       <Body>
-        {records &&
-          records.length > 0 &&
-          records.map((record, rank) => <Row key={rank} record={record} rank={rank + 1} />)}
+        {records?.map((record, rank) => (
+          <Row key={rank} record={record} rank={rank + 1} />
+        ))}
       </Body>
     </Table>
   )
@@ -83,159 +84,6 @@ const GameHeader = ({ stat }) => (
     <HeaderItem width="4rem">{stat || 'Duration'}</HeaderItem>
   </Header>
 )
-
-const PlayerRow = ({ record, rank }) => {
-  const { game, team, opponent, winner, player, stat } = record
-  const match = game ? game.match : record.match
-  const date = game ? game.date : record.date
-  const { event, stage } = match
-
-  const momentDate = moment(date)
-  const isLastWeek = momentDate.isAfter(moment().subtract(7, 'day'))
-  const isLastMonth = momentDate.isAfter(moment().subtract(30, 'day'))
-
-  return (
-    <Row key={rank} className={isLastWeek ? 'primary-100' : isLastMonth ? 'primary-50' : ''}>
-      <Cell>
-        <Flex fontSize="sm" fontWeight="bold" height={14} width={8} align="center" justify="center">
-          {rank}
-        </Flex>
-      </Cell>
-      <Cell>
-        <ImageTwoTier
-          src={`https://octane.gg/team-logos/${team.name}.png`}
-          label={player.tag}
-          description={
-            <Text fontWeight="regular" fontStyle="italic" fontSize="xs">
-              {team.name}
-            </Text>
-          }
-          width={{ base: '7rem', sm: 40 }}
-        />
-      </Cell>
-      <Cell>
-        <Flex direction="row" marginLeft={2} marginRight={2}>
-          <ImageTwoTier
-            src={`https://octane.gg/team-logos/${opponent.name}.png`}
-            prefix={
-              <Text fontSize="xs" fontStyle="italic">
-                vs
-              </Text>
-            }
-            label={opponent.name}
-            description={
-              <React.Fragment>
-                {winner ? (
-                  <Text fontWeight="bold" fontSize="xs" color="win">
-                    W
-                  </Text>
-                ) : (
-                  <Text fontWeight="bold" fontSize="xs" color="loss">
-                    L
-                  </Text>
-                )}
-                <Text fontWeight="regular" fontStyle="italic" fontSize="xs" marginLeft={1}>
-                  {momentDate.format('MMM Do, YYYY')}
-                </Text>
-              </React.Fragment>
-            }
-          />
-          <Spacer />
-          <ImageTwoTier
-            src={`https://octane.gg/event-logos/rlcs-x-north-america-fall-regional-one-swiss-stage-two.png`}
-            label={event.name}
-            description={
-              <Text fontWeight="regular" fontStyle="italic" fontSize="xs">
-                {stage.name}
-              </Text>
-            }
-            display={{ base: 'none', md: 'flex' }}
-            reversed
-          />
-        </Flex>
-      </Cell>
-      <Cell>
-        <Text fontSize="sm" fontWeight="bold" width={16}>
-          {stat % 1 === 0 ? stat : stat.toFixed(3)}
-        </Text>
-      </Cell>
-    </Row>
-  )
-}
-
-const TeamRow = ({ record, rank }) => {
-  const { game, team, opponent, winner, stat } = record
-  const match = game ? game.match : record.match
-  const date = game ? game.date : record.date
-  const { event, stage } = match
-
-  const momentDate = moment(date)
-  const isLastWeek = momentDate.isAfter(moment().subtract(7, 'day'))
-  const isLastMonth = momentDate.isAfter(moment().subtract(30, 'day'))
-
-  return (
-    <Row key={rank} className={isLastWeek ? 'primary-100' : isLastMonth ? 'primary-50' : ''}>
-      <Cell>
-        <Flex fontSize="sm" fontWeight="bold" height={14} align="center" justify="center">
-          {rank}
-        </Flex>
-      </Cell>
-      <Cell>
-        <ImageTwoTier
-          src={`https://octane.gg/team-logos/${team.name}.png`}
-          label={team.name}
-          width={{ base: '7rem', sm: 40 }}
-        />
-      </Cell>
-      <Cell>
-        <Flex direction="row" marginLeft={2} marginRight={2}>
-          <ImageTwoTier
-            src={`https://octane.gg/team-logos/${opponent.name}.png`}
-            prefix={
-              <Text fontSize="xs" fontStyle="italic">
-                vs
-              </Text>
-            }
-            label={opponent.name}
-            description={
-              <React.Fragment>
-                {winner ? (
-                  <Text fontWeight="bold" fontSize="xs" color="win">
-                    W
-                  </Text>
-                ) : (
-                  <Text fontWeight="bold" fontSize="xs" color="loss">
-                    L
-                  </Text>
-                )}
-                <Text fontWeight="regular" fontStyle="italic" fontSize="xs" marginLeft={1}>
-                  {momentDate.format('MMM Do, YYYY')}
-                </Text>
-              </React.Fragment>
-            }
-          />
-          <Spacer />
-          <ImageTwoTier
-            src={`https://octane.gg/event-logos/rlcs-x-north-america-fall-regional-one-swiss-stage-two.png`}
-            label={event.name}
-            description={
-              <Text fontWeight="regular" fontStyle="italic" fontSize="xs">
-                {stage.name}
-              </Text>
-            }
-            display={{ base: 'none', md: 'flex' }}
-            reversed
-          />
-        </Flex>
-      </Cell>
-      <Cell>
-        <Text fontSize="sm" fontWeight="bold">
-          {stat % 1 === 0 ? stat : stat.toFixed(3)}
-        </Text>
-      </Cell>
-    </Row>
-  )
-}
 
 const GameRow = ({ record, rank, isDuration }) => {
   const { match, date, blue, orange, stat, duration } = record

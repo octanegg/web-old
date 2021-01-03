@@ -2,7 +2,6 @@ import { Content } from '../../components/common/Layout'
 import { Stack } from '@chakra-ui/core'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
-import RecordsTable from '../../components/tables/RecordsTable'
 import { ButtonLink } from '../../components/common/Button'
 import {
   ModeFilter,
@@ -10,14 +9,17 @@ import {
   TierFilter,
   ResultsFilter,
   DateRangeFilter,
-  RecordsFilter,
+  RecordsStatsFilter,
 } from '../../components/filters/Filters'
 import { buildQuery, route } from '../../util/routes'
 import Navigation from '../../components/common/Navigation'
+import { SeriesRecords } from '../../components/records/SeriesRecords'
+import { recordStats } from '../../util/constants'
 
-const Stats = ({ initialFilter }) => {
+const Series = ({ initialFilter }) => {
   const router = useRouter()
   const [filter, setFilter] = useState(initialFilter)
+  const statLabel = recordStats.games.find((stat) => stat.id == initialFilter.stat)?.label
 
   const updateFilter = (key, value) => {
     setFilter((prev) => ({
@@ -27,7 +29,7 @@ const Stats = ({ initialFilter }) => {
   }
 
   useEffect(() => {
-    route(router, '/records/differentials', buildQuery(filter, ['', 'type']))
+    route(router, '/records/series', buildQuery(filter, ['']))
   }, [filter])
 
   return (
@@ -38,23 +40,20 @@ const Stats = ({ initialFilter }) => {
           <Stack direction="row">
             <ButtonLink href="/records/players">Players</ButtonLink>
             <ButtonLink href="/records/teams">Teams</ButtonLink>
-            <ButtonLink href="/records/totals">Totals</ButtonLink>
-            <ButtonLink href="/records/differentials" isActive>
-              Differentials
+            <ButtonLink href="/records/games">Games</ButtonLink>
+            <ButtonLink href="/records/series" isActive>
+              Series
             </ButtonLink>
           </Stack>
         }>
-        <RecordsFilter
-          category={filter.category}
-          type={filter.type}
-          stat={filter.stat}
-          onCategoryChange={(item) => updateFilter('category', item)}
-          onStatChange={(item) => updateFilter('stat', item)}
+        <RecordsStatsFilter
+          active={filter.stat}
+          onChange={(item) => updateFilter('stat', item)}
+          type="series"
         />
         <TierFilter active={filter.tier} onChange={(item) => updateFilter('tier', item)} />
         <RegionFilter active={filter.region} onChange={(item) => updateFilter('region', item)} />
         <ModeFilter active={filter.mode} onChange={(item) => updateFilter('mode', item)} />
-        <ResultsFilter active={filter.winner} onChange={(item) => updateFilter('winner', item)} />
         <DateRangeFilter
           after={filter.after}
           before={filter.before}
@@ -64,7 +63,7 @@ const Stats = ({ initialFilter }) => {
           }}
         />
       </Navigation>
-      <RecordsTable filter={filter} />
+      <SeriesRecords filter={filter} label={statLabel} />
     </Content>
   )
 }
@@ -73,17 +72,15 @@ export async function getServerSideProps({ query }) {
   return {
     props: {
       initialFilter: {
-        mode: query.mode || '',
+        mode: query.mode || 3,
         tier: query.tier || '',
         region: query.region || '',
         before: query.before || '',
         after: query.after || '',
-        category: query.category || 'games',
-        stat: query.stat || 'score',
-        type: 'players',
+        stat: query.stat || 'scoreTotal',
       },
     },
   }
 }
 
-export default Stats
+export default Series
