@@ -1,6 +1,6 @@
 import { Flex, Image, Text } from '@chakra-ui/core'
 import { useEffect, useState } from 'react'
-import { Table, Header, HeaderItem, Body, Row, Cell } from './Table'
+import { Table, Header, HeaderItem, Body, Row, Cell } from '../common/Table'
 import { ChevronDownIcon, ChevronUpIcon, UpDownIcon } from '@chakra-ui/icons'
 import Loading from '../common/Loading'
 import { apiFetch } from '../../util/fetch'
@@ -55,7 +55,7 @@ const fields = [
   },
 ]
 
-export const StatsTable = ({ filter, isSortable }) => {
+export const TeamStats = ({ filter, isSortable }) => {
   const [stats, setStats] = useState([])
   const [loading, setLoading] = useState(true)
   const [sort, setSort] = useState('averages.rating')
@@ -66,7 +66,7 @@ export const StatsTable = ({ filter, isSortable }) => {
       setStats([])
       setLoading(true)
 
-      const data = await apiFetch('/stats/players', buildQuery(filter, ['']))
+      const data = await apiFetch('/stats/teams', buildQuery(filter, ['']))
       if (!data.stats) {
         setLoading(false)
         return
@@ -106,7 +106,7 @@ export const StatsTable = ({ filter, isSortable }) => {
     <Table>
       <Header>
         <HeaderItem align="left" paddingLeft={20}>
-          Player
+          Team
         </HeaderItem>
         {fields.map((field) => (
           <HeaderItem onClick={isSortable && (() => updateSort(field.id))} width="6rem">
@@ -124,16 +124,16 @@ export const StatsTable = ({ filter, isSortable }) => {
 }
 
 const StatsRow = ({ stat, sort }) => {
-  const { player, averages } = stat
+  const { team, averages } = stat
 
   return (
-    <Row key={player}>
+    <Row>
       <Cell>
-        <Flex align="center" justify="flex-start" paddingLeft={4} fontSize="sm">
-          <Flex minWidth={6} justify="center">
-            <Image src={`https://www.octane.gg/flags/${player.country || 'int'}.png`} />
+        <Flex align="center" justify="flex-start" fontSize="sm">
+          <Flex minWidth={10} justify="center">
+            <Image src={`https://www.octane.gg/team-icons/${team.name}.png`} />
           </Flex>
-          <Link href={`/players/${player._id}`}>{player.tag}</Link>
+          <Link href={`/teams/${team._id}`}>{team.name}</Link>
         </Flex>
       </Cell>
       {fields.map(({ id, round, percentage }) => {
@@ -157,4 +157,4 @@ const StatsRow = ({ stat, sort }) => {
   )
 }
 
-export default StatsTable
+export default TeamStats

@@ -3,29 +3,6 @@ import { toDateString } from '../../util/dates'
 import DropdownList, { DropdownDate } from '../common/Dropdown'
 import { tiers, regions, modes, results, recordTypes, recordStats } from '../../util/constants'
 
-export const Filter = ({ children }) => {
-  return (
-    <Stack
-      direction="column"
-      width="full"
-      backgroundColor="white"
-      border="main"
-      padding={4}
-      color="secondary.800">
-      {children}
-    </Stack>
-  )
-}
-
-export const FilterLabel = (props) => {
-  const { children } = props
-  return (
-    <Text fontWeight="bold" fontSize="xs" textTransform="uppercase" marginBottom={1} {...props}>
-      {children}
-    </Text>
-  )
-}
-
 export const TierFilter = ({ active, onChange }) => (
   <DropdownList
     label={active ? (active.length == 1 ? `${active}-Tier` : active) : 'All Tiers'}
@@ -98,5 +75,3 @@ export const RecordsStatsFilter = ({ type, active, onChange }) => {
     />
   )
 }
-
-export default Filter

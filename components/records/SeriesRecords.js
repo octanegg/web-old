@@ -1,6 +1,6 @@
 import { Flex, Image, Text } from '@chakra-ui/core'
 import { useEffect, useState } from 'react'
-import { Table, Header, HeaderItem, Body, Row, Cell } from '../tables/Table'
+import { Table, Header, HeaderItem, Body, Row, Cell } from '../common/Table'
 import Loading from '../common/Loading'
 import { apiFetch } from '../../util/fetch'
 import { buildQuery } from '../../util/routes'

@@ -37,6 +37,15 @@ export const DropdownDate = ({ label, startDate, endDate, onChange }) => {
     onChange([start || '', end || start || ''])
   }
 
+  const quickChange = ([s, e]) => {
+    const _s = moment(s).format('YYYY-MM-DD')
+    const _e = moment(e).format('YYYY-MM-DD')
+    setStart(_s)
+    setEnd(_e)
+    setIsOpen(false)
+    onChange([_s, _e])
+  }
+
   return (
     <Dropdown
       label={label}
@@ -77,6 +86,25 @@ export const DropdownDate = ({ label, startDate, endDate, onChange }) => {
             inline
           />
         </Flex>
+        <Stack direction="row" justify="center">
+          <Button onClick={() => quickChange([moment().subtract(1, 'week'), moment()])}>
+            Last Week
+          </Button>
+          <Button onClick={() => quickChange([moment().subtract(1, 'month'), moment()])}>
+            Last Month
+          </Button>
+          <Button onClick={() => quickChange([moment().subtract(3, 'month'), moment()])}>
+            Last 3 Months
+          </Button>
+        </Stack>
+        <Stack direction="row" justify="center">
+          <Button onClick={() => quickChange([moment().subtract(6, 'month'), moment()])}>
+            Last 6 Months
+          </Button>
+          <Button onClick={() => quickChange([moment().subtract(1, 'year'), moment()])}>
+            Last Year
+          </Button>
+        </Stack>
       </Stack>
     </Dropdown>
   )

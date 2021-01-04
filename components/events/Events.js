@@ -1,7 +1,7 @@
 import { Flex, Image, Text, Spacer } from '@chakra-ui/core'
 import { useEffect, useState } from 'react'
 import moment from 'moment'
-import { Table, Body, Row, Cell } from '../../components/tables/Table'
+import { Table, Body, Row, Cell } from '../common/Table'
 import Loading from '../common/Loading'
 import { LabeledField, LabeledText, Link, Heading } from '../common/Text'
 import { toDateString } from '../../util/dates'

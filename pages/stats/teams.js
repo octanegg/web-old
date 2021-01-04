@@ -2,7 +2,6 @@ import { Content } from '../../components/common/Layout'
 import { Stack } from '@chakra-ui/core'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
-import PlayerStats from '../../components/stats/PlayerStats'
 import { ButtonLink } from '../../components/common/Button'
 import {
   ModeFilter,
@@ -13,6 +12,7 @@ import {
 } from '../../components/filters/Filters'
 import { buildQuery, route } from '../../util/routes'
 import Navigation from '../../components/common/Navigation'
+import TeamStats from '../../components/stats/TeamStats'
 
 const Stats = ({ initialFilter }) => {
   const router = useRouter()
@@ -26,7 +26,7 @@ const Stats = ({ initialFilter }) => {
   }
 
   useEffect(() => {
-    route(router, '/stats/players', buildQuery(filter, ['']))
+    route(router, '/stats/teams', buildQuery(filter, ['']))
   }, [filter])
 
   return (
@@ -35,10 +35,10 @@ const Stats = ({ initialFilter }) => {
         defaultOpen={filter.tier || filter.region || filter.mode || filter.before || filter.after}
         left={
           <Stack direction="row">
-            <ButtonLink href="/stats/players" isActive>
+            <ButtonLink href="/stats/players" >
               Players
             </ButtonLink>
-            <ButtonLink href="/stats/teams">Teams</ButtonLink>
+            <ButtonLink href="/stats/teams"isActive>Teams</ButtonLink>
           </Stack>
         }>
         <TierFilter active={filter.tier} onChange={(item) => updateFilter('tier', item)} />
@@ -54,7 +54,7 @@ const Stats = ({ initialFilter }) => {
           }}
         />
       </Navigation>
-      <PlayerStats filter={filter} isSortable />
+      <TeamStats filter={filter} isSortable />
     </Content>
   )
 }

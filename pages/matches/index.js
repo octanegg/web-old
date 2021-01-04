@@ -3,13 +3,13 @@ import { Stack } from '@chakra-ui/core'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import moment from 'moment'
-import MatchesTable from '../../components/tables/MatchesTable'
+import Matches from '../../components/matches/Matches'
 import { ButtonLink } from '../../components/common/Button'
 import { ModeFilter, RegionFilter, TierFilter } from '../../components/filters/Filters'
 import { buildQuery, route } from '../../util/routes'
 import Navigation from '../../components/common/Navigation'
 
-const Matches = ({ initialFilter }) => {
+const MatchesPage = ({ initialFilter }) => {
   const router = useRouter()
   const [filter, setFilter] = useState(initialFilter)
 
@@ -40,7 +40,7 @@ const Matches = ({ initialFilter }) => {
         <RegionFilter active={filter.region} onChange={(item) => updateFilter('region', item)} />
         <ModeFilter active={filter.mode} onChange={(item) => updateFilter('mode', item)} />
       </Navigation>
-      <MatchesTable filter={filter} />
+      <Matches filter={filter} />
     </Content>
   )
 }
@@ -52,7 +52,7 @@ export async function getServerSideProps({ query }) {
         mode: query.mode || 3,
         tier: query.tier || '',
         region: query.region || '',
-        after: moment().toISOString(),
+        after: moment().format('YYYY-MM-DD'),
         page: query.page || 1,
         perPage: 50,
         sort: 'date:asc',
@@ -61,4 +61,4 @@ export async function getServerSideProps({ query }) {
   }
 }
 
-export default Matches
+export default MatchesPage

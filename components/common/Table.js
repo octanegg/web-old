@@ -1,5 +1,5 @@
 import { Flex, Image, Spinner, Text } from '@chakra-ui/core'
-import styles from './Table.module.scss'
+import styles from '../../styles/Table.module.scss'
 
 export const Table = ({ children, isBordered }) => {
   return <table className={`${styles.table} ${isBordered && styles.bordered}`}>{children}</table>

@@ -3,13 +3,13 @@ import { Stack } from '@chakra-ui/core'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import moment from 'moment'
-import EventsTable from '../../components/tables/EventsTable'
+import Events from '../../components/events/Events'
 import { ButtonLink } from '../../components/common/Button'
 import { ModeFilter, RegionFilter, TierFilter } from '../../components/filters/Filters'
 import { buildQuery, route } from '../../util/routes'
 import Navigation from '../../components/common/Navigation'
 
-const Events = ({ initialFilter }) => {
+const EventsPage = ({ initialFilter }) => {
   const router = useRouter()
   const [filter, setFilter] = useState(initialFilter)
 
@@ -40,7 +40,7 @@ const Events = ({ initialFilter }) => {
         <RegionFilter active={filter.region} onChange={(item) => updateFilter('region', item)} />
         <ModeFilter active={filter.mode} onChange={(item) => updateFilter('mode', item)} />
       </Navigation>
-      <EventsTable filter={filter} />
+      <Events filter={filter} />
     </Content>
   )
 }
@@ -59,4 +59,4 @@ export async function getServerSideProps({ query }) {
   }
 }
 
-export default Events
+export default EventsPage

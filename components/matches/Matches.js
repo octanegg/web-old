@@ -1,7 +1,7 @@
 import { Flex, Image, Text, Spacer } from '@chakra-ui/core'
 import { useEffect, useState } from 'react'
 import moment from 'moment'
-import { Table, Body, Row, Cell } from '../../components/tables/Table'
+import { Table, Body, Row, Cell } from '../common/Table'
 import Loading from '../common/Loading'
 import { apiFetch } from '../../util/fetch'
 import { buildQuery } from '../../util/routes'
@@ -28,7 +28,7 @@ export const MatchesTable = ({ filter }) => {
       let matches = []
 
       data.matches
-        .filter((match) => filter.after || (match.blue.team && match.orange.team))
+        // .filter((match) => filter.after || filter.before || (match.blue.team && match.orange.team))
         .map((match, i) => {
           const date = moment(match.date)
           if (i == 0 || !date.isSame(day, 'day')) {
@@ -46,6 +46,8 @@ export const MatchesTable = ({ filter }) => {
     }
     fetchMatches()
   }, [filter])
+
+  console.log(matches)
 
   return loading ? (
     <Loading />
@@ -95,7 +97,7 @@ const MatchRow = ({ match }) => {
           <Flex direction="row" width="md">
             <Team side={blue} />
             <Text marginLeft={1} marginRight={1} fontSize="xs">
-              {blue.team && orange.team ? '-' : 'vs'}
+              <Link href={`/matches/${_id}`}>{blue.team && orange.team ? '-' : 'vs'}</Link>
             </Text>
             <Team side={orange} isReversed />
           </Flex>
@@ -109,11 +111,11 @@ const MatchRow = ({ match }) => {
 }
 
 const Team = ({ side, isReversed }) => {
-  const { _id, team, score, winner } = side
+  const { team, score, winner } = side
   return (
     <Flex direction={isReversed ? 'row-reverse' : 'row'} width="full" justify="flex-end">
       {team ? (
-        <Link href={`/teams/${_id}`} align={isReversed && 'end'}>
+        <Link href={`/teams/${team._id}`} align={isReversed && 'end'}>
           {team.name}
         </Link>
       ) : (
