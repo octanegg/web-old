@@ -9,6 +9,7 @@ import {
   TierFilter,
   ResultsFilter,
   DateRangeFilter,
+  SeriesFilter,
 } from '../../components/filters/Filters'
 import { buildQuery, route } from '../../util/routes'
 import Navigation from '../../components/common/Navigation'
@@ -35,10 +36,10 @@ const Stats = ({ initialFilter }) => {
         defaultOpen={filter.tier || filter.region || filter.mode || filter.before || filter.after}
         left={
           <Stack direction="row">
-            <ButtonLink href="/stats/players" >
-              Players
+            <ButtonLink href="/stats/players">Players</ButtonLink>
+            <ButtonLink href="/stats/teams" isActive>
+              Teams
             </ButtonLink>
-            <ButtonLink href="/stats/teams"isActive>Teams</ButtonLink>
           </Stack>
         }>
         <TierFilter active={filter.tier} onChange={(item) => updateFilter('tier', item)} />
@@ -53,6 +54,11 @@ const Stats = ({ initialFilter }) => {
             updateFilter('before', before)
           }}
         />
+        <MinGamesFilter
+          active={filter.minGames}
+          onChange={(item) => updateFilter('minGames', item)}
+        />
+        <SeriesFilter active={filter.bestOf} onChange={(item) => updateFilter('bestOf', item)} />
       </Navigation>
       <TeamStats filter={filter} isSortable />
     </Content>
@@ -68,6 +74,8 @@ export async function getServerSideProps({ query }) {
         region: query.region || '',
         before: query.before || '',
         after: query.after || '',
+        minGames: query.minGames || 50,
+        bestOf: query.bestOf || '',
       },
     },
   }

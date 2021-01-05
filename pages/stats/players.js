@@ -12,6 +12,7 @@ import {
   DateRangeFilter,
   MinGamesFilter,
   NationalityFilter,
+  SeriesFilter,
 } from '../../components/filters/Filters'
 import { buildQuery, route } from '../../util/routes'
 import Navigation from '../../components/common/Navigation'
@@ -55,6 +56,7 @@ const Stats = ({ initialFilter }) => {
             updateFilter('before', before)
           }}
         />
+        <SeriesFilter active={filter.bestOf} onChange={(item) => updateFilter('bestOf', item)} />
         <MinGamesFilter
           active={filter.minGames}
           onChange={(item) => updateFilter('minGames', item)}
@@ -80,6 +82,7 @@ export async function getServerSideProps({ query }) {
         after: query.after || '',
         minGames: query.minGames || 50,
         nationality: query.nationality || '',
+        bestOf: query.bestOf || '',
       },
     },
   }

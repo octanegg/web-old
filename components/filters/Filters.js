@@ -9,6 +9,7 @@ import {
   results,
   recordTypes,
   recordStats,
+  series,
 } from '../../util/constants'
 import { getCountries, getCountry } from '../../util/countries'
 import { Flag } from '../common/Flag'
@@ -17,7 +18,7 @@ export const TierFilter = ({ active, onChange }) => (
   <DropdownList
     label={active ? (active.length == 1 ? `${active}-Tier` : active) : 'Tier'}
     items={tiers}
-    itemToLabel={(tier) => (tier ? (tier.length == 1 ? `${tier}-Tier` : tier) : 'All')}
+    itemToLabel={(tier) => (tier.length == 1 ? `${tier}-Tier` : 'All Tiers')}
     onChange={onChange}
   />
 )
@@ -41,7 +42,7 @@ export const ModeFilter = ({ active, onChange }) => (
   <DropdownList
     label={active ? `${active}v${active}` : 'Mode'}
     items={modes}
-    itemToLabel={(mode) => (mode !== 'All' ? `${mode}v${mode}` : 'All')}
+    itemToLabel={(mode) => (mode !== 'All' ? `${mode}v${mode}` : 'All Modes')}
     onChange={onChange}
   />
 )
@@ -50,7 +51,10 @@ export const ResultsFilter = ({ active, onChange }) => (
   <DropdownList
     label={active == 'true' ? 'Wins' : active == 'false' ? 'Losses' : 'Result'}
     items={results}
-    itemToId={(result) => (result == 'Wins' ? 'true' : result == 'Losses' ? 'false' : 'All')}
+    itemToId={(result) =>
+      result == 'Wins' ? 'true' : result == 'Losses' ? 'false' : 'All Results'
+    }
+    itemToLabel={(item) => (item == 'All' ? 'All Results' : item)}
     onChange={onChange}
   />
 )
@@ -90,7 +94,7 @@ export const MinGamesFilter = ({ active, onChange }) => (
   <DropdownList
     label={active ? `${active}+` : 'Min Games'}
     items={minGames}
-    itemToLabel={(item) => (item !== 'All' ? `${item}+` : 'All')}
+    itemToLabel={(item) => (item !== 'All' ? `${item}+` : 'No Minimum')}
     onChange={onChange}
   />
 )
@@ -99,8 +103,17 @@ export const NationalityFilter = ({ active, onChange }) => (
   <DropdownList
     label={active ? getCountry(active)?.name : 'Nationality'}
     items={getCountries()}
-    itemToId={(item) => item.id}
+    itemToId={(item) => (item.id == 'int' ? '' : item.id)}
     itemToLabel={(item) => <Flag country={item.id} justify="flex-start" isLabeled />}
+    onChange={onChange}
+  />
+)
+
+export const SeriesFilter = ({ active, onChange }) => (
+  <DropdownList
+    label={active ? `Best of ${active}s` : 'Series'}
+    items={series}
+    itemToLabel={(item) => (item !== 'All' ? `Best of ${item}s` : 'All Series')}
     onChange={onChange}
   />
 )

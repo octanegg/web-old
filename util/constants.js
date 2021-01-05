@@ -2,6 +2,7 @@ export const tiers = ['All', 'S', 'A', 'B', 'C', 'Monthly', 'Weekly', 'Qualifier
 export const modes = ['All', 3, 2, 1]
 export const results = ['All', 'Wins', 'Losses']
 export const minGames = ['All', 1000, 500, 250, 100, 50]
+export const series = ['All', 7, 5, 3]
 export const regions = [
   {
     id: 'All',

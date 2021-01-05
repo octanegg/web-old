@@ -9,6 +9,7 @@ import {
   TierFilter,
   DateRangeFilter,
   RecordsStatsFilter,
+  SeriesFilter,
 } from '../../components/filters/Filters'
 import { buildQuery, route } from '../../util/routes'
 import Navigation from '../../components/common/Navigation'
@@ -61,6 +62,7 @@ const Games = ({ initialFilter }) => {
             updateFilter('before', before)
           }}
         />
+        <SeriesFilter active={filter.bestOf} onChange={(item) => updateFilter('bestOf', item)} />
       </Navigation>
       <GameRecords filter={filter} label={statLabel} />
     </Content>
@@ -77,6 +79,7 @@ export async function getServerSideProps({ query }) {
         before: query.before || '',
         after: query.after || '',
         stat: query.stat || 'scoreTotal',
+        bestOf: query.bestOf || '',
       },
     },
   }

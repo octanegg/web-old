@@ -1,5 +1,5 @@
 export const countries = [
-  { id: 'int', name: 'International', image: `/flags/082-united-nations.svg` },
+  { id: 'int', name: 'Worldwide', image: `/flags/082-united-nations.svg` },
   { id: 'ar', name: 'Argentina', image: `/flags/198-argentina.svg` },
   { id: 'at', name: 'Austria', image: `/flags/003-austria.svg` },
   { id: 'au', name: 'Australia', image: `/flags/234-australia.svg` },
@@ -49,4 +49,4 @@ export const countries = [
 
 export const getCountry = (countryId) => countries.find((country) => countryId == country.id)
 
-export const getCountries = () => countries.filter((country) => country.id != 'int')
+export const getCountries = () => countries
