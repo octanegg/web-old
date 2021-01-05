@@ -120,7 +120,7 @@ export const DropdownList = ({ items, label, itemToLabel, itemToId, onChange }) 
       setIsOpen={() => setIsOpen}
       open={() => setIsOpen(!isOpen)}
       close={() => setIsOpen(false)}>
-      <List>
+      <List maxHeight={400} overflowY="scroll">
         {items.map((item, i) => (
           <ListItem
             key={i}

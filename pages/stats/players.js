@@ -10,6 +10,8 @@ import {
   TierFilter,
   ResultsFilter,
   DateRangeFilter,
+  MinGamesFilter,
+  NationalityFilter,
 } from '../../components/filters/Filters'
 import { buildQuery, route } from '../../util/routes'
 import Navigation from '../../components/common/Navigation'
@@ -53,6 +55,14 @@ const Stats = ({ initialFilter }) => {
             updateFilter('before', before)
           }}
         />
+        <MinGamesFilter
+          active={filter.minGames}
+          onChange={(item) => updateFilter('minGames', item)}
+        />
+        <NationalityFilter
+          active={filter.nationality}
+          onChange={(item) => updateFilter('nationality', item)}
+        />
       </Navigation>
       <PlayerStats filter={filter} isSortable />
     </Content>
@@ -68,6 +78,8 @@ export async function getServerSideProps({ query }) {
         region: query.region || '',
         before: query.before || '',
         after: query.after || '',
+        minGames: query.minGames || 50,
+        nationality: query.nationality || '',
       },
     },
   }

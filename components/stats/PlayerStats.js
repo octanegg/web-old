@@ -1,4 +1,4 @@
-import { Flex, Image, Text } from '@chakra-ui/core'
+import { Flex, Image, Stack, Text } from '@chakra-ui/core'
 import { useEffect, useState } from 'react'
 import { Table, Header, HeaderItem, Body, Row, Cell } from '../common/Table'
 import { ChevronDownIcon, ChevronUpIcon, UpDownIcon } from '@chakra-ui/icons'
@@ -6,6 +6,7 @@ import Loading from '../common/Loading'
 import { apiFetch } from '../../util/fetch'
 import { buildQuery } from '../../util/routes'
 import { Link } from '../common/Text'
+import { Flag } from '../common/Flag'
 
 const fields = [
   {
@@ -105,7 +106,7 @@ export const PlayerStats = ({ filter, isSortable }) => {
   ) : (
     <Table>
       <Header>
-        <HeaderItem align="left" paddingLeft={20}>
+        <HeaderItem align="left" paddingLeft={5}>
           Player
         </HeaderItem>
         {fields.map((field) => (
@@ -129,12 +130,10 @@ const StatsRow = ({ stat, sort }) => {
   return (
     <Row>
       <Cell>
-        <Flex align="center" justify="flex-start" fontSize="sm">
-          <Flex minWidth={8} justify="center">
-            <Image src={`https://www.octane.gg/flags/${player.country || 'int'}.png`} />
-          </Flex>
+        <Stack paddingLeft={2} direction="row" fontSize="sm">
+          <Flag country={player.country || 'int'} />
           <Link href={`/players/${player._id}`}>{player.tag}</Link>
-        </Flex>
+        </Stack>
       </Cell>
       {fields.map(({ id, round, percentage }) => {
         const keys = id.split('.')

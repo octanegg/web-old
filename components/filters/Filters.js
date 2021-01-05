@@ -1,11 +1,21 @@
-import { Flex, Image, Stack, Text } from '@chakra-ui/core'
+import { Flex, Image } from '@chakra-ui/core'
 import { toDateString } from '../../util/dates'
 import DropdownList, { DropdownDate } from '../common/Dropdown'
-import { tiers, regions, modes, results, recordTypes, recordStats } from '../../util/constants'
+import {
+  minGames,
+  tiers,
+  regions,
+  modes,
+  results,
+  recordTypes,
+  recordStats,
+} from '../../util/constants'
+import { getCountries, getCountry } from '../../util/countries'
+import { Flag } from '../common/Flag'
 
 export const TierFilter = ({ active, onChange }) => (
   <DropdownList
-    label={active ? (active.length == 1 ? `${active}-Tier` : active) : 'All Tiers'}
+    label={active ? (active.length == 1 ? `${active}-Tier` : active) : 'Tier'}
     items={tiers}
     itemToLabel={(tier) => (tier ? (tier.length == 1 ? `${tier}-Tier` : tier) : 'All')}
     onChange={onChange}
@@ -14,7 +24,7 @@ export const TierFilter = ({ active, onChange }) => (
 
 export const RegionFilter = ({ active, onChange }) => (
   <DropdownList
-    label={regions.find((region) => region.id == active)?.label || 'All Regions'}
+    label={regions.find((region) => region.id == active)?.label || 'Region'}
     items={regions}
     itemToLabel={(region) => (
       <Flex justify="flex-start" align="center">
@@ -29,7 +39,7 @@ export const RegionFilter = ({ active, onChange }) => (
 
 export const ModeFilter = ({ active, onChange }) => (
   <DropdownList
-    label={active ? `${active}v${active}` : 'All Modes'}
+    label={active ? `${active}v${active}` : 'Mode'}
     items={modes}
     itemToLabel={(mode) => (mode !== 'All' ? `${mode}v${mode}` : 'All')}
     onChange={onChange}
@@ -38,7 +48,7 @@ export const ModeFilter = ({ active, onChange }) => (
 
 export const ResultsFilter = ({ active, onChange }) => (
   <DropdownList
-    label={active == 'true' ? 'Wins' : active == 'false' ? 'Losses' : 'All Results'}
+    label={active == 'true' ? 'Wins' : active == 'false' ? 'Losses' : 'Result'}
     items={results}
     itemToId={(result) => (result == 'Wins' ? 'true' : result == 'Losses' ? 'false' : 'All')}
     onChange={onChange}
@@ -75,3 +85,22 @@ export const RecordsStatsFilter = ({ type, active, onChange }) => {
     />
   )
 }
+
+export const MinGamesFilter = ({ active, onChange }) => (
+  <DropdownList
+    label={active ? `${active}+` : 'Min Games'}
+    items={minGames}
+    itemToLabel={(item) => (item !== 'All' ? `${item}+` : 'All')}
+    onChange={onChange}
+  />
+)
+
+export const NationalityFilter = ({ active, onChange }) => (
+  <DropdownList
+    label={active ? getCountry(active)?.name : 'Nationality'}
+    items={getCountries()}
+    itemToId={(item) => item.id}
+    itemToLabel={(item) => <Flag country={item.id} justify="flex-start" isLabeled />}
+    onChange={onChange}
+  />
+)
