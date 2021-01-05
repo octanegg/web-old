@@ -3,43 +3,6 @@ export const modes = ['All', 3, 2, 1]
 export const results = ['All', 'Wins', 'Losses']
 export const minGames = ['All', 1000, 500, 250, 100, 50]
 export const series = ['All', 7, 5, 3]
-export const regions = [
-  {
-    id: 'All',
-    image: 'https://octane.gg/flags/int.png',
-    label: 'All Regions',
-  },
-  {
-    id: 'NA',
-    image: 'https://octane.gg/flags/na.png',
-    label: 'North America',
-  },
-  {
-    id: 'EU',
-    image: 'https://octane.gg/flags/eu.png',
-    label: 'Europe',
-  },
-  {
-    id: 'OCE',
-    image: 'https://octane.gg/flags/au.png',
-    label: 'Oceania',
-  },
-  {
-    id: 'SAM',
-    image: 'https://octane.gg/flags/sam.png',
-    label: 'South America',
-  },
-  {
-    id: 'ASIA',
-    image: 'https://octane.gg/flags/int.png',
-    label: 'Asia',
-  },
-  {
-    id: 'INT',
-    image: 'https://octane.gg/flags/int.png',
-    label: 'International',
-  },
-]
 
 export const recordTypes = ['game', 'series']
 export const recordStats = {

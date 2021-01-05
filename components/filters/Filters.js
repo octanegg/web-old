@@ -4,7 +4,6 @@ import DropdownList, { DropdownDate } from '../common/Dropdown'
 import {
   minGames,
   tiers,
-  regions,
   modes,
   results,
   recordTypes,
@@ -13,6 +12,7 @@ import {
 } from '../../util/constants'
 import { getCountries, getCountry } from '../../util/countries'
 import { Flag } from '../common/Flag'
+import { regions } from '../../util/regions'
 
 export const TierFilter = ({ active, onChange }) => (
   <DropdownList

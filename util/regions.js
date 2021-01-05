@@ -1,25 +1,41 @@
-export const getRegionFlag = (region) =>
-  region === 'NA'
-    ? 'https://octane.gg/flags/na.png'
-    : region === 'EU'
-    ? 'https://octane.gg/flags/eu.png'
-    : region === 'OCE'
-    ? 'https://octane.gg/flags/au.png'
-    : region === 'SAM'
-    ? 'https://octane.gg/flags/sam.png'
-    : region === 'ASIA'
-    ? 'https://octane.gg/flags/asia.png'
-    : 'https://octane.gg/flags/int.png'
+export const regions = [
+  {
+    id: 'All',
+    image: '/flags/int.png',
+    name: 'All Regions',
+  },
+  {
+    id: 'NA',
+    image: '/flags/na.png',
+    name: 'North America',
+  },
+  {
+    id: 'EU',
+    image: '/flags/eu.png',
+    name: 'Europe',
+  },
+  {
+    id: 'OCE',
+    image: '/flags/au.png',
+    name: 'Oceania',
+  },
+  {
+    id: 'SAM',
+    image: '/flags/sam.png',
+    name: 'South America',
+  },
+  {
+    id: 'ASIA',
+    image: '/flags/int.png',
+    name: 'Asia',
+  },
+  {
+    id: 'INT',
+    image: '/flags/int.png',
+    name: 'International',
+  },
+]
 
-export const getRegion = (region) =>
-  region === 'NA'
-    ? 'North America'
-    : region === 'EU'
-    ? 'Europe'
-    : region === 'OCE'
-    ? 'Oceania'
-    : region === 'SAM'
-    ? 'South America'
-    : region === 'ASIA'
-    ? 'Asia'
-    : 'International'
+export const getRegion = (regionId) => regions.find((region) => regionId == region.id)
+
+export const getRegions = () => regions

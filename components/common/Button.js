@@ -65,7 +65,7 @@ export const Button = ({ buttonType, buttonProps, onClick, children }) => {
 
 export const ButtonLink = ({ isActive, href, children }) => {
   return (
-    <Link href={href}>
+    <Link href={href || '#'}>
       <Button
         fontWeight="bold"
         size="xs"

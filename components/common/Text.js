@@ -46,12 +46,15 @@ export const LabeledField = ({ label, width, children }) => (
   <LabeledText
     width={width || 32}
     justify="center"
+    align="center"
     label={
       <Text fontSize="10px" color="secondary.400" textTransform="uppercase">
         {label}
       </Text>
     }>
-    <Text fontWeight="bold">{children}</Text>
+    <Text fontWeight="bold" color="secondary.800">
+      {children}
+    </Text>
   </LabeledText>
 )
 

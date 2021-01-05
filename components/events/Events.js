@@ -5,9 +5,10 @@ import { Table, Body, Row, Cell } from '../common/Table'
 import Loading from '../common/Loading'
 import { LabeledField, LabeledText, Link, Heading } from '../common/Text'
 import { toDateString } from '../../util/dates'
-import { getRegion, getRegionFlag } from '../../util/regions'
+import { getRegion } from '../../util/regions'
 import { apiFetch } from '../../util/fetch'
 import { buildQuery } from '../../util/routes'
+import { formatPrize } from '../../util/prizes'
 
 export const EventsTable = ({ filter, isOngoing }) => {
   const [events, setEvents] = useState([])
@@ -77,8 +78,7 @@ const EventRow = ({ event }) => {
 
   const [stagesVisible, setStagesVisible] = useState(false)
 
-  const regionFlag = getRegionFlag(region)
-  const regionText = getRegion(region)
+  const _region = getRegion(region)
   const image =
     'https://octane.gg/event-logos/rlcs-x-north-america-fall-regional-one-swiss-stage-two.png'
 
@@ -100,8 +100,13 @@ const EventRow = ({ event }) => {
               justify="flex-start"
               label={
                 <Flex fontWeight="regular" fontSize="xs" align="center" color="secondary.800">
-                  <Image src={regionFlag} width="16px" height="11px" marginRight={1} />
-                  <Text>{regionText} |&nbsp;</Text>
+                  <Image
+                    src={`https://octane.gg/${_region?.image}`}
+                    width="16px"
+                    height="11px"
+                    marginRight={1}
+                  />
+                  <Text>{_region?.name} |&nbsp;</Text>
                   <Text>{toDateString(startDate, endDate)}</Text>
                 </Flex>
               }>
@@ -113,7 +118,7 @@ const EventRow = ({ event }) => {
             <LabeledField label="mode">{`${mode}v${mode}`}</LabeledField>
             <LabeledField label="tier">{tier}</LabeledField>
             <LabeledField label="stages">{stages.length}</LabeledField>
-            <LabeledField label="prize">{prize ? `$${prize.amount}` : '-'}</LabeledField>
+            <LabeledField label="prize">{prize ? formatPrize(prize) : '-'}</LabeledField>
           </Flex>
         </Cell>
       </Row>

@@ -53,6 +53,7 @@ const theme = {
     navbar: '1px solid black',
     pic: '5px solid #44d48c',
     focus: '1px solid #44d48c',
+    secondary: '1px solid #25334B',
   },
   fontWeights: {
     thin: 100,
