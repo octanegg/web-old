@@ -1,6 +1,6 @@
 import { Stack, Button, Input, Flex, Spacer, Link, VStack, Divider } from '@chakra-ui/core'
 import { useState, useEffect } from 'react'
-import { useIsFirstRender } from '../../hooks/useIsFirstRender'
+import { useIsFirstRender } from '@octane/hooks/useIsFirstRender'
 import Card from './Card'
 import { GamesContainer } from './GamesContainer'
 import ReactDatePicker from 'react-datepicker'

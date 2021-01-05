@@ -1,6 +1,6 @@
 import { Flex } from '@chakra-ui/core'
-import RecentArticles from '../components/homepage/RecentArticles'
-import { Content } from '../components/common/Layout'
+import RecentArticles from '@octane/components/homepage/RecentArticles'
+import { Content } from '@octane/components/common/Layout'
 
 const ARTICLES_MOCK = [
   {

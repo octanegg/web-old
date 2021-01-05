@@ -1,8 +1,8 @@
 import { Flex, Image, Stack, Text } from '@chakra-ui/core'
-import { toDateString } from '../../util/dates'
-import { formatPrize } from '../../util/prizes'
-import { Flag } from '../common/Flag'
-import { LabeledField } from '../common/Text'
+import { toDateString } from '@octane/util/dates'
+import { formatPrize } from '@octane/util/prizes'
+import { Flag } from '@octane/components/common/Flag'
+import { LabeledField } from '@octane/components/common/Text'
 
 const EventInfobox = ({ event }) => {
   const { name, startDate, endDate, region, tier, mode, prize } = event

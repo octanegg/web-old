@@ -1,14 +1,14 @@
 import { Flex, Image, Text, Spacer } from '@chakra-ui/core'
 import { useEffect, useState } from 'react'
 import moment from 'moment'
-import { Table, Body, Row, Cell } from '../common/Table'
-import Loading from '../common/Loading'
-import { LabeledField, LabeledText, Link, Heading } from '../common/Text'
-import { toDateString } from '../../util/dates'
-import { getRegion } from '../../util/regions'
-import { apiFetch } from '../../util/fetch'
-import { buildQuery } from '../../util/routes'
-import { formatPrize } from '../../util/prizes'
+import { Table, Body, Row, Cell } from '@octane/components/common/Table'
+import Loading from '@octane/components/common/Loading'
+import { LabeledField, LabeledText, Link, Heading } from '@octane/components/common/Text'
+import { toDateString } from '@octane/util/dates'
+import { getRegion } from '@octane/util/regions'
+import { apiFetch } from '@octane/util/fetch'
+import { buildQuery } from '@octane/util/routes'
+import { formatPrize } from '@octane/util/prizes'
 
 export const EventsTable = ({ filter, isOngoing }) => {
   const [events, setEvents] = useState([])

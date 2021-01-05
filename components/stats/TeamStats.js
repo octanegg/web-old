@@ -1,11 +1,11 @@
 import { Flex, Image, Text } from '@chakra-ui/core'
 import { useEffect, useState } from 'react'
-import { Table, Header, HeaderItem, Body, Row, Cell } from '../common/Table'
+import { Table, Header, HeaderItem, Body, Row, Cell } from '@octane/components/common/Table'
 import { ChevronDownIcon, ChevronUpIcon, UpDownIcon } from '@chakra-ui/icons'
-import Loading from '../common/Loading'
-import { apiFetch } from '../../util/fetch'
-import { buildQuery } from '../../util/routes'
-import { Link } from '../common/Text'
+import Loading from '@octane/components/common/Loading'
+import { apiFetch } from '@octane/util/fetch'
+import { buildQuery } from '@octane/util/routes'
+import { Link } from '@octane/components/common/Text'
 
 const fields = [
   {

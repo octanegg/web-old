@@ -1,13 +1,13 @@
-import { Content } from '../../components/common/Layout'
+import { Content } from '@octane/components/common/Layout'
 import { Stack } from '@chakra-ui/core'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import moment from 'moment'
-import Events from '../../components/events/Events'
-import { ButtonLink } from '../../components/common/Button'
-import { ModeFilter, RegionFilter, TierFilter } from '../../components/filters/Filters'
-import { buildQuery, route } from '../../util/routes'
-import Navigation from '../../components/common/Navigation'
+import Events from '@octane/components/events/Events'
+import { ButtonLink } from '@octane/components/common/Button'
+import { ModeFilter, RegionFilter, TierFilter } from '@octane/components/filters/Filters'
+import { buildQuery, route } from '@octane/util/routes'
+import Navigation from '@octane/components/common/Navigation'
 
 const EventsPage = ({ initialFilter }) => {
   const router = useRouter()

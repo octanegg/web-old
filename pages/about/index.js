@@ -1,5 +1,5 @@
-import { Content } from '../../components/common/Layout'
-import MemberInfo from '../../components/about/MemberInfo'
+import { Content } from '@octane/components/common/Layout'
+import MemberInfo from '@octane/components/about/MemberInfo'
 import { Flex, Stack, Text } from '@chakra-ui/core'
 
 const staff = [

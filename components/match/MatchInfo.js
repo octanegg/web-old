@@ -1,7 +1,7 @@
 import React from 'react'
 import { Flex, Spinner, Text, Image, Spacer } from '@chakra-ui/core'
 
-import { getTeamLogoUrl } from '../../util'
+import { getTeamLogoUrl } from '@octane/util'
 
 // TODO: Clean up
 const TeamBlock = ({ teamName, position }) => (

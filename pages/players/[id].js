@@ -1,4 +1,4 @@
-import { Content } from '../../components/common/Layout'
+import { Content } from '@octane/components/common/Layout'
 import { Stack, Text } from '@chakra-ui/core'
 
 const Player = ({ player }) => {

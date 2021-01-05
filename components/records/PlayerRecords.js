@@ -1,12 +1,12 @@
 import { Flex, Image, Text } from '@chakra-ui/core'
 import { useEffect, useState } from 'react'
-import { Table, Header, HeaderItem, Body, Row, Cell } from '../common/Table'
-import Loading from '../common/Loading'
-import { apiFetch } from '../../util/fetch'
-import { buildQuery } from '../../util/routes'
+import { Table, Header, HeaderItem, Body, Row, Cell } from '@octane/components/common/Table'
+import Loading from '@octane/components/common/Loading'
+import { apiFetch } from '@octane/util/fetch'
+import { buildQuery } from '@octane/util/routes'
 import moment from 'moment'
-import LabeledText, { Link } from '../common/Text'
-import { toMinuteSeconds } from '../../util/dates'
+import LabeledText, { Link } from '@octane/components/common/Text'
+import { toMinuteSeconds } from '@octane/util/dates'
 
 export const PlayerRecords = ({ filter, label }) => {
   const [records, setRecords] = useState([])

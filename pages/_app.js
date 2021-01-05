@@ -1,12 +1,12 @@
 import React from 'react'
 import { theme as defaultTheme, ThemeProvider, CSSReset } from '@chakra-ui/core'
-import Layout from '../components/common/Layout'
+import Layout from '@octane/components/common/Layout'
 import Head from 'next/head'
 import { Auth0Provider } from '@auth0/auth0-react'
 
 // TODO: Temporary dirty date-picker
 import 'react-datepicker/dist/react-datepicker.css'
-import '../styles/date-picker.css'
+import '@octane/styles/date-picker.css'
 
 const theme = {
   ...defaultTheme,

@@ -1,11 +1,11 @@
-import { Content } from '../../../components/common/Layout'
+import { Content } from '@octane/components/common/Layout'
 import { Flex, Heading, Image, Stack, Text } from '@chakra-ui/core'
-import { LabeledField } from '../../../components/common/Text'
-import { toDateString } from '../../../util/dates'
-import { Flag } from '../../../components/common/Flag'
-import { formatPrize } from '../../../util/prizes'
-import ButtonLink from '../../../components/common/Button'
-import EventInfobox from '../../../components/events/EventInfobox'
+import { LabeledField } from '@octane/components/common/Text'
+import { toDateString } from '@octane/util/dates'
+import { Flag } from '@octane/components/common/Flag'
+import { formatPrize } from '@octane/util/prizes'
+import ButtonLink from '@octane/components/common/Button'
+import EventInfobox from '@octane/components/events/EventInfobox'
 
 const Event = ({ event }) => {
   return (

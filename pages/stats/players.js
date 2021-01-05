@@ -1,9 +1,9 @@
-import { Content } from '../../components/common/Layout'
+import { Content } from '@octane/components/common/Layout'
 import { Stack } from '@chakra-ui/core'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
-import PlayerStats from '../../components/stats/PlayerStats'
-import { ButtonLink } from '../../components/common/Button'
+import PlayerStats from '@octane/components/stats/PlayerStats'
+import { ButtonLink } from '@octane/components/common/Button'
 import {
   ModeFilter,
   RegionFilter,
@@ -13,9 +13,9 @@ import {
   MinGamesFilter,
   NationalityFilter,
   SeriesFilter,
-} from '../../components/filters/Filters'
-import { buildQuery, route } from '../../util/routes'
-import Navigation from '../../components/common/Navigation'
+} from '@octane/components/filters/Filters'
+import { buildQuery, route } from '@octane/util/routes'
+import Navigation from '@octane/components/common/Navigation'
 
 const Stats = ({ initialFilter }) => {
   const router = useRouter()

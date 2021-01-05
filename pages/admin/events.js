@@ -1,10 +1,10 @@
 import { useAuth0 } from '@auth0/auth0-react'
 import { VStack, Center, Stack, Button, Spinner, Flex } from '@chakra-ui/core'
 import { useEffect, useState } from 'react'
-import Card, { SelectionCard, DropdownCard } from '../../components/admin/Card'
-import MatchForm from '../../components/admin/MatchForm'
-import { AdminOnly } from '../../components/common/Auth'
-import { Content } from '../../components/common/Layout'
+import Card, { SelectionCard, DropdownCard } from '@octane/components/admin/Card'
+import MatchForm from '@octane/components/admin/MatchForm'
+import { AdminOnly } from '@octane/components/common/Auth'
+import { Content } from '@octane/components/common/Layout'
 
 const MatchContainer = ({ event, stage }) => {
   const [pending, setPending] = useState({})

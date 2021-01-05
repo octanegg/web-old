@@ -1,11 +1,11 @@
 import { Flex, Image, Text, Spacer } from '@chakra-ui/core'
 import { useEffect, useState } from 'react'
 import moment from 'moment'
-import { Table, Body, Row, Cell } from '../common/Table'
-import Loading from '../common/Loading'
-import { apiFetch } from '../../util/fetch'
-import { buildQuery } from '../../util/routes'
-import LabeledText, { Heading, Link } from '../common/Text'
+import { Table, Body, Row, Cell } from '@octane/components/common/Table'
+import Loading from '@octane/components/common/Loading'
+import { apiFetch } from '@octane/util/fetch'
+import { buildQuery } from '@octane/util/routes'
+import LabeledText, { Heading, Link } from '@octane/components/common/Text'
 
 export const MatchesTable = ({ filter }) => {
   const [matches, setMatches] = useState([])

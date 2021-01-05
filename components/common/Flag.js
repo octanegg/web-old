@@ -1,6 +1,6 @@
 import { Text, Image, Stack } from '@chakra-ui/core'
-import { getCountry } from '../../util/countries'
-import { getRegion } from '../../util/regions'
+import { getCountry } from '@octane/util/countries'
+import { getRegion } from '@octane/util/regions'
 
 export const Flag = ({ country, region, justify, isLabeled }) => {
   const data = country ? getCountry(country || 'int') : region && getRegion(region || 'int')

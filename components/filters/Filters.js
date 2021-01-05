@@ -1,6 +1,6 @@
 import { Flex, Image } from '@chakra-ui/core'
-import { toDateString } from '../../util/dates'
-import DropdownList, { DropdownDate } from '../common/Dropdown'
+import { toDateString } from '@octane/util/dates'
+import DropdownList, { DropdownDate } from '@octane/components/common/Dropdown'
 import {
   minGames,
   tiers,
@@ -9,10 +9,10 @@ import {
   recordTypes,
   recordStats,
   series,
-} from '../../util/constants'
-import { getCountries, getCountry } from '../../util/countries'
-import { Flag } from '../common/Flag'
-import { regions } from '../../util/regions'
+} from '@octane/util/constants'
+import { getCountries, getCountry } from '@octane/util/countries'
+import { Flag } from '@octane/components/common/Flag'
+import { regions } from '@octane/util/regions'
 
 export const TierFilter = ({ active, onChange }) => (
   <DropdownList
