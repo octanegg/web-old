@@ -1,4 +1,4 @@
-import { Flex, Image, Text, Spacer } from '@chakra-ui/core'
+import { Flex, Image, Text } from '@chakra-ui/core'
 import { useEffect, useState } from 'react'
 import moment from 'moment'
 import { Table, Body, Row, Cell } from '@octane/components/common/Table'
@@ -7,7 +7,7 @@ import { apiFetch } from '@octane/util/fetch'
 import { buildQuery } from '@octane/util/routes'
 import LabeledText, { Heading, Link } from '@octane/components/common/Text'
 
-export const MatchesTable = ({ filter }) => {
+export const Matches = ({ filter }) => {
   const [matches, setMatches] = useState([])
   const [labels, setLabels] = useState([])
   const [loading, setLoading] = useState(true)
@@ -27,18 +27,16 @@ export const MatchesTable = ({ filter }) => {
       let labels = []
       let matches = []
 
-      data.matches
-        // .filter((match) => filter.after || filter.before || (match.blue.team && match.orange.team))
-        .map((match, i) => {
-          const date = moment(match.date)
-          if (i == 0 || !date.isSame(day, 'day')) {
-            labels.push(date.format('ddd, MMMM D YYYY'))
-            matches.push([match])
-          } else {
-            matches[matches.length - 1].push(match)
-          }
-          day = date
-        })
+      data.matches.map((match, i) => {
+        const date = moment(match.date)
+        if (i == 0 || !date.isSame(day, 'day')) {
+          labels.push(date.format('ddd, MMMM D YYYY'))
+          matches.push([match])
+        } else {
+          matches[matches.length - 1].push(match)
+        }
+        day = date
+      })
 
       setLabels(labels)
       setMatches(matches)
@@ -94,7 +92,7 @@ const MatchRow = ({ match }) => {
               </Flex>
             </LabeledText>
           </Flex>
-          <Flex direction="row" width="md">
+          <Flex direction="row" width="lg">
             <Team side={blue} />
             <Text marginLeft={1} marginRight={1} fontSize="xs">
               <Link href={`/matches/${_id}`}>{blue.team && orange.team ? '-' : 'vs'}</Link>
@@ -138,4 +136,4 @@ const Team = ({ side, isReversed }) => {
   )
 }
 
-export default MatchesTable
+export default Matches

@@ -22,15 +22,15 @@ const EventInfobox = ({ event }) => {
         <Text fontWeight="bold" fontSize="2xl" color="secondary.800">
           {name}
         </Text>
-        <Stack direction="row" width="full">
-          <LabeledField label="dates" width={48}>
+        <Stack direction="row" width="lg">
+          <LabeledField label="dates" width={56}>
             {toDateString(startDate, endDate)}
           </LabeledField>
           <LabeledField label="region">
             <Flag region={region} />
           </LabeledField>
           <LabeledField label="tier">{tier}</LabeledField>
-          <LabeledField label="mode">{mode}</LabeledField>
+          <LabeledField label="mode">{`${mode}v${mode}`}</LabeledField>
           <LabeledField label="prize">{formatPrize(prize)}</LabeledField>
         </Stack>
       </Flex>
