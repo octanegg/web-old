@@ -8,7 +8,7 @@ import moment from 'moment'
 import LabeledText, { Link } from '@octane/components/common/Text'
 import { toMinuteSeconds } from '@octane/util/dates'
 
-export const TeamRecords = ({ filter, label }) => {
+export const TeamRecords = ({ filter, label, isHighlighted }) => {
   const [records, setRecords] = useState([])
   const [loading, setLoading] = useState(true)
 
@@ -43,14 +43,19 @@ export const TeamRecords = ({ filter, label }) => {
       </Header>
       <Body>
         {records?.map((record, rank) => (
-          <TeamRecordsRow key={rank} record={record} rank={rank + 1} />
+          <TeamRecordsRow
+            key={rank}
+            record={record}
+            rank={rank + 1}
+            isHighlighted={isHighlighted}
+          />
         ))}
       </Body>
     </Table>
   )
 }
 
-const TeamRecordsRow = ({ record, rank }) => {
+const TeamRecordsRow = ({ record, rank, isHighlighted }) => {
   const { game, team, opponent, winner, stat } = record
   const match = game ? game.match : record.match
   const date = game ? game.date : record.date
@@ -60,9 +65,16 @@ const TeamRecordsRow = ({ record, rank }) => {
   const momentDate = moment(date)
   const isLastWeek = momentDate.isAfter(moment().subtract(7, 'day'))
   const isLastMonth = momentDate.isAfter(moment().subtract(30, 'day'))
+  const backgroundColor = !isHighlighted
+    ? ''
+    : isLastWeek
+    ? 'primary-100'
+    : isLastMonth
+    ? 'primary-50'
+    : ''
 
   return (
-    <Row key={rank} className={isLastWeek ? 'primary-100' : isLastMonth ? 'primary-50' : ''}>
+    <Row key={rank} className={backgroundColor}>
       <Cell>
         <Flex
           fontSize="sm"
@@ -76,7 +88,7 @@ const TeamRecordsRow = ({ record, rank }) => {
       </Cell>
       <Cell>
         <Flex align="center" width={48}>
-          <Flex minWidth={8} marginRight={2} marginLeft={2}>
+          <Flex minWidth={8} marginRight={1} marginLeft={1}>
             <Image height={6} src={`https://octane.gg/team-logos/${team.name}.png`} />
           </Flex>
           <Flex>
@@ -103,7 +115,7 @@ const TeamRecordsRow = ({ record, rank }) => {
                   L
                 </Text>
               )}
-              <Text fontSize="xs">&nbsp;-&nbsp;{toMinuteSeconds(duration)}</Text>
+              {duration && <Text fontSize="xs">&nbsp;-&nbsp;{toMinuteSeconds(duration)}</Text>}
             </Flex>
           </LabeledText>
           <Text fontSize="xs" width={8}>

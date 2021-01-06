@@ -8,7 +8,7 @@ import moment from 'moment'
 import LabeledText, { Link } from '@octane/components/common/Text'
 import { toMinuteSeconds } from '@octane/util/dates'
 
-export const GameRecords = ({ filter, label }) => {
+export const GameRecords = ({ filter, label, isHighlighted }) => {
   const [records, setRecords] = useState([])
   const [loading, setLoading] = useState(true)
 
@@ -43,14 +43,14 @@ export const GameRecords = ({ filter, label }) => {
       </Header>
       <Body>
         {records?.map((record, rank) => (
-          <GameRecordsRow key={rank} record={record} rank={rank + 1} />
+          <GameRecordsRow key={rank} record={record} rank={rank + 1}  isHighlighted={isHighlighted}/>
         ))}
       </Body>
     </Table>
   )
 }
 
-const GameRecordsRow = ({ record, rank }) => {
+const GameRecordsRow = ({ record, rank, isHighlighted }) => {
   const { match, date, duration, stat } = record
   const { event, stage } = match
 
@@ -60,9 +60,16 @@ const GameRecordsRow = ({ record, rank }) => {
   const momentDate = moment(date)
   const isLastWeek = momentDate.isAfter(moment().subtract(7, 'day'))
   const isLastMonth = momentDate.isAfter(moment().subtract(30, 'day'))
+  const backgroundColor = !isHighlighted
+    ? ''
+    : isLastWeek
+    ? 'primary-100'
+    : isLastMonth
+    ? 'primary-50'
+    : ''
 
   return (
-    <Row key={rank} className={isLastWeek ? 'primary-100' : isLastMonth ? 'primary-50' : ''}>
+    <Row key={rank} className={backgroundColor}>
       <Cell>
         <Flex
           fontSize="sm"
@@ -76,7 +83,7 @@ const GameRecordsRow = ({ record, rank }) => {
       </Cell>
       <Cell>
         <Flex align="center" width={48}>
-          <Flex minWidth={8} marginRight={2} marginLeft={2}>
+          <Flex minWidth={8} marginRight={1} marginLeft={1}>
             <Image height={6} src={`https://octane.gg/team-logos/${winner.name}.png`} />
           </Flex>
           <Flex>
@@ -97,7 +104,7 @@ const GameRecordsRow = ({ record, rank }) => {
               <Text fontWeight="bold" fontSize="xs" color="win">
                 W
               </Text>
-              <Text fontSize="xs">&nbsp;-&nbsp;{toMinuteSeconds(duration)}</Text>
+              {duration && <Text fontSize="xs">&nbsp;-&nbsp;{toMinuteSeconds(duration)}</Text>}
             </Flex>
           </LabeledText>
           <Text fontSize="xs" width={8}>

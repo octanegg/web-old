@@ -130,7 +130,7 @@ const StatsRow = ({ stat, sort }) => {
   return (
     <Row>
       <Cell>
-        <Stack paddingLeft={2} direction="row" fontSize="sm">
+        <Stack paddingLeft={2} direction="row" fontSize="sm" align="center">
           <Flag country={player.country || 'int'} />
           <Link href={`/players/${player._id}`}>{player.tag}</Link>
         </Stack>

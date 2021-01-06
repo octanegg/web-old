@@ -33,15 +33,9 @@ const Stats = ({ initialFilter }) => {
   return (
     <Content>
       <Navigation
-        defaultOpen={filter.tier || filter.region || filter.mode || filter.before || filter.after}
-        left={
-          <Stack direction="row">
-            <ButtonLink href="/stats/players">Players</ButtonLink>
-            <ButtonLink href="/stats/teams" isActive>
-              Teams
-            </ButtonLink>
-          </Stack>
-        }>
+        type="stats"
+        active="players"
+        isOpen={filter.tier || filter.region || filter.mode || filter.before || filter.after}>
         <TierFilter active={filter.tier} onChange={(item) => updateFilter('tier', item)} />
         <RegionFilter active={filter.region} onChange={(item) => updateFilter('region', item)} />
         <ModeFilter active={filter.mode} onChange={(item) => updateFilter('mode', item)} />

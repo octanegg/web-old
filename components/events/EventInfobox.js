@@ -17,7 +17,7 @@ const EventInfobox = ({ event }) => {
       paddingLeft={4}
       paddingRight={4}
       borderBottom="main"
-      marginBottom={4}>
+      marginBottom={2}>
       <Flex direction="column" width="full" justify="space-around">
         <Text fontWeight="bold" fontSize="2xl" color="secondary.800">
           {name}

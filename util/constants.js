@@ -3,7 +3,8 @@ export const modes = ['All', 3, 2, 1]
 export const results = ['All', 'Wins', 'Losses']
 export const minGames = ['All', 1000, 500, 250, 100, 50]
 export const series = ['All', 7, 5, 3]
-
+export const statCategories = ['players', 'teams']
+export const recordCategories = ['players', 'teams', 'games', 'series']
 export const recordTypes = ['game', 'series']
 export const recordStats = {
   players: [
@@ -77,23 +78,23 @@ export const recordStats = {
     },
     {
       id: 'scoreDifferential',
-      label: 'Score Differential',
+      label: 'Score Diff',
     },
     {
       id: 'goalsDifferential',
-      label: 'Goal Differential',
+      label: 'Goal Diff',
     },
     {
       id: 'assistsDifferential',
-      label: 'Assist Differential',
+      label: 'Assist Diff',
     },
     {
       id: 'savesDifferential',
-      label: 'Save Differential',
+      label: 'Save Diff',
     },
     {
       id: 'shotsDifferential',
-      label: 'Shot Differential',
+      label: 'Shot Diff',
     },
     {
       id: 'duration',
@@ -123,23 +124,23 @@ export const recordStats = {
     },
     {
       id: 'scoreDifferential',
-      label: 'Score Differential',
+      label: 'Score Diff',
     },
     {
       id: 'goalsDifferential',
-      label: 'Goal Differential',
+      label: 'Goal Diff',
     },
     {
       id: 'assistsDifferential',
-      label: 'Assist Differential',
+      label: 'Assist Diff',
     },
     {
       id: 'savesDifferential',
-      label: 'Save Differential',
+      label: 'Save Diff',
     },
     {
       id: 'shotsDifferential',
-      label: 'Shot Differential',
+      label: 'Shot Diff',
     },
     {
       id: 'duration',

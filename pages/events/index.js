@@ -27,15 +27,9 @@ const EventsPage = ({ initialFilter }) => {
   return (
     <Content>
       <Navigation
-        defaultOpen={filter.tier || filter.region || filter.mode}
-        left={
-          <Stack direction="row">
-            <ButtonLink href="/events" isActive>
-              Ongoing & Upcoming
-            </ButtonLink>
-            <ButtonLink href="/events/archive">Completed</ButtonLink>
-          </Stack>
-        }>
+        type="events"
+        active="ongoing"
+        isOpen={filter.tier || filter.region || filter.mode}>
         <TierFilter active={filter.tier} onChange={(item) => updateFilter('tier', item)} />
         <RegionFilter active={filter.region} onChange={(item) => updateFilter('region', item)} />
         <ModeFilter active={filter.mode} onChange={(item) => updateFilter('mode', item)} />

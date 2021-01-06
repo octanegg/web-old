@@ -8,7 +8,7 @@ import moment from 'moment'
 import LabeledText, { Link } from '@octane/components/common/Text'
 import { toMinuteSeconds } from '@octane/util/dates'
 
-export const SeriesRecords = ({ filter, label }) => {
+export const SeriesRecords = ({ filter, label, isHighlighted }) => {
   const [records, setRecords] = useState([])
   const [loading, setLoading] = useState(true)
 
@@ -43,14 +43,20 @@ export const SeriesRecords = ({ filter, label }) => {
       </Header>
       <Body>
         {records?.map((record, rank) => (
-          <SeriesRecordsRow key={rank} statField={filter.stat} record={record} rank={rank + 1} />
+          <SeriesRecordsRow
+            key={rank}
+            statField={filter.stat}
+            record={record}
+            rank={rank + 1}
+            isHighlighted={isHighlighted}
+          />
         ))}
       </Body>
     </Table>
   )
 }
 
-const SeriesRecordsRow = ({ record, rank, statField }) => {
+const SeriesRecordsRow = ({ record, rank, statField, isHighlighted }) => {
   const { match, date, stat } = record
   const { event, stage } = match
 
@@ -60,9 +66,16 @@ const SeriesRecordsRow = ({ record, rank, statField }) => {
   const momentDate = moment(date)
   const isLastWeek = momentDate.isAfter(moment().subtract(7, 'day'))
   const isLastMonth = momentDate.isAfter(moment().subtract(30, 'day'))
+  const backgroundColor = !isHighlighted
+    ? ''
+    : isLastWeek
+    ? 'primary-100'
+    : isLastMonth
+    ? 'primary-50'
+    : ''
 
   return (
-    <Row key={rank} className={isLastWeek ? 'primary-100' : isLastMonth ? 'primary-50' : ''}>
+    <Row key={rank} className={backgroundColor}>
       <Cell>
         <Flex
           fontSize="sm"
@@ -76,7 +89,7 @@ const SeriesRecordsRow = ({ record, rank, statField }) => {
       </Cell>
       <Cell>
         <Flex align="center" width={48}>
-          <Flex minWidth={8} marginRight={2} marginLeft={2}>
+          <Flex minWidth={8} marginRight={1} marginLeft={1}>
             <Image height={6} src={`https://octane.gg/team-logos/${winner.name}.png`} />
           </Flex>
           <Flex>

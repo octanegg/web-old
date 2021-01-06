@@ -1,9 +1,14 @@
 import { Content } from '@octane/components/common/Layout'
 import { useRouter } from 'next/router'
 import Navigation from '@octane/components/common/Navigation'
+import {
+  RecordsCategoryFilter,
+  RecordsStatsFilter,
+  RecordsTypeFilter,
+  StageFilter,
+} from '@octane/components/filters/Filters'
 import EventInfobox from '@octane/components/events/EventInfobox'
-import { ResultsFilter, StageFilter, StatsCategoryFilter } from '@octane/components/filters/Filters'
-import PlayerStats from '@octane/components/stats/PlayerStats'
+import PlayerRecords from '@octane/components/records/PlayerRecords'
 import { buildQuery, route } from '@octane/util/routes'
 import { useEffect, useState } from 'react'
 
@@ -12,7 +17,7 @@ const Event = ({ event, initialFilter }) => {
   const [filter, setFilter] = useState(initialFilter)
 
   useEffect(() => {
-    route(router, `/events/${event._id}/stats/players`, buildQuery(filter, ['event']))
+    route(router, `/events/${event._id}/records/players`, buildQuery(filter, ['event']))
   }, [filter])
 
   const updateFilter = (key, value) => {
@@ -23,21 +28,27 @@ const Event = ({ event, initialFilter }) => {
   }
 
   const handleCategoryChange = (category) =>
-    route(router, `/events/${event._id}/stats/${category}`, '')
+    route(router, `/events/${event._id}/records/${category}`, '')
 
   return (
     <Content>
       <EventInfobox event={event} />
-      <Navigation type="event" active="stats" id={event._id} isOpen={true}>
-        <StatsCategoryFilter active="players" onChange={(item) => handleCategoryChange(item)} />
+      <Navigation type="event" active="records" id={event._id} isOpen={true}>
+        <RecordsCategoryFilter active="players" onChange={(item) => handleCategoryChange(item)} />
+        <RecordsTypeFilter active={filter.type} onChange={(item) => updateFilter('type', item)} />
+        <RecordsStatsFilter
+          type="players"
+          active={filter.stat}
+          onChange={(item) => updateFilter('stat', item)}
+        />
         <StageFilter
           stages={event.stages}
           active={filter.stage}
           onChange={(item) => updateFilter('stage', item)}
         />
-        <ResultsFilter active={filter.winner} onChange={(item) => updateFilter('winner', item)} />
       </Navigation>
-      <PlayerStats filter={filter} />
+
+      <PlayerRecords filter={filter} />
     </Content>
   )
 }
@@ -51,6 +62,8 @@ export async function getServerSideProps({ params, query }) {
       event,
       initialFilter: {
         event: id,
+        stat: query.stat || 'score',
+        type: query.type || 'game',
         stage: query.stage || '',
       },
     },

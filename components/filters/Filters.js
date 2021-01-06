@@ -6,9 +6,11 @@ import {
   tiers,
   modes,
   results,
+  recordCategories,
   recordTypes,
   recordStats,
   series,
+  statCategories,
 } from '@octane/util/constants'
 import { getCountries, getCountry } from '@octane/util/countries'
 import { Flag } from '@octane/components/common/Flag'
@@ -51,9 +53,7 @@ export const ResultsFilter = ({ active, onChange }) => (
   <DropdownList
     label={active == 'true' ? 'Wins' : active == 'false' ? 'Losses' : 'Result'}
     items={results}
-    itemToId={(result) =>
-      result == 'Wins' ? 'true' : result == 'Losses' ? 'false' : 'All Results'
-    }
+    itemToId={(result) => (result == 'Wins' ? 'true' : result == 'Losses' ? 'false' : '')}
     itemToLabel={(item) => (item == 'All' ? 'All Results' : item)}
     onChange={onChange}
   />
@@ -64,6 +64,15 @@ export const DateRangeFilter = ({ after, before, onChange }) => (
     label={after || before ? toDateString(after, before) : 'Dates'}
     startDate={after}
     endDate={before}
+    onChange={onChange}
+  />
+)
+
+export const RecordsCategoryFilter = ({ active, onChange }) => (
+  <DropdownList
+    label={active[0].toUpperCase() + active.substring(1)}
+    items={recordCategories}
+    itemToLabel={(item) => item[0].toUpperCase() + item.substring(1)}
     onChange={onChange}
   />
 )
@@ -90,6 +99,15 @@ export const RecordsStatsFilter = ({ type, active, onChange }) => {
   )
 }
 
+export const StatsCategoryFilter = ({ active, onChange }) => (
+  <DropdownList
+    label={active[0].toUpperCase() + active.substring(1)}
+    items={statCategories}
+    itemToLabel={(item) => item[0].toUpperCase() + item.substring(1)}
+    onChange={onChange}
+  />
+)
+
 export const MinGamesFilter = ({ active, onChange }) => (
   <DropdownList
     label={active ? `${active}+` : 'Min Games'}
@@ -114,6 +132,16 @@ export const SeriesFilter = ({ active, onChange }) => (
     label={active ? `Best of ${active}s` : 'Series'}
     items={series}
     itemToLabel={(item) => (item !== 'All' ? `Best of ${item}s` : 'All Series')}
+    onChange={onChange}
+  />
+)
+
+export const StageFilter = ({ stages, active, onChange }) => (
+  <DropdownList
+    label={active ? stages[active]?.name : 'Stage'}
+    items={['All'].concat(stages)}
+    itemToLabel={(item) => (item !== 'All' ? item.name : 'All Stages')}
+    itemToId={(item) => (item !== 'All' ? item._id : '')}
     onChange={onChange}
   />
 )

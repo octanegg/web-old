@@ -34,18 +34,7 @@ const Players = ({ initialFilter }) => {
 
   return (
     <Content>
-      <Navigation
-        defaultOpen={true}
-        left={
-          <Stack direction="row">
-            <ButtonLink href="/records/players" isActive>
-              Players
-            </ButtonLink>
-            <ButtonLink href="/records/teams">Teams</ButtonLink>
-            <ButtonLink href="/records/games">Games</ButtonLink>
-            <ButtonLink href="/records/series">Series</ButtonLink>
-          </Stack>
-        }>
+      <Navigation type="records" active="players" isOpen={true}>
         <RecordsTypeFilter active={filter.type} onChange={(item) => updateFilter('type', item)} />
         <RecordsStatsFilter
           active={filter.stat}
@@ -67,7 +56,7 @@ const Players = ({ initialFilter }) => {
         <SeriesFilter active={filter.bestOf} onChange={(item) => updateFilter('bestOf', item)} />
       </Navigation>
       <Flex width="full">
-        <PlayerRecords filter={filter} />
+        <PlayerRecords filter={filter} isHighlighted />
       </Flex>
     </Content>
   )
