@@ -1,7 +1,7 @@
 import { Content } from '@octane/components/common/Layout'
 import { useRouter } from 'next/router'
 import Navigation from '@octane/components/common/Navigation'
-import EventInfobox from '@octane/components/events/EventInfobox'
+import { EventInfobox } from '@octane/components/common/Infobox'
 import { ResultsFilter, StageFilter, StatsCategoryFilter } from '@octane/components/filters/Filters'
 import TeamStats from '@octane/components/stats/TeamStats'
 import { buildQuery, route } from '@octane/util/routes'
@@ -28,7 +28,12 @@ const Event = ({ event, initialFilter }) => {
   return (
     <Content>
       <EventInfobox event={event} />
-      <Navigation type="event" active="stats" id={event._id} isOpen={true}>
+      <Navigation
+        type="event"
+        active="stats"
+        baseHref={`/events/${event._id}`}
+        isOpen={true}
+        hasDivider>
         <StatsCategoryFilter active="teams" onChange={(item) => handleCategoryChange(item)} />
         <StageFilter
           stages={event.stages}

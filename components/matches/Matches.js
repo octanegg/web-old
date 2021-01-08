@@ -45,8 +45,6 @@ export const Matches = ({ filter }) => {
     fetchMatches()
   }, [filter])
 
-  console.log(matches)
-
   return loading ? (
     <Loading />
   ) : (
@@ -57,7 +55,7 @@ export const Matches = ({ filter }) => {
           <Table>
             <Body>
               {group.map((match, j) => (
-                <MatchRow key={j} match={match} />
+                <MatchRow key={j} match={match} team={filter.team} player={filter.player} />
               ))}
             </Body>
           </Table>
@@ -67,16 +65,29 @@ export const Matches = ({ filter }) => {
   )
 }
 
-const MatchRow = ({ match }) => {
+const MatchRow = ({ match, team, player }) => {
   const { _id, blue, orange, event, stage, date } = match
+
+  console.log(blue)
+  const isBlue = blue.team?._id == team || blue.players?.find((p) => p._id == player)
   const image =
     'https://octane.gg/event-logos/rlcs-x-north-america-fall-regional-one-swiss-stage-two.png'
 
+  const left = isBlue ? blue : orange
+  const right = isBlue ? orange : blue
+  const border = left.winner ? 'win' : 'loss'
+
   return (
-    <Row key={_id}>
+    <Row>
       <Cell>
-        <Flex width="full" fontSize="sm" padding={2} align="center" justify="space-between">
-          <Flex width="xs">
+        <Flex
+          width="full"
+          fontSize="sm"
+          padding={2}
+          align="center"
+          justify="space-between"
+          borderLeft={(team || player) && border}>
+          <Flex width="sm">
             <Flex minWidth={8} marginRight={2} marginLeft={2}>
               {image && <Image height={6} src={image} />}
             </Flex>
@@ -93,11 +104,11 @@ const MatchRow = ({ match }) => {
             </LabeledText>
           </Flex>
           <Flex direction="row" width="lg">
-            <Team side={blue} />
+            <Team side={left} />
             <Text marginLeft={1} marginRight={1} fontSize="xs">
-              <Link href={`/matches/${_id}`}>{blue.team && orange.team ? '-' : 'vs'}</Link>
+              <Link href={`/matches/${_id}`}>{left.team && right.team ? '-' : 'vs'}</Link>
             </Text>
-            <Team side={orange} isReversed />
+            <Team side={right} isReversed />
           </Flex>
           <Text width={16} justify="center" fontSize="xs">
             {moment(date).format('h:mm A')}

@@ -10,6 +10,7 @@ import {
   ResultsFilter,
   DateRangeFilter,
   SeriesFilter,
+  MinGamesFilter,
 } from '@octane/components/filters/Filters'
 import { buildQuery, route } from '@octane/util/routes'
 import Navigation from '@octane/components/common/Navigation'
@@ -34,7 +35,7 @@ const Stats = ({ initialFilter }) => {
     <Content>
       <Navigation
         type="stats"
-        active="players"
+        active="teams"
         isOpen={filter.tier || filter.region || filter.mode || filter.before || filter.after}>
         <TierFilter active={filter.tier} onChange={(item) => updateFilter('tier', item)} />
         <RegionFilter active={filter.region} onChange={(item) => updateFilter('region', item)} />

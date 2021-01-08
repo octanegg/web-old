@@ -52,9 +52,9 @@ export const LabeledField = ({ label, width, children }) => (
         {label}
       </Text>
     }>
-    <Text fontWeight="bold" color="secondary.800">
+    <Flex fontWeight="bold" color="secondary.800">
       {children}
-    </Text>
+    </Flex>
   </LabeledText>
 )
 

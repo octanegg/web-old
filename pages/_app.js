@@ -38,8 +38,8 @@ const theme = {
     },
     border: '#ddd',
     hover: '#e8f4fd',
-    win: '#09A503',
-    loss: '#E40B0C',
+    win: '#25c175',
+    loss: '#de5454',
   },
   shadows: {
     ...defaultTheme.shadows,
@@ -54,6 +54,8 @@ const theme = {
     pic: '5px solid #44d48c',
     focus: '1px solid #44d48c',
     secondary: '1px solid #25334B',
+    win: '5px solid #bbf2d7',
+    loss: '5px solid #f2baba',
   },
   fontWeights: {
     thin: 100,

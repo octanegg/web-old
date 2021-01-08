@@ -7,7 +7,7 @@ import {
   RecordsTypeFilter,
   StageFilter,
 } from '@octane/components/filters/Filters'
-import EventInfobox from '@octane/components/events/EventInfobox'
+import { EventInfobox } from '@octane/components/common/Infobox'
 import TeamRecords from '@octane/components/records/TeamRecords'
 import { buildQuery, route } from '@octane/util/routes'
 import { useEffect, useState } from 'react'
@@ -33,7 +33,12 @@ const Event = ({ event, initialFilter }) => {
   return (
     <Content>
       <EventInfobox event={event} />
-      <Navigation type="event" active="records" id={event._id} isOpen={true}>
+      <Navigation
+        type="event"
+        active="records"
+        baseHref={`/events/${event._id}`}
+        isOpen={true}
+        hasDivider>
         <RecordsCategoryFilter active="teams" onChange={(item) => handleCategoryChange(item)} />
         <RecordsTypeFilter active={filter.type} onChange={(item) => updateFilter('type', item)} />
         <RecordsStatsFilter

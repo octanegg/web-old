@@ -43,22 +43,12 @@ const fields = [
     label: 'SH %',
     percentage: true,
   },
-  {
-    id: 'averages.goalParticipation',
-    label: 'GP %',
-    percentage: true,
-  },
-  {
-    id: 'averages.rating',
-    label: 'Rating',
-    round: 3,
-  },
 ]
 
 export const TeamStats = ({ filter, isSortable }) => {
   const [stats, setStats] = useState([])
   const [loading, setLoading] = useState(true)
-  const [sort, setSort] = useState('averages.rating')
+  const [sort, setSort] = useState('win_percentage')
   const [order, setOrder] = useState(false)
 
   useEffect(() => {
@@ -109,7 +99,7 @@ export const TeamStats = ({ filter, isSortable }) => {
           Team
         </HeaderItem>
         {fields.map((field) => (
-          <HeaderItem onClick={isSortable && (() => updateSort(field.id))} width="6rem">
+          <HeaderItem onClick={isSortable && (() => updateSort(field.id))} width="7rem">
             {field.label} <SortIcon field={field.id} />
           </HeaderItem>
         ))}

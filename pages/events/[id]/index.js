@@ -1,12 +1,12 @@
 import { Content } from '@octane/components/common/Layout'
 import Navigation from '@octane/components/common/Navigation'
-import EventInfobox from '@octane/components/events/EventInfobox'
+import { EventInfobox } from '@octane/components/common/Infobox'
 
 const Event = ({ event }) => {
   return (
     <Content>
       <EventInfobox event={event} />
-      <Navigation type="event" active="overview" id={event._id} />
+      <Navigation type="event" active="overview" baseHref={`/events/${event._id}`} hasDivider />
     </Content>
   )
 }

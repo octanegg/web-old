@@ -1,13 +1,13 @@
 import { Content } from '@octane/components/common/Layout'
 import Navigation from '@octane/components/common/Navigation'
-import EventInfobox from '@octane/components/events/EventInfobox'
+import { EventInfobox } from '@octane/components/common/Infobox'
 import Matches from '@octane/components/matches/Matches'
 
 const Event = ({ event }) => {
   return (
     <Content>
       <EventInfobox event={event} />
-      <Navigation type="event" active="matches" id={event._id} />
+      <Navigation type="event" active="matches" baseHref={`/events/${event._id}`} hasDivider />
       <Matches filter={{ event: event._id, sort: 'date:asc' }} />
     </Content>
   )

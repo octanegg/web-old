@@ -14,6 +14,6 @@ export const Flag = ({ country, region, justify, isLabeled }) => {
       <Text marginLeft={1}>{data?.name}</Text>
     </Stack>
   ) : (
-    <Image width={5} src={image} paddingTop={1} paddingBottom={1} />
+    <Image width={5} src={image} />
   )
 }

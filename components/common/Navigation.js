@@ -1,4 +1,4 @@
-import { Flex, Spacer, Stack, Text } from '@chakra-ui/core'
+import { Flex, Divider, Stack, Text, Spacer } from '@chakra-ui/core'
 import { EditIcon } from '@chakra-ui/icons'
 import { useState } from 'react'
 import ButtonLink, { Button } from './Button'
@@ -7,22 +7,21 @@ const navigation = {
   event: [
     {
       id: 'overview',
-      toHref: (id) => `/events/${id}`,
       label: 'Overview',
     },
     {
       id: 'matches',
-      toHref: (id) => `/events/${id}/matches`,
+      href: '/matches',
       label: 'Matches',
     },
     {
       id: 'stats',
-      toHref: (id) => `/events/${id}/stats`,
+      href: '/stats/players',
       label: 'Stats',
     },
     {
       id: 'records',
-      toHref: (id) => `/events/${id}/records`,
+      href: '/records/players',
       label: 'Records',
     },
   ],
@@ -50,16 +49,15 @@ const navigation = {
       label: 'Completed',
     },
   ],
-  stats: [
+  player: [
     {
-      id: 'players',
-      href: '/stats/players',
-      label: 'Players',
+      id: 'overview',
+      label: 'Overview',
     },
     {
-      id: 'teams',
-      href: '/stats/teams',
-      label: 'Teams',
+      id: 'matches',
+      href: '/matches',
+      label: 'Matches',
     },
   ],
   records: [
@@ -84,27 +82,59 @@ const navigation = {
       label: 'Series',
     },
   ],
+  stats: [
+    {
+      id: 'players',
+      href: '/stats/players',
+      label: 'Players',
+    },
+    {
+      id: 'teams',
+      href: '/stats/teams',
+      label: 'Teams',
+    },
+  ],
+  team: [
+    {
+      id: 'overview',
+      label: 'Overview',
+    },
+    {
+      id: 'matches',
+      href: '/matches',
+      label: 'Matches',
+    },
+  ],
 }
 
-const Navigation = ({ type, active, id, isOpen, children }) => {
+const Navigation = ({ type, active, baseHref, isOpen, hasDivider, children }) => {
   const [open, setOpen] = useState(isOpen)
   const nav = navigation[type]
 
   return (
-    <Flex
-      marginTop={2}
-      marginBottom={2}
-      paddingLeft={4}
-      paddingRight={4}
-      direction="column"
-      width="full">
-      <Stack width="full" direction="row" marginBottom={2}>
+    <Flex paddingLeft={2} paddingRight={2} direction="column" width="full">
+      <Stack width="full" direction="row" marginBottom={4} align="center">
         {nav.map((item) => (
-          <ButtonLink href={item.href || item.toHref(id)} isActive={active === item.id}>
+          <ButtonLink
+        
+        
+        
+        
+                        key={item.id}
+     
+     
+     
+     
+                                    href={`${baseHref || ''}${item.href || ''}`}
+           
+           
+           
+           
+            isActive={active === item.id}>
             {item.label}
           </ButtonLink>
         ))}
-        <Spacer />
+        {hasDivider ? <Divider borderColor="secondary.400" /> : <Spacer />}
         {children && (
           <Button onClick={() => setOpen(!open)}>
             <Text>
@@ -114,7 +144,7 @@ const Navigation = ({ type, active, id, isOpen, children }) => {
         )}
       </Stack>
       {open && (
-        <Stack width="full" direction="row">
+        <Stack width="full" direction="row" marginBottom={4}>
           {children}
         </Stack>
       )}
