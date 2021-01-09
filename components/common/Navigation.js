@@ -59,6 +59,11 @@ const navigation = {
       href: '/matches',
       label: 'Matches',
     },
+    {
+      id: 'timeline',
+      href: '/timeline',
+      label: 'Timeline',
+    },
   ],
   records: [
     {
@@ -116,20 +121,8 @@ const Navigation = ({ type, active, baseHref, isOpen, hasDivider, children }) =>
       <Stack width="full" direction="row" marginBottom={4} align="center">
         {nav.map((item) => (
           <ButtonLink
-        
-        
-        
-        
-                        key={item.id}
-     
-     
-     
-     
-                                    href={`${baseHref || ''}${item.href || ''}`}
-           
-           
-           
-           
+            key={item.id}
+            href={`${baseHref || ''}${item.href || ''}`}
             isActive={active === item.id}>
             {item.label}
           </ButtonLink>
