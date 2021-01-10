@@ -68,14 +68,13 @@ export const Matches = ({ filter }) => {
 const MatchRow = ({ match, team, player }) => {
   const { _id, blue, orange, event, stage, date } = match
 
-  console.log(blue)
-  const isBlue = blue.team?._id == team || blue.players?.find((p) => p._id == player)
+  const isBlue = blue?.team?._id == team || blue?.players?.find((p) => p._id == player)
   const image =
     'https://octane.gg/event-logos/rlcs-x-north-america-fall-regional-one-swiss-stage-two.png'
 
   const left = isBlue ? blue : orange
   const right = isBlue ? orange : blue
-  const border = left.winner ? 'win' : 'loss'
+  const border = left?.winner ? 'win' : 'loss'
 
   return (
     <Row>
@@ -106,7 +105,7 @@ const MatchRow = ({ match, team, player }) => {
           <Flex direction="row" width="lg">
             <Team side={left} />
             <Text marginLeft={1} marginRight={1} fontSize="xs">
-              <Link href={`/matches/${_id}`}>{left.team && right.team ? '-' : 'vs'}</Link>
+              <Link href={`/matches/${_id}`}>{left?.team && right?.team ? '-' : 'vs'}</Link>
             </Text>
             <Team side={right} isReversed />
           </Flex>
@@ -120,29 +119,26 @@ const MatchRow = ({ match, team, player }) => {
 }
 
 const Team = ({ side, isReversed }) => {
-  const { team, score, winner } = side
-  return (
+  return side ? (
     <Flex direction={isReversed ? 'row-reverse' : 'row'} width="full" justify="flex-end">
-      {team ? (
-        <Link href={`/teams/${team._id}`} align={isReversed && 'end'}>
-          {team.name}
-        </Link>
-      ) : (
-        <Text fontSize="xs">TBD</Text>
-      )}
+      <Link href={`/teams/${side.team._id}`} align={isReversed && 'end'}>
+        {side.team.name}
+      </Link>
       <Flex minWidth={6} marginLeft={4} marginRight={4}>
-        {team && (
-          <Image
-            height={6}
-            src={`https://octane.gg/team-logos/${team.name}.png` /* TODO: use griffon for logos */}
-          />
-        )}
+        <Image
+          height={6}
+          src={
+            `https://octane.gg/team-logos/${side.team.name}.png` /* TODO: use griffon for logos */
+          }
+        />
       </Flex>
-      {team && (
-        <Text fontWeight={winner ? 'bold' : 'semi'} color={winner ? 'win' : 'loss'}>
-          {score || 0}
-        </Text>
-      )}
+      <Text fontWeight={side.winner ? 'bold' : 'semi'} color={side.winner ? 'win' : 'loss'}>
+        {side.score || 0}
+      </Text>
+    </Flex>
+  ) : (
+    <Flex width="full" justify="center">
+      TBD
     </Flex>
   )
 }

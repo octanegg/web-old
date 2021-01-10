@@ -46,7 +46,7 @@ export async function getServerSideProps({ query }) {
         mode: query.mode || 3,
         tier: query.tier || '',
         region: query.region || '',
-        after: moment().format('YYYY-MM-DD'),
+        after: moment().toISOString(),
         page: query.page || 1,
         perPage: 50,
         sort: 'date:asc',

@@ -59,11 +59,11 @@ const navigation = {
       href: '/matches',
       label: 'Matches',
     },
-    {
-      id: 'timeline',
-      href: '/timeline',
-      label: 'Timeline',
-    },
+    // {
+    //   id: 'timeline',
+    //   href: '/timeline',
+    //   label: 'Timeline',
+    // },
   ],
   records: [
     {

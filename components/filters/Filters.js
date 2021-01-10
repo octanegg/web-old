@@ -20,7 +20,7 @@ export const TierFilter = ({ active, onChange }) => (
   <DropdownList
     label={active ? (active.length == 1 ? `${active}-Tier` : active) : 'Tier'}
     items={tiers}
-    itemToLabel={(tier) => (tier.length == 1 ? `${tier}-Tier` : 'All Tiers')}
+    itemToLabel={(tier) => (tier == 'All' ? 'All Tiers' : tier.length == 1 ? `${tier}-Tier` : tier)}
     onChange={onChange}
   />
 )
