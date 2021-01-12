@@ -4,8 +4,9 @@ import NextLink from 'next/link'
 import { useAuth0 } from '@auth0/auth0-react'
 import { AdminOnly } from './Auth'
 import { useHover } from 'react-use'
+import Search from '@octane/components/common/Search'
 
-const NavItem = ({ href, leftBorder, rightBorder, onClick, children }) => {
+const NavItem = ({ href, onClick, children }) => {
   const [hoverable, hovered] = useHover((hovered) => (
     <Flex
       fontSize="sm"
@@ -45,9 +46,7 @@ const NavImage = ({ src, href }) => (
 const AdminNav = () => {
   return (
     <AdminOnly>
-      <NavItem href="/admin/events" leftBorder>
-        Admin
-      </NavItem>
+      <NavItem href="/admin/events">Admin</NavItem>
     </AdminOnly>
   )
 }
@@ -59,13 +58,9 @@ const AuthNav = ({ isAuthenticated }) => {
       <Spinner size="sm" />
     </NavItem>
   ) : isAuthenticated ? (
-    <NavItem onClick={() => logout({ returnTo: window.location.origin })} leftBorder rightBorder>
-      Log Out
-    </NavItem>
+    <NavItem onClick={() => logout({ returnTo: window.location.origin })}>Log Out</NavItem>
   ) : (
-    <NavItem onClick={() => loginWithRedirect()} leftBorder rightBorder>
-      Log In
-    </NavItem>
+    <NavItem onClick={() => loginWithRedirect()}>Log In</NavItem>
   )
 }
 
@@ -99,6 +94,8 @@ const Navbar = () => {
           display={{ base: showMenu ? 'flex' : 'none', md: 'flex' }}
           flexWrap="wrap"
           justify="space-between"
+          align="center"
+          fontWeight="semi"
           direction={{ base: 'column', md: 'row' }}>
           <NavItem href="#" leftBorder>
             News
@@ -115,6 +112,7 @@ const Navbar = () => {
           <NavItem href="/records/players" leftBorder rightBorder>
             Records
           </NavItem>
+          <Search />
           <Spacer display={{ base: 'none', md: 'block' }} />
           <AdminNav />
           <AuthNav isAuthenticated={isAuthenticated} />
