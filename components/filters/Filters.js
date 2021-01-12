@@ -11,6 +11,8 @@ import {
   recordStats,
   series,
   statCategories,
+  playerStatsTypes,
+  teamStatsTypes,
 } from '@octane/util/constants'
 import { getCountries, getCountry } from '@octane/util/countries'
 import { Flag } from '@octane/components/common/Flag'
@@ -31,8 +33,13 @@ export const RegionFilter = ({ active, onChange }) => (
     items={regions}
     itemToLabel={(region) => (
       <Flex justify="flex-start" align="center">
-        <Image src={region.image} width="16px" height="11px" marginRight={1} />
-        {region.label}
+        <Image
+          src={`https://octane.gg/${region.image}`}
+          width="16px"
+          height="11px"
+          marginRight={1}
+        />
+        {region.name}
       </Flex>
     )}
     itemToId={(region) => region.id}
@@ -142,6 +149,24 @@ export const StageFilter = ({ stages, active, onChange }) => (
     items={['All'].concat(stages)}
     itemToLabel={(item) => (item !== 'All' ? item.name : 'All Stages')}
     itemToId={(item) => (item !== 'All' ? item._id : '')}
+    onChange={onChange}
+  />
+)
+
+export const PlayerStatsTypeFilter = ({ active, onChange }) => (
+  <DropdownList
+    label={active[0].toUpperCase() + active.substring(1)}
+    items={playerStatsTypes}
+    itemToLabel={(item) => item[0].toUpperCase() + item.substring(1)}
+    onChange={onChange}
+  />
+)
+
+export const TeamStatsTypeFilter = ({ active, onChange }) => (
+  <DropdownList
+    label={active[0].toUpperCase() + active.substring(1)}
+    items={teamStatsTypes}
+    itemToLabel={(item) => item[0].toUpperCase() + item.substring(1)}
     onChange={onChange}
   />
 )

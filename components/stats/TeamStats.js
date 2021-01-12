@@ -135,8 +135,6 @@ const StatsRow = ({ stat, sort }) => {
               padding={2}
               fontSize="sm"
               fontWeight={sort == id && 'bold'}
-              borderLeft={sort == id && '1px solid #bbf2d7'}
-              borderRight={sort == id && '1px solid #bbf2d7'}
               backgroundColor={sort == id && 'primary.50'}>
               {percentage ? `${(value * 100).toFixed(2)}%` : value.toFixed(round ?? 2)}
             </Text>

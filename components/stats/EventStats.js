@@ -1,4 +1,4 @@
-import { Flex, Image, Stack, Text } from '@chakra-ui/core'
+import { Flex, Image, Text } from '@chakra-ui/core'
 import { useEffect, useState } from 'react'
 import { Table, Header, HeaderItem, Body, Row, Cell } from '@octane/components/common/Table'
 import { ChevronDownIcon, ChevronUpIcon, UpDownIcon } from '@chakra-ui/icons'
@@ -6,7 +6,6 @@ import Loading from '@octane/components/common/Loading'
 import { apiFetch } from '@octane/util/fetch'
 import { buildQuery } from '@octane/util/routes'
 import { Link } from '@octane/components/common/Text'
-import { Flag } from '@octane/components/common/Flag'
 
 const fields = [
   {
@@ -44,22 +43,12 @@ const fields = [
     label: 'SH %',
     percentage: true,
   },
-  {
-    id: 'averages.goalParticipation',
-    label: 'GP %',
-    percentage: true,
-  },
-  {
-    id: 'averages.rating',
-    label: 'Rating',
-    round: 3,
-  },
 ]
 
-export const PlayerStats = ({ filter, isSortable }) => {
+export const EventStats = ({ filter, isSortable }) => {
   const [stats, setStats] = useState([])
   const [loading, setLoading] = useState(true)
-  const [sort, setSort] = useState('averages.rating')
+  const [sort, setSort] = useState('win_percentage')
   const [order, setOrder] = useState(false)
 
   useEffect(() => {
@@ -67,7 +56,7 @@ export const PlayerStats = ({ filter, isSortable }) => {
       setStats([])
       setLoading(true)
 
-      const data = await apiFetch('/stats/players', buildQuery(filter, ['']))
+      const data = await apiFetch('/stats/events', buildQuery(filter, ['']))
       if (!data.stats) {
         setLoading(false)
         return
@@ -106,8 +95,8 @@ export const PlayerStats = ({ filter, isSortable }) => {
   ) : (
     <Table>
       <Header>
-        <HeaderItem align="left" paddingLeft={5}>
-          Player
+        <HeaderItem align="left" paddingLeft={20}>
+          Team
         </HeaderItem>
         {fields.map((field) => (
           <HeaderItem onClick={isSortable && (() => updateSort(field.id))} width="6rem">
@@ -125,15 +114,17 @@ export const PlayerStats = ({ filter, isSortable }) => {
 }
 
 const StatsRow = ({ stat, sort }) => {
-  const { player, averages } = stat
+  const { event, averages } = stat
 
   return (
     <Row>
       <Cell>
-        <Stack paddingLeft={2} direction="row" fontSize="sm" align="center">
-          <Flag country={player.country || 'int'} />
-          <Link href={`/players/${player._id}`}>{player.tag}</Link>
-        </Stack>
+        <Flex align="center" justify="flex-start" fontSize="sm">
+          <Flex minWidth={10} justify="center">
+            <Image src="https://octane.gg/event-icons/rlcs-x-north-america-fall-regional-one-swiss-stage-two.png" />
+          </Flex>
+          <Link href={`/events/${event._id}`}>{event.name}</Link>
+        </Flex>
       </Cell>
       {fields.map(({ id, round, percentage }) => {
         const keys = id.split('.')
@@ -154,4 +145,4 @@ const StatsRow = ({ stat, sort }) => {
   )
 }
 
-export default PlayerStats
+export default EventStats

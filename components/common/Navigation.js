@@ -59,6 +59,11 @@ const navigation = {
       href: '/matches',
       label: 'Matches',
     },
+    {
+      id: 'stats',
+      href: '/stats/events',
+      label: 'Stats',
+    },
     // {
     //   id: 'timeline',
     //   href: '/timeline',
@@ -108,6 +113,11 @@ const navigation = {
       id: 'matches',
       href: '/matches',
       label: 'Matches',
+    },
+    {
+      id: 'stats',
+      href: '/stats/players',
+      label: 'Stats',
     },
   ],
 }
