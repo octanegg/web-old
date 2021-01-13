@@ -96,7 +96,7 @@ export const EventStats = ({ filter, isSortable }) => {
     <Table>
       <Header>
         <HeaderItem align="left" paddingLeft={20}>
-          Team
+          Event
         </HeaderItem>
         {fields.map((field) => (
           <HeaderItem onClick={isSortable && (() => updateSort(field.id))} width="6rem">

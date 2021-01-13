@@ -12,7 +12,7 @@ import { buildQuery, route } from '@octane/util/routes'
 import Navigation from '@octane/components/common/Navigation'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
-import EventStats from '@octane/components/stats/EventStats'
+import PlayerStats from '@octane/components/stats/PlayerStats'
 
 const Player = ({ player, initialFilter }) => {
   const router = useRouter()
@@ -54,7 +54,7 @@ const Player = ({ player, initialFilter }) => {
         />
         <SeriesFilter active={filter.bestOf} onChange={(item) => updateFilter('bestOf', item)} />
       </Navigation>
-      <EventStats filter={filter} isSortable />
+      <PlayerStats filter={filter} groupBy="events" isSortable />
     </Content>
   )
 }

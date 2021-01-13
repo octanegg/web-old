@@ -56,7 +56,7 @@ const fields = [
   },
 ]
 
-export const PlayerStats = ({ filter, isSortable }) => {
+export const PlayerStats = ({ filter, groupBy, isSortable }) => {
   const [stats, setStats] = useState([])
   const [loading, setLoading] = useState(true)
   const [sort, setSort] = useState('averages.rating')
@@ -67,7 +67,10 @@ export const PlayerStats = ({ filter, isSortable }) => {
       setStats([])
       setLoading(true)
 
-      const data = await apiFetch('/stats/players', buildQuery(filter, ['']))
+      const data = await apiFetch(
+        `/stats/players${groupBy ? `/${groupBy}` : ''}`,
+        buildQuery(filter, [''])
+      )
       if (!data.stats) {
         setLoading(false)
         return
@@ -77,7 +80,7 @@ export const PlayerStats = ({ filter, isSortable }) => {
       setLoading(false)
     }
     fetchRecords()
-  }, [filter])
+  }, [filter, groupBy])
 
   const updateSort = (field) => {
     const newOrder = sort == field ? !order : false
@@ -107,46 +110,71 @@ export const PlayerStats = ({ filter, isSortable }) => {
     <Table>
       <Header>
         <HeaderItem align="left" paddingLeft={5}>
-          Player
+          {groupBy || 'Player'}
         </HeaderItem>
         {fields.map((field) => (
-          <HeaderItem onClick={isSortable && (() => updateSort(field.id))} width="6rem">
+          <HeaderItem
+            onClick={isSortable && (() => updateSort(field.id))}
+            width={groupBy ? '5rem' : '6rem'}>
             {field.label} <SortIcon field={field.id} />
           </HeaderItem>
         ))}
       </Header>
       <Body>
         {stats?.map((stat, i) => (
-          <StatsRow key={i} stat={stat} sort={sort} />
+          <StatsRow key={i} stat={stat} sort={sort} groupBy={groupBy} />
         ))}
       </Body>
     </Table>
   )
 }
 
-const StatsRow = ({ stat, sort }) => {
-  const { player, averages } = stat
+const StatsRow = ({ stat, sort, groupBy }) => {
+  const { player, events, teams, averages } = stat
+  const event = events[0]
+  const team = teams[0]
 
   return (
     <Row>
       <Cell>
-        <Stack paddingLeft={2} direction="row" fontSize="sm" align="center">
-          <Flag country={player.country || 'int'} />
-          <Link href={`/players/${player._id}`}>{player.tag}</Link>
-        </Stack>
+        {groupBy == 'events' && (
+          <Flex align="center" justify="flex-start" fontSize="sm">
+            <Flex minWidth={10} justify="center">
+              <Image src="https://octane.gg/event-icons/rlcs-x-north-america-fall-regional-one-swiss-stage-two.png" />
+            </Flex>
+            <Link href={`/events/${event._id}`}>{event.name}</Link>
+          </Flex>
+        )}
+        {groupBy == 'teams' && (
+          <Flex align="center" justify="flex-start" fontSize="sm">
+            <Flex minWidth={10} justify="center">
+              <Image src={`https://www.octane.gg/team-icons/${team.name}.png`} />
+            </Flex>
+            <Link href={`/teams/${team._id}`}>{team.name}</Link>
+          </Flex>
+        )}
+        {!groupBy && (
+          <Stack paddingLeft={2} direction="row" fontSize="sm" align="center">
+            <Flag country={player.country || 'int'} />
+            <Link href={`/players/${player._id}`}>{player.tag}</Link>
+          </Stack>
+        )}
       </Cell>
       {fields.map(({ id, round, percentage }) => {
         const keys = id.split('.')
         const value = keys.length > 1 ? averages[keys[1]] : stat[keys[0]]
         return (
           <Cell>
-            <Text
+            <Flex
               padding={2}
               fontSize="sm"
               fontWeight={sort == id && 'bold'}
-              backgroundColor={sort == id && 'primary.50'}>
+              backgroundColor={sort == id && 'primary.50'}
+              height={groupBy && 12}
+              align="center"
+              justify="center">
               {percentage ? `${(value * 100).toFixed(2)}%` : value.toFixed(round ?? 2)}
-            </Text>
+            </Flex>
           </Cell>
         )
       })}
