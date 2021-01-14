@@ -60,7 +60,9 @@ const Search = () => {
 
   useEffect(() => {
     const filter = () => {
-      const results = options.filter((result) => result.label.toLowerCase().includes(search))
+      const results = options.filter((result) =>
+        result.label.toLowerCase().includes(search.toLowerCase())
+      )
       if (results.length < MAX_RESULTS) {
         setResults(results)
       }
@@ -77,8 +79,6 @@ const Search = () => {
     setSearch('')
     setResults([])
   }
-
-  console.log(results)
 
   return (
     <Popover
@@ -100,7 +100,7 @@ const Search = () => {
             fontWeight="medium"
             _focus={{ outline: 'none' }}
             value={search}
-            onChange={(e) => setSearch(e.target.value.toLowerCase())}
+            onChange={(e) => setSearch(e.target.value)}
           />
         </Flex>
       </PopoverTrigger>

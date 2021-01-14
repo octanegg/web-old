@@ -45,7 +45,7 @@ const fields = [
   },
 ]
 
-export const TeamStats = ({ filter, isSortable }) => {
+export const TeamStats = ({ filter, groupBy, isSortable }) => {
   const [stats, setStats] = useState([])
   const [loading, setLoading] = useState(true)
   const [sort, setSort] = useState('win_percentage')
@@ -56,7 +56,10 @@ export const TeamStats = ({ filter, isSortable }) => {
       setStats([])
       setLoading(true)
 
-      const data = await apiFetch('/stats/teams', buildQuery(filter, ['']))
+      const data = await apiFetch(
+        `/stats/teams${groupBy ? `/${groupBy}` : ''}`,
+        buildQuery(filter, [''])
+      )
       if (!data.stats) {
         setLoading(false)
         return
@@ -66,7 +69,7 @@ export const TeamStats = ({ filter, isSortable }) => {
       setLoading(false)
     }
     fetchRecords()
-  }, [filter])
+  }, [filter, groupBy])
 
   const updateSort = (field) => {
     const newOrder = sort == field ? !order : false
@@ -96,35 +99,48 @@ export const TeamStats = ({ filter, isSortable }) => {
     <Table>
       <Header>
         <HeaderItem align="left" paddingLeft={20}>
-          Team
+          {groupBy || 'Team'}
         </HeaderItem>
         {fields.map((field) => (
-          <HeaderItem onClick={isSortable && (() => updateSort(field.id))} width="7rem">
+          <HeaderItem
+            onClick={isSortable && (() => updateSort(field.id))}
+            width={groupBy ? '6rem' : '7rem'}>
             {field.label} <SortIcon field={field.id} />
           </HeaderItem>
         ))}
       </Header>
       <Body>
         {stats?.map((stat, i) => (
-          <StatsRow key={i} stat={stat} sort={sort} />
+          <StatsRow key={i} stat={stat} sort={sort} groupBy={groupBy} />
         ))}
       </Body>
     </Table>
   )
 }
 
-const StatsRow = ({ stat, sort }) => {
-  const { team, averages } = stat
+const StatsRow = ({ stat, sort, groupBy }) => {
+  const { team, events, averages } = stat
+  const event = events[0]
 
   return (
     <Row>
       <Cell>
-        <Flex align="center" justify="flex-start" fontSize="sm">
-          <Flex minWidth={10} justify="center">
-            <Image src={`https://www.octane.gg/team-icons/${team.name}.png`} />
+        {groupBy == 'events' && (
+          <Flex align="center" justify="flex-start" fontSize="sm">
+            <Flex minWidth={10} justify="center">
+              <Image src="https://octane.gg/event-icons/rlcs-x-north-america-fall-regional-one-swiss-stage-two.png" />
+            </Flex>
+            <Link href={`/events/${event._id}`}>{event.name}</Link>
           </Flex>
-          <Link href={`/teams/${team._id}`}>{team.name}</Link>
-        </Flex>
+        )}
+        {!groupBy && (
+          <Flex align="center" justify="flex-start" fontSize="sm">
+            <Flex minWidth={10} justify="center">
+              <Image src={`https://www.octane.gg/team-icons/${team.name}.png`} />
+            </Flex>
+            <Link href={`/teams/${team._id}`}>{team.name}</Link>
+          </Flex>
+        )}
       </Cell>
       {fields.map(({ id, round, percentage }) => {
         const keys = id.split('.')
