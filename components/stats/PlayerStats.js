@@ -59,7 +59,7 @@ const fields = [
 export const PlayerStats = ({ filter, groupBy, isSortable }) => {
   const [stats, setStats] = useState([])
   const [loading, setLoading] = useState(true)
-  const [sort, setSort] = useState('averages.rating')
+  const [sort, setSort] = useState(filter.sort ? '' : 'averages.rating')
   const [order, setOrder] = useState(false)
 
   useEffect(() => {
@@ -76,7 +76,7 @@ export const PlayerStats = ({ filter, groupBy, isSortable }) => {
         return
       }
 
-      setStats(doSort(data.stats, sort, order))
+      setStats(filter.sort ? data.stats : doSort(data.stats, sort, order))
       setLoading(false)
     }
     fetchRecords()

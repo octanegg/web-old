@@ -48,7 +48,7 @@ const fields = [
 export const TeamStats = ({ filter, groupBy, isSortable }) => {
   const [stats, setStats] = useState([])
   const [loading, setLoading] = useState(true)
-  const [sort, setSort] = useState('win_percentage')
+  const [sort, setSort] = useState(filter.sort ? '' : 'win_percentage')
   const [order, setOrder] = useState(false)
 
   useEffect(() => {
@@ -65,7 +65,7 @@ export const TeamStats = ({ filter, groupBy, isSortable }) => {
         return
       }
 
-      setStats(doSort(data.stats, sort, order))
+      setStats(filter.sort ? data.stats : doSort(data.stats, sort, order))
       setLoading(false)
     }
     fetchRecords()

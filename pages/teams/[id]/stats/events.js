@@ -19,7 +19,7 @@ const Team = ({ team, initialFilter }) => {
   const [filter, setFilter] = useState(initialFilter)
 
   useEffect(() => {
-    route(router, `/teams/${team._id}/stats/events`, buildQuery(filter, ['', 'team']))
+    route(router, `/teams/${team._id}/stats/events`, buildQuery(filter, ['', 'team', 'sort']))
   }, [filter])
 
   const updateFilter = (key, value) => {
@@ -73,6 +73,7 @@ export async function getServerSideProps({ params, query }) {
         before: query.before || '',
         after: query.after || '',
         bestOf: query.bestOf || '',
+        sort: 'date:desc',
       },
     },
   }
