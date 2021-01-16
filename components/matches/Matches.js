@@ -4,13 +4,16 @@ import moment from 'moment'
 import { Table, Body, Row, Cell } from '@octane/components/common/Table'
 import Loading from '@octane/components/common/Loading'
 import { apiFetch } from '@octane/util/fetch'
-import { buildQuery } from '@octane/util/routes'
+import { buildQuery, route } from '@octane/util/routes'
 import LabeledText, { Heading, Link } from '@octane/components/common/Text'
+import Pagination from '@octane/components/common/Pagination'
+import { useRouter } from 'next/router'
 
-export const Matches = ({ filter }) => {
+export const Matches = ({ filter, onPaginate }) => {
   const [matches, setMatches] = useState([])
   const [labels, setLabels] = useState([])
   const [loading, setLoading] = useState(true)
+  const router = useRouter()
 
   useEffect(() => {
     const fetchMatches = async () => {
@@ -48,20 +51,27 @@ export const Matches = ({ filter }) => {
   return loading ? (
     <Loading />
   ) : (
-    matches?.map((group, i) => {
-      return (
-        <React.Fragment>
-          <Heading>{labels[i]}</Heading>
-          <Table>
-            <Body>
-              {group.map((match, j) => (
-                <MatchRow key={j} match={match} team={filter.team} player={filter.player} />
-              ))}
-            </Body>
-          </Table>
-        </React.Fragment>
-      )
-    })
+    <React.Fragment>
+      {matches?.map((group, i) => {
+        return (
+          <React.Fragment>
+            <Heading>{labels[i]}</Heading>
+            <Table>
+              <Body>
+                {group.map((match, j) => (
+                  <MatchRow key={j} match={match} team={filter.team} player={filter.player} />
+                ))}
+              </Body>
+            </Table>
+          </React.Fragment>
+        )
+      })}
+      {onPaginate && (
+        <Flex justify="flex-end" width="full">
+          <Pagination page={filter.page} onChange={onPaginate} />
+        </Flex>
+      )}
+    </React.Fragment>
   )
 }
 

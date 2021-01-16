@@ -34,7 +34,7 @@ const MatchesPage = ({ initialFilter }) => {
         <RegionFilter active={filter.region} onChange={(item) => updateFilter('region', item)} />
         <ModeFilter active={filter.mode} onChange={(item) => updateFilter('mode', item)} />
       </Navigation>
-      <Matches filter={filter} />
+      <Matches filter={filter} onPaginate={(page) => updateFilter('page', page)} />
     </Content>
   )
 }

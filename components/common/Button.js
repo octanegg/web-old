@@ -54,10 +54,10 @@ const buttonTypes = {
   },
 }
 
-export const Button = ({ buttonType, buttonProps, onClick, children }) => {
+export const Button = ({ buttonType, buttonProps, onClick, isDisabled, children }) => {
   const props = buttonType ? buttonTypes[buttonType] : buttonTypes.default
   return (
-    <ChakraButton onClick={onClick} {...(buttonProps || props)}>
+    <ChakraButton onClick={onClick} isDisabled={isDisabled} {...(buttonProps || props)}>
       {children}
     </ChakraButton>
   )
@@ -73,6 +73,19 @@ export const ButtonLink = ({ isActive, href, children }) => {
         {children}
       </Button>
     </Link>
+  )
+}
+
+export const PaginationButton = ({ isActive, isDisabled, onClick, children }) => {
+  return (
+    <Button
+      fontWeight="bold"
+      size="xs"
+      onClick={onClick}
+      buttonProps={isActive ? buttonTypes.link.selected : buttonTypes.link.default}
+      isDisabled={isDisabled}>
+      {children}
+    </Button>
   )
 }
 

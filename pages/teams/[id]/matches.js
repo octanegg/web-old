@@ -12,7 +12,7 @@ const Team = ({ team, initialFilter }) => {
   const [filter, setFilter] = useState(initialFilter)
 
   useEffect(() => {
-    route(router, `/teams/${team._id}/matches`, buildQuery(filter, ['team', 'sort']))
+    route(router, `/teams/${team._id}/matches`, buildQuery(filter, ['team', 'sort', 'perPage']))
   }, [filter])
 
   const updateFilter = (key, value) => {
@@ -34,7 +34,7 @@ const Team = ({ team, initialFilter }) => {
         <TierFilter active={filter.tier} onChange={(item) => updateFilter('tier', item)} />
         <ModeFilter active={filter.mode} onChange={(item) => updateFilter('mode', item)} />
       </Navigation>
-      <Matches filter={filter} />
+      <Matches filter={filter} onPaginate={(page) => updateFilter('page', page)} />
     </Content>
   )
 }
@@ -50,7 +50,7 @@ export async function getServerSideProps({ params, query }) {
         team: id,
         tier: query.tier || '',
         mode: query.mode || 3,
-        page: 1,
+        page: query.page || 1,
         perPage: 50,
         sort: 'date:desc',
       },

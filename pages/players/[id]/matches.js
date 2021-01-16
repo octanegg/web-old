@@ -1,6 +1,8 @@
+import { Flex } from '@chakra-ui/core'
 import { PlayerInfobox } from '@octane/components/common/Infobox'
 import { Content } from '@octane/components/common/Layout'
 import Navigation from '@octane/components/common/Navigation'
+import Pagination from '@octane/components/common/Pagination'
 import { ModeFilter, TierFilter } from '@octane/components/filters/Filters'
 import Matches from '@octane/components/matches/Matches'
 import { buildQuery, route } from '@octane/util/routes'
@@ -12,7 +14,11 @@ const Player = ({ player, initialFilter }) => {
   const [filter, setFilter] = useState(initialFilter)
 
   useEffect(() => {
-    route(router, `/players/${player._id}/matches`, buildQuery(filter, ['player', 'sort']))
+    route(
+      router,
+      `/players/${player._id}/matches`,
+      buildQuery(filter, ['player', 'sort', 'perPage'])
+    )
   }, [filter])
 
   const updateFilter = (key, value) => {
@@ -34,7 +40,7 @@ const Player = ({ player, initialFilter }) => {
         <TierFilter active={filter.tier} onChange={(item) => updateFilter('tier', item)} />
         <ModeFilter active={filter.mode} onChange={(item) => updateFilter('mode', item)} />
       </Navigation>
-      <Matches filter={filter} />
+      <Matches filter={filter} onPaginate={(page) => updateFilter('page', page)} />
     </Content>
   )
 }
@@ -50,7 +56,7 @@ export async function getServerSideProps({ params, query }) {
         player: id,
         tier: query.tier || '',
         mode: query.mode || 3,
-        page: 1,
+        page: query.page || 1,
         perPage: 50,
         sort: 'date:desc',
       },
