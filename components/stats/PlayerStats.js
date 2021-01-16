@@ -5,8 +5,9 @@ import { ChevronDownIcon, ChevronUpIcon, UpDownIcon } from '@chakra-ui/icons'
 import Loading from '@octane/components/common/Loading'
 import { apiFetch } from '@octane/util/fetch'
 import { buildQuery } from '@octane/util/routes'
-import { Link } from '@octane/components/common/Text'
+import LabeledText, { Link } from '@octane/components/common/Text'
 import { Flag } from '@octane/components/common/Flag'
+import { toDateYearString } from '@octane/util/dates'
 
 const fields = [
   {
@@ -109,7 +110,7 @@ export const PlayerStats = ({ filter, groupBy, isSortable }) => {
   ) : (
     <Table>
       <Header>
-        <HeaderItem align="left" paddingLeft={5}>
+        <HeaderItem align="left" paddingLeft={5} width="24rem">
           {groupBy || 'Player'}
         </HeaderItem>
         {fields.map((field) => (
@@ -130,7 +131,7 @@ export const PlayerStats = ({ filter, groupBy, isSortable }) => {
 }
 
 const StatsRow = ({ stat, sort, groupBy }) => {
-  const { player, events, teams, averages } = stat
+  const { player, events, start_date, end_date, teams, averages } = stat
   const event = events[0]
   const team = teams[0]
 
@@ -142,7 +143,14 @@ const StatsRow = ({ stat, sort, groupBy }) => {
             <Flex minWidth={10} justify="center">
               <Image src="https://octane.gg/event-icons/rlcs-x-north-america-fall-regional-one-swiss-stage-two.png" />
             </Flex>
-            <Link href={`/events/${event._id}`}>{event.name}</Link>
+            <LabeledText
+              label={
+                <Text fontSize="10px" color="secondary.800" textTransform="uppercase" align="start">
+                  {toDateYearString(start_date, end_date)}
+                </Text>
+              }>
+              <Link href={`/events/${event._id}`}>{event.name}</Link>
+            </LabeledText>
           </Flex>
         )}
         {groupBy == 'teams' && (

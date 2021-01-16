@@ -5,7 +5,8 @@ import { ChevronDownIcon, ChevronUpIcon, UpDownIcon } from '@chakra-ui/icons'
 import Loading from '@octane/components/common/Loading'
 import { apiFetch } from '@octane/util/fetch'
 import { buildQuery } from '@octane/util/routes'
-import { Link } from '@octane/components/common/Text'
+import LabeledText, { Link } from '@octane/components/common/Text'
+import { toDateYearString } from '@octane/util/dates'
 
 const fields = [
   {
@@ -119,7 +120,7 @@ export const TeamStats = ({ filter, groupBy, isSortable }) => {
 }
 
 const StatsRow = ({ stat, sort, groupBy }) => {
-  const { team, events, averages } = stat
+  const { team, events, start_date, end_date, averages } = stat
   const event = events[0]
 
   return (
@@ -130,7 +131,14 @@ const StatsRow = ({ stat, sort, groupBy }) => {
             <Flex minWidth={10} justify="center">
               <Image src="https://octane.gg/event-icons/rlcs-x-north-america-fall-regional-one-swiss-stage-two.png" />
             </Flex>
-            <Link href={`/events/${event._id}`}>{event.name}</Link>
+            <LabeledText
+              label={
+                <Text fontSize="10px" color="secondary.800" textTransform="uppercase" align="start">
+                  {toDateYearString(start_date, end_date)}
+                </Text>
+              }>
+              <Link href={`/events/${event._id}`}>{event.name}</Link>
+            </LabeledText>
           </Flex>
         )}
         {!groupBy && (
@@ -151,7 +159,10 @@ const StatsRow = ({ stat, sort, groupBy }) => {
               padding={2}
               fontSize="sm"
               fontWeight={sort == id && 'bold'}
-              backgroundColor={sort == id && 'primary.50'}>
+              backgroundColor={sort == id && 'primary.50'}
+              height={groupBy && 12}
+              align="center"
+              justify="center">
               {percentage ? `${(value * 100).toFixed(2)}%` : value.toFixed(round ?? 2)}
             </Text>
           </Cell>
