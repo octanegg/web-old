@@ -1,18 +1,25 @@
 import { TeamInfobox } from '@octane/components/common/Infobox'
 import { Content } from '@octane/components/common/Layout'
-import Navigation from '@octane/components/common/Navigation'
-import { ModeFilter, OpponentsFilter, TierFilter } from '@octane/components/filters/Filters'
-import Matches from '@octane/components/matches/Matches'
+import {
+  ModeFilter,
+  TierFilter,
+  ResultsFilter,
+  DateRangeFilter,
+  SeriesFilter,
+  TeamStatsTypeFilter,
+} from '@octane/components/filters/Filters'
 import { buildQuery, route } from '@octane/util/routes'
+import Navigation from '@octane/components/common/Navigation'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
+import TeamStats from '@octane/components/stats/TeamStats'
 
 const Team = ({ team, initialFilter }) => {
   const router = useRouter()
   const [filter, setFilter] = useState(initialFilter)
 
   useEffect(() => {
-    route(router, `/teams/${team._id}/matches`, buildQuery(filter, ['team', 'sort', 'perPage']))
+    route(router, `/teams/${team._id}/stats/opponents`, buildQuery(filter, ['', 'team', 'sort']))
   }, [filter])
 
   const updateFilter = (key, value) => {
@@ -22,24 +29,32 @@ const Team = ({ team, initialFilter }) => {
     }))
   }
 
+  const handleStatTypeChange = (type) => route(router, `/teams/${team._id}/stats/${type}`, '')
+
   return (
     <Content>
       <TeamInfobox team={team} />
       <Navigation
         type="team"
-        active="matches"
+        active="stats"
         baseHref={`/teams/${team._id}`}
-        isOpen={filter.tier || filter.mode}
+        isOpen={filter.tier || filter.mode || filter.winner || filter.after || filter.before}
         hasDivider>
+        <TeamStatsTypeFilter active="opponents" onChange={handleStatTypeChange} />
         <TierFilter active={filter.tier} onChange={(item) => updateFilter('tier', item)} />
         <ModeFilter active={filter.mode} onChange={(item) => updateFilter('mode', item)} />
-        <OpponentsFilter
-          team={team._id}
-          active={filter.opponent}
-          onChange={(item) => updateFilter('opponent', item)}
+        <ResultsFilter active={filter.winner} onChange={(item) => updateFilter('winner', item)} />
+        <DateRangeFilter
+          after={filter.after}
+          before={filter.before}
+          onChange={([after, before]) => {
+            updateFilter('after', after)
+            updateFilter('before', before)
+          }}
         />
+        <SeriesFilter active={filter.bestOf} onChange={(item) => updateFilter('bestOf', item)} />
       </Navigation>
-      <Matches filter={filter} onPaginate={(page) => updateFilter('page', page)} />
+      <TeamStats filter={filter} groupBy="opponents" isSortable />
     </Content>
   )
 }
@@ -53,11 +68,11 @@ export async function getServerSideProps({ params, query }) {
       team,
       initialFilter: {
         team: id,
-        tier: query.tier || '',
         mode: query.mode || 3,
-        opponent: query.opponent || '',
-        page: query.page || 1,
-        perPage: 50,
+        tier: query.tier || '',
+        before: query.before || '',
+        after: query.after || '',
+        bestOf: query.bestOf || '',
         sort: 'date:desc',
       },
     },

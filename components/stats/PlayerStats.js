@@ -16,7 +16,7 @@ const fields = [
     round: 0,
   },
   {
-    id: 'win_percentage',
+    id: 'winPercentage',
     label: 'Win %',
     percentage: true,
   },
@@ -57,10 +57,10 @@ const fields = [
   },
 ]
 
-export const PlayerStats = ({ filter, groupBy, isSortable }) => {
+export const PlayerStats = ({ filter, groupBy, defaultSort, isSortable }) => {
   const [stats, setStats] = useState([])
   const [loading, setLoading] = useState(true)
-  const [sort, setSort] = useState(filter.sort ? '' : 'averages.rating')
+  const [sort, setSort] = useState(filter.sort ? '' : defaultSort || 'averages.rating')
   const [order, setOrder] = useState(false)
 
   useEffect(() => {
@@ -110,13 +110,9 @@ export const PlayerStats = ({ filter, groupBy, isSortable }) => {
   ) : (
     <Table>
       <Header>
-        <HeaderItem align="left" paddingLeft={5} width="24rem">
-          {groupBy || 'Player'}
-        </HeaderItem>
+        <HeaderItem align="left">{groupBy || 'Player'}</HeaderItem>
         {fields.map((field) => (
-          <HeaderItem
-            onClick={isSortable && (() => updateSort(field.id))}
-            width={groupBy ? '5rem' : '6rem'}>
+          <HeaderItem onClick={isSortable && (() => updateSort(field.id))}>
             {field.label} <SortIcon field={field.id} />
           </HeaderItem>
         ))}
@@ -131,22 +127,23 @@ export const PlayerStats = ({ filter, groupBy, isSortable }) => {
 }
 
 const StatsRow = ({ stat, sort, groupBy }) => {
-  const { player, events, start_date, end_date, teams, averages } = stat
+  const { player, events, startDate, endDate, teams, opponents, averages } = stat
   const event = events[0]
   const team = teams[0]
+  const opponent = opponents[0]
 
   return (
     <Row>
       <Cell>
         {groupBy == 'events' && (
-          <Flex align="center" justify="flex-start" fontSize="sm">
+          <Flex align="center" justify="flex-start" fontSize="sm" paddingTop={1} paddingBottom={1}>
             <Flex minWidth={10} justify="center">
               <Image src="https://octane.gg/event-icons/rlcs-x-north-america-fall-regional-one-swiss-stage-two.png" />
             </Flex>
             <LabeledText
               label={
                 <Text fontSize="10px" color="secondary.800" textTransform="uppercase" align="start">
-                  {toDateYearString(start_date, end_date)}
+                  {toDateYearString(startDate, endDate)}
                 </Text>
               }>
               <Link href={`/events/${event._id}`}>{event.name}</Link>
@@ -159,6 +156,14 @@ const StatsRow = ({ stat, sort, groupBy }) => {
               <Image src={`https://www.octane.gg/team-icons/${team.name}.png`} />
             </Flex>
             <Link href={`/teams/${team._id}`}>{team.name}</Link>
+          </Flex>
+        )}
+        {groupBy == 'opponents' && (
+          <Flex align="center" justify="flex-start" fontSize="sm">
+            <Flex minWidth={10} justify="center">
+              <Image src={`https://www.octane.gg/team-icons/${opponent.name}.png`} />
+            </Flex>
+            <Link href={`/teams/${opponent._id}`}>{opponent.name}</Link>
           </Flex>
         )}
         {!groupBy && (
@@ -174,11 +179,11 @@ const StatsRow = ({ stat, sort, groupBy }) => {
         return (
           <Cell>
             <Flex
+              width="full"
               padding={2}
               fontSize="sm"
               fontWeight={sort == id && 'bold'}
               backgroundColor={sort == id && 'primary.50'}
-              height={groupBy && 12}
               align="center"
               justify="center">
               {percentage ? `${(value * 100).toFixed(2)}%` : value.toFixed(round ?? 2)}

@@ -1,4 +1,4 @@
-import { Flex, Image } from '@chakra-ui/core'
+import { Flex, Image, Text } from '@chakra-ui/core'
 import { toDateString } from '@octane/util/dates'
 import DropdownList, { DropdownDate } from '@octane/components/common/Dropdown'
 import {
@@ -17,6 +17,9 @@ import {
 import { getCountries, getCountry } from '@octane/util/countries'
 import { Flag } from '@octane/components/common/Flag'
 import { regions } from '@octane/util/regions'
+import { useEffect, useState } from 'react'
+import { apiFetch } from '@octane/util/fetch'
+import { buildQuery } from '@octane/util/routes'
 
 export const TierFilter = ({ active, onChange }) => (
   <DropdownList
@@ -170,3 +173,47 @@ export const TeamStatsTypeFilter = ({ active, onChange }) => (
     onChange={onChange}
   />
 )
+
+export const OpponentsFilter = ({ player, team, active, onChange }) => {
+  const [teams, setTeams] = useState([])
+
+  useEffect(() => {
+    const fetchTeams = async () => {
+      const data = player
+        ? await apiFetch(`/stats/players/opponents`, buildQuery({ player, mode: 3 }, ['']))
+        : await apiFetch(`/stats/teams/opponents`, buildQuery({ team, mode: 3 }, ['']))
+      if (!data.stats) {
+        return
+      }
+
+      setTeams(
+        data.stats
+          .map((stat) => stat.opponents[0])
+          .sort((a, b) => a.name.toLowerCase().localeCompare(b.name.toLowerCase()))
+      )
+    }
+
+    fetchTeams()
+  }, [player])
+
+  return (
+    <DropdownList
+      label={active ? teams.find((team) => team._id == active)?.name : 'Opponent'}
+      items={['All'].concat(teams)}
+      itemToId={(item) => (item == 'All' ? '' : item._id)}
+      itemToLabel={(team) =>
+        team == 'All' ? (
+          'All Opponents'
+        ) : (
+          <Flex justify="flex-start" align="center">
+            <Flex minWidth={10} justify="center">
+              <Image src={`https://www.octane.gg/team-icons/${team.name}.png`} />
+            </Flex>
+            <Text>{team.name}</Text>
+          </Flex>
+        )
+      }
+      onChange={onChange}
+    />
+  )
+}
