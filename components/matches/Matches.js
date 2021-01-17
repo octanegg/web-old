@@ -13,6 +13,7 @@ export const Matches = ({ filter, onPaginate }) => {
   const [matches, setMatches] = useState([])
   const [labels, setLabels] = useState([])
   const [loading, setLoading] = useState(true)
+  const [showPaginate, setShowPaginate] = useState(false)
   const router = useRouter()
 
   useEffect(() => {
@@ -43,6 +44,7 @@ export const Matches = ({ filter, onPaginate }) => {
 
       setLabels(labels)
       setMatches(matches)
+      setShowPaginate(onPaginate && data.matches.length == filter.perPage)
       setLoading(false)
     }
     fetchMatches()
@@ -66,7 +68,7 @@ export const Matches = ({ filter, onPaginate }) => {
           </React.Fragment>
         )
       })}
-      {onPaginate && (
+      {showPaginate && (
         <Flex justify="flex-end" width="full">
           <Pagination page={filter.page} onChange={onPaginate} />
         </Flex>
@@ -84,7 +86,7 @@ const MatchRow = ({ match, team, player }) => {
 
   const left = isBlue ? blue : orange
   const right = isBlue ? orange : blue
-  const border = left?.winner ? 'win' : 'loss'
+  const border = left?.winner ? 'win' : right?.winner ? 'loss' : ''
 
   return (
     <Row>
@@ -95,8 +97,8 @@ const MatchRow = ({ match, team, player }) => {
           padding={2}
           align="center"
           justify="space-between"
-          borderLeft={(team || player) && border}>
-          <Flex width="sm">
+          shadow={border}>
+          <Flex width="sm" align="center">
             <Flex minWidth={8} marginRight={2} marginLeft={2}>
               {image && <Image height={6} src={image} />}
             </Flex>
