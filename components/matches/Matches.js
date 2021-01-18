@@ -112,9 +112,9 @@ const MatchRow = ({ match, team, player }) => {
           </Flex>
           <Flex direction="row" width="lg">
             <Team side={left} />
-            <Text marginLeft={1} marginRight={1} fontSize="xs">
-              <Link href={`/matches/${_id}`}>{left?.team && right?.team ? '-' : 'vs'}</Link>
-            </Text>
+            <Link href={`/matches/${_id}`}>
+              <Score left={left?.score} right={right?.score} />
+            </Link>
             <Team side={right} isReversed />
           </Flex>
           <Text width={16} justify="center" fontSize="xs">
@@ -123,6 +123,29 @@ const MatchRow = ({ match, team, player }) => {
         </Flex>
       </Cell>
     </Row>
+  )
+}
+
+const Score = ({ left, right }) => {
+  const _left = left || '0'
+  const _right = right || '0'
+
+  if (!_left && !_right) {
+    return <Text>vs</Text>
+  }
+
+  return (
+    <Flex justify="center" align="center" width={12}>
+      <Text fontWeight={_left > _right ? 'bold' : 'semi'} color={_left > _right ? 'win' : 'loss'}>
+        {_left}
+      </Text>
+      <Text marginLeft={1} marginRight={1}>
+        -
+      </Text>
+      <Text fontWeight={_right > _left ? 'bold' : 'semi'} color={_right > _left ? 'win' : 'loss'}>
+        {_right}
+      </Text>
+    </Flex>
   )
 }
 
@@ -140,9 +163,9 @@ const Team = ({ side, isReversed }) =>
           }
         />
       </Flex>
-      <Text fontWeight={side.winner ? 'bold' : 'semi'} color={side.winner ? 'win' : 'loss'}>
+      {/* <Text fontWeight={side.winner ? 'bold' : 'semi'} color={side.winner ? 'win' : 'loss'}>
         {side.score || 0}
-      </Text>
+      </Text> */}
     </Flex>
   ) : (
     <Flex width="full" justify="center">

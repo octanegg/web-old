@@ -64,11 +64,11 @@ const navigation = {
       href: '/stats/events',
       label: 'Stats',
     },
-    // {
-    //   id: 'timeline',
-    //   href: '/timeline',
-    //   label: 'Timeline',
-    // },
+    {
+      id: 'records',
+      href: '/records',
+      label: 'Records',
+    },
   ],
   records: [
     {
@@ -118,6 +118,11 @@ const navigation = {
       id: 'stats',
       href: '/stats/players',
       label: 'Stats',
+    },
+    {
+      id: 'records',
+      href: '/records',
+      label: 'Records',
     },
   ],
 }

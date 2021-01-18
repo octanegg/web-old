@@ -41,7 +41,7 @@ const fields = [
   },
   {
     id: 'averages.shootingPercentage',
-    label: 'SH %',
+    label: 'SH%',
     percentage: true,
   },
 ]
@@ -101,8 +101,10 @@ export const TeamStats = ({ filter, groupBy, isSortable }) => {
         <HeaderItem align="left">{groupBy || 'Team'}</HeaderItem>
         {fields.map((field) => (
           <HeaderItem onClick={isSortable && (() => updateSort(field.id))}>
-            <Text>{field.label}</Text>
-            <SortIcon paddingLeft={1} field={field.id} />
+            <Flex justify="center" align="center">
+              <Text marginRight={1}>{field.label}</Text>
+              <SortIcon field={field.id} />
+            </Flex>
           </HeaderItem>
         ))}
       </Header>

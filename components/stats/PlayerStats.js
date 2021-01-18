@@ -42,12 +42,12 @@ const fields = [
   },
   {
     id: 'averages.shootingPercentage',
-    label: 'SH %',
+    label: 'SH%',
     percentage: true,
   },
   {
     id: 'averages.goalParticipation',
-    label: 'GP %',
+    label: 'GP%',
     percentage: true,
   },
   {
@@ -112,8 +112,10 @@ export const PlayerStats = ({ filter, groupBy, defaultSort, isSortable }) => {
         <HeaderItem align="left">{groupBy || 'Player'}</HeaderItem>
         {fields.map((field) => (
           <HeaderItem onClick={isSortable && (() => updateSort(field.id))}>
-            <Text>{field.label}</Text>
-            <SortIcon paddingLeft={1} field={field.id} />
+            <Flex justify="center" align="center">
+              <Text marginRight={1}>{field.label}</Text>
+              <SortIcon field={field.id} />
+            </Flex>
           </HeaderItem>
         ))}
       </Header>
