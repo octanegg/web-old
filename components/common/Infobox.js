@@ -51,7 +51,9 @@ export const PlayerInfobox = ({ player }) => {
 
   return (
     <Infobox title={tag} image={image}>
-      <LabeledField label="name" width={40}>{name || '-'}</LabeledField>
+      <LabeledField label="name" width={40}>
+        {name || '-'}
+      </LabeledField>
       <LabeledField label="nationality">
         <Flag country={country || 'int'} isLabeled={country} />
       </LabeledField>

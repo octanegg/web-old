@@ -12,8 +12,8 @@ import {
 } from '@chakra-ui/core'
 import numeral from 'numeral'
 
-import TeamStatsTable from './TeamStatsTable'
 import { getTeamLogoUrl } from '@octane/util'
+import TeamStatsTable from './TeamStatsTable'
 
 const DEFAULT_ORDER = ['score', 'goals', 'assists', 'saves', 'shots', 'rating']
 
@@ -29,7 +29,7 @@ const GameDataPanel = ({
   <Flex width="100%" flexDirection="column">
     {!isOverview && (
       <Flex width="100%" justify="center" fontSize={{ base: '0.75rem', md: '1rem' }} mb="1rem">
-        <Text mr={'3rem'}>
+        <Text mr="3rem">
           <b>Map: </b>
           {data.map}
         </Text>

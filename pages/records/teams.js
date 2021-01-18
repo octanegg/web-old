@@ -1,8 +1,6 @@
 import { Content } from '@octane/components/common/Layout'
-import { Stack } from '@chakra-ui/core'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
-import { ButtonLink } from '@octane/components/common/Button'
 import {
   ModeFilter,
   RegionFilter,
@@ -24,7 +22,7 @@ const Teams = ({ initialFilter }) => {
   const updateFilter = (key, value) => {
     setFilter((prev) => ({
       ...prev,
-      [key]: value == 'All' ? '' : value,
+      [key]: value === 'All' ? '' : value,
     }))
   }
 
@@ -34,7 +32,7 @@ const Teams = ({ initialFilter }) => {
 
   return (
     <Content>
-      <Navigation type="records" active="teams" isOpen={true}>
+      <Navigation type="records" active="teams" isOpen>
         <RecordsTypeFilter active={filter.type} onChange={(item) => updateFilter('type', item)} />
         <RecordsStatsFilter
           active={filter.stat}

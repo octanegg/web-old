@@ -1,8 +1,6 @@
 import { Content } from '@octane/components/common/Layout'
-import { Stack } from '@chakra-ui/core'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
-import { ButtonLink } from '@octane/components/common/Button'
 import {
   ModeFilter,
   RegionFilter,
@@ -19,12 +17,12 @@ import { recordStats } from '@octane/util/constants'
 const Games = ({ initialFilter }) => {
   const router = useRouter()
   const [filter, setFilter] = useState(initialFilter)
-  const statLabel = recordStats.games.find((stat) => stat.id == initialFilter.stat)?.label
+  const statLabel = recordStats.games.find((stat) => stat.id === initialFilter.stat)?.label
 
   const updateFilter = (key, value) => {
     setFilter((prev) => ({
       ...prev,
-      [key]: value == 'All' ? '' : value,
+      [key]: value === 'All' ? '' : value,
     }))
   }
 
@@ -34,7 +32,7 @@ const Games = ({ initialFilter }) => {
 
   return (
     <Content>
-      <Navigation type="records" active="games" isOpen={true}>
+      <Navigation type="records" active="games" isOpen>
         <RecordsStatsFilter
           active={filter.stat}
           onChange={(item) => updateFilter('stat', item)}

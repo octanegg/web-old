@@ -1,7 +1,7 @@
 import { Flex, Divider, Stack, Text, Spacer } from '@chakra-ui/core'
 import { EditIcon } from '@chakra-ui/icons'
 import { useState } from 'react'
-import ButtonLink, { Button } from './Button'
+import { ButtonLink, Button } from './Button'
 
 const navigation = {
   event: [
@@ -140,9 +140,8 @@ const Navigation = ({ type, active, baseHref, isOpen, hasDivider, children }) =>
         {hasDivider ? <Divider borderColor="secondary.400" /> : <Spacer />}
         {children && (
           <Button onClick={() => setOpen(!open)}>
-            <Text>
-              <EditIcon /> Filters
-            </Text>
+            <EditIcon paddingRight={1} />
+            <Text>Filters</Text>
           </Button>
         )}
       </Stack>

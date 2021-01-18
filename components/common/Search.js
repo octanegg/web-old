@@ -13,7 +13,6 @@ const {
   PopoverBody,
   List,
   ListItem,
-  Text,
 } = require('@chakra-ui/core')
 
 const MAX_RESULTS = 100
@@ -60,24 +59,24 @@ const Search = () => {
 
   useEffect(() => {
     const filter = () => {
-      const results = options.filter((result) =>
+      const _results = options.filter((result) =>
         result.label.toLowerCase().includes(search.toLowerCase())
       )
-      if (results.length < MAX_RESULTS) {
-        setResults(results)
+      if (_results.length < MAX_RESULTS) {
+        setResults(_results)
       }
     }
     filter()
   }, [search])
 
-  const handleSearch = (result) => {
-    reset()
-    route(router, `/${result.type}s/${result.id}`, '')
-  }
-
   const reset = () => {
     setSearch('')
     setResults([])
+  }
+
+  const handleSearch = (result) => {
+    reset()
+    route(router, `/${result.type}s/${result.id}`, '')
   }
 
   return (
@@ -85,7 +84,7 @@ const Search = () => {
       placement="bottom"
       isOpen={results.length > 0}
       autoFocus={false}
-      closeOnBlur={true}
+      closeOnBlur
       onClose={reset}>
       <PopoverTrigger>
         <Flex paddingLeft={4} paddingRight={4}>

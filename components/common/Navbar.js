@@ -2,36 +2,32 @@ import React, { useState } from 'react'
 import { Flex, Spacer, Image, Link, Spinner } from '@chakra-ui/core'
 import NextLink from 'next/link'
 import { useAuth0 } from '@auth0/auth0-react'
-import { AdminOnly } from './Auth'
-import { useHover } from 'react-use'
 import Search from '@octane/components/common/Search'
+import { AdminOnly } from './Auth'
 
-const NavItem = ({ href, onClick, children }) => {
-  const [hoverable, hovered] = useHover((hovered) => (
-    <Flex
-      fontSize="sm"
-      fontWeight="medium"
-      borderBottom={{ base: 'navbar', md: 'none' }}
-      transition="box-shadow 0.1s ease-out"
-      cursor="pointer"
-      marginLeft={1}
-      marginRight={1}
-      boxShadow={hovered && 'navbar'}>
-      {href ? (
-        <NextLink href={href}>
-          <Link display="block" padding={4} textDecoration="none !important">
-            {children}
-          </Link>
-        </NextLink>
-      ) : (
-        <Flex display="block" padding={4} onClick={onClick}>
+const NavItem = ({ href, onClick, children }) => (
+  <Flex
+    fontSize="sm"
+    fontWeight="medium"
+    borderBottom={{ base: 'navbar', md: 'none' }}
+    transition="box-shadow 0.1s ease-out"
+    cursor="pointer"
+    marginLeft={1}
+    marginRight={1}
+    _hover={{ boxShadow: 'navbar' }}>
+    {href ? (
+      <NextLink href={href}>
+        <Link display="block" padding={4} textDecoration="none !important">
           {children}
-        </Flex>
-      )}
-    </Flex>
-  ))
-  return hoverable
-}
+        </Link>
+      </NextLink>
+    ) : (
+      <Flex display="block" padding={4} onClick={onClick}>
+        {children}
+      </Flex>
+    )}
+  </Flex>
+)
 
 const NavImage = ({ src, href }) => (
   <Flex cursor="pointer" paddingTop={{ base: 2, md: 0 }} paddingBottom={{ base: 2, md: 0 }}>
@@ -43,13 +39,11 @@ const NavImage = ({ src, href }) => (
   </Flex>
 )
 
-const AdminNav = () => {
-  return (
-    <AdminOnly>
-      <NavItem href="/admin/events">Admin</NavItem>
-    </AdminOnly>
-  )
-}
+const AdminNav = () => (
+  <AdminOnly>
+    <NavItem href="/admin/events">Admin</NavItem>
+  </AdminOnly>
+)
 
 const AuthNav = ({ isAuthenticated }) => {
   const { isLoading, loginWithRedirect, logout } = useAuth0()
@@ -64,16 +58,14 @@ const AuthNav = ({ isAuthenticated }) => {
   )
 }
 
-const HamburgerNav = ({ onClick }) => {
-  return (
-    <Flex display={{ base: 'block', md: 'none' }} padding={4} onClick={onClick}>
-      <svg fill="white" width="20px" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-        <title>Menu</title>
-        <path d="M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z" />
-      </svg>
-    </Flex>
-  )
-}
+const HamburgerNav = ({ onClick }) => (
+  <Flex display={{ base: 'block', md: 'none' }} padding={4} onClick={onClick}>
+    <svg fill="white" width="20px" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+      <title>Menu</title>
+      <path d="M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z" />
+    </svg>
+  </Flex>
+)
 
 const Navbar = () => {
   const [showMenu, setShowMenu] = useState(false)

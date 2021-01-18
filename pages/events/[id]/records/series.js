@@ -15,7 +15,7 @@ import { recordStats } from '@octane/util/constants'
 const Event = ({ event, initialFilter }) => {
   const router = useRouter()
   const [filter, setFilter] = useState(initialFilter)
-  const statLabel = recordStats.games.find((stat) => stat.id == initialFilter.stat)?.label
+  const statLabel = recordStats.games.find((stat) => stat.id === initialFilter.stat)?.label
 
   useEffect(() => {
     route(router, `/events/${event._id}/records/series`, buildQuery(filter, ['event']))
@@ -24,7 +24,7 @@ const Event = ({ event, initialFilter }) => {
   const updateFilter = (key, value) => {
     setFilter((prev) => ({
       ...prev,
-      [key]: value == 'All' ? '' : value,
+      [key]: value === 'All' ? '' : value,
     }))
   }
 
@@ -34,12 +34,7 @@ const Event = ({ event, initialFilter }) => {
   return (
     <Content>
       <EventInfobox event={event} />
-      <Navigation
-        type="event"
-        active="records"
-        baseHref={`/events/${event._id}`}
-        isOpen={true}
-        hasDivider>
+      <Navigation type="event" active="records" baseHref={`/events/${event._id}`} isOpen hasDivider>
         <RecordsCategoryFilter active="series" onChange={(item) => handleCategoryChange(item)} />
         <RecordsStatsFilter
           type="series"
@@ -60,7 +55,7 @@ const Event = ({ event, initialFilter }) => {
 
 export async function getServerSideProps({ params, query }) {
   const { id } = params
-  const res = await fetch(process.env.API_URL + `/events/${id}`)
+  const res = await fetch(`${process.env.API_URL}/events/${id}`)
   const event = await res.json()
   return {
     props: {

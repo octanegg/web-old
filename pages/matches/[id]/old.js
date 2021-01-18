@@ -75,7 +75,7 @@ const MatchPage = (props) => {
   }
 
   return (
-    <Content leftNav={<div></div>} rightNav={<div></div>}>
+    <Content leftNav={<div />} rightNav={<div />}>
       {!error && (!matchData || !scoreboardsData) ? (
         <Spinner />
       ) : error ? (

@@ -63,6 +63,17 @@ export const PlayerStats = ({ filter, groupBy, defaultSort, isSortable }) => {
   const [sort, setSort] = useState(filter.sort ? '' : defaultSort || 'averages.rating')
   const [order, setOrder] = useState(false)
 
+  const doSort = (data, _sort, _order) => {
+    const keys = sort.split('.')
+    return keys.length > 1
+      ? [...data].sort((a, b) =>
+          _order
+            ? a[keys[0]][keys[1]] - b[keys[0]][keys[1]]
+            : b[keys[0]][keys[1]] - a[keys[0]][keys[1]]
+        )
+      : [...data].sort((a, b) => (_order ? a[_sort] - b[_sort] : b[_sort] - a[_sort]))
+  }
+
   useEffect(() => {
     const fetchRecords = async () => {
       setStats([])
@@ -84,26 +95,14 @@ export const PlayerStats = ({ filter, groupBy, defaultSort, isSortable }) => {
   }, [filter, groupBy])
 
   const updateSort = (field) => {
-    const newOrder = sort == field ? !order : false
+    const newOrder = sort === field ? !order : false
     setStats(doSort(stats, field, newOrder))
     setOrder(newOrder)
     setSort(field)
   }
 
-  const doSort = (data, sort, order) => {
-    const keys = sort.split('.')
-    return keys.length > 1
-      ? [...data].sort((a, b) =>
-          order
-            ? a[keys[0]][keys[1]] - b[keys[0]][keys[1]]
-            : b[keys[0]][keys[1]] - a[keys[0]][keys[1]]
-        )
-      : [...data].sort((a, b) => (order ? a[sort] - b[sort] : b[sort] - a[sort]))
-  }
-
-  const SortIcon = ({ field }) => {
-    return sort == field ? order ? <ChevronUpIcon /> : <ChevronDownIcon /> : <UpDownIcon />
-  }
+  const SortIcon = ({ field }) =>
+    sort === field ? order ? <ChevronUpIcon /> : <ChevronDownIcon /> : <UpDownIcon />
 
   return loading ? (
     <Loading />
@@ -113,7 +112,8 @@ export const PlayerStats = ({ filter, groupBy, defaultSort, isSortable }) => {
         <HeaderItem align="left">{groupBy || 'Player'}</HeaderItem>
         {fields.map((field) => (
           <HeaderItem onClick={isSortable && (() => updateSort(field.id))}>
-            {field.label} <SortIcon field={field.id} />
+            <Text>{field.label}</Text>
+            <SortIcon paddingLeft={1} field={field.id} />
           </HeaderItem>
         ))}
       </Header>
@@ -135,7 +135,7 @@ const StatsRow = ({ stat, sort, groupBy }) => {
   return (
     <Row>
       <Cell>
-        {groupBy == 'events' && (
+        {groupBy === 'events' && (
           <Flex align="center" justify="flex-start" fontSize="sm" paddingTop={1} paddingBottom={1}>
             <Flex minWidth={10} justify="center">
               <Image src="https://octane.gg/event-icons/rlcs-x-north-america-fall-regional-one-swiss-stage-two.png" />
@@ -150,7 +150,7 @@ const StatsRow = ({ stat, sort, groupBy }) => {
             </LabeledText>
           </Flex>
         )}
-        {groupBy == 'teams' && (
+        {groupBy === 'teams' && (
           <Flex align="center" justify="flex-start" fontSize="sm">
             <Flex minWidth={10} justify="center">
               <Image src={`https://www.octane.gg/team-icons/${team.name}.png`} />
@@ -158,7 +158,7 @@ const StatsRow = ({ stat, sort, groupBy }) => {
             <Link href={`/teams/${team._id}`}>{team.name}</Link>
           </Flex>
         )}
-        {groupBy == 'opponents' && (
+        {groupBy === 'opponents' && (
           <Flex align="center" justify="flex-start" fontSize="sm">
             <Flex minWidth={10} justify="center">
               <Image src={`https://www.octane.gg/team-icons/${opponent.name}.png`} />
@@ -182,8 +182,8 @@ const StatsRow = ({ stat, sort, groupBy }) => {
               width="full"
               padding={2}
               fontSize="sm"
-              fontWeight={sort == id && 'bold'}
-              backgroundColor={sort == id && 'primary.50'}
+              fontWeight={sort === id && 'bold'}
+              backgroundColor={sort === id && 'primary.50'}
               align="center"
               justify="center">
               {percentage ? `${(value * 100).toFixed(2)}%` : value.toFixed(round ?? 2)}

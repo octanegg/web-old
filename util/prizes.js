@@ -14,6 +14,8 @@ const currencies = [
 ]
 
 export const formatPrize = ({ amount, currency }) => {
-  const _currency = currencies.find((c) => c.id == currency)
+  const _currency = currencies.find((c) => c.id === currency)
   return `${_currency?.prefix || ''} ${amount.toFixed(0)} ${_currency?.suffix || ''}`
 }
+
+export default formatPrize

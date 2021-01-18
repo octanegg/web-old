@@ -26,7 +26,7 @@ const MatchContainer = ({ event, stage }) => {
         const event = matches.matches[0].octane_id.substring(0, 3)
         const allStages = matches.matches.map((m) => m.octane_id.substring(3, 5))
         const unqStages = allStages
-          .filter((s, i) => allStages.indexOf(s) == i)
+          .filter((s, i) => allStages.indexOf(s) === i)
           .sort((a, b) => a - b)
 
         for (const stage of unqStages) {

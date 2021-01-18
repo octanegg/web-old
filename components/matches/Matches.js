@@ -4,17 +4,15 @@ import moment from 'moment'
 import { Table, Body, Row, Cell } from '@octane/components/common/Table'
 import Loading from '@octane/components/common/Loading'
 import { apiFetch } from '@octane/util/fetch'
-import { buildQuery, route } from '@octane/util/routes'
+import { buildQuery } from '@octane/util/routes'
 import LabeledText, { Heading, Link } from '@octane/components/common/Text'
 import Pagination from '@octane/components/common/Pagination'
-import { useRouter } from 'next/router'
 
 export const Matches = ({ filter, onPaginate }) => {
   const [matches, setMatches] = useState([])
   const [labels, setLabels] = useState([])
   const [loading, setLoading] = useState(true)
   const [showPaginate, setShowPaginate] = useState(false)
-  const router = useRouter()
 
   useEffect(() => {
     const fetchMatches = async () => {
@@ -28,23 +26,23 @@ export const Matches = ({ filter, onPaginate }) => {
       }
 
       let day = moment(data.matches[0].date)
-      let labels = []
-      let matches = []
+      const _labels = []
+      const _matches = []
 
-      data.matches.map((match, i) => {
+      data.matches.forEach((match, i) => {
         const date = moment(match.date)
-        if (i == 0 || !date.isSame(day, 'day')) {
-          labels.push(date.format('ddd, MMMM D YYYY'))
-          matches.push([match])
+        if (i === 0 || !date.isSame(day, 'day')) {
+          _labels.push(date.format('ddd, MMMM D YYYY'))
+          _matches.push([match])
         } else {
-          matches[matches.length - 1].push(match)
+          _matches[_matches.length - 1].push(match)
         }
         day = date
       })
 
-      setLabels(labels)
-      setMatches(matches)
-      setShowPaginate(onPaginate && data.matches.length == filter.perPage)
+      setLabels(_labels)
+      setMatches(_matches)
+      setShowPaginate(onPaginate && data.matches.length === filter.perPage)
       setLoading(false)
     }
     fetchMatches()
@@ -53,34 +51,32 @@ export const Matches = ({ filter, onPaginate }) => {
   return loading ? (
     <Loading />
   ) : (
-    <React.Fragment>
-      {matches?.map((group, i) => {
-        return (
-          <React.Fragment>
-            <Heading>{labels[i]}</Heading>
-            <Table>
-              <Body>
-                {group.map((match, j) => (
-                  <MatchRow key={j} match={match} team={filter.team} player={filter.player} />
-                ))}
-              </Body>
-            </Table>
-          </React.Fragment>
-        )
-      })}
+    <>
+      {matches?.map((group, i) => (
+        <>
+          <Heading>{labels[i]}</Heading>
+          <Table>
+            <Body>
+              {group.map((match, j) => (
+                <MatchRow key={j} match={match} team={filter.team} player={filter.player} />
+              ))}
+            </Body>
+          </Table>
+        </>
+      ))}
       {showPaginate && (
         <Flex justify="flex-end" width="full">
           <Pagination page={filter.page} onChange={onPaginate} />
         </Flex>
       )}
-    </React.Fragment>
+    </>
   )
 }
 
 const MatchRow = ({ match, team, player }) => {
   const { _id, blue, orange, event, stage, date } = match
 
-  const isBlue = blue?.team?._id == team || blue?.players?.find((p) => p._id == player)
+  const isBlue = blue?.team?._id === team || blue?.players?.find((p) => p._id === player)
   const image =
     'https://octane.gg/event-logos/rlcs-x-north-america-fall-regional-one-swiss-stage-two.png'
 
@@ -130,8 +126,8 @@ const MatchRow = ({ match, team, player }) => {
   )
 }
 
-const Team = ({ side, isReversed }) => {
-  return side ? (
+const Team = ({ side, isReversed }) =>
+  side ? (
     <Flex direction={isReversed ? 'row-reverse' : 'row'} width="full" justify="flex-end">
       <Link href={`/teams/${side.team._id}`} align={isReversed && 'end'}>
         {side.team.name}
@@ -153,6 +149,5 @@ const Team = ({ side, isReversed }) => {
       TBD
     </Flex>
   )
-}
 
 export default Matches

@@ -1,10 +1,8 @@
 import { Content } from '@octane/components/common/Layout'
-import { Stack } from '@chakra-ui/core'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import moment from 'moment'
 import Matches from '@octane/components/matches/Matches'
-import { ButtonLink } from '@octane/components/common/Button'
 import { ModeFilter, RegionFilter, TierFilter } from '@octane/components/filters/Filters'
 import { buildQuery, route } from '@octane/util/routes'
 import Navigation from '@octane/components/common/Navigation'
@@ -16,7 +14,7 @@ const MatchesPage = ({ initialFilter }) => {
   const updateFilter = (key, value) => {
     setFilter((prev) => ({
       ...prev,
-      [key]: value == 'All' ? '' : value,
+      [key]: value === 'All' ? '' : value,
     }))
   }
 

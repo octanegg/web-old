@@ -8,5 +8,5 @@ export const buildQuery = (filter, exclusions) => {
     .map(([k, v]) => `${k}=${v}`)
     .join('&')
 
-  return query ? '?' + query : ''
+  return query ? `?${query}` : ''
 }

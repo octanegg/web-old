@@ -1,6 +1,6 @@
 import { Content } from '@octane/components/common/Layout'
 import MemberInfo from '@octane/components/about/MemberInfo'
-import { Flex, Stack, Text } from '@chakra-ui/core'
+import { Stack } from '@chakra-ui/core'
 
 const staff = [
   {
@@ -13,16 +13,14 @@ const staff = [
   },
 ]
 
-const AboutUs = () => {
-  return (
-    <Content>
-      <Stack direction="row" spacing={0} flexWrap="wrap" justify="space-around">
-        {[0, 1, 2, 3, 4].map(() => (
-          <MemberInfo info={staff[0]} />
-        ))}
-      </Stack>
-    </Content>
-  )
-}
+const AboutUs = () => (
+  <Content>
+    <Stack direction="row" spacing={0} flexWrap="wrap" justify="space-around">
+      {[0, 1, 2, 3, 4].map(() => (
+        <MemberInfo info={staff[0]} />
+      ))}
+    </Stack>
+  </Content>
+)
 
 export default AboutUs

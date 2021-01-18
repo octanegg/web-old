@@ -1,4 +1,4 @@
-import { Flex, Image, Text, Divider, Link, Stack } from '@chakra-ui/core'
+import { Flex, Image, Text, Divider, Stack } from '@chakra-ui/core'
 import NextLink from 'next/link'
 
 // TODO: Clean up
@@ -20,9 +20,7 @@ const MemberInfo = ({ info }) => {
           <Text fontSize="xl">{name}</Text>
           <Flex align="center" fontSize="xs" paddingTop={1} paddingBottom={1}>
             <Image src="/images/twitter-dark.svg" width={4} marginRight={2} />
-            <NextLink href={`https://twitter.com/${twitter}`}>
-              <Link>@{twitter}</Link>
-            </NextLink>
+            <NextLink href={`https://twitter.com/${twitter}`}>{`@${twitter}`}</NextLink>
           </Flex>
           {roles.map((role) => (
             <Text fontSize="sm" fontStyle="italic" align="center">

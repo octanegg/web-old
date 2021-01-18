@@ -25,7 +25,7 @@ const Player = ({ player, initialFilter }) => {
   const updateFilter = (key, value) => {
     setFilter((prev) => ({
       ...prev,
-      [key]: value == 'All' ? '' : value,
+      [key]: value === 'All' ? '' : value,
     }))
   }
 
@@ -61,7 +61,7 @@ const Player = ({ player, initialFilter }) => {
 
 export async function getServerSideProps({ params, query }) {
   const { id } = params
-  const res = await fetch(process.env.API_URL + `/players/${id}`)
+  const res = await fetch(`${process.env.API_URL}/players/${id}`)
   const player = await res.json()
   return {
     props: {

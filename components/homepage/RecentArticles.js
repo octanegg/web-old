@@ -1,5 +1,5 @@
 import React from 'react'
-import { Flex, Link, Text, Spacer } from '@chakra-ui/core'
+import { Flex, Text, Spacer } from '@chakra-ui/core'
 import NextLink from 'next/link'
 
 const Article = ({ article, isBanner }) => {
@@ -56,14 +56,12 @@ const Article = ({ article, isBanner }) => {
   )
 }
 
-const RecentArticles = ({ articles }) => {
-  return (
-    <Flex flexWrap="wrap" direction={{ base: 'column', md: 'row' }}>
-      {articles?.map((article, index) => {
-        return <Article article={article} key={index} isBanner={index == 0} />
-      })}
-    </Flex>
-  )
-}
+const RecentArticles = ({ articles }) => (
+  <Flex flexWrap="wrap" direction={{ base: 'column', md: 'row' }}>
+    {articles?.map((article, index) => (
+      <Article article={article} key={index} isBanner={index === 0} />
+    ))}
+  </Flex>
+)
 
 export default RecentArticles

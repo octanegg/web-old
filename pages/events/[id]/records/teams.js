@@ -23,7 +23,7 @@ const Event = ({ event, initialFilter }) => {
   const updateFilter = (key, value) => {
     setFilter((prev) => ({
       ...prev,
-      [key]: value == 'All' ? '' : value,
+      [key]: value === 'All' ? '' : value,
     }))
   }
 
@@ -33,12 +33,7 @@ const Event = ({ event, initialFilter }) => {
   return (
     <Content>
       <EventInfobox event={event} />
-      <Navigation
-        type="event"
-        active="records"
-        baseHref={`/events/${event._id}`}
-        isOpen={true}
-        hasDivider>
+      <Navigation type="event" active="records" baseHref={`/events/${event._id}`} isOpen hasDivider>
         <RecordsCategoryFilter active="teams" onChange={(item) => handleCategoryChange(item)} />
         <RecordsTypeFilter active={filter.type} onChange={(item) => updateFilter('type', item)} />
         <RecordsStatsFilter
@@ -60,7 +55,7 @@ const Event = ({ event, initialFilter }) => {
 
 export async function getServerSideProps({ params, query }) {
   const { id } = params
-  const res = await fetch(process.env.API_URL + `/events/${id}`)
+  const res = await fetch(`${process.env.API_URL}/events/${id}`)
   const event = await res.json()
   return {
     props: {

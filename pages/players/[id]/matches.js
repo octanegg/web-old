@@ -1,14 +1,16 @@
-import { Flex } from '@chakra-ui/core'
 import { PlayerInfobox } from '@octane/components/common/Infobox'
 import { Content } from '@octane/components/common/Layout'
 import Navigation from '@octane/components/common/Navigation'
-import Pagination from '@octane/components/common/Pagination'
-import { ModeFilter, TierFilter } from '@octane/components/filters/Filters'
+import {
+  ModeFilter,
+  TierFilter,
+  OpponentsFilter,
+  TeamsFilter,
+} from '@octane/components/filters/Filters'
 import Matches from '@octane/components/matches/Matches'
 import { buildQuery, route } from '@octane/util/routes'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
-import { OpponentsFilter } from '@octane/components/filters/Filters'
 
 const Player = ({ player, initialFilter }) => {
   const router = useRouter()
@@ -25,7 +27,7 @@ const Player = ({ player, initialFilter }) => {
   const updateFilter = (key, value) => {
     setFilter((prev) => ({
       ...prev,
-      [key]: value == 'All' ? '' : value,
+      [key]: value === 'All' ? '' : value,
     }))
   }
 
@@ -40,8 +42,17 @@ const Player = ({ player, initialFilter }) => {
         hasDivider>
         <TierFilter active={filter.tier} onChange={(item) => updateFilter('tier', item)} />
         <ModeFilter active={filter.mode} onChange={(item) => updateFilter('mode', item)} />
+        <TeamsFilter
+          player={player._id}
+          active={filter.team}
+          onChange={(item) => {
+            updateFilter('team', item)
+            updateFilter('opponent', '')
+          }}
+        />
         <OpponentsFilter
           player={player._id}
+          team={filter.team}
           active={filter.opponent}
           onChange={(item) => updateFilter('opponent', item)}
         />
@@ -53,7 +64,7 @@ const Player = ({ player, initialFilter }) => {
 
 export async function getServerSideProps({ params, query }) {
   const { id } = params
-  const res = await fetch(process.env.API_URL + `/players/${id}`)
+  const res = await fetch(`${process.env.API_URL}/players/${id}`)
   const player = await res.json()
   return {
     props: {

@@ -143,43 +143,41 @@ export const DropdownList = ({ items, label, itemToLabel, itemToId, onChange }) 
   )
 }
 
-const Dropdown = ({ label, isOpen, open, close, footer, children }) => {
-  return (
-    <Popover placement="bottom" isOpen={isOpen} onClose={close}>
-      <PopoverTrigger>
-        <ChakraButton
-          borderRadius={64}
-          size="sm"
-          fontWeight="semi"
-          fontSize="xs"
-          _focus={{ outline: 'none' }}
-          onClick={open}>
-          {label}
-          <ChevronDownIcon marginLeft={1} />
-        </ChakraButton>
-      </PopoverTrigger>
-      <PopoverContent
-        color="secondary.800"
-        fontSize="sm"
-        border=""
+const Dropdown = ({ label, isOpen, open, close, footer, children }) => (
+  <Popover placement="bottom" isOpen={isOpen} onClose={close}>
+    <PopoverTrigger>
+      <ChakraButton
+        borderRadius={64}
+        size="sm"
+        fontWeight="semi"
+        fontSize="xs"
         _focus={{ outline: 'none' }}
-        bg="white"
-        shadow="0px 1px 2px rgba(128, 138, 157, 0.12), 0px 8px 32px rgba(128, 138, 157, 0.24)">
-        <PopoverArrow />
-        <PopoverBody>{children}</PopoverBody>
-        {footer && (
-          <PopoverFooter
-            border="0"
-            d="flex"
-            alignItems="center"
-            justifyContent="space-between"
-            pb={2}>
-            {footer}
-          </PopoverFooter>
-        )}
-      </PopoverContent>
-    </Popover>
-  )
-}
+        onClick={open}>
+        {label}
+        <ChevronDownIcon marginLeft={1} />
+      </ChakraButton>
+    </PopoverTrigger>
+    <PopoverContent
+      color="secondary.800"
+      fontSize="sm"
+      border=""
+      _focus={{ outline: 'none' }}
+      bg="white"
+      shadow="0px 1px 2px rgba(128, 138, 157, 0.12), 0px 8px 32px rgba(128, 138, 157, 0.24)">
+      <PopoverArrow />
+      <PopoverBody>{children}</PopoverBody>
+      {footer && (
+        <PopoverFooter
+          border="0"
+          d="flex"
+          alignItems="center"
+          justifyContent="space-between"
+          pb={2}>
+          {footer}
+        </PopoverFooter>
+      )}
+    </PopoverContent>
+  </Popover>
+)
 
 export default DropdownList

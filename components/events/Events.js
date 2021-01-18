@@ -24,7 +24,8 @@ export const EventsTable = ({ filter, isOngoing }) => {
       if (!data.events) {
         setLoading(false)
         return
-      } else if (isOngoing) {
+      }
+      if (isOngoing) {
         setLabels(['Ongoing'])
         setEvents([data.events])
         setLoading(false)
@@ -32,22 +33,22 @@ export const EventsTable = ({ filter, isOngoing }) => {
       }
 
       let day = moment(data.events[0].startDate)
-      let labels = []
-      let events = []
+      const _labels = []
+      const _events = []
 
-      data.events.map((event, i) => {
+      data.events.forEach((event, i) => {
         const date = moment(event.startDate)
-        if (i == 0 || !date.isSame(day, 'month')) {
-          labels.push(date.format('MMMM YYYY'))
-          events.push([event])
+        if (i === 0 || !date.isSame(day, 'month')) {
+          _labels.push(date.format('MMMM YYYY'))
+          _events.push([event])
         } else {
-          events[events.length - 1].push(event)
+          _events[_events.length - 1].push(event)
         }
         day = date
       })
 
-      setLabels(labels)
-      setEvents(events)
+      setLabels(_labels)
+      setEvents(_events)
       setLoading(false)
     }
     fetchEvents()
@@ -56,20 +57,18 @@ export const EventsTable = ({ filter, isOngoing }) => {
   return loading ? (
     <Loading />
   ) : (
-    events?.map((group, i) => {
-      return (
-        <React.Fragment>
-          <Heading>{labels[i]}</Heading>
-          <Table>
-            <Body>
-              {group.map((event, j) => (
-                <EventRow key={j} event={event} />
-              ))}
-            </Body>
-          </Table>
-        </React.Fragment>
-      )
-    })
+    events?.map((group, i) => (
+      <>
+        <Heading>{labels[i]}</Heading>
+        <Table>
+          <Body>
+            {group.map((event, j) => (
+              <EventRow key={j} event={event} />
+            ))}
+          </Body>
+        </Table>
+      </>
+    ))
   )
 }
 
@@ -83,7 +82,7 @@ const EventRow = ({ event }) => {
     'https://octane.gg/event-logos/rlcs-x-north-america-fall-regional-one-swiss-stage-two.png'
 
   return (
-    <React.Fragment>
+    <>
       <Row key={_id}>
         <Cell>
           <Flex
@@ -106,7 +105,7 @@ const EventRow = ({ event }) => {
                     height="11px"
                     marginRight={1}
                   />
-                  <Text>{_region?.name} |&nbsp;</Text>
+                  <Text>{`${_region?.name} | `}</Text>
                   <Text>{toDateString(startDate, endDate)}</Text>
                 </Flex>
               }>
@@ -123,7 +122,7 @@ const EventRow = ({ event }) => {
         </Cell>
       </Row>
       {stagesVisible && stages.map((stage, k) => <StageRow key={k} stage={stage} />)}
-    </React.Fragment>
+    </>
   )
 }
 

@@ -1,8 +1,6 @@
 import { Content } from '@octane/components/common/Layout'
-import { Stack } from '@chakra-ui/core'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
-import { ButtonLink } from '@octane/components/common/Button'
 import {
   ModeFilter,
   RegionFilter,
@@ -23,7 +21,7 @@ const Stats = ({ initialFilter }) => {
   const updateFilter = (key, value) => {
     setFilter((prev) => ({
       ...prev,
-      [key]: value == 'All' ? '' : value,
+      [key]: value === 'All' ? '' : value,
     }))
   }
 

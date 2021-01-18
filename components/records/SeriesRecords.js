@@ -33,7 +33,7 @@ export const SeriesRecords = ({ filter, label, isHighlighted }) => {
   ) : (
     <Table>
       <Header>
-        <HeaderItem align="center"></HeaderItem>
+        <HeaderItem align="center" />
         <HeaderItem align="left">Team</HeaderItem>
         <HeaderItem align="left">Match</HeaderItem>
         <HeaderItem align="left">Event</HeaderItem>
@@ -128,7 +128,7 @@ const SeriesRecordsRow = ({ record, rank, statField, isHighlighted }) => {
           <Flex minWidth={8} marginRight={2} marginLeft={2}>
             <Image
               height={6}
-              src={`https://octane.gg/event-logos/rlcs-x-north-america-fall-regional-one-swiss-stage-two.png`}
+              src="https://octane.gg/event-logos/rlcs-x-north-america-fall-regional-one-swiss-stage-two.png"
             />
           </Flex>
           <LabeledText
@@ -147,7 +147,7 @@ const SeriesRecordsRow = ({ record, rank, statField, isHighlighted }) => {
       </Cell>
       <Cell>
         <Flex fontSize="sm" fontWeight="bold" width={24} justify="center">
-          {statField == 'duration'
+          {statField === 'duration'
             ? toMinuteSeconds(stat)
             : stat % 1 === 0
             ? stat

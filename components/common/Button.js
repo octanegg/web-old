@@ -63,30 +63,26 @@ export const Button = ({ buttonType, buttonProps, onClick, isDisabled, children 
   )
 }
 
-export const ButtonLink = ({ isActive, href, children }) => {
-  return (
-    <Link href={href || '#'}>
-      <Button
-        fontWeight="bold"
-        size="xs"
-        buttonProps={isActive ? buttonTypes.link.selected : buttonTypes.link.default}>
-        {children}
-      </Button>
-    </Link>
-  )
-}
-
-export const PaginationButton = ({ isActive, isDisabled, onClick, children }) => {
-  return (
+export const ButtonLink = ({ isActive, href, children }) => (
+  <Link href={href || '#'}>
     <Button
       fontWeight="bold"
       size="xs"
-      onClick={onClick}
-      buttonProps={isActive ? buttonTypes.link.selected : buttonTypes.link.default}
-      isDisabled={isDisabled}>
+      buttonProps={isActive ? buttonTypes.link.selected : buttonTypes.link.default}>
       {children}
     </Button>
-  )
-}
+  </Link>
+)
+
+export const PaginationButton = ({ isActive, isDisabled, onClick, children }) => (
+  <Button
+    fontWeight="bold"
+    size="xs"
+    onClick={onClick}
+    buttonProps={isActive ? buttonTypes.link.selected : buttonTypes.link.default}
+    isDisabled={isDisabled}>
+    {children}
+  </Button>
+)
 
 export default ButtonLink

@@ -43,7 +43,12 @@ export const PlayerRecords = ({ filter, label, isHighlighted }) => {
       </Header>
       <Body>
         {records?.map((record, rank) => (
-          <PlayerRecordsRow key={rank} record={record} rank={rank + 1} isHighlighted={isHighlighted} />
+          <PlayerRecordsRow
+            key={rank}
+            record={record}
+            rank={rank + 1}
+            isHighlighted={isHighlighted}
+          />
         ))}
       </Body>
     </Table>
@@ -118,8 +123,7 @@ const PlayerRecordsRow = ({ record, rank, isHighlighted }) => {
                   L
                 </Text>
               )}
-              {duration &&
-              <Text fontSize="xs">&nbsp;-&nbsp;{toMinuteSeconds(duration)}</Text>}
+              {duration && <Text fontSize="xs">{` - ${toMinuteSeconds(duration)}`}</Text>}
             </Flex>
           </LabeledText>
           <Text fontSize="xs" width={8}>
@@ -138,7 +142,7 @@ const PlayerRecordsRow = ({ record, rank, isHighlighted }) => {
           <Flex minWidth={8} marginRight={2} marginLeft={2}>
             <Image
               height={6}
-              src={`https://octane.gg/event-logos/rlcs-x-north-america-fall-regional-one-swiss-stage-two.png`}
+              src="https://octane.gg/event-logos/rlcs-x-north-america-fall-regional-one-swiss-stage-two.png"
             />
           </Flex>
           <LabeledText

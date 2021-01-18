@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 import { Content } from '@octane/components/common/Layout'
 import ReactMarkdown from 'react-markdown'
 import { Flex, Image, Link, Spacer, Stack, Text } from '@chakra-ui/core'
@@ -6,7 +7,7 @@ import NextLink from 'next/link'
 const News = ({ article }) => {
   const { title, authors, image, content, published_at } = article
   return (
-    <Content leftNav={<div></div>} rightNav={<div></div>}>
+    <Content leftNav={<div />} rightNav={<div />}>
       <Stack
         backgroundColor="white"
         border="main"
@@ -24,14 +25,15 @@ const News = ({ article }) => {
             <Flex key={author.name}>
               <Image src="/images/twitter-dark.svg" width={4} marginRight={1} />
               <NextLink href={`https://twitter.com/${author.twitter}`}>
-                <Link>@{author.name}</Link>
+                <Link>{`@${author.name}`}</Link>
               </NextLink>
             </Flex>
           ))}
           <Spacer />
           <Text fontStyle="italic">
-            {new Date(published_at).toLocaleDateString()}{' '}
-            {new Date(published_at).toLocaleTimeString()}
+            {`${new Date(published_at).toLocaleDateString()}  ${new Date(
+              published_at
+            ).toLocaleTimeString()}`}
           </Text>
         </Flex>
         <Image src={process.env.CONTENT_URL + image.url} />
@@ -43,7 +45,7 @@ const News = ({ article }) => {
 
 export async function getServerSideProps({ params }) {
   const { id } = params
-  const res = await fetch(process.env.CONTENT_URL + `/articles/${id}`)
+  const res = await fetch(`${process.env.CONTENT_URL}/articles/${id}`)
   const article = await res.json()
   return {
     props: { article },

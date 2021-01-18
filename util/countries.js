@@ -47,6 +47,6 @@ export const countries = [
   { id: 'us', name: 'United States', image: `/flags/226-united-states.svg` },
 ]
 
-export const getCountry = (countryId) => countries.find((country) => countryId == country.id)
+export const getCountry = (countryId) => countries.find((country) => countryId === country.id)
 
 export const getCountries = () => countries

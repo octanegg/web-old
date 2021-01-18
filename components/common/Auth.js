@@ -1,5 +1,4 @@
 import { useAuth0 } from '@auth0/auth0-react'
-import { Spinner } from '@chakra-ui/core'
 import { useEffect, useState } from 'react'
 
 export const AdminOnly = ({ children }) => {

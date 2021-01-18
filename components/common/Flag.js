@@ -17,3 +17,5 @@ export const Flag = ({ country, region, justify, isLabeled }) => {
     <Image width={5} src={image} />
   )
 }
+
+export default Flag

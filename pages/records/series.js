@@ -1,13 +1,10 @@
 import { Content } from '@octane/components/common/Layout'
-import { Stack } from '@chakra-ui/core'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
-import { ButtonLink } from '@octane/components/common/Button'
 import {
   ModeFilter,
   RegionFilter,
   TierFilter,
-  ResultsFilter,
   DateRangeFilter,
   RecordsStatsFilter,
   SeriesFilter,
@@ -20,12 +17,12 @@ import { recordStats } from '@octane/util/constants'
 const Series = ({ initialFilter }) => {
   const router = useRouter()
   const [filter, setFilter] = useState(initialFilter)
-  const statLabel = recordStats.games.find((stat) => stat.id == initialFilter.stat)?.label
+  const statLabel = recordStats.games.find((stat) => stat.id === initialFilter.stat)?.label
 
   const updateFilter = (key, value) => {
     setFilter((prev) => ({
       ...prev,
-      [key]: value == 'All' ? '' : value,
+      [key]: value === 'All' ? '' : value,
     }))
   }
 
@@ -35,7 +32,7 @@ const Series = ({ initialFilter }) => {
 
   return (
     <Content>
-      <Navigation type="records" active="series" isOpen={true}>
+      <Navigation type="records" active="series" isOpen>
         <RecordsStatsFilter
           active={filter.stat}
           onChange={(item) => updateFilter('stat', item)}
@@ -54,7 +51,7 @@ const Series = ({ initialFilter }) => {
         />
         <SeriesFilter active={filter.bestOf} onChange={(item) => updateFilter('bestOf', item)} />
       </Navigation>
-      <SeriesRecords filter={filter} label={statLabel} isHighlighted/>
+      <SeriesRecords filter={filter} label={statLabel} isHighlighted />
     </Content>
   )
 }

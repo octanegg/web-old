@@ -1,45 +1,35 @@
-import { Flex, Image, Spinner, Text } from '@chakra-ui/core'
+import { Flex, Image } from '@chakra-ui/core'
 import styles from '@octane/styles/Table.module.scss'
 
-export const Table = ({ children, isBordered }) => {
-  return <table className={`${styles.table} ${isBordered && styles.bordered}`}>{children}</table>
-}
+export const Table = ({ children, isBordered }) => (
+  <table className={`${styles.table} ${isBordered && styles.bordered}`}>{children}</table>
+)
 
-export const Header = ({ children }) => {
-  return (
-    <thead>
-      <tr>{children}</tr>
-    </thead>
-  )
-}
+export const Header = ({ children }) => (
+  <thead>
+    <tr>{children}</tr>
+  </thead>
+)
 
-export const HeaderItem = ({ children, width, align, paddingLeft, onClick }) => {
-  return (
-    <th
-      style={{
-        ...(width && { width: width }),
-        ...(onClick && { cursor: 'pointer' }),
-        textAlign: align,
-        padding: 4,
-        paddingLeft: paddingLeft,
-      }}
-      onClick={onClick}>
-      {children}
-    </th>
-  )
-}
+export const HeaderItem = ({ children, width, align, paddingLeft, onClick }) => (
+  <th
+    style={{
+      ...(width && { width }),
+      ...(onClick && { cursor: 'pointer' }),
+      textAlign: align,
+      padding: 4,
+      paddingLeft,
+    }}
+    onClick={onClick}>
+    {children}
+  </th>
+)
 
-export const Body = ({ children }) => {
-  return <tbody>{children}</tbody>
-}
+export const Body = ({ children }) => <tbody>{children}</tbody>
 
-export const Row = ({ children, className }) => {
-  return <tr className={styles[className]}>{children}</tr>
-}
+export const Row = ({ children, className }) => <tr className={styles[className]}>{children}</tr>
 
-export const Cell = ({ children }) => {
-  return <td>{children}</td>
-}
+export const Cell = ({ children }) => <td>{children}</td>
 
 export const ImageTwoTier = (props) => {
   const { src, prefix, label, description, reversed } = props

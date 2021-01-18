@@ -23,16 +23,18 @@ import { buildQuery } from '@octane/util/routes'
 
 export const TierFilter = ({ active, onChange }) => (
   <DropdownList
-    label={active ? (active.length == 1 ? `${active}-Tier` : active) : 'Tier'}
+    label={active ? (active.length === 1 ? `${active}-Tier` : active) : 'Tier'}
     items={tiers}
-    itemToLabel={(tier) => (tier == 'All' ? 'All Tiers' : tier.length == 1 ? `${tier}-Tier` : tier)}
+    itemToLabel={(tier) =>
+      tier === 'All' ? 'All Tiers' : tier.length === 1 ? `${tier}-Tier` : tier
+    }
     onChange={onChange}
   />
 )
 
 export const RegionFilter = ({ active, onChange }) => (
   <DropdownList
-    label={regions.find((region) => region.id == active)?.label || 'Region'}
+    label={regions.find((region) => region.id === active)?.label || 'Region'}
     items={regions}
     itemToLabel={(region) => (
       <Flex justify="flex-start" align="center">
@@ -61,10 +63,10 @@ export const ModeFilter = ({ active, onChange }) => (
 
 export const ResultsFilter = ({ active, onChange }) => (
   <DropdownList
-    label={active == 'true' ? 'Wins' : active == 'false' ? 'Losses' : 'Result'}
+    label={active === 'true' ? 'Wins' : active === 'false' ? 'Losses' : 'Result'}
     items={results}
-    itemToId={(result) => (result == 'Wins' ? 'true' : result == 'Losses' ? 'false' : '')}
-    itemToLabel={(item) => (item == 'All' ? 'All Results' : item)}
+    itemToId={(result) => (result === 'Wins' ? 'true' : result === 'Losses' ? 'false' : '')}
+    itemToLabel={(item) => (item === 'All' ? 'All Results' : item)}
     onChange={onChange}
   />
 )
@@ -100,7 +102,7 @@ export const RecordsStatsFilter = ({ type, active, onChange }) => {
   const stats = recordStats[type]
   return (
     <DropdownList
-      label={stats.find((stat) => stat.id == active)?.label}
+      label={stats.find((stat) => stat.id === active)?.label}
       items={stats}
       itemToId={(item) => item.id}
       itemToLabel={(item) => item.label}
@@ -131,7 +133,7 @@ export const NationalityFilter = ({ active, onChange }) => (
   <DropdownList
     label={active ? getCountry(active)?.name : 'Nationality'}
     items={getCountries()}
-    itemToId={(item) => (item.id == 'int' ? '' : item.id)}
+    itemToId={(item) => (item.id === 'int' ? '' : item.id)}
     itemToLabel={(item) => <Flag country={item.id} justify="flex-start" isLabeled />}
     onChange={onChange}
   />
@@ -174,14 +176,56 @@ export const TeamStatsTypeFilter = ({ active, onChange }) => (
   />
 )
 
+export const TeamsFilter = ({ player, active, onChange }) => {
+  const [teams, setTeams] = useState([])
+
+  useEffect(() => {
+    const fetchTeams = async () => {
+      const data = await apiFetch(`/stats/players/teams`, buildQuery({ player, mode: 3 }, ['']))
+      if (!data.stats) {
+        return
+      }
+
+      setTeams(
+        data.stats
+          .map((stat) => stat.teams[0])
+          .sort((a, b) => a.name.toLowerCase().localeCompare(b.name.toLowerCase()))
+      )
+    }
+
+    fetchTeams()
+  }, [player])
+
+  return (
+    <DropdownList
+      label={active ? teams.find((team) => team._id === active)?.name : 'Team'}
+      items={['All'].concat(teams)}
+      itemToId={(item) => (item === 'All' ? '' : item._id)}
+      itemToLabel={(team) =>
+        team === 'All' ? (
+          'All Teams'
+        ) : (
+          <Flex justify="flex-start" align="center">
+            <Flex minWidth={10} justify="center">
+              <Image src={`https://www.octane.gg/team-icons/${team.name}.png`} />
+            </Flex>
+            <Text>{team.name}</Text>
+          </Flex>
+        )
+      }
+      onChange={onChange}
+    />
+  )
+}
+
 export const OpponentsFilter = ({ player, team, active, onChange }) => {
   const [teams, setTeams] = useState([])
 
   useEffect(() => {
     const fetchTeams = async () => {
-      const data = player
-        ? await apiFetch(`/stats/players/opponents`, buildQuery({ player, mode: 3 }, ['']))
-        : await apiFetch(`/stats/teams/opponents`, buildQuery({ team, mode: 3 }, ['']))
+      const path = `/stats/${player ? 'players' : 'teams'}/opponents`
+      const query = { mode: 3, ...(player && { player }), ...(team && { team }) }
+      const data = await apiFetch(path, buildQuery(query, ['']))
       if (!data.stats) {
         return
       }
@@ -194,22 +238,22 @@ export const OpponentsFilter = ({ player, team, active, onChange }) => {
     }
 
     fetchTeams()
-  }, [player])
+  }, [player, team])
 
   return (
     <DropdownList
-      label={active ? teams.find((team) => team._id == active)?.name : 'Opponent'}
+      label={active ? teams.find((_team) => _team._id === active)?.name : 'Opponent'}
       items={['All'].concat(teams)}
-      itemToId={(item) => (item == 'All' ? '' : item._id)}
-      itemToLabel={(team) =>
-        team == 'All' ? (
+      itemToId={(item) => (item === 'All' ? '' : item._id)}
+      itemToLabel={(_team) =>
+        _team === 'All' ? (
           'All Opponents'
         ) : (
           <Flex justify="flex-start" align="center">
             <Flex minWidth={10} justify="center">
-              <Image src={`https://www.octane.gg/team-icons/${team.name}.png`} />
+              <Image src={`https://www.octane.gg/team-icons/${_team.name}.png`} />
             </Flex>
-            <Text>{team.name}</Text>
+            <Text>{_team.name}</Text>
           </Flex>
         )
       }

@@ -33,7 +33,7 @@ export const GameRecords = ({ filter, label, isHighlighted }) => {
   ) : (
     <Table>
       <Header>
-        <HeaderItem align="center"></HeaderItem>
+        <HeaderItem align="center" />
         <HeaderItem align="left">Team</HeaderItem>
         <HeaderItem align="left">Match</HeaderItem>
         <HeaderItem align="left">Event</HeaderItem>
@@ -43,7 +43,12 @@ export const GameRecords = ({ filter, label, isHighlighted }) => {
       </Header>
       <Body>
         {records?.map((record, rank) => (
-          <GameRecordsRow key={rank} record={record} rank={rank + 1}  isHighlighted={isHighlighted}/>
+          <GameRecordsRow
+            key={rank}
+            record={record}
+            rank={rank + 1}
+            isHighlighted={isHighlighted}
+          />
         ))}
       </Body>
     </Table>
@@ -104,7 +109,7 @@ const GameRecordsRow = ({ record, rank, isHighlighted }) => {
               <Text fontWeight="bold" fontSize="xs" color="win">
                 W
               </Text>
-              {duration && <Text fontSize="xs">&nbsp;-&nbsp;{toMinuteSeconds(duration)}</Text>}
+              {duration && <Text fontSize="xs">{` - ${toMinuteSeconds(duration)}`}</Text>}
             </Flex>
           </LabeledText>
           <Text fontSize="xs" width={8}>
@@ -123,7 +128,7 @@ const GameRecordsRow = ({ record, rank, isHighlighted }) => {
           <Flex minWidth={8} marginRight={2} marginLeft={2}>
             <Image
               height={6}
-              src={`https://octane.gg/event-logos/rlcs-x-north-america-fall-regional-one-swiss-stage-two.png`}
+              src="https://octane.gg/event-logos/rlcs-x-north-america-fall-regional-one-swiss-stage-two.png"
             />
           </Flex>
           <LabeledText
