@@ -11,6 +11,7 @@ import {
   MinGamesFilter,
   NationalityFilter,
   SeriesFilter,
+  QualifierFilter,
 } from '@octane/components/filters/Filters'
 import { buildQuery, route } from '@octane/util/routes'
 import Navigation from '@octane/components/common/Navigation'
@@ -57,6 +58,10 @@ const Stats = ({ initialFilter }) => {
           active={filter.nationality}
           onChange={(item) => updateFilter('nationality', item)}
         />
+        <QualifierFilter
+          active={filter.qualifier}
+          onChange={(item) => updateFilter('qualifier', item)}
+        />
       </Navigation>
       <PlayerStats filter={filter} isSortable />
     </Content>
@@ -75,6 +80,8 @@ export async function getServerSideProps({ query }) {
         minGames: query.minGames || 50,
         nationality: query.nationality || '',
         bestOf: query.bestOf || '',
+        winner: query.winner || '',
+        qualifier: query.qualifier || '',
       },
     },
   }

@@ -151,7 +151,7 @@ const Navigation = ({ type, active, baseHref, isOpen, hasDivider, children }) =>
         )}
       </Stack>
       {open && (
-        <Stack width="full" direction="row" marginBottom={4}>
+        <Stack width="full" direction="row" marginBottom={4} align="center">
           {children}
         </Stack>
       )}

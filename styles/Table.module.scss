@@ -39,3 +39,46 @@
     }
   }
 }
+
+.scoreboard {
+  width: 100%;
+  color: #1a2f42;
+  thead {
+    width: 100%;
+    tr {
+      width: 100%;
+      background-color: #fff;
+      th {
+        font-size: 10px;
+        font-weight: bold;
+        text-transform: uppercase;
+        width:100px;
+        &:first-of-type {
+          width: 200px;
+        }
+      }
+    }
+  }
+  tbody {
+    width: 100%;
+    tr {
+      width: 100%;
+      &:hover {
+        background-color: #e4f2ff !important;
+      }
+      &:nth-child(odd) {
+        background-color: #f3f8fb;
+      }
+      &:last-of-type {
+        border-top: 1px solid #BBC3D1;
+        font-weight: 600;
+      }
+      td {
+        padding-top: 4px;
+        padding-bottom: 4px;
+        font-size: 14px;
+        text-align: center;
+      }
+    }
+  }
+}

@@ -138,7 +138,7 @@ const StatsRow = ({ stat, sort, groupBy }) => {
     <Row>
       <Cell>
         {groupBy === 'events' && (
-          <Flex align="center" justify="flex-start" fontSize="sm" paddingTop={1} paddingBottom={1}>
+          <Flex align="center" justify="flex-start" fontSize="sm">
             <Flex minWidth={10} justify="center">
               <Image src="https://octane.gg/event-icons/rlcs-x-north-america-fall-regional-one-swiss-stage-two.png" />
             </Flex>
@@ -186,6 +186,7 @@ const StatsRow = ({ stat, sort, groupBy }) => {
               fontSize="sm"
               fontWeight={sort === id && 'bold'}
               backgroundColor={sort === id && 'primary.50'}
+              height={10}
               align="center"
               justify="center">
               {percentage ? `${(value * 100).toFixed(2)}%` : value.toFixed(round ?? 2)}

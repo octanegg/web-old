@@ -1,4 +1,4 @@
-import { Flex, Image, Text } from '@chakra-ui/core'
+import { Flex, Image, Switch, Text } from '@chakra-ui/core'
 import { toDateString } from '@octane/util/dates'
 import DropdownList, { DropdownDate } from '@octane/components/common/Dropdown'
 import {
@@ -163,6 +163,23 @@ export const PlayerStatsTypeFilter = ({ active, onChange }) => (
     label={active[0].toUpperCase() + active.substring(1)}
     items={playerStatsTypes}
     itemToLabel={(item) => item[0].toUpperCase() + item.substring(1)}
+    onChange={onChange}
+  />
+)
+
+export const QualifierFilter = ({ active, onChange }) => (
+  <DropdownList
+    label={
+      active === 'true'
+        ? 'Only Qualifiers'
+        : active === 'false'
+        ? 'No Qualifiers'
+        : 'Incl. Qualifiers'
+    }
+    items={['Incl. Qualifiers', 'Only Qualifiers', 'No Qualifiers']}
+    itemToId={(result) =>
+      result === 'Only Qualifiers' ? 'true' : result === 'No Qualifiers' ? 'false' : ''
+    }
     onChange={onChange}
   />
 )

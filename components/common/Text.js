@@ -14,10 +14,10 @@ export const Heading = ({ children }) => (
   </Flex>
 )
 
-export const Link = ({ href, align, children }) => (
+export const Link = ({ href, align, fontSize, children }) => (
   <NextLink passHref href={href}>
     <ChakraLink
-      fontSize="sm"
+      fontSize={fontSize || 'sm'}
       fontWeight="bold"
       color="secondary.800"
       cursor="pointer"

@@ -130,8 +130,12 @@ const Score = ({ left, right }) => {
   const _left = left || '0'
   const _right = right || '0'
 
-  if (!_left && !_right) {
-    return <Text>vs</Text>
+  if (!left && !right) {
+    return (
+      <Flex justify="center" align="center" width={12}>
+        vs
+      </Flex>
+    )
   }
 
   return (
@@ -156,19 +160,11 @@ const Team = ({ side, isReversed }) =>
         {side.team.name}
       </Link>
       <Flex minWidth={6} marginLeft={4} marginRight={4}>
-        <Image
-          height={6}
-          src={
-            `https://octane.gg/team-logos/${side.team.name}.png` /* TODO: use griffon for logos */
-          }
-        />
+        <Image height={6} src={`https://octane.gg/team-logos/${side.team.name}.png`} />
       </Flex>
-      {/* <Text fontWeight={side.winner ? 'bold' : 'semi'} color={side.winner ? 'win' : 'loss'}>
-        {side.score || 0}
-      </Text> */}
     </Flex>
   ) : (
-    <Flex width="full" justify="center">
+    <Flex width="full" justify={isReversed ? 'flex-start' : 'flex-end'}>
       TBD
     </Flex>
   )
