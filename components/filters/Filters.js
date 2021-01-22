@@ -170,9 +170,9 @@ export const PlayerStatsTypeFilter = ({ active, onChange }) => (
 
 export const GroupFilter = ({ active, onChange }) => (
   <DropdownCheckbox
-    label="Groups"
+    label="Event"
     items={groups}
-    active={active}
+    defaultActive={Array.isArray(active) ? active : [active]}
     itemToLabel={(item) => item.label}
     itemToId={(item) => item.id}
     onChange={onChange}

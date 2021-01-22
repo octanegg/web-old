@@ -9,6 +9,8 @@ import {
   DateRangeFilter,
   SeriesFilter,
   MinGamesFilter,
+  GroupFilter,
+  QualifierFilter,
 } from '@octane/components/filters/Filters'
 import { buildQuery, route } from '@octane/util/routes'
 import Navigation from '@octane/components/common/Navigation'
@@ -35,6 +37,7 @@ const Stats = ({ initialFilter }) => {
         type="stats"
         active="teams"
         isOpen={filter.tier || filter.region || filter.mode || filter.before || filter.after}>
+        <GroupFilter active={filter.group} onChange={(item) => updateFilter('group', item)} />
         <TierFilter active={filter.tier} onChange={(item) => updateFilter('tier', item)} />
         <RegionFilter active={filter.region} onChange={(item) => updateFilter('region', item)} />
         <ModeFilter active={filter.mode} onChange={(item) => updateFilter('mode', item)} />
@@ -52,6 +55,10 @@ const Stats = ({ initialFilter }) => {
           onChange={(item) => updateFilter('minGames', item)}
         />
         <SeriesFilter active={filter.bestOf} onChange={(item) => updateFilter('bestOf', item)} />
+        <QualifierFilter
+          active={filter.qualifier}
+          onChange={(item) => updateFilter('qualifier', item)}
+        />
       </Navigation>
       <TeamStats filter={filter} isSortable />
     </Content>
@@ -67,8 +74,10 @@ export async function getServerSideProps({ query }) {
         region: query.region || '',
         before: query.before || '',
         after: query.after || '',
-        minGames: query.minGames || 50,
+        group: query.group || '',
+        minGames: query.minGames || (Object.keys(query).length <= 1 ? 100 : ''),
         bestOf: query.bestOf || '',
+        qualifier: query.qualifier || '',
       },
     },
   }

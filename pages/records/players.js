@@ -11,6 +11,7 @@ import {
   RecordsTypeFilter,
   RecordsStatsFilter,
   SeriesFilter,
+  GroupFilter,
 } from '@octane/components/filters/Filters'
 import { buildQuery, route } from '@octane/util/routes'
 import Navigation from '@octane/components/common/Navigation'
@@ -40,6 +41,7 @@ const Players = ({ initialFilter }) => {
           onChange={(item) => updateFilter('stat', item)}
           type="players"
         />
+        <GroupFilter active={filter.group} onChange={(item) => updateFilter('group', item)} />
         <TierFilter active={filter.tier} onChange={(item) => updateFilter('tier', item)} />
         <RegionFilter active={filter.region} onChange={(item) => updateFilter('region', item)} />
         <ModeFilter active={filter.mode} onChange={(item) => updateFilter('mode', item)} />
@@ -70,6 +72,7 @@ export async function getServerSideProps({ query }) {
         region: query.region || '',
         before: query.before || '',
         after: query.after || '',
+        group: query.group || '',
         type: query.type || 'game',
         stat: query.stat || 'score',
         bestOf: query.bestOf || '',

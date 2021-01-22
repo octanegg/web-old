@@ -9,6 +9,8 @@ export const teamStatsTypes = ['players', 'opponents', 'events']
 export const groups = [
   { id: 'rlcs', label: 'RLCS' },
   { id: 'rlcsx', label: 'RLCS X' },
+  { id: 'rlcsxfall', label: '- RLCS X Fall' },
+  { id: 'rlcsxwinter', label: '- RLCS X Winter' },
   { id: 'grid', label: 'RLCS X The Grid' },
 ]
 export const recordCategories = ['players', 'teams', 'games', 'series']

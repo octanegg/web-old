@@ -3,7 +3,12 @@ import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import moment from 'moment'
 import Events from '@octane/components/events/Events'
-import { ModeFilter, RegionFilter, TierFilter } from '@octane/components/filters/Filters'
+import {
+  GroupFilter,
+  ModeFilter,
+  RegionFilter,
+  TierFilter,
+} from '@octane/components/filters/Filters'
 import { buildQuery, route } from '@octane/util/routes'
 import Navigation from '@octane/components/common/Navigation'
 
@@ -28,6 +33,7 @@ const EventsPage = ({ initialFilter }) => {
         type="events"
         active="ongoing"
         isOpen={filter.tier || filter.region || filter.mode}>
+        <GroupFilter active={filter.group} onChange={(item) => updateFilter('group', item)} />
         <TierFilter active={filter.tier} onChange={(item) => updateFilter('tier', item)} />
         <RegionFilter active={filter.region} onChange={(item) => updateFilter('region', item)} />
         <ModeFilter active={filter.mode} onChange={(item) => updateFilter('mode', item)} />
@@ -53,6 +59,7 @@ export async function getServerSideProps({ query }) {
         mode: query.mode || '',
         tier: query.tier || '',
         region: query.region || '',
+        group: query.group || '',
         after: moment().toISOString(),
         sort: 'start_date:asc',
       },

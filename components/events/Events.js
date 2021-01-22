@@ -1,4 +1,4 @@
-import { Flex, Image, Text, Spacer } from '@chakra-ui/core'
+import { Flex, Image, Text, Spacer, Stack } from '@chakra-ui/core'
 import { useEffect, useState } from 'react'
 import moment from 'moment'
 import { Table, Body, Row, Cell } from '@octane/components/common/Table'
@@ -98,16 +98,18 @@ const EventRow = ({ event }) => {
               width="md"
               justify="flex-start"
               label={
-                <Flex fontWeight="regular" fontSize="xs" align="center" color="secondary.800">
-                  <Image
-                    src={`https://octane.gg/${_region?.image}`}
-                    width="16px"
-                    height="11px"
-                    marginRight={1}
-                  />
-                  <Text>{`${_region?.name} | `}</Text>
+                <Stack
+                  direction="row"
+                  spacing={1}
+                  fontWeight="regular"
+                  fontSize="xs"
+                  align="center"
+                  color="secondary.800">
+                  <Image src={`https://octane.gg/${_region?.image}`} width="16px" height="11px" />
+                  <Text>{_region?.name}</Text>
+                  <Text>|</Text>
                   <Text>{toDateString(startDate, endDate)}</Text>
-                </Flex>
+                </Stack>
               }>
               <Flex>
                 <Link href={`/events/${_id}`}>{name}</Link>

@@ -79,7 +79,7 @@ export async function getServerSideProps({ query }) {
         minGames: query.minGames || (Object.keys(query).length <= 1 ? 100 : ''),
         nationality: query.nationality || '',
         bestOf: query.bestOf || '',
-        group: !query.group ? '' : Array.isArray(query.group) ? query.group : [query.group],
+        group: query.group || '',
         winner: query.winner || '',
         qualifier: query.qualifier || '',
       },

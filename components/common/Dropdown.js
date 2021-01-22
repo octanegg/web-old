@@ -189,7 +189,7 @@ export const DropdownCheckbox = ({ items, active, label, itemToLabel, itemToId, 
             value={itemToId ? itemToId(item) : item}
             onClick={handleChange}>
             <Stack direction="row">
-              <Checkbox size="md" borderColor="secondary.50" isChecked={item.checked} />
+              <Checkbox borderColor="primary.100" isChecked={item.checked} />
               <Flex>{itemToLabel ? itemToLabel(item) : item}</Flex>
             </Stack>
           </ListItem>
