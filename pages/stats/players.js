@@ -12,6 +12,7 @@ import {
   NationalityFilter,
   SeriesFilter,
   QualifierFilter,
+  GroupFilter,
 } from '@octane/components/filters/Filters'
 import { buildQuery, route } from '@octane/util/routes'
 import Navigation from '@octane/components/common/Navigation'
@@ -33,10 +34,8 @@ const Stats = ({ initialFilter }) => {
 
   return (
     <Content>
-      <Navigation
-        type="stats"
-        active="players"
-        isOpen={filter.tier || filter.region || filter.mode || filter.before || filter.after}>
+      <Navigation type="stats" active="players" isOpen={true}>
+        <GroupFilter active={filter.group} onChange={(item) => updateFilter('group', item)} />
         <TierFilter active={filter.tier} onChange={(item) => updateFilter('tier', item)} />
         <RegionFilter active={filter.region} onChange={(item) => updateFilter('region', item)} />
         <ModeFilter active={filter.mode} onChange={(item) => updateFilter('mode', item)} />
@@ -77,9 +76,10 @@ export async function getServerSideProps({ query }) {
         region: query.region || '',
         before: query.before || '',
         after: query.after || '',
-        minGames: query.minGames || 50,
+        minGames: query.minGames || (Object.keys(query).length <= 1 ? 100 : ''),
         nationality: query.nationality || '',
         bestOf: query.bestOf || '',
+        group: !query.group ? '' : Array.isArray(query.group) ? query.group : [query.group],
         winner: query.winner || '',
         qualifier: query.qualifier || '',
       },

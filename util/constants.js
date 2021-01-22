@@ -6,6 +6,11 @@ export const series = ['All', 7, 5, 3]
 export const statCategories = ['players', 'teams']
 export const playerStatsTypes = ['teams', 'opponents', 'events']
 export const teamStatsTypes = ['players', 'opponents', 'events']
+export const groups = [
+  { id: 'rlcs', label: 'RLCS' },
+  { id: 'rlcsx', label: 'RLCS X' },
+  { id: 'grid', label: 'RLCS X The Grid' },
+]
 export const recordCategories = ['players', 'teams', 'games', 'series']
 export const recordTypes = ['game', 'series']
 export const recordStats = {

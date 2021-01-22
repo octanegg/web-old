@@ -1,5 +1,6 @@
 import {
   Button as ChakraButton,
+  Checkbox,
   Flex,
   List,
   ListItem,
@@ -13,7 +14,7 @@ import {
   Text,
 } from '@chakra-ui/core'
 import { ChevronDownIcon } from '@chakra-ui/icons'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import DatePicker from 'react-datepicker'
 import moment from 'moment'
 import Input from './Input'
@@ -136,6 +137,61 @@ export const DropdownList = ({ items, label, itemToLabel, itemToId, onChange }) 
               setIsOpen(false)
             }}>
             {itemToLabel ? itemToLabel(item) : item}
+          </ListItem>
+        ))}
+      </List>
+    </Dropdown>
+  )
+}
+
+export const DropdownCheckbox = ({ items, active, label, itemToLabel, itemToId, onChange }) => {
+  const [isOpen, setIsOpen] = useState(false)
+  const [checkboxes, setCheckboxes] = useState([])
+
+  useEffect(() => {
+    const getCheckboxes = () => {
+      setCheckboxes(
+        items.map((item) => ({
+          ...item,
+          checked: active == item || (Array.isArray(active) && active.includes(item.id)),
+        }))
+      )
+    }
+    getCheckboxes()
+  }, [active])
+
+  const handleChange = (e) => {
+    const i = checkboxes.findIndex((c) => c.id === e.currentTarget.getAttribute('value'))
+    const _checkboxes = checkboxes
+    _checkboxes[i].checked = !_checkboxes[i].checked
+    setCheckboxes(_checkboxes)
+    setIsOpen(false)
+    onChange(_checkboxes.filter((c) => c.checked).map((c) => c.id))
+  }
+
+  return (
+    <Dropdown
+      label={label}
+      isOpen={isOpen}
+      setIsOpen={() => setIsOpen}
+      open={() => setIsOpen(!isOpen)}
+      close={() => setIsOpen(false)}>
+      <List maxHeight={400} overflowY="scroll">
+        {checkboxes.map((item, i) => (
+          <ListItem
+            key={i}
+            padding={2}
+            _hover={{ backgroundColor: 'secondary.50' }}
+            borderRadius={8}
+            fontSize="sm"
+            fontWeight="semi"
+            cursor="pointer"
+            value={itemToId ? itemToId(item) : item}
+            onClick={handleChange}>
+            <Stack direction="row">
+              <Checkbox size="md" borderColor="secondary.50" isChecked={item.checked} />
+              <Flex>{itemToLabel ? itemToLabel(item) : item}</Flex>
+            </Stack>
           </ListItem>
         ))}
       </List>
