@@ -170,6 +170,7 @@ const GameForm = ({ game, updateGame, deleteGame }) => {
               <option value="Rivals Arena">Rivals Arena</option>
               <option value="Salty Shores">Salty Shores</option>
               <option value="Starbase ARC">Starbase ARC</option>
+              <option value="Throwback Stadium">Throwback Stadium</option>
               <option value="Urban Central">Urban Central</option>
               <option value="Utopia Coliseum">Utopia Coliseum</option>
               <option value="Wasteland">Wasteland</option>
