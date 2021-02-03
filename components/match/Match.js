@@ -1,14 +1,13 @@
 import { Box, Divider, Flex, Image, Stack, Text } from '@chakra-ui/core'
 import ButtonLink from '@octane/components/common/Button'
 import { LabeledField, Link } from '@octane/components/common/Text'
-import { toDateYearTime } from '@octane/util/dates'
+import { toDateYear, toTime } from '@octane/util/dates'
 import styles from '@octane/styles/Table.module.scss'
 import Flag from '@octane/components/common/Flag'
 import { StarIcon } from '@chakra-ui/icons'
-import {toMinuteSeconds} from '@octane/util/dates'
 
-export const Infobox = ({ match }) => {
-  const { blue, orange, date, event, stage } = match
+export const Infobox = ({ match, active }) => {
+  const { blue, orange, date, event, stage, games } = match
   const image =
     'https://octane.gg/event-icons/rlcs-x-north-america-fall-regional-one-swiss-stage-two.png'
 
@@ -43,15 +42,118 @@ export const Infobox = ({ match }) => {
         </Flex>
       </Flex>
       <Flex justify="space-around">
-        <LabeledField label="event" width="sm">
+        <LabeledField label={stage.name} width="sm">
           <Flex>
             <Image src={image} />
             <Link href={`/events/${event._id}`}>{event.name}</Link>
           </Flex>
         </LabeledField>
-        <LabeledField label="stage">{stage.name}</LabeledField>
-        <LabeledField label="date" width="sm">
-          {toDateYearTime(date)}
+        {/* <LabeledField label="stage">{stage.name}</LabeledField> */}
+        <table>
+          <thead>
+            <tr>
+              <th align="center" style={{ width: 32 }}></th>
+              {games.map((_, i) => (
+                <th align="center" style={{ width: 32, padding: 0 }}>
+                  <Flex
+                    height={7}
+                    align="center"
+                    fontWeight="medium"
+                    fontSize="xs"
+                    color="secondary.500"
+                    justify="center"
+                    backgroundColor={active === i + 1 && 'primary.50'}
+                    borderRadius="15px 15px 0px 0px">{`G${i + 1}`}</Flex>
+                </th>
+              ))}
+              <th
+                align="center"
+                style={{
+                  borderLeft: '1px solid #728098',
+                  width: 32,
+                  padding: 0,
+                }}>
+                <Flex
+                  height={7}
+                  align="center"
+                  fontWeight="medium"
+                  fontSize="xs"
+                  color="secondary.500"
+                  justify="center"
+                  backgroundColor={!active && 'primary.50'}>
+                  T
+                </Flex>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td align="center">
+                <Image width={6} src={`https://octane.gg/team-logos/${blue.team.name}.png`} />
+              </td>
+              {games.map(({ blue, orange }, i) => (
+                <td align="center" style={{ padding: 0 }}>
+                  <Flex
+                    height={7}
+                    fontSize="sm"
+                    align="center"
+                    justify="center"
+                    color={!orange || blue > orange ? 'win' : 'loss'}
+                    fontWeight={!orange || blue > orange ? 'bold' : 'regular'}
+                    backgroundColor={active === i + 1 && 'primary.50'}>
+                    {blue || 0}
+                  </Flex>
+                </td>
+              ))}
+              <td align="center" style={{ borderLeft: '1px solid #728098', padding: 0 }}>
+                <Flex
+                  height={7}
+                  fontSize="sm"
+                  align="center"
+                  justify="center"
+                  color={blueScore > orangeScore ? 'win' : 'loss'}
+                  fontWeight={blueScore > orangeScore ? 'bold' : 'regular'}
+                  backgroundColor={!active && 'primary.50'}>
+                  {games.map((game) => game.blue || 0).reduce((a, b) => a + b, 0)}
+                </Flex>
+              </td>
+            </tr>
+            <tr>
+              <td align="center">
+                <Image width={6} src={`https://octane.gg/team-logos/${orange.team.name}.png`} />
+              </td>
+              {games.map(({ blue, orange }, i) => (
+                <td align="center" style={{ padding: 0 }}>
+                  <Flex
+                    height={7}
+                    fontSize="sm"
+                    align="center"
+                    justify="center"
+                    color={!blue || orange > blue ? 'win' : 'loss'}
+                    fontWeight={!blue || orange > blue ? 'bold' : 'regular'}
+                    backgroundColor={active === i + 1 && 'primary.50'}
+                    borderRadius="0px 0px 15px 15px">
+                    {orange || 0}
+                  </Flex>
+                </td>
+              ))}
+              <td align="center" style={{ borderLeft: '1px solid #728098', padding: 0 }}>
+                <Flex
+                  height={7}
+                  fontSize="sm"
+                  align="center"
+                  justify="center"
+                  color={orangeScore > blueScore ? 'win' : 'loss'}
+                  fontWeight={orangeScore > blueScore ? 'bold' : 'regular'}
+                  backgroundColor={!active && 'primary.50'}>
+                  {games.map((game) => game.orange || 0).reduce((a, b) => a + b, 0)}
+                </Flex>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <LabeledField label={toTime(date)} width="sm">
+          {toDateYear(date)}
         </LabeledField>
       </Flex>
     </Stack>
@@ -66,7 +168,7 @@ export const Navigation = ({ baseHref, games, active }) => {
           Overview
         </ButtonLink>
         {games.map((game, i) => (
-          <ButtonLink key={i + 1} href={`${baseHref}/${game}`} isActive={active === i + 1}>
+          <ButtonLink key={i + 1} href={`${baseHref}/${game._id}`} isActive={active === i + 1}>
             {`Game ${i + 1}`}
           </ButtonLink>
         ))}
@@ -78,7 +180,7 @@ export const Navigation = ({ baseHref, games, active }) => {
 
 export const Scoreboard = ({ game }) => (
   <Stack width="full" spacing={6}>
-  {/* <Stack direction="row">
+    {/* <Stack direction="row">
     <LabeledField label="map">{game.map}</LabeledField>
     <LabeledField label="duration">{toMinuteSeconds(game.duration)}</LabeledField>
   </Stack> */}

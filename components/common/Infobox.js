@@ -39,7 +39,7 @@ export const EventInfobox = ({ event }) => {
       </LabeledField>
       <LabeledField label="tier">{tier}</LabeledField>
       <LabeledField label="mode">{`${mode}v${mode}`}</LabeledField>
-      <LabeledField label="prize">{formatPrize(prize)}</LabeledField>
+      <LabeledField label="prize">{prize ? formatPrize(prize) : '-'}</LabeledField>
     </Infobox>
   )
 }

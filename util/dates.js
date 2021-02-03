@@ -16,4 +16,6 @@ export const toDate = (date) => moment(date).format('MMM Do')
 
 export const toDateYear = (date) => moment(date).format('MMM Do, YYYY')
 
+export const toTime = (date) => moment(date).format('h:mm A')
+
 export const toDateYearTime = (date) => moment(date).format('MMM Do, YYYY h:mm A')
