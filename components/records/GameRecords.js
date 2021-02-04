@@ -59,8 +59,10 @@ const GameRecordsRow = ({ record, rank, isHighlighted }) => {
   const { match, date, duration, stat } = record
   const { event, stage } = match
 
-  const winner = record.blue.score > record.orange.score ? record.blue.team : record.orange.team
-  const loser = record.blue.score > record.orange.score ? record.orange.team : record.blue.team
+  const winner =
+    record.blue.score > record.orange.score ? record.blue.team.team : record.orange.team.team
+  const loser =
+    record.blue.score > record.orange.score ? record.orange.team.team : record.blue.team.team
 
   const momentDate = moment(date)
   const isLastWeek = momentDate.isAfter(moment().subtract(7, 'day'))

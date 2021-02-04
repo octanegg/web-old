@@ -1,12 +1,11 @@
-import { Flex } from '@chakra-ui/core'
 import { Content } from '@octane/components/common/Layout'
-import { Infobox, Navigation } from '@octane/components/match/Match'
+import { Infobox, Navigation, Scoreboard } from '@octane/components/match/Match'
 
 const Match = ({ match }) => (
   <Content>
     <Infobox match={match} />
     <Navigation baseHref={`/matches/${match._id}`} games={match.games} />
-    <Flex>{JSON.stringify(match)}</Flex>
+    <Scoreboard blue={match.blue} orange={match.orange}/>
   </Content>
 )
 

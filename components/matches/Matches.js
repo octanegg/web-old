@@ -156,11 +156,11 @@ const Score = ({ left, right }) => {
 const Team = ({ side, isReversed }) =>
   side ? (
     <Flex direction={isReversed ? 'row-reverse' : 'row'} width="full" justify="flex-end">
-      <Link href={`/teams/${side.team._id}`} align={isReversed && 'end'}>
-        {side.team.name}
+      <Link href={`/teams/${side.team.team._id}`} align={isReversed && 'end'}>
+        {side.team.team.name}
       </Link>
       <Flex minWidth={6} marginLeft={4} marginRight={4}>
-        <Image height={6} src={`https://octane.gg/team-logos/${side.team.name}.png`} />
+        <Image height={6} src={`https://octane.gg/team-logos/${side.team.team.name}.png`} />
       </Flex>
     </Flex>
   ) : (

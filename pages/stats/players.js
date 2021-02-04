@@ -16,6 +16,7 @@ import {
 } from '@octane/components/filters/Filters'
 import { buildQuery, route } from '@octane/util/routes'
 import Navigation from '@octane/components/common/Navigation'
+import moment from 'moment'
 
 const Stats = ({ initialFilter }) => {
   const router = useRouter()
@@ -74,14 +75,19 @@ export async function getServerSideProps({ query }) {
         mode: query.mode || 3,
         tier: query.tier || '',
         region: query.region || '',
-        before: query.before || '',
-        after: query.after || '',
-        minGames: query.minGames || (Object.keys(query).length <= 1 ? 100 : ''),
+        minGames: query.minGames || (Object.keys(query).length <= 1 ? 50 : ''),
         nationality: query.nationality || '',
         bestOf: query.bestOf || '',
         group: query.group || '',
         winner: query.winner || '',
         qualifier: query.qualifier || '',
+        before:
+          query.before || (Object.keys(query).length <= 1 ? moment().format('YYYY-MM-DD') : ''),
+        after:
+          query.after ||
+          (Object.keys(query).length <= 1
+            ? moment().subtract(3, 'month').format('YYYY-MM-DD')
+            : ''),
       },
     },
   }
