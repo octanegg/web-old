@@ -73,13 +73,11 @@ export const EventsTable = ({ filter, isOngoing }) => {
 }
 
 const EventRow = ({ event }) => {
-  const { _id, region, tier, mode, prize, name, startDate, endDate, stages } = event
+  const { _id, region, tier, mode, prize, name, startDate, endDate, stages, image } = event
 
   const [stagesVisible, setStagesVisible] = useState(false)
 
   const _region = getRegion(region)
-  const image =
-    'https://octane.gg/event-logos/rlcs-x-north-america-fall-regional-one-swiss-stage-two.png'
 
   return (
     <>

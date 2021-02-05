@@ -11,7 +11,8 @@ const Infobox = ({ title, image, children }) => (
     justify="space-between"
     paddingLeft={4}
     paddingRight={4}
-    marginBottom={2}>
+    marginBottom={2}
+    height={32}>
     <Flex direction="column" width="full" justify="space-around">
       <Text fontWeight="bold" fontSize="2xl" color="secondary.800">
         {title}
@@ -20,14 +21,12 @@ const Infobox = ({ title, image, children }) => (
         {children}
       </Stack>
     </Flex>
-    <Image src={image} />
+    <Flex>{image && <Image src={image} />}</Flex>
   </Flex>
 )
 
 export const EventInfobox = ({ event }) => {
-  const { name, startDate, endDate, region, tier, mode, prize } = event
-  const image =
-    'https://octane.gg/event-logos/rlcs-x-north-america-fall-regional-one-swiss-stage-two.png'
+  const { name, startDate, endDate, region, tier, mode, prize, image } = event
 
   return (
     <Infobox title={name} image={image}>
@@ -46,11 +45,9 @@ export const EventInfobox = ({ event }) => {
 
 export const PlayerInfobox = ({ player }) => {
   const { tag, name, country } = player
-  const image =
-    'https://octane.gg/event-logos/rlcs-x-north-america-fall-regional-one-swiss-stage-two.png'
 
   return (
-    <Infobox title={tag} image={image}>
+    <Infobox title={tag}>
       <LabeledField label="name" width={40}>
         {name || '-'}
       </LabeledField>
@@ -63,8 +60,6 @@ export const PlayerInfobox = ({ player }) => {
 
 export const TeamInfobox = ({ team }) => {
   const { name } = team
-  const image =
-    'https://octane.gg/event-logos/rlcs-x-north-america-fall-regional-one-swiss-stage-two.png'
 
-  return <Infobox title={name} image={image} />
+  return <Infobox title={name} />
 }

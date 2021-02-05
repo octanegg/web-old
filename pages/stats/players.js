@@ -35,7 +35,7 @@ const Stats = ({ initialFilter }) => {
 
   return (
     <Content>
-      <Navigation type="stats" active="players" isOpen={true}>
+      <Navigation type="stats" active="players" isOpen>
         <GroupFilter active={filter.group} onChange={(item) => updateFilter('group', item)} />
         <TierFilter active={filter.tier} onChange={(item) => updateFilter('tier', item)} />
         <RegionFilter active={filter.region} onChange={(item) => updateFilter('region', item)} />

@@ -121,17 +121,14 @@ const SeriesRecordsRow = ({ record, rank, statField, isHighlighted }) => {
             <Flex minWidth={8} marginRight={2} marginLeft={2}>
               <Image height={6} src={`https://octane.gg/team-logos/${loser.name}.png`} />
             </Flex>
-            <Link href={`/series/${loser._id}`}>{loser.name}</Link>
+            <Link href={`/teams/${loser._id}`}>{loser.name}</Link>
           </Flex>
         </Flex>
       </Cell>
       <Cell>
         <Flex align="center" width="sm">
           <Flex minWidth={8} marginRight={2} marginLeft={2}>
-            <Image
-              height={6}
-              src="https://octane.gg/event-logos/rlcs-x-north-america-fall-regional-one-swiss-stage-two.png"
-            />
+            <Image height={6} src={event.image} />
           </Flex>
           <LabeledText
             width="md"

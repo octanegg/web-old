@@ -5,7 +5,13 @@ const Match = ({ match, game }) => (
   <Content>
     <Infobox match={match} active={game.number} />
     <Navigation baseHref={`/matches/${match._id}`} games={match.games} active={game.number} />
-    <Scoreboard blue={game.blue} orange={game.orange} map={game.map} duration={game.duration} showMvp />
+    <Scoreboard
+      blue={game.blue}
+      orange={game.orange}
+      map={game.map}
+      duration={game.duration}
+      showMvp
+    />
   </Content>
 )
 

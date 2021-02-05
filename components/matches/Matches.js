@@ -76,9 +76,8 @@ export const Matches = ({ filter, onPaginate }) => {
 const MatchRow = ({ match, team, player }) => {
   const { _id, blue, orange, event, stage, date } = match
 
-  const isBlue = blue?.team?._id === team || blue?.players?.find((p) => p._id === player)
-  const image =
-    'https://octane.gg/event-logos/rlcs-x-north-america-fall-regional-one-swiss-stage-two.png'
+  const isBlue =
+    blue?.team?.team?._id === team || blue?.players?.find((p) => p.player._id === player)
 
   const left = isBlue ? blue : orange
   const right = isBlue ? orange : blue
@@ -96,7 +95,7 @@ const MatchRow = ({ match, team, player }) => {
           shadow={border}>
           <Flex width="sm" align="center">
             <Flex minWidth={8} marginRight={2} marginLeft={2}>
-              {image && <Image height={6} src={image} />}
+              {event.image && <Image height={6} src={event.image} />}
             </Flex>
             <LabeledText
               justify="flex-start"

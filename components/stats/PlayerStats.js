@@ -140,7 +140,9 @@ const StatsRow = ({ stat, sort, groupBy }) => {
         {groupBy === 'events' && (
           <Flex align="center" justify="flex-start" fontSize="sm">
             <Flex minWidth={10} justify="center">
-              <Image src="https://octane.gg/event-icons/rlcs-x-north-america-fall-regional-one-swiss-stage-two.png" />
+              <Flex minWidth={8} marginRight={2} marginLeft={2}>
+                {event.image && <Image height={6} src={event.image} />}
+              </Flex>
             </Flex>
             <LabeledText
               label={

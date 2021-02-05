@@ -153,7 +153,7 @@ export const DropdownCheckbox = ({ items, active, label, itemToLabel, itemToId, 
       setCheckboxes(
         items.map((item) => ({
           ...item,
-          checked: active == item || (Array.isArray(active) && active.includes(item.id)),
+          checked: active === item || (Array.isArray(active) && active.includes(item.id)),
         }))
       )
     }
