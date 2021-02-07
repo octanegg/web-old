@@ -1,28 +1,26 @@
-import { useAuth0 } from '@auth0/auth0-react'
 import { VStack, Center, Stack, Button, Spinner, Flex } from '@chakra-ui/core'
 import { useEffect, useState } from 'react'
 import Card, { SelectionCard, DropdownCard } from '@octane/components/admin/Card'
 import MatchForm from '@octane/components/admin/MatchForm'
-import { AdminOnly } from '@octane/components/common/Auth'
 import { Content } from '@octane/components/common/Layout'
+import { getServerSideAuth, isAdmin } from '@octane/util/auth'
 
 const MatchContainer = ({ event, stage }) => {
   const [pending, setPending] = useState({})
   const [matches, setMatches] = useState([])
   const [loading, setLoading] = useState(false)
-  const { getAccessTokenSilently } = useAuth0()
 
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true)
       const res = await fetch(
-        process.env.API_URL +
-          `/matches?event=${event._id}&stage=${parseInt(stage)}&sort=start_date:desc`
+        `${process.env.API_URL}/matches?event=${event._id}&stage=${parseInt(
+          stage
+        )}&sort=start_date:desc`
       )
       const matches = await res.json()
       let newMatches = []
       if (matches.matches.length > 0) {
-        const token = await getAccessTokenSilently()
         const event = matches.matches[0].octane_id.substring(0, 3)
         const allStages = matches.matches.map((m) => m.octane_id.substring(3, 5))
         const unqStages = allStages
@@ -30,11 +28,7 @@ const MatchContainer = ({ event, stage }) => {
           .sort((a, b) => a - b)
 
         for (const stage of unqStages) {
-          const res2 = await fetch(process.env.API_URL + `/deprecated/matches/${event}/${stage}`, {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          })
+          const res2 = await fetch(`${process.env.API_URL}/deprecated/matches/${event}/${stage}`)
           const resp = await res2.json()
 
           newMatches = newMatches.concat(resp)
@@ -49,11 +43,9 @@ const MatchContainer = ({ event, stage }) => {
   }, [event, stage])
 
   const updatePending = async () => {
-    const token = await getAccessTokenSilently()
-    await fetch(process.env.API_URL + '/deprecated/matches', {
+    await fetch(`${process.env.API_URL}/deprecated/matches`, {
       method: 'POST',
       headers: {
-        Authorization: `Bearer ${token}`,
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(Object.values(pending)),
@@ -69,7 +61,7 @@ const MatchContainer = ({ event, stage }) => {
     </Card>
   ) : (
     matches.length > 0 && (
-      <React.Fragment>
+      <>
         <Card>
           <Center>
             <Button
@@ -87,18 +79,18 @@ const MatchContainer = ({ event, stage }) => {
             <MatchForm match={match} enqueue={setPending} />
           </Center>
         ))}
-      </React.Fragment>
+      </>
     )
   )
 }
 
-const Matches = ({ events }) => {
+const Matches = ({ auth, events }) => {
   const [event, setEvent] = useState()
   const [stage, setStage] = useState(0)
 
   return (
-    <AdminOnly>
-      <Content>
+    <Content auth={auth}>
+      {isAdmin(auth) && (
         <VStack align="stretch" width="100%">
           <Stack justify="left" direction={['column', 'row']} width="full">
             <DropdownCard
@@ -122,16 +114,18 @@ const Matches = ({ events }) => {
             <MatchContainer event={event} stage={stage < event.stages.length ? stage : 0} />
           )}
         </VStack>
-      </Content>
-    </AdminOnly>
+      )}
+    </Content>
   )
 }
 
-export async function getServerSideProps() {
-  const res = await fetch(process.env.API_URL + '/events?sort=name:asc')
+export async function getServerSideProps({ req }) {
+  const auth = getServerSideAuth(req)
+  const res = await fetch(`${process.env.API_URL}/events?sort=name:asc`)
   const events = await res.json()
   return {
     props: {
+      auth,
       events: events.events,
     },
   }

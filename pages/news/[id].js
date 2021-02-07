@@ -3,11 +3,12 @@ import { Content } from '@octane/components/common/Layout'
 import ReactMarkdown from 'react-markdown'
 import { Flex, Image, Link, Spacer, Stack, Text } from '@chakra-ui/core'
 import NextLink from 'next/link'
+import { getServerSideAuth } from '@octane/util/auth'
 
-const News = ({ article }) => {
+const News = ({ auth, article }) => {
   const { title, authors, image, content, published_at } = article
   return (
-    <Content leftNav={<div />} rightNav={<div />}>
+    <Content auth={auth}>
       <Stack
         backgroundColor="white"
         border="main"
@@ -43,12 +44,13 @@ const News = ({ article }) => {
   )
 }
 
-export async function getServerSideProps({ params }) {
+export async function getServerSideProps({ req, params }) {
+  const auth = getServerSideAuth(req)
   const { id } = params
   const res = await fetch(`${process.env.CONTENT_URL}/articles/${id}`)
   const article = await res.json()
   return {
-    props: { article },
+    props: { auth, article },
   }
 }
 

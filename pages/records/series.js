@@ -14,8 +14,9 @@ import { buildQuery, route } from '@octane/util/routes'
 import Navigation from '@octane/components/common/Navigation'
 import { SeriesRecords } from '@octane/components/records/SeriesRecords'
 import { recordStats } from '@octane/util/constants'
+import { getServerSideAuth } from '@octane/util/auth'
 
-const Series = ({ initialFilter }) => {
+const Series = ({ auth, initialFilter }) => {
   const router = useRouter()
   const [filter, setFilter] = useState(initialFilter)
   const statLabel = recordStats.games.find((stat) => stat.id === initialFilter.stat)?.label
@@ -32,7 +33,7 @@ const Series = ({ initialFilter }) => {
   }, [filter])
 
   return (
-    <Content>
+    <Content auth={auth}>
       <Navigation type="records" active="series" isOpen>
         <RecordsStatsFilter
           active={filter.stat}
@@ -58,9 +59,11 @@ const Series = ({ initialFilter }) => {
   )
 }
 
-export async function getServerSideProps({ query }) {
+export async function getServerSideProps({ req, query }) {
+  const auth = getServerSideAuth(req)
   return {
     props: {
+      auth,
       initialFilter: {
         mode: query.mode || 3,
         tier: query.tier || '',

@@ -1,8 +1,9 @@
 import { Content } from '@octane/components/common/Layout'
 import { Infobox, Navigation, Scoreboard } from '@octane/components/match/Match'
+import { getServerSideAuth } from '@octane/util/auth'
 
-const Match = ({ match, game }) => (
-  <Content>
+const Match = ({ auth, match, game }) => (
+  <Content auth={auth}>
     <Infobox match={match} active={game.number} />
     <Navigation baseHref={`/matches/${match._id}`} games={match.games} active={game.number} />
     <Scoreboard
@@ -15,7 +16,8 @@ const Match = ({ match, game }) => (
   </Content>
 )
 
-export async function getServerSideProps({ params }) {
+export async function getServerSideProps({ req, params }) {
+  const auth = getServerSideAuth(req)
   const { id, gid } = params
   const [resMatch, resGame] = await Promise.all([
     fetch(`${process.env.API_URL}/matches/${id}`),
@@ -23,7 +25,7 @@ export async function getServerSideProps({ params }) {
   ])
   const [match, game] = await Promise.all([resMatch.json(), resGame.json()])
   return {
-    props: { match, game },
+    props: { auth, match, game },
   }
 }
 

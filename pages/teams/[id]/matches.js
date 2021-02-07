@@ -3,11 +3,12 @@ import { Content } from '@octane/components/common/Layout'
 import Navigation from '@octane/components/common/Navigation'
 import { ModeFilter, OpponentsFilter, TierFilter } from '@octane/components/filters/Filters'
 import Matches from '@octane/components/matches/Matches'
+import { getServerSideAuth } from '@octane/util/auth'
 import { buildQuery, route } from '@octane/util/routes'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 
-const Team = ({ team, initialFilter }) => {
+const Team = ({ auth, team, initialFilter }) => {
   const router = useRouter()
   const [filter, setFilter] = useState(initialFilter)
 
@@ -23,7 +24,7 @@ const Team = ({ team, initialFilter }) => {
   }
 
   return (
-    <Content>
+    <Content auth={auth}>
       <TeamInfobox team={team} />
       <Navigation
         type="team"
@@ -44,12 +45,14 @@ const Team = ({ team, initialFilter }) => {
   )
 }
 
-export async function getServerSideProps({ params, query }) {
+export async function getServerSideProps({ req, params, query }) {
+  const auth = getServerSideAuth(req)
   const { id } = params
   const res = await fetch(`${process.env.API_URL}/teams/${id}`)
   const team = await res.json()
   return {
     props: {
+      auth,
       team,
       initialFilter: {
         team: id,

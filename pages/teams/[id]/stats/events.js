@@ -13,8 +13,9 @@ import Navigation from '@octane/components/common/Navigation'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import TeamStats from '@octane/components/stats/TeamStats'
+import { getServerSideAuth } from '@octane/util/auth'
 
-const Team = ({ team, initialFilter }) => {
+const Team = ({ auth, team, initialFilter }) => {
   const router = useRouter()
   const [filter, setFilter] = useState(initialFilter)
 
@@ -32,7 +33,7 @@ const Team = ({ team, initialFilter }) => {
   const handleStatTypeChange = (type) => route(router, `/teams/${team._id}/stats/${type}`, '')
 
   return (
-    <Content>
+    <Content auth={auth}>
       <TeamInfobox team={team} />
       <Navigation
         type="team"
@@ -59,12 +60,14 @@ const Team = ({ team, initialFilter }) => {
   )
 }
 
-export async function getServerSideProps({ params, query }) {
+export async function getServerSideProps({ req, params, query }) {
+  const auth = getServerSideAuth(req)
   const { id } = params
   const res = await fetch(`${process.env.API_URL}/teams/${id}`)
   const team = await res.json()
   return {
     props: {
+      auth,
       team,
       initialFilter: {
         team: id,

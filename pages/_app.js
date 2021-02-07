@@ -2,11 +2,34 @@ import React from 'react'
 import { theme as defaultTheme, ThemeProvider, CSSReset } from '@chakra-ui/core'
 import Layout from '@octane/components/common/Layout'
 import Head from 'next/head'
-import { Auth0Provider } from '@auth0/auth0-react'
-
-// TODO: Temporary dirty date-picker
+import Amplify from '@aws-amplify/core'
+import Auth from '@aws-amplify/auth'
 import 'react-datepicker/dist/react-datepicker.css'
 import '@octane/styles/date-picker.css'
+
+Amplify.configure({
+  Auth: {
+    region: 'us-east-1',
+    userPoolId: process.env.USER_POOL_ID,
+    userPoolWebClientId: process.env.USER_POOL_CLIENT_ID,
+    cookieStorage: {
+      domain: process.env.AUTH_COOKIE_DOMAIN,
+      path: '/',
+      expires: 7,
+      secure: false,
+    },
+  },
+})
+
+Auth.configure({
+  oauth: {
+    domain: process.env.IDP_DOMAIN,
+    scope: ['email', 'openid'],
+    redirectSignIn: process.env.REDIRECT_SIGN_IN,
+    redirectSignOut: process.env.REDIRECT_SIGN_OUT,
+    responseType: 'token',
+  },
+})
 
 const theme = {
   ...defaultTheme,
@@ -82,16 +105,9 @@ const App = ({ Component, pageProps }) => (
         rel="stylesheet"
       />
     </Head>
-    <Auth0Provider
-      domain="octanegg.us.auth0.com"
-      clientId="LJoXQ3CUO1oOuxJXIe26oxgaqG457dDt"
-      redirectUri={process.env.REDIRECT_URI}
-      audience="zsr.octane.gg"
-      scope="modify:admin">
-      <Layout>
-        <Component {...pageProps} />
-      </Layout>
-    </Auth0Provider>
+    <Layout>
+      <Component {...pageProps} />
+    </Layout>
   </ThemeProvider>
 )
 

@@ -16,8 +16,9 @@ import { buildQuery, route } from '@octane/util/routes'
 import Navigation from '@octane/components/common/Navigation'
 import TeamStats from '@octane/components/stats/TeamStats'
 import moment from 'moment'
+import { getServerSideAuth } from '@octane/util/auth'
 
-const Stats = ({ initialFilter }) => {
+const Stats = ({ auth, initialFilter }) => {
   const router = useRouter()
   const [filter, setFilter] = useState(initialFilter)
 
@@ -33,7 +34,7 @@ const Stats = ({ initialFilter }) => {
   }, [filter])
 
   return (
-    <Content>
+    <Content auth={auth}>
       <Navigation
         type="stats"
         active="teams"
@@ -66,9 +67,11 @@ const Stats = ({ initialFilter }) => {
   )
 }
 
-export async function getServerSideProps({ query }) {
+export async function getServerSideProps({ req, query }) {
+  const auth = getServerSideAuth(req)
   return {
     props: {
+      auth,
       initialFilter: {
         mode: query.mode || 3,
         tier: query.tier || '',

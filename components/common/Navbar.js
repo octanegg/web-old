@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
-import { Flex, Spacer, Image, Link, Spinner } from '@chakra-ui/core'
+import { Flex, Spacer, Image, Link } from '@chakra-ui/core'
 import NextLink from 'next/link'
-import { useAuth0 } from '@auth0/auth0-react'
 import Search from '@octane/components/common/Search'
-import { AdminOnly } from './Auth'
+import { useAuthFunctions } from 'aws-cognito-next'
+import { isAdmin } from '@octane/util/auth'
 
 const NavItem = ({ href, onClick, children }) => (
   <Flex
@@ -39,25 +39,6 @@ const NavImage = ({ src, href }) => (
   </Flex>
 )
 
-const AdminNav = () => (
-  <AdminOnly>
-    <NavItem href="/admin/events">Admin</NavItem>
-  </AdminOnly>
-)
-
-const AuthNav = ({ isAuthenticated }) => {
-  const { isLoading, loginWithRedirect, logout } = useAuth0()
-  return isLoading ? (
-    <NavItem leftBorder rightBorder>
-      <Spinner size="sm" />
-    </NavItem>
-  ) : isAuthenticated ? (
-    <NavItem onClick={() => logout({ returnTo: window.location.origin })}>Log Out</NavItem>
-  ) : (
-    <NavItem onClick={() => loginWithRedirect()}>Log In</NavItem>
-  )
-}
-
 const HamburgerNav = ({ onClick }) => (
   <Flex display={{ base: 'block', md: 'none' }} padding={4} onClick={onClick}>
     <svg fill="white" width="20px" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
@@ -67,11 +48,10 @@ const HamburgerNav = ({ onClick }) => (
   </Flex>
 )
 
-const Navbar = () => {
+const Navbar = ({ auth }) => {
   const [showMenu, setShowMenu] = useState(false)
-  const { isAuthenticated } = useAuth0()
-
   const toggleMenu = () => setShowMenu(!showMenu)
+  const { login, logout } = useAuthFunctions()
 
   return (
     <Flex width="full" backgroundColor="secondary.800" justify="center" color="whitesmoke">
@@ -106,8 +86,12 @@ const Navbar = () => {
           </NavItem>
           <Search />
           <Spacer display={{ base: 'none', md: 'block' }} />
-          <AdminNav />
-          <AuthNav isAuthenticated={isAuthenticated} />
+          {isAdmin(auth) && <NavItem href="/admin/events">Admin</NavItem>}
+          {auth ? (
+            <NavItem onClick={() => logout()}>Logout</NavItem>
+          ) : (
+            <NavItem onClick={() => login()}>Log In</NavItem>
+          )}
         </Flex>
       </Flex>
     </Flex>

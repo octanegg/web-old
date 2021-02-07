@@ -15,8 +15,9 @@ import { buildQuery, route } from '@octane/util/routes'
 import Navigation from '@octane/components/common/Navigation'
 import { TeamRecords } from '@octane/components/records/TeamRecords'
 import { TeamInfobox } from '@octane/components/common/Infobox'
+import { getServerSideAuth } from '@octane/util/auth'
 
-const Team = ({ team, initialFilter }) => {
+const Team = ({ auth, team, initialFilter }) => {
   const router = useRouter()
   const [filter, setFilter] = useState(initialFilter)
 
@@ -32,7 +33,7 @@ const Team = ({ team, initialFilter }) => {
   }, [filter])
 
   return (
-    <Content>
+    <Content auth={auth}>
       <TeamInfobox team={team} />
       <Navigation type="team" active="records" baseHref={`/teams/${team._id}`} isOpen hasDivider>
         <RecordsTypeFilter active={filter.type} onChange={(item) => updateFilter('type', item)} />
@@ -60,12 +61,14 @@ const Team = ({ team, initialFilter }) => {
   )
 }
 
-export async function getServerSideProps({ params, query }) {
+export async function getServerSideProps({ req, params, query }) {
+  const auth = getServerSideAuth(req)
   const { id } = params
   const res = await fetch(`${process.env.API_URL}/teams/${id}`)
   const team = await res.json()
   return {
     props: {
+      auth,
       team,
       initialFilter: {
         team: team._id,

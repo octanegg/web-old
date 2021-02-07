@@ -11,8 +11,9 @@ import {
 } from '@octane/components/filters/Filters'
 import { buildQuery, route } from '@octane/util/routes'
 import Navigation from '@octane/components/common/Navigation'
+import { getServerSideAuth } from '@octane/util/auth'
 
-const MatchesPage = ({ initialFilter }) => {
+const MatchesPage = ({ auth, initialFilter }) => {
   const router = useRouter()
   const [filter, setFilter] = useState(initialFilter)
 
@@ -28,7 +29,7 @@ const MatchesPage = ({ initialFilter }) => {
   }, [filter])
 
   return (
-    <Content>
+    <Content auth={auth}>
       <Navigation
         type="matches"
         active="ongoing"
@@ -43,9 +44,11 @@ const MatchesPage = ({ initialFilter }) => {
   )
 }
 
-export async function getServerSideProps({ query }) {
+export async function getServerSideProps({ req, query }) {
+  const auth = getServerSideAuth(req)
   return {
     props: {
+      auth,
       initialFilter: {
         mode: query.mode || 3,
         tier: query.tier || '',

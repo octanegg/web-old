@@ -1,4 +1,3 @@
-import { useAuth0 } from '@auth0/auth0-react'
 import { Box, Stack, Tab, TabList, TabPanel, TabPanels, Tabs } from '@chakra-ui/core'
 import { useEffect, useState } from 'react'
 import GameForm from './GameForm'
@@ -6,19 +5,11 @@ import GameForm from './GameForm'
 export const GamesContainer = ({ match, date, handleChange }) => {
   const [games, setGames] = useState([])
   const [selectedTab, setSelectedTab] = useState(0)
-  const { getAccessTokenSilently } = useAuth0()
 
   useEffect(() => {
     const fetchData = async () => {
-      const token = await getAccessTokenSilently()
       const res = await fetch(
-        process.env.API_URL +
-          `/deprecated/games/${match.octane_id}/${match.blue.name}/${match.orange.name}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
+        `${process.env.API_URL}/deprecated/games/${match.octane_id}/${match.blue.name}/${match.orange.name}`
       )
       if (res.status === 200) {
         const data = await res.json()
@@ -37,13 +28,7 @@ export const GamesContainer = ({ match, date, handleChange }) => {
     game.octane_id = match.octane_id
     game.blue.name = match.blue.name
     game.orange.name = match.orange.name
-    setGames((prev) =>
-      prev
-        ? prev.concat([game]).sort((a, b) => {
-            return a.number - b.number
-          })
-        : [game]
-    )
+    setGames((prev) => (prev ? prev.concat([game]).sort((a, b) => a.number - b.number) : [game]))
     setSelectedTab(games ? games.length : 0)
 
     if (isNew) {
@@ -55,11 +40,9 @@ export const GamesContainer = ({ match, date, handleChange }) => {
         : handleChange('orange_score', match.orange.score + 1)
     }
 
-    const token = await getAccessTokenSilently()
-    await fetch(process.env.API_URL + '/deprecated/games', {
+    await fetch(`${process.env.API_URL}/deprecated/games`, {
       method: 'PUT',
       headers: {
-        Authorization: `Bearer ${token}`,
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(game),
@@ -68,11 +51,9 @@ export const GamesContainer = ({ match, date, handleChange }) => {
 
   const deleteGame = async (game) => {
     setGames(games.filter((g) => g.number !== game.number))
-    const token = await getAccessTokenSilently()
-    await fetch(process.env.API_URL + '/deprecated/games', {
+    await fetch(`${process.env.API_URL}/deprecated/games`, {
       method: 'DELETE',
       headers: {
-        Authorization: `Bearer ${token}`,
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
@@ -86,7 +67,7 @@ export const GamesContainer = ({ match, date, handleChange }) => {
     <Stack direction="row" justify="space-between">
       <Tabs variant="soft-rounded" width={3 / 4} defaultIndex={selectedTab}>
         <TabList>
-          {games && games.map((game) => <Tab key={game.number}>Game {game.number}</Tab>)}
+          {games && games.map((game) => <Tab key={game.number}>{`Game ${game.number}`}</Tab>)}
           <Tab>
             <Box>+ New</Box>
           </Tab>

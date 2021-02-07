@@ -16,8 +16,9 @@ import { buildQuery, route } from '@octane/util/routes'
 import Navigation from '@octane/components/common/Navigation'
 import { PlayerRecords } from '@octane/components/records/PlayerRecords'
 import { PlayerInfobox } from '@octane/components/common/Infobox'
+import { getServerSideAuth } from '@octane/util/auth'
 
-const Player = ({ player, initialFilter }) => {
+const Player = ({ auth, player, initialFilter }) => {
   const router = useRouter()
   const [filter, setFilter] = useState(initialFilter)
 
@@ -33,7 +34,7 @@ const Player = ({ player, initialFilter }) => {
   }, [filter])
 
   return (
-    <Content>
+    <Content auth={auth}>
       <PlayerInfobox player={player} />
       <Navigation
         type="player"
@@ -68,12 +69,14 @@ const Player = ({ player, initialFilter }) => {
   )
 }
 
-export async function getServerSideProps({ params, query }) {
+export async function getServerSideProps({ req, params, query }) {
+  const auth = getServerSideAuth(req)
   const { id } = params
   const res = await fetch(`${process.env.API_URL}/players/${id}`)
   const player = await res.json()
   return {
     props: {
+      auth,
       player,
       initialFilter: {
         player: player._id,

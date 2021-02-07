@@ -1,6 +1,7 @@
 import { Content } from '@octane/components/common/Layout'
 import MemberInfo from '@octane/components/about/MemberInfo'
 import { Stack } from '@chakra-ui/core'
+import { getServerSideAuth } from '@octane/util/auth'
 
 const staff = [
   {
@@ -13,8 +14,8 @@ const staff = [
   },
 ]
 
-const AboutUs = () => (
-  <Content>
+const AboutUs = ({ auth }) => (
+  <Content auth={auth}>
     <Stack direction="row" spacing={0} flexWrap="wrap" justify="space-around">
       {[0, 1, 2, 3, 4].map(() => (
         <MemberInfo info={staff[0]} />
@@ -22,5 +23,12 @@ const AboutUs = () => (
     </Stack>
   </Content>
 )
+
+export async function getServerSideProps({ req }) {
+  const auth = getServerSideAuth(req)
+  return {
+    props: { auth },
+  }
+}
 
 export default AboutUs
