@@ -89,7 +89,7 @@ const PlayerRecordsRow = ({ record, rank, isHighlighted }) => {
       <Cell>
         <Flex align="center" width={48}>
           <Flex minWidth={8} marginRight={1} marginLeft={1}>
-            <Image height={6} src={`https://octane.gg/team-logos/${team.name}.png`} />
+            {team.image && <Image width={6} src={team.image} />}
           </Flex>
           <LabeledText
             justify="flex-start"
@@ -131,7 +131,7 @@ const PlayerRecordsRow = ({ record, rank, isHighlighted }) => {
           </Text>
           <Flex align="center" width={56}>
             <Flex minWidth={8} marginRight={2} marginLeft={2}>
-              <Image height={6} src={`https://octane.gg/team-logos/${opponent.name}.png`} />
+              {opponent.image && <Image width={6} src={opponent.image} />}
             </Flex>
             <Link href={`/teams/${opponent._id}`}>{opponent.name}</Link>
           </Flex>

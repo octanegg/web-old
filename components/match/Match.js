@@ -24,7 +24,7 @@ export const Infobox = ({ match, active }) => {
               {blue.team.team.name}
             </Link>
             <Flex minWidth={24} marginLeft={4} marginRight={4}>
-              <Image width={24} src={`https://octane.gg/team-logos/${blue.team.team.name}.png`} />
+              {blue.team.team.image && <Image width={24} src={blue.team.team.image} />}
             </Flex>
           </Flex>
         ) : (
@@ -48,7 +48,7 @@ export const Infobox = ({ match, active }) => {
         {orange ? (
           <Flex justify="flex-start" width="full" align="center">
             <Flex minWidth={24} marginLeft={4} marginRight={4}>
-              <Image width={24} src={`https://octane.gg/team-logos/${orange.team.team.name}.png`} />
+              {orange.team.team.image && <Image width={24} src={orange.team.team.image} />}
             </Flex>
             <Link fontSize="2xl" align="start" href={`/teams/${orange.team._id}`}>
               {orange.team.team.name}
@@ -116,10 +116,7 @@ export const Infobox = ({ match, active }) => {
             <tbody>
               <tr>
                 <td align="center">
-                  <Image
-                    width={6}
-                    src={`https://octane.gg/team-logos/${blue.team.team.name}.png`}
-                  />
+                  {blue.team.team.image && <Image width={6} src={blue.team.team.image} />}
                 </td>
                 {games.map((game, i) => (
                   <td align="center" style={{ padding: 0 }}>
@@ -150,10 +147,7 @@ export const Infobox = ({ match, active }) => {
               </tr>
               <tr>
                 <td align="center">
-                  <Image
-                    width={6}
-                    src={`https://octane.gg/team-logos/${orange.team.team.name}.png`}
-                  />
+                  {orange.team.team.image && <Image width={6} src={orange.team.team.image} />}
                 </td>
                 {games.map((game, i) => (
                   <td align="center" style={{ padding: 0 }}>
@@ -266,10 +260,7 @@ const ScoreboardTable = ({ side, showMvp }) => (
         <td>
           <Stack paddingLeft={2} direction="row" align="center">
             <Flex minWidth={5} justify="center">
-              <Image
-                height={5}
-                src={`https://www.octane.gg/team-logos/${side.team.team.name}.png`}
-              />
+              {side.team.team.image && <Image width={6} src={side.team.team.image} />}
             </Flex>
             <Link href={`/teams/${side.team.team._id}`}>{side.team.team.name}</Link>
           </Stack>

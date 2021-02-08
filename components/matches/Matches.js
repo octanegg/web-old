@@ -159,7 +159,7 @@ const Team = ({ side, isReversed }) =>
         {side.team.team.name}
       </Link>
       <Flex minWidth={6} marginLeft={4} marginRight={4}>
-        <Image height={6} src={`https://octane.gg/team-logos/${side.team.team.name}.png`} />
+        {side.team.team.image && <Image width={6} src={side.team.team.image} />}
       </Flex>
     </Flex>
   ) : (
