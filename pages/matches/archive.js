@@ -8,6 +8,8 @@ import {
   ModeFilter,
   RegionFilter,
   TierFilter,
+  SeriesFilter,
+  ReverseSweepsFilter,
 } from '@octane/components/filters/Filters'
 import { buildQuery, route } from '@octane/util/routes'
 import Navigation from '@octane/components/common/Navigation'
@@ -42,6 +44,15 @@ const MatchesPage = ({ auth, initialFilter }) => {
         <TierFilter active={filter.tier} onChange={(item) => updateFilter('tier', item)} />
         <RegionFilter active={filter.region} onChange={(item) => updateFilter('region', item)} />
         <ModeFilter active={filter.mode} onChange={(item) => updateFilter('mode', item)} />
+        <SeriesFilter active={filter.bestOf} onChange={(item) => updateFilter('bestOf', item)} />
+        <ReverseSweepsFilter
+          reverseSweep={filter.reverseSweep}
+          reverseSweepAttempt={filter.reverseSweepAttempt}
+          onChange={(reverseSweep, reverseSweepAttempt) => {
+            updateFilter('reverseSweep', reverseSweep)
+            updateFilter('reverseSweepAttempt', reverseSweepAttempt)
+          }}
+        />
       </Navigation>
       <Matches filter={filter} onPaginate={(page) => updateFilter('page', page)} />
     </Content>
@@ -60,6 +71,9 @@ export async function getServerSideProps({ req, query }) {
         group: query.group || '',
         before: moment().toISOString(),
         page: query.page || 1,
+        bestOf: query.bestOf || '',
+        reverseSweep: query.reverseSweep || '',
+        reverseSweepAttempt: query.reverseSweepAttempt || '',
         perPage: 50,
         sort: 'date:desc',
       },

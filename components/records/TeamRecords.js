@@ -98,26 +98,28 @@ const TeamRecordsRow = ({ record, rank, isHighlighted }) => {
       </Cell>
       <Cell>
         <Flex align="center">
-          <LabeledText
-            width={24}
-            label={
-              <Text fontWeight="regular" fontStyle="italic" fontSize="xs" align="start">
-                {momentDate.format('MMM Do, YYYY')}
-              </Text>
-            }>
-            <Flex>
-              {winner ? (
-                <Text fontWeight="bold" fontSize="xs" color="win">
-                  W
+          <Link href={`/matches/${match._id}`} noStyle>
+            <LabeledText
+              width={24}
+              label={
+                <Text fontWeight="regular" fontStyle="italic" fontSize="xs" align="start">
+                  {momentDate.format('MMM Do, YYYY')}
                 </Text>
-              ) : (
-                <Text fontWeight="bold" fontSize="xs" color="loss">
-                  L
-                </Text>
-              )}
-              {duration && <Text fontSize="xs">{` - ${toMinuteSeconds(duration)}`}</Text>}
-            </Flex>
-          </LabeledText>
+              }>
+              <Flex>
+                {winner ? (
+                  <Text fontWeight="bold" fontSize="xs" color="win">
+                    W
+                  </Text>
+                ) : (
+                  <Text fontWeight="bold" fontSize="xs" color="loss">
+                    L
+                  </Text>
+                )}
+                {duration && <Text fontSize="xs">{` - ${toMinuteSeconds(duration)}`}</Text>}
+              </Flex>
+            </LabeledText>
+          </Link>
           <Text fontSize="xs" width={8}>
             vs
           </Text>

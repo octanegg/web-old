@@ -14,20 +14,27 @@ export const Heading = ({ children }) => (
   </Flex>
 )
 
-export const Link = ({ href, align, fontSize, children }) => (
-  <NextLink passHref href={href}>
-    <ChakraLink
-      fontSize={fontSize || 'sm'}
-      fontWeight="bold"
-      color="secondary.800"
-      cursor="pointer"
-      align={align || 'start'}
-      _hover={{ color: 'primary.500' }}
-      _focus={{ outline: 'none' }}>
-      {children}
-    </ChakraLink>
-  </NextLink>
-)
+export const Link = ({ href, align, fontSize, noStyle, children }) => {
+  const props = !noStyle
+    ? {
+        fontSize: fontSize || 'sm',
+        fontWeight: 'bold',
+        color: 'secondary.800',
+        cursor: 'pointer',
+        align: align || 'start',
+        _hover: { color: 'primary.500' },
+        _focus: { outline: 'none' },
+      }
+    : {
+        _hover: {},
+        _focus: { outline: 'none' },
+      }
+  return (
+    <NextLink passHref href={href}>
+      <ChakraLink {...props}>{children}</ChakraLink>
+    </NextLink>
+  )
+}
 
 export const LabeledText = (props) => {
   const { children, label } = props

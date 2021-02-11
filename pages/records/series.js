@@ -9,6 +9,7 @@ import {
   RecordsStatsFilter,
   SeriesFilter,
   GroupFilter,
+  QualifierFilter,
 } from '@octane/components/filters/Filters'
 import { buildQuery, route } from '@octane/util/routes'
 import Navigation from '@octane/components/common/Navigation'
@@ -53,6 +54,10 @@ const Series = ({ auth, initialFilter }) => {
           }}
         />
         <SeriesFilter active={filter.bestOf} onChange={(item) => updateFilter('bestOf', item)} />
+        <QualifierFilter
+          active={filter.qualifier}
+          onChange={(item) => updateFilter('qualifier', item)}
+        />
       </Navigation>
       <SeriesRecords filter={filter} label={statLabel} isHighlighted />
     </Content>
@@ -73,6 +78,7 @@ export async function getServerSideProps({ req, query }) {
         group: query.group || '',
         stat: query.stat || 'scoreTotal',
         bestOf: query.bestOf || '',
+        qualifier: query.qualifier || '',
       },
     },
   }

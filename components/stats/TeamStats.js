@@ -1,4 +1,4 @@
-import { Flex, Image, Text } from '@chakra-ui/core'
+import { Flex, Stack, Image, Text } from '@chakra-ui/core'
 import { useEffect, useState } from 'react'
 import { Table, Header, HeaderItem, Body, Row, Cell } from '@octane/components/common/Table'
 import { ChevronDownIcon, ChevronUpIcon, UpDownIcon } from '@chakra-ui/icons'
@@ -143,20 +143,20 @@ const StatsRow = ({ stat, sort, groupBy }) => {
           </Flex>
         )}
         {groupBy === 'opponents' && (
-          <Flex align="center" justify="flex-start" fontSize="sm">
-            <Flex minWidth={10} justify="center">
-              <Image src={`https://www.octane.gg/team-icons/${opponent.name}.png`} />
+          <Stack direction="row" align="center" fontSize="sm" marginLeft={2}>
+            <Flex width={6} justify="center">
+              {opponent.image && <Image src={opponent.image} />}
             </Flex>
             <Link href={`/teams/${opponent._id}`}>{opponent.name}</Link>
-          </Flex>
+          </Stack>
         )}
         {!groupBy && (
-          <Flex align="center" justify="flex-start" fontSize="sm">
-            <Flex minWidth={10} justify="center">
-              <Image src={`https://www.octane.gg/team-icons/${team.name}.png`} />
+          <Stack direction="row" align="center" fontSize="sm" marginLeft={2}>
+            <Flex width={6} justify="center">
+              {team.image && <Image src={team.image} />}
             </Flex>
             <Link href={`/teams/${team._id}`}>{team.name}</Link>
-          </Flex>
+          </Stack>
         )}
       </Cell>
       {fields.map(({ id, round, percentage }) => {

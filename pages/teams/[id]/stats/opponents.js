@@ -67,6 +67,7 @@ export async function getServerSideProps({ req, params, query }) {
   const team = await res.json()
   return {
     props: {
+      auth,
       team,
       initialFilter: {
         auth,

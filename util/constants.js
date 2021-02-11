@@ -7,11 +7,29 @@ export const statCategories = ['players', 'teams']
 export const playerStatsTypes = ['teams', 'opponents', 'events']
 export const teamStatsTypes = ['players', 'opponents', 'events']
 export const groups = [
-  { id: 'rlcs', label: 'RLCS' },
-  { id: 'rlcsx', label: 'RLCS X' },
-  { id: 'rlcsxfall', label: '- RLCS X Fall' },
-  { id: 'rlcsxwinter', label: '- RLCS X Winter' },
-  { id: 'grid', label: 'RLCS X The Grid' },
+  {
+    id: 'rlcs',
+    label: 'RLCS',
+    groups: [
+      {
+        id: 'rlcs19',
+        label: 'RLCS Seasons 1-9',
+        groups: [
+          { id: 'rlcs19lp', label: 'Regionals' },
+          { id: 'rlcs19worlds', label: 'Worlds' },
+        ],
+      },
+      {
+        id: 'rlcsx',
+        label: 'RLCS X',
+        groups: [
+          { id: 'rlcsxfall', label: 'Fall' },
+          { id: 'rlcsxwinter', label: 'Winter' },
+          { id: 'grid', label: 'The Grid' },
+        ],
+      },
+    ],
+  },
 ]
 export const recordCategories = ['players', 'teams', 'games', 'series']
 export const recordTypes = ['game', 'series']

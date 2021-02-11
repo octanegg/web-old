@@ -1,4 +1,4 @@
-import { Flex, Image, Text } from '@chakra-ui/core'
+import { Flex, Image, Stack, Text } from '@chakra-ui/core'
 import { toDateString } from '@octane/util/dates'
 import DropdownList, { DropdownCheckbox, DropdownDate } from '@octane/components/common/Dropdown'
 import {
@@ -35,7 +35,7 @@ export const TierFilter = ({ active, onChange }) => (
 
 export const RegionFilter = ({ active, onChange }) => (
   <DropdownList
-    label={regions.find((region) => region.id === active)?.label || 'Region'}
+    label={regions.find((region) => region.id === active)?.name || 'Region'}
     items={regions}
     itemToLabel={(region) => (
       <Flex justify="flex-start" align="center">
@@ -169,14 +169,7 @@ export const PlayerStatsTypeFilter = ({ active, onChange }) => (
 )
 
 export const GroupFilter = ({ active, onChange }) => (
-  <DropdownCheckbox
-    label="Event"
-    items={groups}
-    defaultActive={Array.isArray(active) ? active : [active]}
-    itemToLabel={(item) => item.label}
-    itemToId={(item) => item.id}
-    onChange={onChange}
-  />
+  <DropdownCheckbox label="Event" items={groups} active={active} onChange={onChange} />
 )
 
 export const QualifierFilter = ({ active, onChange }) => (
@@ -204,6 +197,17 @@ export const TeamStatsTypeFilter = ({ active, onChange }) => (
     onChange={onChange}
   />
 )
+
+export const ReverseSweepsFilter = ({ reverseSweep, reverseSweepAttempt, onChange }) => {
+  const items = ['All Matches', 'Reverse Sweeps', 'Reverse Sweep Attempts']
+  return (
+    <DropdownList
+      label={reverseSweep ? items[1] : reverseSweepAttempt ? items[2] : items[0]}
+      items={items}
+      onChange={(item) => onChange(item === items[1] || '', item === items[2] || '')}
+    />
+  )
+}
 
 export const TeamsFilter = ({ player, active, onChange }) => {
   const [teams, setTeams] = useState([])
@@ -234,12 +238,12 @@ export const TeamsFilter = ({ player, active, onChange }) => {
         team === 'All' ? (
           'All Teams'
         ) : (
-          <Flex justify="flex-start" align="center">
-            <Flex minWidth={10} justify="center">
-              <Image src={`https://www.octane.gg/team-icons/${team.name}.png`} />
+          <Stack direction="row" align="center">
+            <Flex width={5} justify="center">
+              {team.image && <Image src={team.image} />}
             </Flex>
             <Text>{team.name}</Text>
-          </Flex>
+          </Stack>
         )
       }
       onChange={onChange}
@@ -278,12 +282,12 @@ export const OpponentsFilter = ({ player, team, active, onChange }) => {
         _team === 'All' ? (
           'All Opponents'
         ) : (
-          <Flex justify="flex-start" align="center">
-            <Flex minWidth={10} justify="center">
-              <Image src={`https://www.octane.gg/team-icons/${_team.name}.png`} />
+          <Stack direction="row" align="center">
+            <Flex width={5} justify="center">
+              {_team.image && <Image src={_team.image} />}
             </Flex>
             <Text>{_team.name}</Text>
-          </Flex>
+          </Stack>
         )
       }
       onChange={onChange}
