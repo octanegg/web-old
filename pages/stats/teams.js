@@ -7,7 +7,7 @@ import {
   TierFilter,
   ResultsFilter,
   DateRangeFilter,
-  SeriesFilter,
+  FormatFilter,
   MinGamesFilter,
   GroupFilter,
   QualifierFilter,
@@ -56,7 +56,7 @@ const Stats = ({ auth, initialFilter }) => {
           active={filter.minGames}
           onChange={(item) => updateFilter('minGames', item)}
         />
-        <SeriesFilter active={filter.bestOf} onChange={(item) => updateFilter('bestOf', item)} />
+        <FormatFilter active={filter.bestOf} onChange={(item) => updateFilter('bestOf', item)} />
         <QualifierFilter
           active={filter.qualifier}
           onChange={(item) => updateFilter('qualifier', item)}

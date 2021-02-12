@@ -7,7 +7,7 @@ import {
   TierFilter,
   DateRangeFilter,
   RecordsStatsFilter,
-  SeriesFilter,
+  FormatFilter,
   GroupFilter,
   QualifierFilter,
 } from '@octane/components/filters/Filters'
@@ -53,7 +53,7 @@ const Games = ({ auth, initialFilter }) => {
             updateFilter('before', before)
           }}
         />
-        <SeriesFilter active={filter.bestOf} onChange={(item) => updateFilter('bestOf', item)} />
+        <FormatFilter active={filter.bestOf} onChange={(item) => updateFilter('bestOf', item)} />
         <QualifierFilter
           active={filter.qualifier}
           onChange={(item) => updateFilter('qualifier', item)}

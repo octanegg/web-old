@@ -10,7 +10,7 @@ import {
   DateRangeFilter,
   MinGamesFilter,
   NationalityFilter,
-  SeriesFilter,
+  FormatFilter,
   QualifierFilter,
   GroupFilter,
 } from '@octane/components/filters/Filters'
@@ -50,7 +50,7 @@ const Stats = ({ auth, initialFilter }) => {
             updateFilter('before', before)
           }}
         />
-        <SeriesFilter active={filter.bestOf} onChange={(item) => updateFilter('bestOf', item)} />
+        <FormatFilter active={filter.bestOf} onChange={(item) => updateFilter('bestOf', item)} />
         <MinGamesFilter
           active={filter.minGames}
           onChange={(item) => updateFilter('minGames', item)}

@@ -2,32 +2,32 @@ export const regions = [
   {
     id: 'NA',
     image: 'https://griffon.octane.gg/regions/na.png',
-    name: 'North America',
+    label: 'North America',
   },
   {
     id: 'EU',
     image: 'https://griffon.octane.gg/regions/eu.png',
-    name: 'Europe',
+    label: 'Europe',
   },
   {
     id: 'OCE',
     image: 'https://griffon.octane.gg/regions/au.png',
-    name: 'Oceania',
+    label: 'Oceania',
   },
   {
     id: 'SAM',
     image: 'https://griffon.octane.gg/regions/sam.png',
-    name: 'South America',
+    label: 'South America',
   },
   {
     id: 'ASIA',
     image: 'https://griffon.octane.gg/regions/int.png',
-    name: 'Asia',
+    label: 'Asia',
   },
   {
     id: 'INT',
     image: 'https://griffon.octane.gg/regions/int.png',
-    name: 'International',
+    label: 'International',
   },
 ]
 

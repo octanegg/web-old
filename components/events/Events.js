@@ -99,7 +99,7 @@ const EventRow = ({ event }) => {
                 <Stack direction="row" spacing={1} align="center" color="secondary.800">
                   <Image src={_region?.image} />
                   <Text fontWeight="regular" fontSize="xs">
-                    {`${_region?.name} | ${toDateString(startDate, endDate)}`}
+                    {`${_region?.label} | ${toDateString(startDate, endDate)}`}
                   </Text>
                 </Stack>
               }>

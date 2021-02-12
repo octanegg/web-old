@@ -10,7 +10,7 @@ import {
   DateRangeFilter,
   RecordsTypeFilter,
   RecordsStatsFilter,
-  SeriesFilter,
+  FormatFilter,
 } from '@octane/components/filters/Filters'
 import { buildQuery, route } from '@octane/util/routes'
 import Navigation from '@octane/components/common/Navigation'
@@ -60,7 +60,7 @@ const Player = ({ auth, player, initialFilter }) => {
             updateFilter('before', before)
           }}
         />
-        <SeriesFilter active={filter.bestOf} onChange={(item) => updateFilter('bestOf', item)} />
+        <FormatFilter active={filter.bestOf} onChange={(item) => updateFilter('bestOf', item)} />
       </Navigation>
       <Flex width="full">
         <PlayerRecords filter={filter} isHighlighted />

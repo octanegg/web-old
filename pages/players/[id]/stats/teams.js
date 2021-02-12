@@ -5,7 +5,7 @@ import {
   TierFilter,
   ResultsFilter,
   DateRangeFilter,
-  SeriesFilter,
+  FormatFilter,
   PlayerStatsTypeFilter,
 } from '@octane/components/filters/Filters'
 import { buildQuery, route } from '@octane/util/routes'
@@ -53,7 +53,7 @@ const Player = ({ auth, player, initialFilter }) => {
             updateFilter('before', before)
           }}
         />
-        <SeriesFilter active={filter.bestOf} onChange={(item) => updateFilter('bestOf', item)} />
+        <FormatFilter active={filter.bestOf} onChange={(item) => updateFilter('bestOf', item)} />
       </Navigation>
       <PlayerStats filter={filter} groupBy="teams" isSortable />
     </Content>

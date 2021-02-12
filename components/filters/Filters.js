@@ -11,13 +11,12 @@ import {
   recordCategories,
   recordTypes,
   recordStats,
-  series,
+  formats,
   statCategories,
   playerStatsTypes,
   teamStatsTypes,
 } from '@octane/util/constants'
-import { getCountries, getCountry } from '@octane/util/countries'
-import { Flag } from '@octane/components/common/Flag'
+import { getCountries } from '@octane/util/countries'
 import { useEffect, useState } from 'react'
 import { apiFetch } from '@octane/util/fetch'
 import { buildQuery } from '@octane/util/routes'
@@ -35,17 +34,25 @@ export const RegionFilter = ({ active, onChange }) => (
 )
 
 export const ModeFilter = ({ active, onChange }) => (
-  <DropdownList
-    label={active ? `${active}v${active}` : 'Mode'}
-    items={modes}
-    itemToLabel={(mode) => (mode !== 'All' ? `${mode}v${mode}` : 'All Modes')}
+  <DropdownCheckbox label="Modes" items={modes} active={active} onChange={onChange} />
+)
+
+export const FormatFilter = ({ active, onChange }) => (
+  <DropdownCheckbox label="Formats" items={formats} active={active} onChange={onChange} />
+)
+
+export const NationalityFilter = ({ active, onChange }) => (
+  <DropdownCheckbox
+    label="Nationalities"
+    items={getCountries()}
+    active={active}
     onChange={onChange}
   />
 )
 
 export const ResultsFilter = ({ active, onChange }) => (
   <DropdownList
-    label={active === 'true' ? 'Wins' : active === 'false' ? 'Losses' : 'Result'}
+    label={active === 'true' ? 'Wins' : active === 'false' ? 'Losses' : 'Results'}
     items={results}
     itemToId={(result) => (result === 'Wins' ? 'true' : result === 'Losses' ? 'false' : '')}
     itemToLabel={(item) => (item === 'All' ? 'All Results' : item)}
@@ -104,28 +111,9 @@ export const StatsCategoryFilter = ({ active, onChange }) => (
 
 export const MinGamesFilter = ({ active, onChange }) => (
   <DropdownList
-    label={active ? `${active}+` : 'Min Games'}
+    label={active ? `${active}+ Games` : 'Min Games'}
     items={minGames}
     itemToLabel={(item) => (item !== 'All' ? `${item}+` : 'No Minimum')}
-    onChange={onChange}
-  />
-)
-
-export const NationalityFilter = ({ active, onChange }) => (
-  <DropdownList
-    label={active ? getCountry(active)?.name : 'Nationality'}
-    items={getCountries()}
-    itemToId={(item) => (item.id === 'int' ? '' : item.id)}
-    itemToLabel={(item) => <Flag country={item.id} justify="flex-start" isLabeled />}
-    onChange={onChange}
-  />
-)
-
-export const SeriesFilter = ({ active, onChange }) => (
-  <DropdownList
-    label={active ? `Best of ${active}s` : 'Series'}
-    items={series}
-    itemToLabel={(item) => (item !== 'All' ? `Best of ${item}s` : 'All Series')}
     onChange={onChange}
   />
 )

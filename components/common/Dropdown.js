@@ -12,6 +12,7 @@ import {
   PopoverTrigger,
   Stack,
   Text,
+  Image,
 } from '@chakra-ui/core'
 import { ChevronDownIcon } from '@chakra-ui/icons'
 import { useState } from 'react'
@@ -130,7 +131,7 @@ export const DropdownList = ({ items, label, itemToLabel, itemToId, onChange }) 
         {items.map((item, i) => (
           <ListItem
             key={i}
-            padding={2}
+            padding={1}
             _hover={{ backgroundColor: 'secondary.50' }}
             borderRadius={8}
             fontSize="sm"
@@ -152,19 +153,21 @@ export const DropdownList = ({ items, label, itemToLabel, itemToId, onChange }) 
 export const DropdownCheckbox = ({ items, active, label, onChange }) => {
   const [isOpen, setIsOpen] = useState(false)
 
+  const _active = !active ? [] : Array.isArray(active) ? active : [active]
+
   const getItems = (item) => item.children?.flatMap((i) => getItems(i)) || [item.id]
   const isChecked = (item) =>
-    getItems(item).every((i) => (item.children && i === item.id) || active?.includes(i))
+    getItems(item).every((i) => (item.children && i === item.id) || _active?.includes(i))
 
   const handleChange = (item) => {
     setIsOpen(false)
     if (isChecked(item)) {
       const remove = getItems(item)
-      onChange(active?.filter((i) => !remove.includes(i)) || [])
+      onChange(_active?.filter((i) => !remove.includes(i)) || [])
     } else {
       const ids = getItems(item)
       const add = ids.length > 1 ? ids.filter((i) => i !== item.id) : ids
-      onChange(active ? [...new Set(active.concat(add))] : add)
+      onChange(_active ? [...new Set(_active.concat(add))] : add)
     }
   }
 
@@ -202,12 +205,15 @@ const Checkboxes = ({ items, tier, isChecked, handleChange }) => (
           onClick={() => handleChange(item)}>
           <Stack direction="row">
             <Checkbox
-              borderColor="secondary.700"
+              borderColor="secondary.300"
               colorScheme="whatsapp"
               size="md"
               isChecked={isChecked(item)}
             />
-            <Flex>{item.label}</Flex>
+            <Stack direction="row" align="center">
+              {item.image && <Image maxWidth={5} src={item.image} />}
+              <Flex>{item.label}</Flex>
+            </Stack>
           </Stack>
         </ListItem>
         {item.children && (

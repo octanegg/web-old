@@ -1,5 +1,4 @@
 import { Text, Image, Stack } from '@chakra-ui/core'
-import RegionFlag from '@octane/components/common/Flag'
 
 export const events = [
   {
@@ -112,10 +111,36 @@ export const regions = [
     ),
   },
 ]
-export const modes = ['All', 3, 2, 1]
+export const modes = [
+  {
+    id: 3,
+    label: '3v3',
+  },
+  {
+    id: 2,
+    label: '2v2',
+  },
+  {
+    id: 1,
+    label: '1v1',
+  },
+]
+export const formats = [
+  {
+    id: 7,
+    label: 'Best of 7',
+  },
+  {
+    id: 5,
+    label: 'Best of 5',
+  },
+  {
+    id: 3,
+    label: 'Best of 3',
+  },
+]
 export const results = ['All', 'Wins', 'Losses']
 export const minGames = ['All', 1000, 500, 250, 100, 50]
-export const series = ['All', 7, 5, 3]
 export const statCategories = ['players', 'teams']
 export const playerStatsTypes = ['teams', 'opponents', 'events']
 export const teamStatsTypes = ['players', 'opponents', 'events']
