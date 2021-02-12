@@ -4,7 +4,8 @@ import DropdownList, { DropdownCheckbox, DropdownDate } from '@octane/components
 import {
   minGames,
   tiers,
-  groups,
+  regions,
+  events,
   modes,
   results,
   recordCategories,
@@ -17,40 +18,20 @@ import {
 } from '@octane/util/constants'
 import { getCountries, getCountry } from '@octane/util/countries'
 import { Flag } from '@octane/components/common/Flag'
-import { regions } from '@octane/util/regions'
 import { useEffect, useState } from 'react'
 import { apiFetch } from '@octane/util/fetch'
 import { buildQuery } from '@octane/util/routes'
 
 export const TierFilter = ({ active, onChange }) => (
-  <DropdownList
-    label={active ? (active.length === 1 ? `${active}-Tier` : active) : 'Tier'}
-    items={tiers}
-    itemToLabel={(tier) =>
-      tier === 'All' ? 'All Tiers' : tier.length === 1 ? `${tier}-Tier` : tier
-    }
-    onChange={onChange}
-  />
+  <DropdownCheckbox label="Tiers" items={tiers} active={active} onChange={onChange} />
+)
+
+export const GroupFilter = ({ active, onChange }) => (
+  <DropdownCheckbox label="Events" items={events} active={active} onChange={onChange} />
 )
 
 export const RegionFilter = ({ active, onChange }) => (
-  <DropdownList
-    label={regions.find((region) => region.id === active)?.name || 'Region'}
-    items={regions}
-    itemToLabel={(region) => (
-      <Flex justify="flex-start" align="center">
-        <Image
-          src={`https://octane.gg/${region.image}`}
-          width="16px"
-          height="11px"
-          marginRight={1}
-        />
-        {region.name}
-      </Flex>
-    )}
-    itemToId={(region) => region.id}
-    onChange={onChange}
-  />
+  <DropdownCheckbox label="Regions" items={regions} active={active} onChange={onChange} />
 )
 
 export const ModeFilter = ({ active, onChange }) => (
@@ -166,10 +147,6 @@ export const PlayerStatsTypeFilter = ({ active, onChange }) => (
     itemToLabel={(item) => item[0].toUpperCase() + item.substring(1)}
     onChange={onChange}
   />
-)
-
-export const GroupFilter = ({ active, onChange }) => (
-  <DropdownCheckbox label="Event" items={groups} active={active} onChange={onChange} />
 )
 
 export const QualifierFilter = ({ active, onChange }) => (

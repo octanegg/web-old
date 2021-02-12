@@ -1,20 +1,15 @@
-export const tiers = ['All', 'S', 'A', 'B', 'C', 'Monthly', 'Weekly', 'Qualifier', 'Show Match']
-export const modes = ['All', 3, 2, 1]
-export const results = ['All', 'Wins', 'Losses']
-export const minGames = ['All', 1000, 500, 250, 100, 50]
-export const series = ['All', 7, 5, 3]
-export const statCategories = ['players', 'teams']
-export const playerStatsTypes = ['teams', 'opponents', 'events']
-export const teamStatsTypes = ['players', 'opponents', 'events']
-export const groups = [
+import { Text, Image, Stack } from '@chakra-ui/core'
+import RegionFlag from '@octane/components/common/Flag'
+
+export const events = [
   {
     id: 'rlcs',
     label: 'RLCS',
-    groups: [
+    children: [
       {
         id: 'rlcs19',
         label: 'RLCS Seasons 1-9',
-        groups: [
+        children: [
           { id: 'rlcs19lp', label: 'Regionals' },
           { id: 'rlcs19worlds', label: 'Worlds' },
         ],
@@ -22,7 +17,7 @@ export const groups = [
       {
         id: 'rlcsx',
         label: 'RLCS X',
-        groups: [
+        children: [
           { id: 'rlcsxfall', label: 'Fall' },
           { id: 'rlcsxwinter', label: 'Winter' },
           { id: 'grid', label: 'The Grid' },
@@ -31,6 +26,99 @@ export const groups = [
     ],
   },
 ]
+export const tiers = [
+  {
+    id: 'S',
+    label: 'S-Tier',
+  },
+  {
+    id: 'A',
+    label: 'A-Tier',
+  },
+  {
+    id: 'B',
+    label: 'B-Tier',
+  },
+  {
+    id: 'C',
+    label: 'C-Tier',
+  },
+  {
+    id: 'Monthly',
+    label: 'Monthly',
+  },
+  {
+    id: 'Weekly',
+    label: 'Weekly',
+  },
+  {
+    id: 'Show Match',
+    label: 'Show Match',
+  },
+]
+export const regions = [
+  {
+    id: 'NA',
+    label: (
+      <Stack direction="row" align="center">
+        <Image width="16px" height="11px" src="https://griffon.octane.gg/regions/na.png" />
+        <Text>North America</Text>
+      </Stack>
+    ),
+  },
+  {
+    id: 'EU',
+    label: (
+      <Stack direction="row" align="center">
+        <Image width="16px" height="11px" src="https://griffon.octane.gg/regions/eu.png" />
+        <Text>Europe</Text>
+      </Stack>
+    ),
+  },
+  {
+    id: 'OCE',
+    label: (
+      <Stack direction="row" align="center">
+        <Image width="16px" height="11px" src="https://griffon.octane.gg/regions/au.png" />
+        <Text>Oceania</Text>
+      </Stack>
+    ),
+  },
+  {
+    id: 'SAM',
+    label: (
+      <Stack direction="row" align="center">
+        <Image width="16px" height="11px" src="https://griffon.octane.gg/regions/sam.png" />
+        <Text>South America</Text>
+      </Stack>
+    ),
+  },
+  {
+    id: 'ASIA',
+    label: (
+      <Stack direction="row" align="center">
+        <Image width="16px" height="11px" src="https://griffon.octane.gg/regions/int.png" />
+        <Text>Asia</Text>
+      </Stack>
+    ),
+  },
+  {
+    id: 'INT',
+    label: (
+      <Stack direction="row" align="center">
+        <Image width="16px" height="11px" src="https://griffon.octane.gg/regions/int.png" />
+        <Text>International</Text>
+      </Stack>
+    ),
+  },
+]
+export const modes = ['All', 3, 2, 1]
+export const results = ['All', 'Wins', 'Losses']
+export const minGames = ['All', 1000, 500, 250, 100, 50]
+export const series = ['All', 7, 5, 3]
+export const statCategories = ['players', 'teams']
+export const playerStatsTypes = ['teams', 'opponents', 'events']
+export const teamStatsTypes = ['players', 'opponents', 'events']
 export const recordCategories = ['players', 'teams', 'games', 'series']
 export const recordTypes = ['game', 'series']
 export const recordStats = {

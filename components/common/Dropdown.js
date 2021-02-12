@@ -152,17 +152,19 @@ export const DropdownList = ({ items, label, itemToLabel, itemToId, onChange }) 
 export const DropdownCheckbox = ({ items, active, label, onChange }) => {
   const [isOpen, setIsOpen] = useState(false)
 
-  const getItems = (item) => item.groups?.flatMap((i) => getItems(i)).concat([item.id]) || [item.id]
+  const getItems = (item) => item.children?.flatMap((i) => getItems(i)) || [item.id]
+  const isChecked = (item) =>
+    getItems(item).every((i) => (item.children && i === item.id) || active?.includes(i))
 
   const handleChange = (item) => {
     setIsOpen(false)
-    if (active?.includes(item.id)) {
+    if (isChecked(item)) {
       const remove = getItems(item)
       onChange(active?.filter((i) => !remove.includes(i)) || [])
     } else {
       const ids = getItems(item)
       const add = ids.length > 1 ? ids.filter((i) => i !== item.id) : ids
-      onChange(active ? active.concat(add) : add)
+      onChange(active ? [...new Set(active.concat(add))] : add)
     }
   }
 
@@ -173,88 +175,53 @@ export const DropdownCheckbox = ({ items, active, label, onChange }) => {
       setIsOpen={() => setIsOpen}
       open={() => setIsOpen(!isOpen)}
       close={() => setIsOpen(false)}>
-      <List maxHeight={400} overflowY="scroll" paddingTop={2} paddingBottom={2}>
-        {items.map((item, i) => (
-          <>
-            <ListItem
-              key={i}
-              padding={1}
-              _hover={{ backgroundColor: 'secondary.50' }}
-              borderRadius={8}
-              fontSize="sm"
-              fontWeight="semi"
-              cursor="pointer"
-              value={item.id}
-              onClick={() => handleChange(item)}>
-              <Stack direction="row">
-                <Checkbox
-                  borderColor="secondary.700"
-                  colorScheme="whatsapp"
-                  size="md"
-                  isChecked={
-                    item.groups?.every((v) => active?.includes(v.id)) || active?.includes(item.id)
-                  }
-                />
-                <Flex>{item.label}</Flex>
-              </Stack>
-            </ListItem>
-            {item.groups?.map((group, j) => (
-              <>
-                <ListItem
-                  key={j}
-                  padding={1}
-                  marginTop={1}
-                  _hover={{ backgroundColor: 'secondary.50' }}
-                  borderRadius={8}
-                  fontSize="sm"
-                  fontWeight="semi"
-                  cursor="pointer"
-                  value={group.id}
-                  onClick={() => handleChange(group)}>
-                  <Stack direction="row" marginLeft={6}>
-                    <Checkbox
-                      borderColor="secondary.700"
-                      colorScheme="whatsapp"
-                      size="md"
-                      isChecked={
-                        group.groups?.every((v) => active?.includes(v.id)) ||
-                        active?.includes(group.id)
-                      }
-                    />
-                    <Flex>{group.label}</Flex>
-                  </Stack>
-                </ListItem>
-                {group.groups?.map((subgroup, k) => (
-                  <ListItem
-                    key={k}
-                    padding={1}
-                    marginTop={1}
-                    _hover={{ backgroundColor: 'secondary.50' }}
-                    borderRadius={8}
-                    fontSize="sm"
-                    fontWeight="semi"
-                    cursor="pointer"
-                    value={subgroup.id}
-                    onClick={() => handleChange(subgroup)}>
-                    <Stack direction="row" marginLeft={12}>
-                      <Checkbox
-                        borderColor="secondary.700"
-                        colorScheme="whatsapp"
-                        size="md"
-                        isChecked={active?.includes(subgroup.id)}
-                      />
-                      <Flex>{subgroup.label}</Flex>
-                    </Stack>
-                  </ListItem>
-                ))}
-              </>
-            ))}
-          </>
-        ))}
+      <List maxHeight={400} overflowY="scroll" padding={1}>
+        <Checkboxes items={items} tier={0} handleChange={handleChange} isChecked={isChecked} />
       </List>
     </Dropdown>
   )
 }
+
+const Checkboxes = ({ items, tier, isChecked, handleChange }) => (
+  <>
+    {items.map((item, i) => (
+      <>
+        <ListItem
+          key={i}
+          paddingLeft={2}
+          paddingRight={2}
+          paddingTop={1}
+          paddingBottom={1}
+          marginLeft={tier * 6}
+          _hover={{ backgroundColor: 'secondary.50' }}
+          borderRadius={8}
+          fontSize="sm"
+          fontWeight="semi"
+          cursor="pointer"
+          value={item.id}
+          onClick={() => handleChange(item)}>
+          <Stack direction="row">
+            <Checkbox
+              borderColor="secondary.700"
+              colorScheme="whatsapp"
+              size="md"
+              isChecked={isChecked(item)}
+            />
+            <Flex>{item.label}</Flex>
+          </Stack>
+        </ListItem>
+        {item.children && (
+          <Checkboxes
+            items={item.children}
+            tier={tier + 1}
+            handleChange={handleChange}
+            isChecked={isChecked}
+          />
+        )}
+      </>
+    ))}
+  </>
+)
 
 const Dropdown = ({ label, isOpen, open, close, footer, children }) => (
   <Popover placement="bottom" isOpen={isOpen} onClose={close}>

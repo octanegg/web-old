@@ -1,20 +1,15 @@
 import { Text, Image, Stack } from '@chakra-ui/core'
 import { getCountry } from '@octane/util/countries'
-import { getRegion } from '@octane/util/regions'
 
-export const Flag = ({ country, region, justify, isLabeled }) => {
-  const data = country ? getCountry(country || 'int') : region && getRegion(region || 'int')
-  const image = country
-    ? `${process.env.ASSETS_URL}${data?.image}`
-    : `https://octane.gg${data?.image}`
+export const Flag = ({ country, justify, isLabeled }) => {
+  const data = getCountry(country || 'int')
+  const image = `${process.env.ASSETS_URL}${data?.image}`
 
-  return isLabeled ? (
+  return (
     <Stack justify={justify || 'center'} direction="row">
       <Image width={5} src={image} />
-      <Text marginLeft={1}>{data?.name}</Text>
+      {isLabeled && <Text>{data?.name}</Text>}
     </Stack>
-  ) : (
-    <Image width={5} src={image} />
   )
 }
 

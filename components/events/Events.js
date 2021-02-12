@@ -96,17 +96,11 @@ const EventRow = ({ event }) => {
               width="md"
               justify="flex-start"
               label={
-                <Stack
-                  direction="row"
-                  spacing={1}
-                  fontWeight="regular"
-                  fontSize="xs"
-                  align="center"
-                  color="secondary.800">
-                  <Image src={`https://octane.gg/${_region?.image}`} width="16px" height="11px" />
-                  <Text>{_region?.name}</Text>
-                  <Text>|</Text>
-                  <Text>{toDateString(startDate, endDate)}</Text>
+                <Stack direction="row" spacing={1} align="center" color="secondary.800">
+                  <Image src={_region?.image} />
+                  <Text fontWeight="regular" fontSize="xs">
+                    {`${_region?.name} | ${toDateString(startDate, endDate)}`}
+                  </Text>
                 </Stack>
               }>
               <Flex>

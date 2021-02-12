@@ -33,7 +33,7 @@ const EventsPage = ({ auth, initialFilter }) => {
       <Navigation
         type="events"
         active="ongoing"
-        isOpen={filter.tier || filter.region || filter.mode}>
+        isOpen={filter.tier || filter.region || filter.mode || filter.group}>
         <GroupFilter active={filter.group} onChange={(item) => updateFilter('group', item)} />
         <TierFilter active={filter.tier} onChange={(item) => updateFilter('tier', item)} />
         <RegionFilter active={filter.region} onChange={(item) => updateFilter('region', item)} />

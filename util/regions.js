@@ -1,37 +1,32 @@
 export const regions = [
   {
-    id: 'All',
-    image: '/flags/int.png',
-    name: 'All Regions',
-  },
-  {
     id: 'NA',
-    image: '/flags/na.png',
+    image: 'https://griffon.octane.gg/regions/na.png',
     name: 'North America',
   },
   {
     id: 'EU',
-    image: '/flags/eu.png',
+    image: 'https://griffon.octane.gg/regions/eu.png',
     name: 'Europe',
   },
   {
     id: 'OCE',
-    image: '/flags/au.png',
+    image: 'https://griffon.octane.gg/regions/au.png',
     name: 'Oceania',
   },
   {
     id: 'SAM',
-    image: '/flags/sam.png',
+    image: 'https://griffon.octane.gg/regions/sam.png',
     name: 'South America',
   },
   {
     id: 'ASIA',
-    image: '/flags/int.png',
+    image: 'https://griffon.octane.gg/regions/int.png',
     name: 'Asia',
   },
   {
     id: 'INT',
-    image: '/flags/int.png',
+    image: 'https://griffon.octane.gg/regions/int.png',
     name: 'International',
   },
 ]
