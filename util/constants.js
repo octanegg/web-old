@@ -1,5 +1,3 @@
-import { Text, Image, Stack } from '@chakra-ui/core'
-
 export const events = [
   {
     id: 'rlcs',
@@ -58,57 +56,33 @@ export const tiers = [
 export const regions = [
   {
     id: 'NA',
-    label: (
-      <Stack direction="row" align="center">
-        <Image width="16px" height="11px" src="https://griffon.octane.gg/regions/na.png" />
-        <Text>North America</Text>
-      </Stack>
-    ),
+    label: 'North America',
+    image: 'https://griffon.octane.gg/regions/na.png',
   },
   {
     id: 'EU',
-    label: (
-      <Stack direction="row" align="center">
-        <Image width="16px" height="11px" src="https://griffon.octane.gg/regions/eu.png" />
-        <Text>Europe</Text>
-      </Stack>
-    ),
+    label: 'Europe',
+    image: 'https://griffon.octane.gg/regions/eu.png',
   },
   {
     id: 'OCE',
-    label: (
-      <Stack direction="row" align="center">
-        <Image width="16px" height="11px" src="https://griffon.octane.gg/regions/au.png" />
-        <Text>Oceania</Text>
-      </Stack>
-    ),
+    label: 'Oceania',
+    image: 'https://griffon.octane.gg/regions/au.png',
   },
   {
     id: 'SAM',
-    label: (
-      <Stack direction="row" align="center">
-        <Image width="16px" height="11px" src="https://griffon.octane.gg/regions/sam.png" />
-        <Text>South America</Text>
-      </Stack>
-    ),
+    label: 'South America',
+    image: 'https://griffon.octane.gg/regions/sam.png',
   },
   {
     id: 'ASIA',
-    label: (
-      <Stack direction="row" align="center">
-        <Image width="16px" height="11px" src="https://griffon.octane.gg/regions/int.png" />
-        <Text>Asia</Text>
-      </Stack>
-    ),
+    label: 'Asia',
+    image: 'https://griffon.octane.gg/regions/int.png',
   },
   {
     id: 'INT',
-    label: (
-      <Stack direction="row" align="center">
-        <Image width="16px" height="11px" src="https://griffon.octane.gg/regions/int.png" />
-        <Text>International</Text>
-      </Stack>
-    ),
+    label: 'International',
+    image: 'https://griffon.octane.gg/regions/int.png',
   },
 ]
 export const modes = [

@@ -9,6 +9,11 @@ import NextLink from 'next/link'
 import { Heading, LabeledField } from '@octane/components/common/Text'
 import formatPrize from '@octane/util/prizes'
 import { toDateString } from '@octane/util/dates'
+import { useRouter } from 'next/router'
+import { useAuthRedirect } from 'aws-cognito-next'
+import queryString from 'query-string'
+
+const extractFirst = (value) => (Array.isArray(value) ? value[0] : value)
 
 const Matches = ({ matches }) => {
   const { completed, upcoming } = matches
@@ -219,15 +224,25 @@ const Articles = ({ articles }) => (
   </Stack>
 )
 
-const Home = ({ auth, articles, matches, events }) => (
-  <Content auth={auth}>
-    <Stack width="full" direction="row" paddingLeft={2} paddingRight={2}>
-      <Events events={events} />
-      <Articles articles={articles} />
-      <Matches matches={matches} />
-    </Stack>
-  </Content>
-)
+const Home = ({ auth, articles, matches, events }) => {
+  const router = useRouter()
+  useAuthRedirect(() => {
+    const redirectUriAfterSignIn =
+      extractFirst(queryString.parse(window.location.search).to || '') || '/'
+
+    router.replace(redirectUriAfterSignIn)
+  })
+
+  return (
+    <Content auth={auth}>
+      <Stack width="full" direction="row" paddingLeft={2} paddingRight={2}>
+        <Events events={events} />
+        <Articles articles={articles} />
+        <Matches matches={matches} />
+      </Stack>
+    </Content>
+  )
+}
 
 export async function getServerSideProps({ req }) {
   const auth = getServerSideAuth(req)

@@ -150,7 +150,7 @@ export const DropdownList = ({ items, label, itemToLabel, itemToId, onChange }) 
   )
 }
 
-export const DropdownCheckbox = ({ items, active, label, onChange }) => {
+export const DropdownCheckbox = ({ items, active, label, onChange, showImage }) => {
   const [isOpen, setIsOpen] = useState(false)
 
   const _active = !active ? [] : Array.isArray(active) ? active : [active]
@@ -179,13 +179,19 @@ export const DropdownCheckbox = ({ items, active, label, onChange }) => {
       open={() => setIsOpen(!isOpen)}
       close={() => setIsOpen(false)}>
       <List maxHeight={400} overflowY="scroll" padding={1}>
-        <Checkboxes items={items} tier={0} handleChange={handleChange} isChecked={isChecked} />
+        <Checkboxes
+          items={items}
+          tier={0}
+          handleChange={handleChange}
+          isChecked={isChecked}
+          showImage={showImage}
+        />
       </List>
     </Dropdown>
   )
 }
 
-const Checkboxes = ({ items, tier, isChecked, handleChange }) => (
+const Checkboxes = ({ items, tier, isChecked, handleChange, showImage }) => (
   <>
     {items.map((item, i) => (
       <>
@@ -211,7 +217,11 @@ const Checkboxes = ({ items, tier, isChecked, handleChange }) => (
               isChecked={isChecked(item)}
             />
             <Stack direction="row" align="center">
-              {item.image && <Image maxWidth={5} src={item.image} />}
+              {showImage && (
+                <Flex width={5} justify="flex-end">
+                  {item.image && <Image src={item.image} />}
+                </Flex>
+              )}
               <Flex>{item.label}</Flex>
             </Stack>
           </Stack>

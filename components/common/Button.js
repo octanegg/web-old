@@ -1,7 +1,7 @@
 import { Button as ChakraButton } from '@chakra-ui/core'
 import Link from 'next/link'
 
-const buttonTypes = {
+export const ButtonTypes = {
   link: {
     default: {
       color: 'secondary.600',
@@ -58,21 +58,15 @@ const buttonTypes = {
   },
 }
 
-export const Button = ({ buttonType, buttonProps, onClick, isDisabled, children }) => {
-  const props = buttonType ? buttonTypes[buttonType] : buttonTypes.default
-  return (
-    <ChakraButton onClick={onClick} isDisabled={isDisabled} {...(buttonProps || props)}>
-      {children}
-    </ChakraButton>
-  )
-}
+export const Button = ({ buttonType, onClick, isDisabled, children }) => (
+  <ChakraButton onClick={onClick} isDisabled={isDisabled} {...(buttonType || ButtonTypes.default)}>
+    {children}
+  </ChakraButton>
+)
 
 export const ButtonLink = ({ isActive, href, children }) => (
   <Link href={href || '#'}>
-    <Button
-      fontWeight="bold"
-      size="xs"
-      buttonProps={isActive ? buttonTypes.link.selected : buttonTypes.link.default}>
+    <Button buttonType={isActive ? ButtonTypes.link.selected : ButtonTypes.link.default}>
       {children}
     </Button>
   </Link>
@@ -80,10 +74,8 @@ export const ButtonLink = ({ isActive, href, children }) => (
 
 export const PaginationButton = ({ isActive, isDisabled, onClick, children }) => (
   <Button
-    fontWeight="bold"
-    size="xs"
     onClick={onClick}
-    buttonProps={isActive ? buttonTypes.link.selected : buttonTypes.link.default}
+    buttonType={isActive ? ButtonTypes.link.selected : ButtonTypes.link.default}
     isDisabled={isDisabled}>
     {children}
   </Button>

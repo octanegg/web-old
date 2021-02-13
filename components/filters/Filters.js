@@ -1,4 +1,3 @@
-import { Flex, Image, Stack, Text } from '@chakra-ui/core'
 import { toDateString } from '@octane/util/dates'
 import DropdownList, { DropdownCheckbox, DropdownDate } from '@octane/components/common/Dropdown'
 import {
@@ -30,7 +29,7 @@ export const GroupFilter = ({ active, onChange }) => (
 )
 
 export const RegionFilter = ({ active, onChange }) => (
-  <DropdownCheckbox label="Regions" items={regions} active={active} onChange={onChange} />
+  <DropdownCheckbox label="Regions" items={regions} active={active} onChange={onChange} showImage />
 )
 
 export const ModeFilter = ({ active, onChange }) => (
@@ -47,6 +46,7 @@ export const NationalityFilter = ({ active, onChange }) => (
     items={getCountries()}
     active={active}
     onChange={onChange}
+    showImage
   />
 )
 
@@ -186,8 +186,12 @@ export const TeamsFilter = ({ player, active, onChange }) => {
 
       setTeams(
         data.stats
-          .map((stat) => stat.teams[0])
-          .sort((a, b) => a.name.toLowerCase().localeCompare(b.name.toLowerCase()))
+          .map((stat) => ({
+            id: stat.teams[0]._id,
+            label: stat.teams[0].name,
+            image: stat.teams[0].image,
+          }))
+          .sort((a, b) => a.label.toLowerCase().localeCompare(b.label.toLowerCase()))
       )
     }
 
@@ -195,24 +199,7 @@ export const TeamsFilter = ({ player, active, onChange }) => {
   }, [player])
 
   return (
-    <DropdownList
-      label={active ? teams.find((team) => team._id === active)?.name : 'Team'}
-      items={['All'].concat(teams)}
-      itemToId={(item) => (item === 'All' ? '' : item._id)}
-      itemToLabel={(team) =>
-        team === 'All' ? (
-          'All Teams'
-        ) : (
-          <Stack direction="row" align="center">
-            <Flex width={5} justify="center">
-              {team.image && <Image src={team.image} />}
-            </Flex>
-            <Text>{team.name}</Text>
-          </Stack>
-        )
-      }
-      onChange={onChange}
-    />
+    <DropdownCheckbox label="Teams" items={teams} active={active} onChange={onChange} showImage />
   )
 }
 
@@ -230,8 +217,12 @@ export const OpponentsFilter = ({ player, team, active, onChange }) => {
 
       setTeams(
         data.stats
-          .map((stat) => stat.opponents[0])
-          .sort((a, b) => a.name.toLowerCase().localeCompare(b.name.toLowerCase()))
+          .map((stat) => ({
+            id: stat.opponents[0]._id,
+            label: stat.opponents[0].name,
+            image: stat.opponents[0].image,
+          }))
+          .sort((a, b) => a.label.toLowerCase().localeCompare(b.label.toLowerCase()))
       )
     }
 
@@ -239,23 +230,12 @@ export const OpponentsFilter = ({ player, team, active, onChange }) => {
   }, [player, team])
 
   return (
-    <DropdownList
-      label={active ? teams.find((_team) => _team._id === active)?.name : 'Opponent'}
-      items={['All'].concat(teams)}
-      itemToId={(item) => (item === 'All' ? '' : item._id)}
-      itemToLabel={(_team) =>
-        _team === 'All' ? (
-          'All Opponents'
-        ) : (
-          <Stack direction="row" align="center">
-            <Flex width={5} justify="center">
-              {_team.image && <Image src={_team.image} />}
-            </Flex>
-            <Text>{_team.name}</Text>
-          </Stack>
-        )
-      }
+    <DropdownCheckbox
+      label="Opponents"
+      items={teams}
+      active={active}
       onChange={onChange}
+      showImage
     />
   )
 }

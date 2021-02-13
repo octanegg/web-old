@@ -69,9 +69,9 @@ const Navbar = ({ auth }) => {
           align="center"
           fontWeight="semi"
           direction={{ base: 'column', md: 'row' }}>
-          <NavItem href="#" leftBorder>
+          {/* <NavItem href="#" leftBorder>
             News
-          </NavItem>
+          </NavItem> */}
           <NavItem href="/matches" leftBorder>
             Matches
           </NavItem>

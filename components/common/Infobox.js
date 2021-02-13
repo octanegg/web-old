@@ -21,7 +21,11 @@ const Infobox = ({ title, image, children }) => (
         {children}
       </Stack>
     </Flex>
-    <Flex>{image && <Image src={image} />}</Flex>
+    <Flex
+      justify="flex-end
+    ">
+      {image && <Image src={image} />}
+    </Flex>
   </Flex>
 )
 
@@ -59,7 +63,7 @@ export const PlayerInfobox = ({ player }) => {
 }
 
 export const TeamInfobox = ({ team }) => {
-  const { name } = team
+  const { name, image } = team
 
-  return <Infobox title={name} />
+  return <Infobox title={name} image={image} />
 }
