@@ -80,6 +80,11 @@ export const regions = [
     image: 'https://griffon.octane.gg/regions/int.png',
   },
   {
+    id: 'ME',
+    label: 'Middle East',
+    image: 'https://griffon.octane.gg/regions/int.png',
+  },
+  {
     id: 'INT',
     label: 'International',
     image: 'https://griffon.octane.gg/regions/int.png',

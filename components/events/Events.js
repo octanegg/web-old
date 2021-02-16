@@ -8,7 +8,8 @@ import { toDateString } from '@octane/util/dates'
 import { getRegion } from '@octane/util/regions'
 import { apiFetch } from '@octane/util/fetch'
 import { buildQuery } from '@octane/util/routes'
-import { formatPrize } from '@octane/util/prizes'
+import { formatPrizeUSD } from '@octane/util/prizes'
+import NextLink from 'next/link'
 
 export const EventsTable = ({ filter, isOngoing }) => {
   const [events, setEvents] = useState([])
@@ -83,36 +84,39 @@ const EventRow = ({ event }) => {
     <>
       <Row key={_id}>
         <Cell>
-          <Flex
-            width="full"
-            fontSize="sm"
-            padding={2}
-            align="center"
-            onClick={() => setStagesVisible(!stagesVisible)}>
-            <Flex minWidth={8} marginRight={2} marginLeft={2}>
-              {image && <Image height={6} src={image} />}
-            </Flex>
-            <LabeledText
-              width="md"
-              justify="flex-start"
-              label={
-                <Stack direction="row" spacing={1} align="center" color="secondary.800">
-                  <Image src={_region?.image} />
-                  <Text fontWeight="regular" fontSize="xs">
-                    {`${_region?.label} | ${toDateString(startDate, endDate)}`}
-                  </Text>
-                </Stack>
-              }>
-              <Flex>
-                <Link href={`/events/${_id}`}>{name}</Link>
+          <NextLink href={`/events/${_id}`}>
+            <Flex
+              width="full"
+              cursor="pointer"
+              fontSize="sm"
+              padding={2}
+              align="center"
+              onClick={() => setStagesVisible(false)}>
+              <Flex minWidth={8} marginRight={2} marginLeft={2}>
+                {image && <Image height={6} src={image} />}
               </Flex>
-            </LabeledText>
-            <Spacer />
-            <LabeledField label="mode">{`${mode}v${mode}`}</LabeledField>
-            <LabeledField label="tier">{tier}</LabeledField>
-            <LabeledField label="stages">{stages.length}</LabeledField>
-            <LabeledField label="prize">{prize ? formatPrize(prize) : '-'}</LabeledField>
-          </Flex>
+              <LabeledText
+                width="md"
+                justify="flex-start"
+                label={
+                  <Stack direction="row" spacing={1} align="center" color="secondary.800">
+                    <Image src={_region?.image} />
+                    <Text fontWeight="regular" fontSize="xs">
+                      {`${_region?.label} | ${toDateString(startDate, endDate)}`}
+                    </Text>
+                  </Stack>
+                }>
+                <Flex>
+                  <Link href={`/events/${_id}`}>{name}</Link>
+                </Flex>
+              </LabeledText>
+              <Spacer />
+              <LabeledField label="mode">{`${mode}v${mode}`}</LabeledField>
+              <LabeledField label="tier">{tier}</LabeledField>
+              <LabeledField label="stages">{stages.length}</LabeledField>
+              <LabeledField label="prize">{prize ? formatPrizeUSD(prize) : '-'}</LabeledField>
+            </Flex>
+          </NextLink>
         </Cell>
       </Row>
       {stagesVisible && stages.map((stage, k) => <StageRow key={k} stage={stage} />)}

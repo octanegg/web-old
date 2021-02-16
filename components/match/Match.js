@@ -28,7 +28,7 @@ export const Infobox = ({ match, active }) => {
             </Flex>
           </Flex>
         ) : (
-          <Flex fontSize="2xl" marginLeft={4} marginRight={4}>
+          <Flex fontSize="2xl" fontWeight="light" marginLeft={4} marginRight={4}>
             TBD
           </Flex>
         )}
@@ -55,7 +55,7 @@ export const Infobox = ({ match, active }) => {
             </Link>
           </Flex>
         ) : (
-          <Flex fontSize="2xl" marginLeft={4} marginRight={4}>
+          <Flex fontSize="2xl" fontWeight="light" marginLeft={4} marginRight={4}>
             TBD
           </Flex>
         )}

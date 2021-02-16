@@ -19,7 +19,7 @@ import { useState } from 'react'
 import DatePicker from 'react-datepicker'
 import moment from 'moment'
 import Input from './Input'
-import { Button } from './Button'
+import { Button, ButtonTypes } from './Button'
 
 export const DropdownDate = ({ label, startDate, endDate, onChange }) => {
   const [isOpen, setIsOpen] = useState(false)
@@ -62,10 +62,10 @@ export const DropdownDate = ({ label, startDate, endDate, onChange }) => {
       close={() => setIsOpen(false)}
       footer={
         <Stack direction="row" justify="flex-end" width="full">
-          <Button buttonType="cancel" onClick={handleClear}>
+          <Button buttonType={ButtonTypes.cancel} onClick={handleClear}>
             Clear
           </Button>
-          <Button buttonType="submit" onClick={handleSubmit}>
+          <Button buttonType={ButtonTypes.submit} onClick={handleSubmit}>
             Apply
           </Button>
         </Stack>
@@ -155,7 +155,7 @@ export const DropdownCheckbox = ({ items, active, label, onChange, showImage }) 
 
   const _active = !active ? [] : Array.isArray(active) ? active : [active]
 
-  const getItems = (item) => item.children?.flatMap((i) => getItems(i)) || [item.id]
+  const getItems = (item) => (item.children ? item.children.flatMap((i) => getItems(i)) : [item.id])
   const isChecked = (item) =>
     getItems(item).every((i) => (item.children && i === item.id) || _active?.includes(i))
 
@@ -194,9 +194,10 @@ export const DropdownCheckbox = ({ items, active, label, onChange, showImage }) 
 const Checkboxes = ({ items, tier, isChecked, handleChange, showImage }) => (
   <>
     {items.map((item, i) => (
-      <>
+      // eslint-disable-next-line react/jsx-no-undef
+      <React.Fragment key={`${tier}-${i}`}>
         <ListItem
-          key={i}
+          key={`${tier}-${i}`}
           paddingLeft={2}
           paddingRight={2}
           paddingTop={1}
@@ -234,7 +235,7 @@ const Checkboxes = ({ items, tier, isChecked, handleChange, showImage }) => (
             isChecked={isChecked}
           />
         )}
-      </>
+      </React.Fragment>
     ))}
   </>
 )

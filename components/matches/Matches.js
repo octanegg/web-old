@@ -7,6 +7,7 @@ import { apiFetch } from '@octane/util/fetch'
 import { buildQuery } from '@octane/util/routes'
 import LabeledText, { Heading, Link } from '@octane/components/common/Text'
 import Pagination from '@octane/components/common/Pagination'
+import NextLink from 'next/link'
 
 export const Matches = ({ filter, onPaginate }) => {
   const [matches, setMatches] = useState([])
@@ -86,40 +87,43 @@ const MatchRow = ({ match, team, player }) => {
   return (
     <Row>
       <Cell>
-        <Flex
-          width="full"
-          fontSize="sm"
-          padding={2}
-          align="center"
-          justify="space-between"
-          shadow={border}>
-          <Flex width="sm" align="center">
-            <Flex minWidth={8} marginRight={2} marginLeft={2}>
-              {event.image && <Image height={6} src={event.image} />}
-            </Flex>
-            <LabeledText
-              justify="flex-start"
-              label={
-                <Flex fontWeight="regular" fontSize="xs" align="center" color="secondary.800">
-                  <Text>{stage.name}</Text>
-                </Flex>
-              }>
-              <Flex>
-                <Link href={`/events/${event._id}`}>{event.name}</Link>
+        <NextLink href={`/matches/${_id}`}>
+          <Flex
+            width="full"
+            cursor="pointer"
+            fontSize="sm"
+            padding={2}
+            align="center"
+            justify="space-between"
+            shadow={border}>
+            <Flex width="sm" align="center">
+              <Flex minWidth={8} marginRight={2} marginLeft={2}>
+                {event.image && <Image height={6} src={event.image} />}
               </Flex>
-            </LabeledText>
+              <LabeledText
+                justify="flex-start"
+                label={
+                  <Flex fontWeight="regular" fontSize="xs" align="center" color="secondary.800">
+                    <Text>{stage.name}</Text>
+                  </Flex>
+                }>
+                <Flex>
+                  <Link href={`/events/${event._id}`}>{event.name}</Link>
+                </Flex>
+              </LabeledText>
+            </Flex>
+            <Flex direction="row" width="xl">
+              <Team side={left} />
+              <Link href={`/matches/${_id}`}>
+                <Score left={left?.score} right={right?.score} />
+              </Link>
+              <Team side={right} isReversed />
+            </Flex>
+            <Text width={16} justify="center" fontSize="xs">
+              {moment(date).format('h:mm A')}
+            </Text>
           </Flex>
-          <Flex direction="row" width="xl">
-            <Team side={left} />
-            <Link href={`/matches/${_id}`}>
-              <Score left={left?.score} right={right?.score} />
-            </Link>
-            <Team side={right} isReversed />
-          </Flex>
-          <Text width={16} justify="center" fontSize="xs">
-            {moment(date).format('h:mm A')}
-          </Text>
-        </Flex>
+        </NextLink>
       </Cell>
     </Row>
   )
