@@ -1,5 +1,6 @@
 import { Flex, Divider, Stack, Text, Spacer } from '@chakra-ui/core'
 import { EditIcon } from '@chakra-ui/icons'
+import { buildQuery } from '@octane/util/routes'
 import { useState } from 'react'
 import { ButtonLink, Button } from './Button'
 
@@ -127,7 +128,7 @@ const navigation = {
   ],
 }
 
-const Navigation = ({ type, active, baseHref, isOpen, hasDivider, children }) => {
+const Navigation = ({ type, active, baseHref, filter, isOpen, hasDivider, children }) => {
   const [open, setOpen] = useState(isOpen)
   const nav = navigation[type]
 
@@ -137,7 +138,7 @@ const Navigation = ({ type, active, baseHref, isOpen, hasDivider, children }) =>
         {nav.map((item) => (
           <ButtonLink
             key={item.id}
-            href={`${baseHref || ''}${item.href || ''}`}
+            href={`${baseHref || ''}${item.href || ''}${buildQuery(filter || {}, [''])}`}
             isActive={active === item.id}>
             {item.label}
           </ButtonLink>

@@ -17,6 +17,7 @@ import { buildQuery, route } from '@octane/util/routes'
 import Navigation from '@octane/components/common/Navigation'
 import { TeamRecords } from '@octane/components/records/TeamRecords'
 import { getServerSideAuth } from '@octane/util/auth'
+import { recordStats } from '@octane/util/constants'
 
 const Teams = ({ auth, initialFilter }) => {
   const router = useRouter()
@@ -35,7 +36,7 @@ const Teams = ({ auth, initialFilter }) => {
 
   return (
     <Content auth={auth}>
-      <Navigation type="records" active="teams" isOpen>
+      <Navigation type="records" active="teams" filter={filter} isOpen>
         <RecordsTypeFilter active={filter.type} onChange={(item) => updateFilter('type', item)} />
         <RecordsStatsFilter
           active={filter.stat}
@@ -79,7 +80,7 @@ export async function getServerSideProps({ req, query }) {
         after: query.after || '',
         group: query.group || '',
         type: query.type || 'game',
-        stat: query.stat || 'score',
+        stat: recordStats.teams.find((stat) => stat.id === query.stat)?.id || 'score',
         bestOf: query.bestOf || '',
         qualifier: query.qualifier || '',
       },

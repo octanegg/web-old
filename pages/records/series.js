@@ -35,7 +35,7 @@ const Series = ({ auth, initialFilter }) => {
 
   return (
     <Content auth={auth}>
-      <Navigation type="records" active="series" isOpen>
+      <Navigation type="records" active="series" filter={filter} isOpen>
         <RecordsStatsFilter
           active={filter.stat}
           onChange={(item) => updateFilter('stat', item)}
@@ -76,7 +76,7 @@ export async function getServerSideProps({ req, query }) {
         before: query.before || '',
         after: query.after || '',
         group: query.group || '',
-        stat: query.stat || 'scoreTotal',
+        stat: recordStats.series.find((stat) => stat.id === query.stat)?.id || 'scoreTotal',
         bestOf: query.bestOf || '',
         qualifier: query.qualifier || '',
       },

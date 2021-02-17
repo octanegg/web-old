@@ -38,6 +38,7 @@ const Stats = ({ auth, initialFilter }) => {
       <Navigation
         type="stats"
         active="teams"
+        filter={filter}
         isOpen={filter.tier || filter.region || filter.mode || filter.before || filter.after}>
         <GroupFilter active={filter.group} onChange={(item) => updateFilter('group', item)} />
         <TierFilter active={filter.tier} onChange={(item) => updateFilter('tier', item)} />
