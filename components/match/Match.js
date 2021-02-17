@@ -242,8 +242,8 @@ const ScoreboardTable = ({ side, showMvp }) => (
                 <Flag country={player.country || 'int'} />
                 <Link href={`/players/${player._id}`}>
                   <Text>{player.tag}</Text>
-                  {showMvp && stats.core.mvp && <StarIcon fontSize="xs" />}
                 </Link>
+                {showMvp && stats.core.mvp && <StarIcon fontSize="xs" />}
               </Stack>
             </td>
             <td>{stats.core.score}</td>

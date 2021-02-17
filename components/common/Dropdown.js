@@ -74,12 +74,12 @@ export const DropdownDate = ({ label, startDate, endDate, onChange }) => {
         <Text fontWeight="bold" fontSize="sm">
           Dates
         </Text>
-        <Stack direction="row" paddingBottom={2} align="center">
-          <Input value={start} onChange={(e) => setStart(e.target.value)} />
+        <Stack direction="row" paddingBottom={2} align="center" justify="center">
+          <Input value={start} onChange={(e) => setStart(e.target.value)} width={9 / 20} />
           <Text fontSize="sm" fontWeight="medium">
             to
           </Text>
-          <Input value={end} onChange={(e) => setEnd(e.target.value)} />
+          <Input value={end} onChange={(e) => setEnd(e.target.value)} width={9 / 20} />
         </Stack>
         <Flex width="full" justify="center">
           <DatePicker
@@ -209,13 +209,17 @@ const Checkboxes = ({ items, tier, isChecked, handleChange, showImage }) => (
           fontWeight="semi"
           cursor="pointer"
           value={item.id}
-          onClick={() => handleChange(item)}>
+          onClick={(e) => {
+            e.preventDefault()
+            handleChange(item)
+          }}>
           <Stack direction="row">
             <Checkbox
               borderColor="secondary.300"
               colorScheme="whatsapp"
               size="md"
               isChecked={isChecked(item)}
+              isReadOnly
             />
             <Stack direction="row" align="center">
               {showImage && (
