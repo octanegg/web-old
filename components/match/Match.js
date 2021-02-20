@@ -83,12 +83,12 @@ export const Infobox = ({ match, active }) => {
                       justify="center"
                       backgroundColor={active === i + 1 && 'primary.50'}
                       borderRadius="15px 15px 0px 0px">
-                      {duration === 300 ? (
-                        `G${i + 1}`
-                      ) : (
+                      {duration > 300 ? (
                         <Tooltip hasArrow placement="top" label={`${toMinuteSeconds(duration)} OT`}>
                           {`G${i + 1}'`}
                         </Tooltip>
+                      ) : (
+                        `G${i + 1}`
                       )}
                     </Flex>
                   </th>
@@ -125,10 +125,16 @@ export const Infobox = ({ match, active }) => {
                       fontSize="sm"
                       align="center"
                       justify="center"
-                      color={!game.orange || game.blue > game.orange ? 'win' : 'loss'}
+                      color={
+                        !game.blue && !game.orange
+                          ? ''
+                          : !game.orange || game.blue > game.orange
+                          ? 'win'
+                          : 'loss'
+                      }
                       fontWeight={!game.orange || game.blue > game.orange ? 'bold' : 'regular'}
                       backgroundColor={active === i + 1 && 'primary.50'}>
-                      {game.blue || 0}
+                      {game.blue || (game.orange === 0 ? '-' : 0)}
                     </Flex>
                   </td>
                 ))}
@@ -156,11 +162,17 @@ export const Infobox = ({ match, active }) => {
                       fontSize="sm"
                       align="center"
                       justify="center"
-                      color={!game.blue || game.orange > game.blue ? 'win' : 'loss'}
+                      color={
+                        !game.blue && !game.orange
+                          ? ''
+                          : !game.blue || game.orange > game.blue
+                          ? 'win'
+                          : 'loss'
+                      }
                       fontWeight={!game.blue || game.orange > game.blue ? 'bold' : 'regular'}
                       backgroundColor={active === i + 1 && 'primary.50'}
                       borderRadius="0px 0px 15px 15px">
-                      {game.orange || 0}
+                      {game.orange || (game.blue === 0 ? '-' : 0)}
                     </Flex>
                   </td>
                 ))}

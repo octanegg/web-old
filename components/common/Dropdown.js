@@ -112,6 +112,19 @@ export const DropdownDate = ({ label, startDate, endDate, onChange }) => {
             Last Year
           </Button>
         </Stack>
+        <Stack direction="row" justify="center">
+          {[2020, 2019, 2018, 2017, 2016, 2015].map((year) => (
+            <Button
+              onClick={() =>
+                quickChange([
+                  moment(`${year}-01-01`, 'YYYY-MM-DD'),
+                  moment(`${year}-12-31`, 'YYYY-MM-DD'),
+                ])
+              }>
+              {year}
+            </Button>
+          ))}
+        </Stack>
       </Stack>
     </Dropdown>
   )
