@@ -64,7 +64,7 @@ export const PlayerStats = ({ filter, groupBy, defaultSort, isSortable }) => {
   const [order, setOrder] = useState(false)
 
   const doSort = (data, _sort, _order) => {
-    const keys = sort.split('.')
+    const keys = _sort.split('.')
     return keys.length > 1
       ? [...data].sort((a, b) =>
           _order

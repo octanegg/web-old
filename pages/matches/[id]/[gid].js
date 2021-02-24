@@ -1,5 +1,6 @@
 import { Content } from '@octane/components/common/Layout'
-import { Infobox, Navigation, Scoreboard } from '@octane/components/match/Match'
+import { Infobox, Navigation } from '@octane/components/match/Match'
+import { Scoreboard } from '@octane/components/match/Scoreboard'
 import { getServerSideAuth } from '@octane/util/auth'
 
 const Match = ({ auth, match, game }) => (
