@@ -1,8 +1,6 @@
-import { Flex, Divider, Stack, Text, Spacer } from '@chakra-ui/core'
-import { EditIcon } from '@chakra-ui/icons'
+import { Divider, Stack, Spacer } from '@chakra-ui/core'
 import { buildQuery } from '@octane/util/routes'
-import { useState } from 'react'
-import { ButtonLink, Button } from './Button'
+import { ButtonLink } from './Button'
 
 const navigation = {
   event: [
@@ -128,36 +126,24 @@ const navigation = {
   ],
 }
 
-const Navigation = ({ type, active, baseHref, filter, isOpen, hasDivider, children }) => {
-  const [open, setOpen] = useState(isOpen)
-  const nav = navigation[type]
-
-  return (
-    <Flex paddingLeft={2} paddingRight={2} direction="column" width="full">
-      <Stack width="full" direction="row" marginBottom={4} align="center">
-        {nav.map((item) => (
-          <ButtonLink
-            key={item.id}
-            href={`${baseHref || ''}${item.href || ''}${buildQuery(filter || {}, [''])}`}
-            isActive={active === item.id}>
-            {item.label}
-          </ButtonLink>
-        ))}
-        {hasDivider ? <Divider borderColor="secondary.400" /> : <Spacer />}
-        {children && (
-          <Button onClick={() => setOpen(!open)}>
-            <EditIcon paddingRight={1} />
-            <Text>Filters</Text>
-          </Button>
-        )}
-      </Stack>
-      {open && (
-        <Stack width="full" direction="row" marginBottom={4} align="center">
-          {children}
-        </Stack>
-      )}
-    </Flex>
-  )
-}
+const Navigation = ({ type, active, baseHref, filter, hasDivider }) => (
+  <Stack
+    paddingLeft={2}
+    paddingRight={2}
+    width="full"
+    direction="row"
+    marginBottom={2}
+    align="center">
+    {navigation[type].map((item) => (
+      <ButtonLink
+        key={item.id}
+        href={`${baseHref || ''}${item.href || ''}${buildQuery(filter || {}, [''])}`}
+        isActive={active === item.id}>
+        {item.label}
+      </ButtonLink>
+    ))}
+    {hasDivider ? <Divider borderColor="secondary.400" /> : <Spacer />}
+  </Stack>
+)
 
 export default Navigation

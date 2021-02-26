@@ -96,7 +96,29 @@ export const PlayerStats = ({ filter, groupBy, defaultSort, isSortable }) => {
 
   const updateSort = (field) => {
     const newOrder = sort === field ? !order : false
-    setStats(doSort(stats, field, newOrder))
+    if (field === 'player.tag') {
+      setStats(
+        [...stats].sort((a, b) =>
+          newOrder
+            ? b.player.tag.localeCompare(a.player.tag, 'en', { sensitivity: 'base' })
+            : a.player.tag.localeCompare(b.player.tag, 'en', { sensitivity: 'base' })
+        )
+      )
+    } else if (field === 'team.name') {
+      setStats(
+        [...stats].sort((a, b) =>
+          newOrder
+            ? b.teams[0].name.localeCompare(a.teams[0].name, 'en', {
+                sensitivity: 'base',
+              })
+            : a.teams[0].name.localeCompare(b.teams[0].name, 'en', {
+                sensitivity: 'base',
+              })
+        )
+      )
+    } else {
+      setStats(doSort(stats, field, newOrder))
+    }
     setOrder(newOrder)
     setSort(field)
   }
@@ -109,7 +131,20 @@ export const PlayerStats = ({ filter, groupBy, defaultSort, isSortable }) => {
   ) : (
     <Table>
       <Header>
-        <HeaderItem align="left">{groupBy || 'Player'}</HeaderItem>
+        <HeaderItem align="left" onClick={isSortable && (() => updateSort('player.tag'))}>
+          <Flex align="center">
+            <Text marginRight={1}>{groupBy || 'Player'}</Text>
+            <SortIcon field="player.tag" />
+          </Flex>
+        </HeaderItem>
+        {filter.event && (
+          <HeaderItem onClick={isSortable && (() => updateSort('team.name'))}>
+            <Flex align="center" justify="center">
+              <Text marginRight={1}>Team</Text>
+              <SortIcon field="team.name" />
+            </Flex>
+          </HeaderItem>
+        )}
         {fields.map((field) => (
           <HeaderItem onClick={isSortable && (() => updateSort(field.id))}>
             <Flex justify="center" align="center">
@@ -121,14 +156,21 @@ export const PlayerStats = ({ filter, groupBy, defaultSort, isSortable }) => {
       </Header>
       <Body>
         {stats?.map((stat, i) => (
-          <StatsRow key={i} stat={stat} sort={sort} groupBy={groupBy} />
+          <StatsRow
+            key={i}
+            stat={stat}
+            sort={sort}
+            groupBy={groupBy}
+            isEven={i % 2 === 0}
+            showTeams={filter.event}
+          />
         ))}
       </Body>
     </Table>
   )
 }
 
-const StatsRow = ({ stat, sort, groupBy }) => {
+const StatsRow = ({ stat, sort, groupBy, isEven, showTeams }) => {
   const { player, events, startDate, endDate, teams, opponents, averages } = stat
   const event = events[0]
   const team = teams[0]
@@ -171,12 +213,23 @@ const StatsRow = ({ stat, sort, groupBy }) => {
           </Stack>
         )}
         {!groupBy && (
-          <Stack paddingLeft={2} direction="row" fontSize="sm" align="center">
+          <Stack
+            paddingLeft={2}
+            direction="row"
+            fontSize="sm"
+            align="center"
+            backgroundColor={sort === 'player.tag' && (isEven ? '#effef7' : 'primary.50')}
+            height={10}>
             <Flag country={player.country || 'int'} />
             <Link href={`/players/${player._id}`}>{player.tag}</Link>
           </Stack>
         )}
       </Cell>
+      {showTeams && (
+        <Cell>
+          <Flex justify="center">{team.image && <Image width={6} src={team.image} />}</Flex>
+        </Cell>
+      )}
       {fields.map(({ id, round, percentage }) => {
         const keys = id.split('.')
         const value = keys.length > 1 ? averages[keys[1]] : stat[keys[0]]
@@ -187,7 +240,7 @@ const StatsRow = ({ stat, sort, groupBy }) => {
               padding={2}
               fontSize="sm"
               fontWeight={sort === id && 'bold'}
-              backgroundColor={sort === id && 'primary.50'}
+              backgroundColor={sort === id && (isEven ? '#effef7' : 'primary.50')}
               height={10}
               align="center"
               justify="center">

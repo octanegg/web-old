@@ -41,20 +41,22 @@ export const ButtonTypes = {
   cancel: {
     size: 'sm',
     fontSize: 'xs',
-    colorScheme: 'gray',
-    variant: 'ghost',
     fontWeight: 'bold',
+    height: 7,
+    color: 'tertiary.500',
+    backgroundColor: 'tertiary.50',
     _focus: { outline: 'none' },
-    _hover: { backgroundColor: 'secondary.50' },
+    _hover: { backgroundColor: 'tertiary.100' },
   },
   submit: {
     size: 'sm',
     fontSize: 'xs',
     fontWeight: 'bold',
-    color: '#fff',
-    backgroundColor: 'primary.500',
+    height: 7,
+    color: 'primary.600',
+    backgroundColor: 'primary.50',
     _focus: { outline: 'none' },
-    _hover: {},
+    _hover: { backgroundColor: 'primary.100' },
   },
 }
 

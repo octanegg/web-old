@@ -7,7 +7,7 @@ export const Articles = ({ articles }) => (
   <Stack width="full">
     {articles?.map(({ _id, published_at, title }, i) =>
       i === 0 ? (
-        <NextLink passHref href={`/news/${_id}`}>
+        <NextLink passHref href={`/news/${_id}`} key={_id}>
           <Link _hover={{}}>
             <Flex
               cursor="pointer"

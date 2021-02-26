@@ -19,7 +19,7 @@ import { useState } from 'react'
 import DatePicker from 'react-datepicker'
 import moment from 'moment'
 import Input from './Input'
-import { Button, ButtonTypes } from './Button'
+import { Button } from './Button'
 
 export const DropdownDate = ({ label, startDate, endDate, onChange }) => {
   const [isOpen, setIsOpen] = useState(false)
@@ -34,22 +34,11 @@ export const DropdownDate = ({ label, startDate, endDate, onChange }) => {
     setEnd(e ? moment(e).format('YYYY-MM-DD') : '')
   }
 
-  const handleSubmit = () => {
-    setIsOpen(false)
-    onChange([start || '', end || start || ''])
-  }
-
-  const handleClear = () => {
-    setIsOpen(false)
-    onChange(['', ''])
-  }
-
   const quickChange = ([s, e]) => {
     const _s = moment(s).format('YYYY-MM-DD')
     const _e = moment(e).format('YYYY-MM-DD')
     setStart(_s)
     setEnd(_e)
-    setIsOpen(false)
     onChange([_s, _e])
   }
 
@@ -60,16 +49,7 @@ export const DropdownDate = ({ label, startDate, endDate, onChange }) => {
       setIsOpen={() => setIsOpen}
       open={() => setIsOpen(!isOpen)}
       close={() => setIsOpen(false)}
-      footer={
-        <Stack direction="row" justify="flex-end" width="full">
-          <Button buttonType={ButtonTypes.cancel} onClick={handleClear}>
-            Clear
-          </Button>
-          <Button buttonType={ButtonTypes.submit} onClick={handleSubmit}>
-            Apply
-          </Button>
-        </Stack>
-      }>
+      isActive={startDate || endDate}>
       <Stack direction="column">
         <Text fontWeight="bold" fontSize="sm">
           Dates
@@ -130,7 +110,7 @@ export const DropdownDate = ({ label, startDate, endDate, onChange }) => {
   )
 }
 
-export const DropdownList = ({ items, label, itemToLabel, itemToId, onChange }) => {
+export const DropdownList = ({ items, active, label, itemToLabel, itemToId, onChange }) => {
   const [isOpen, setIsOpen] = useState(false)
 
   return (
@@ -139,7 +119,8 @@ export const DropdownList = ({ items, label, itemToLabel, itemToId, onChange }) 
       isOpen={isOpen}
       setIsOpen={() => setIsOpen}
       open={() => setIsOpen(!isOpen)}
-      close={() => setIsOpen(false)}>
+      close={() => setIsOpen(false)}
+      isActive={active}>
       <List maxHeight={400} overflowY="scroll">
         {items.map((item, i) => (
           <ListItem
@@ -173,7 +154,6 @@ export const DropdownCheckbox = ({ items, active, label, onChange, showImage }) 
     getItems(item).every((i) => (item.children && i === item.id) || _active?.includes(i))
 
   const handleChange = (item) => {
-    setIsOpen(false)
     if (isChecked(item)) {
       const remove = getItems(item)
       onChange(_active?.filter((i) => !remove.includes(i)) || [])
@@ -190,7 +170,8 @@ export const DropdownCheckbox = ({ items, active, label, onChange, showImage }) 
       isOpen={isOpen}
       setIsOpen={() => setIsOpen}
       open={() => setIsOpen(!isOpen)}
-      close={() => setIsOpen(false)}>
+      close={() => setIsOpen(false)}
+      isActive={active}>
       <List maxHeight={400} overflowY="scroll" padding={1}>
         <Checkboxes
           items={items}
@@ -257,7 +238,7 @@ const Checkboxes = ({ items, tier, isChecked, handleChange, showImage }) => (
   </>
 )
 
-const Dropdown = ({ label, isOpen, open, close, footer, children }) => (
+const Dropdown = ({ label, isOpen, open, close, footer, children, isActive }) => (
   <Popover placement="bottom" isOpen={isOpen} onClose={close}>
     <PopoverTrigger>
       <ChakraButton
@@ -265,6 +246,7 @@ const Dropdown = ({ label, isOpen, open, close, footer, children }) => (
         size="sm"
         fontWeight="semi"
         fontSize="xs"
+        backgroundColor={isActive ? 'secondary.100' : ''}
         _focus={{ outline: 'none' }}
         onClick={open}>
         {label}

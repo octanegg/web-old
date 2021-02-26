@@ -50,7 +50,7 @@ export const Matches = ({ matches }) => {
           }
 
           return (
-            <NextLink passHref href={`/matches/${_id}`}>
+            <NextLink passHref href={`/matches/${_id}`} key={_id}>
               <Link _hover={{}}>
                 <Stack
                   fontSize="xs"

@@ -18,6 +18,7 @@
         "react",
         "prettier"
     ],
+    "ignorePatterns": "**/admin/*.js",
     "rules": {
         "semi": 0,
         "import/no-unresolved": 0,

@@ -37,11 +37,13 @@ const Search = () => {
             label: player.tag,
           }))
           .concat(
-            teams.map((team) => ({
-              type: 'team',
-              id: team._id,
-              label: team.name,
-            }))
+            teams
+              .filter((team) => !players.some((player) => player.tag === team.name))
+              .map((team) => ({
+                type: 'team',
+                id: team._id,
+                label: team.name,
+              }))
           )
           .concat(
             events.map((event) => ({

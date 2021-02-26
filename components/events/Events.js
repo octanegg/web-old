@@ -84,8 +84,9 @@ const EventRow = ({ event }) => {
     <>
       <Row key={_id}>
         <Cell>
-          <NextLink href={`/events/${_id}`}>
+          <NextLink passHref href={`/events/${_id}`}>
             <Flex
+              as="a"
               width="full"
               cursor="pointer"
               fontSize="sm"

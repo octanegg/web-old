@@ -194,7 +194,15 @@ export const Infobox = ({ match, active }) => {
             <Link href={`/events/${event._id}`}>{event.name}</Link>
           </Stack>
         </LabeledField>
-        {games && <SeriesOverview blue={blue} orange={orange} games={games} isActive={active} />}
+        {games && (
+          <SeriesOverview
+            blue={blue}
+            orange={orange}
+            games={games}
+            isActive={active}
+            isBlueWinner={blue.winner}
+          />
+        )}
         <LabeledField label={toTime(date)} width="sm">
           {toDateYear(date)}
         </LabeledField>

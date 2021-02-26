@@ -2,6 +2,7 @@
   "name": "octane",
   "version": "1.0.0",
   "scripts": {
+    "preinstall": "npx npm-force-resolutions",
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
@@ -43,5 +44,8 @@
     "eslint-plugin-react": "^7.22.0",
     "eslint-plugin-react-hooks": "^4.0.0",
     "prettier": "^2.2.1"
+  },
+  "resolutions": {
+    "@aws-amplify/auth": "3.4.20"
   }
 }

@@ -1,55 +1,24 @@
 import { Content } from '@octane/components/common/Layout'
-import { useRouter } from 'next/router'
-import { useEffect, useState } from 'react'
 import moment from 'moment'
 import Matches from '@octane/components/matches/Matches'
-import {
-  GroupFilter,
-  ModeFilter,
-  RegionFilter,
-  TierFilter,
-} from '@octane/components/filters/Filters'
-import { buildQuery, route } from '@octane/util/routes'
 import Navigation from '@octane/components/common/Navigation'
 import { getServerSideAuth } from '@octane/util/auth'
+import UpcomingMatchesFilter from '@octane/components/filters/MatchFilters'
 
-const MatchesPage = ({ auth, initialFilter }) => {
-  const router = useRouter()
-  const [filter, setFilter] = useState(initialFilter)
-
-  const updateFilter = (key, value) => {
-    setFilter((prev) => ({
-      ...prev,
-      [key]: value === 'All' ? '' : value,
-    }))
-  }
-
-  useEffect(() => {
-    route(router, '/matches', buildQuery(filter, ['', 'perPage', 'before', 'after', 'sort']))
-  }, [filter])
-
-  return (
-    <Content auth={auth}>
-      <Navigation
-        type="matches"
-        active="ongoing"
-        isOpen={filter.tier || filter.region || filter.mode}>
-        <GroupFilter active={filter.group} onChange={(item) => updateFilter('group', item)} />
-        <TierFilter active={filter.tier} onChange={(item) => updateFilter('tier', item)} />
-        <RegionFilter active={filter.region} onChange={(item) => updateFilter('region', item)} />
-        <ModeFilter active={filter.mode} onChange={(item) => updateFilter('mode', item)} />
-      </Navigation>
-      <Matches filter={filter} onPaginate={(page) => updateFilter('page', page)} />
-    </Content>
-  )
-}
+const MatchesPage = ({ auth, filter }) => (
+  <Content auth={auth}>
+    <Navigation type="matches" active="ongoing" />
+    <UpcomingMatchesFilter initialFilter={filter} />
+    <Matches filter={filter} />
+  </Content>
+)
 
 export async function getServerSideProps({ req, query }) {
   const auth = getServerSideAuth(req)
   return {
     props: {
       auth,
-      initialFilter: {
+      filter: {
         mode: query.mode || 3,
         tier: query.tier || '',
         region: query.region || '',

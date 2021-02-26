@@ -1,64 +1,18 @@
 import { PlayerInfobox } from '@octane/components/common/Infobox'
 import { Content } from '@octane/components/common/Layout'
-import {
-  ModeFilter,
-  TierFilter,
-  ResultsFilter,
-  DateRangeFilter,
-  FormatFilter,
-  PlayerStatsTypeFilter,
-} from '@octane/components/filters/Filters'
-import { buildQuery, route } from '@octane/util/routes'
 import Navigation from '@octane/components/common/Navigation'
-import { useRouter } from 'next/router'
-import { useEffect, useState } from 'react'
 import PlayerStats from '@octane/components/stats/PlayerStats'
 import { getServerSideAuth } from '@octane/util/auth'
+import { PlayerStatsFilter } from '@octane/components/filters/PlayerFilters'
 
-const Player = ({ auth, player, initialFilter }) => {
-  const router = useRouter()
-  const [filter, setFilter] = useState(initialFilter)
-
-  useEffect(() => {
-    route(router, `/players/${player._id}/stats/teams`, buildQuery(filter, ['', 'player']))
-  }, [filter])
-
-  const updateFilter = (key, value) => {
-    setFilter((prev) => ({
-      ...prev,
-      [key]: value === 'All' ? '' : value,
-    }))
-  }
-
-  const handleStatTypeChange = (type) => route(router, `/players/${player._id}/stats/${type}`, '')
-
-  return (
-    <Content auth={auth}>
-      <PlayerInfobox player={player} />
-      <Navigation
-        type="player"
-        active="stats"
-        baseHref={`/players/${player._id}`}
-        isOpen={filter.tier || filter.mode || filter.winner || filter.after || filter.before}
-        hasDivider>
-        <PlayerStatsTypeFilter active="teams" onChange={handleStatTypeChange} />
-        <TierFilter active={filter.tier} onChange={(item) => updateFilter('tier', item)} />
-        <ModeFilter active={filter.mode} onChange={(item) => updateFilter('mode', item)} />
-        <ResultsFilter active={filter.winner} onChange={(item) => updateFilter('winner', item)} />
-        <DateRangeFilter
-          after={filter.after}
-          before={filter.before}
-          onChange={([after, before]) => {
-            updateFilter('after', after)
-            updateFilter('before', before)
-          }}
-        />
-        <FormatFilter active={filter.bestOf} onChange={(item) => updateFilter('bestOf', item)} />
-      </Navigation>
-      <PlayerStats filter={filter} groupBy="teams" isSortable />
-    </Content>
-  )
-}
+const Player = ({ auth, player, filter }) => (
+  <Content auth={auth}>
+    <PlayerInfobox player={player} />
+    <Navigation type="player" active="stats" baseHref={`/players/${player._id}`} hasDivider />
+    <PlayerStatsFilter player={player} type="events" initialFilter={filter} />
+    <PlayerStats filter={filter} groupBy="teams" isSortable />
+  </Content>
+)
 
 export async function getServerSideProps({ req, params, query }) {
   const auth = getServerSideAuth(req)
@@ -69,7 +23,7 @@ export async function getServerSideProps({ req, params, query }) {
     props: {
       auth,
       player,
-      initialFilter: {
+      filter: {
         player: id,
         mode: query.mode || 3,
         tier: query.tier || '',

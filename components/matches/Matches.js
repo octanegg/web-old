@@ -54,7 +54,8 @@ export const Matches = ({ filter, onPaginate }) => {
   ) : (
     <>
       {matches?.map((group, i) => (
-        <>
+        // eslint-disable-next-line react/jsx-no-undef
+        <React.Fragment key={i}>
           <Heading>{labels[i]}</Heading>
           <Table>
             <Body>
@@ -63,7 +64,7 @@ export const Matches = ({ filter, onPaginate }) => {
               ))}
             </Body>
           </Table>
-        </>
+        </React.Fragment>
       ))}
       {showPaginate && (
         <Flex justify="flex-end" width="full">
@@ -80,15 +81,16 @@ const MatchRow = ({ match, team, player }) => {
   const isBlue =
     blue?.team?.team?._id === team || blue?.players?.find((p) => p.player._id === player)
 
-  const left = isBlue ? blue : orange
-  const right = isBlue ? orange : blue
+  const left = (!team && !player) || isBlue ? blue : orange
+  const right = (!team && !player) || isBlue ? orange : blue
   const border = left?.winner ? 'win' : right?.winner ? 'loss' : ''
 
   return (
     <Row>
       <Cell>
-        <NextLink href={`/matches/${_id}`}>
+        <NextLink passHref href={`/matches/${_id}`}>
           <Flex
+            as="a"
             width="full"
             cursor="pointer"
             fontSize="sm"

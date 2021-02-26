@@ -85,7 +85,17 @@ export const TeamStats = ({ filter, groupBy, isSortable }) => {
 
   const updateSort = (field) => {
     const newOrder = sort === field ? !order : false
-    setStats(doSort(stats, field, newOrder))
+    if (field === 'team.name') {
+      setStats(
+        [...stats].sort((a, b) =>
+          newOrder
+            ? b.team.name.localeCompare(a.team.name, 'en', { sensitivity: 'base' })
+            : a.team.name.localeCompare(b.team.name, 'en', { sensitivity: 'base' })
+        )
+      )
+    } else {
+      setStats(doSort(stats, field, newOrder))
+    }
     setOrder(newOrder)
     setSort(field)
   }
@@ -98,7 +108,12 @@ export const TeamStats = ({ filter, groupBy, isSortable }) => {
   ) : (
     <Table>
       <Header>
-        <HeaderItem align="left">{groupBy || 'Team'}</HeaderItem>
+        <HeaderItem align="left" onClick={isSortable && (() => updateSort('team.name'))}>
+          <Flex align="center">
+            <Text marginRight={1}>{groupBy || 'Team'}</Text>
+            <SortIcon field="team.name" />
+          </Flex>
+        </HeaderItem>
         {fields.map((field) => (
           <HeaderItem onClick={isSortable && (() => updateSort(field.id))}>
             <Flex justify="center" align="center">
@@ -110,14 +125,14 @@ export const TeamStats = ({ filter, groupBy, isSortable }) => {
       </Header>
       <Body>
         {stats?.map((stat, i) => (
-          <StatsRow key={i} stat={stat} sort={sort} groupBy={groupBy} />
+          <StatsRow key={i} stat={stat} sort={sort} groupBy={groupBy} isEven={i % 2 === 0} />
         ))}
       </Body>
     </Table>
   )
 }
 
-const StatsRow = ({ stat, sort, groupBy }) => {
+const StatsRow = ({ stat, sort, groupBy, isEven }) => {
   const { team, opponents, events, startDate, endDate, averages } = stat
   const event = events[0]
   const opponent = opponents[0]
@@ -151,7 +166,13 @@ const StatsRow = ({ stat, sort, groupBy }) => {
           </Stack>
         )}
         {!groupBy && (
-          <Stack direction="row" align="center" fontSize="sm" marginLeft={2}>
+          <Stack
+            direction="row"
+            align="center"
+            fontSize="sm"
+            backgroundColor={sort === 'team.name' && (isEven ? '#effef7' : 'primary.50')}
+            height={10}
+            marginLeft={2}>
             <Flex width={6} justify="center">
               {team.image && <Image src={team.image} />}
             </Flex>
@@ -169,7 +190,8 @@ const StatsRow = ({ stat, sort, groupBy }) => {
               padding={2}
               fontSize="sm"
               fontWeight={sort === id && 'bold'}
-              backgroundColor={sort === id && 'primary.50'}
+              backgroundColor={sort === id && (isEven ? '#effef7' : 'primary.50')}
+              height={10}
               align="center"
               justify="center">
               {percentage ? `${(value * 100).toFixed(2)}%` : value.toFixed(round ?? 2)}

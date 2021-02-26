@@ -1,8 +1,9 @@
 import { Flex, Image, Stack, Text } from '@chakra-ui/core'
-import { toDateString } from '@octane/util/dates'
+import { toDateYearString } from '@octane/util/dates'
 import { formatPrize } from '@octane/util/prizes'
 import { Flag } from '@octane/components/common/Flag'
 import { LabeledField } from '@octane/components/common/Text'
+import { getRegion } from '@octane/util/regions'
 
 const Infobox = ({ title, image, children }) => (
   <Flex
@@ -17,32 +18,37 @@ const Infobox = ({ title, image, children }) => (
       <Text fontWeight="bold" fontSize="2xl" color="secondary.800">
         {title}
       </Text>
-      <Stack direction="row" width="lg">
+      <Stack direction="row" width="xl" spacing={8}>
         {children}
       </Stack>
     </Flex>
-    <Flex
-      justify="flex-end
-    ">
-      {image && <Image src={image} />}
-    </Flex>
+    <Flex justify="flex-end">{image && <Image src={image} />}</Flex>
   </Flex>
 )
 
 export const EventInfobox = ({ event }) => {
   const { name, startDate, endDate, region, tier, mode, prize, image } = event
 
+  const _region = getRegion(region)
+
   return (
     <Infobox title={name} image={image}>
-      <LabeledField label="dates" width={56}>
-        {toDateString(startDate, endDate)}
+      <LabeledField label="dates" width="auto">
+        {toDateYearString(startDate, endDate)}
       </LabeledField>
-      <LabeledField label="region">
-        <Flag region={region} />
+      <LabeledField label="region" width="auto">
+        <Stack direction="row" align="center">
+          <Image width="16px" height="11px" src={_region?.image} />
+          <Text>{_region?.label}</Text>
+        </Stack>
       </LabeledField>
-      <LabeledField label="tier">{tier}</LabeledField>
-      <LabeledField label="mode">{`${mode}v${mode}`}</LabeledField>
-      <LabeledField label="prize">{prize ? formatPrize(prize) : '-'}</LabeledField>
+      <LabeledField label="tier" width="auto">
+        {tier}
+      </LabeledField>
+      <LabeledField label="mode" width="auto">{`${mode}v${mode}`}</LabeledField>
+      <LabeledField label="prize" width="auto">
+        {prize ? formatPrize(prize) : '-'}
+      </LabeledField>
     </Infobox>
   )
 }
@@ -52,10 +58,10 @@ export const PlayerInfobox = ({ player }) => {
 
   return (
     <Infobox title={tag}>
-      <LabeledField label="name" width={40}>
+      <LabeledField label="name" width="auto">
         {name || '-'}
       </LabeledField>
-      <LabeledField label="nationality">
+      <LabeledField label="nationality" width="auto">
         <Flag country={country || 'int'} isLabeled={country} />
       </LabeledField>
     </Infobox>

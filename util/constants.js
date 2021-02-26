@@ -53,43 +53,6 @@ export const tiers = [
     label: 'Show Match',
   },
 ]
-export const regions = [
-  {
-    id: 'NA',
-    label: 'North America',
-    image: 'https://griffon.octane.gg/regions/na.png',
-  },
-  {
-    id: 'EU',
-    label: 'Europe',
-    image: 'https://griffon.octane.gg/regions/eu.png',
-  },
-  {
-    id: 'OCE',
-    label: 'Oceania',
-    image: 'https://griffon.octane.gg/regions/au.png',
-  },
-  {
-    id: 'SAM',
-    label: 'South America',
-    image: 'https://griffon.octane.gg/regions/sam.png',
-  },
-  {
-    id: 'ASIA',
-    label: 'Asia',
-    image: 'https://griffon.octane.gg/regions/int.png',
-  },
-  {
-    id: 'ME',
-    label: 'Middle East',
-    image: 'https://griffon.octane.gg/regions/int.png',
-  },
-  {
-    id: 'INT',
-    label: 'International',
-    image: 'https://griffon.octane.gg/regions/int.png',
-  },
-]
 export const modes = [
   {
     id: 3,

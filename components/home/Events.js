@@ -9,7 +9,7 @@ export const Events = ({ events }) => (
     <Heading>Ongoing Events</Heading>
     <Stack>
       {events?.map(({ _id, name, startDate, endDate, image, tier, prize }) => (
-        <NextLink passHref href={`/events/${_id}`}>
+        <NextLink passHref href={`/events/${_id}`} key={_id}>
           <Link _hover={{}}>
             <Stack
               fontSize="xs"
