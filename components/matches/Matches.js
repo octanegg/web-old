@@ -114,7 +114,7 @@ const MatchRow = ({ match, team, player }) => {
                 </Flex>
               </LabeledText>
             </Flex>
-            <Flex direction="row" width="xl">
+            <Flex direction="row" width="2xl">
               <Team side={left} />
               <Link href={`/matches/${_id}`}>
                 <Score left={left?.score} right={right?.score} />

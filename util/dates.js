@@ -19,3 +19,25 @@ export const toDateYearString = (startDate, endDate) =>
   moment(startDate).isSame(moment(endDate), 'day')
     ? `${toDate(startDate)}, ${moment(endDate).format('YYYY')}`
     : `${toDate(startDate)} - ${toDate(endDate)}, ${moment(endDate).format('YYYY')}`
+
+export const timeUntil = (date) => {
+  const minutes = Math.abs(moment().diff(moment(date), 'minutes'))
+  if (minutes < 60) {
+    return `in ${minutes}m`
+  }
+  if (minutes < 60 * 24) {
+    return `in ${Math.floor(minutes / 60)}h`
+  }
+  return moment(date).format('MMM D')
+}
+
+export const timeSince = (date) => {
+  const minutes = Math.abs(moment().diff(moment(date), 'minutes'))
+  if (minutes < 60) {
+    return `${minutes}m ago`
+  }
+  if (minutes < 60 * 24) {
+    return `${Math.floor(minutes / 60)}h ago`
+  }
+  return moment(date).format('MMM D')
+}

@@ -209,7 +209,7 @@ const Checkboxes = ({ items, tier, isChecked, handleChange, showImage }) => (
           }}>
           <Stack direction="row">
             <Checkbox
-              borderColor="secondary.300"
+              borderColor="secondary.200"
               colorScheme="whatsapp"
               size="md"
               isChecked={isChecked(item)}
@@ -246,8 +246,11 @@ const Dropdown = ({ label, isOpen, open, close, footer, children, isActive }) =>
         size="sm"
         fontWeight="semi"
         fontSize="xs"
-        backgroundColor={isActive ? 'secondary.100' : ''}
+        backgroundColor={isActive ? 'primary.50' : 'secondary.50'}
         _focus={{ outline: 'none' }}
+        _hover={
+          isActive ? { backgroundColor: 'primary.100' } : { backgroundColor: 'secondary.100' }
+        }
         onClick={open}>
         {label}
         <ChevronDownIcon marginLeft={1} />

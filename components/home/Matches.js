@@ -1,8 +1,8 @@
-import moment from 'moment'
 import { Link, Flex, Image, Spacer, Stack, Text } from '@chakra-ui/core'
 import { Button, ButtonTypes } from '@octane/components/common/Button'
 import { useState } from 'react'
 import NextLink from 'next/link'
+import { timeSince, timeUntil } from '@octane/util/dates'
 
 export const Matches = ({ matches }) => {
   const { completed, upcoming } = matches
@@ -29,26 +29,6 @@ export const Matches = ({ matches }) => {
           const blueScore = blue?.score || 0
           const orangeScore = orange?.score || 0
 
-          const dateLabel = () => {
-            const minutes = Math.abs(moment().diff(moment(date), 'minutes'))
-            if (toggle) {
-              if (minutes < 60) {
-                return `in ${minutes}m`
-              }
-              if (minutes < 60 * 24) {
-                return `in ${Math.floor(minutes / 60)}h`
-              }
-              return moment(date).format('MMM D')
-            }
-            if (minutes < 60) {
-              return `${minutes}m ago`
-            }
-            if (minutes < 60 * 24) {
-              return `${Math.floor(minutes / 60)}h ago`
-            }
-            return moment(date).format('MMM D')
-          }
-
           return (
             <NextLink passHref href={`/matches/${_id}`} key={_id}>
               <Link _hover={{}}>
@@ -61,7 +41,7 @@ export const Matches = ({ matches }) => {
                   padding={2}>
                   <Flex fontSize="10px" justify="space-between">
                     <Text fontWeight="bold">{event.name}</Text>
-                    <Text fontStyle="italic">{dateLabel()}</Text>
+                    <Text fontStyle="italic">{toggle ? timeUntil(date) : timeSince(date)}</Text>
                   </Flex>
                   <Stack direction="row" align="center">
                     <Flex width={10}>

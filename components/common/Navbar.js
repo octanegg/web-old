@@ -4,7 +4,6 @@ import NextLink from 'next/link'
 import Search from '@octane/components/common/Search'
 import { useAuthFunctions } from 'aws-cognito-next'
 import { isAdmin } from '@octane/util/auth'
-import moment from 'moment'
 
 const NavItem = ({ href, onClick, children }) => (
   <Flex
@@ -70,9 +69,6 @@ const Navbar = ({ auth }) => {
           align="center"
           fontWeight="semi"
           direction={{ base: 'column', md: 'row' }}>
-          {/* <NavItem href="#" leftBorder>
-            News
-          </NavItem> */}
           <NavItem href="/matches" leftBorder>
             Matches
           </NavItem>
@@ -80,9 +76,7 @@ const Navbar = ({ auth }) => {
             Events
           </NavItem>
           <NavItem
-            href={`/stats/players?mode=3&before=${moment().format(
-              'YYYY-MM-DD'
-            )}&after=${moment().subtract(3, 'month').format('YYYY-MM-DD')}&minGames=25`}
+            href="/stats/players?mode=3&minGames=50&group=rlcsxfall&group=rlcsxwinter"
             leftBorder>
             Stats
           </NavItem>

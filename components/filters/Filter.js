@@ -55,7 +55,7 @@ export const RegionFilter = ({ active, onChange }) => (
 )
 
 export const ModeFilter = ({ active, onChange }) => (
-  <DropdownCheckbox label="Modes" items={modes} active={active} onChange={onChange} />
+  <DropdownCheckbox label="Modes" items={modes} active={parseInt(active, 10)} onChange={onChange} />
 )
 
 export const FormatFilter = ({ active, onChange }) => (
