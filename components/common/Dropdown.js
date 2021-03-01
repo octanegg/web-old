@@ -13,6 +13,11 @@ import {
   Stack,
   Text,
   Image,
+  NumberInput,
+  NumberInputField,
+  NumberInputStepper,
+  NumberIncrementStepper,
+  NumberDecrementStepper,
 } from '@chakra-ui/core'
 import { ChevronDownIcon } from '@chakra-ui/icons'
 import { useState } from 'react'
@@ -140,6 +145,69 @@ export const DropdownList = ({ items, active, label, itemToLabel, itemToId, onCh
           </ListItem>
         ))}
       </List>
+    </Dropdown>
+  )
+}
+
+export const DropdownInput = ({ active, label, onChange }) => {
+  const [isOpen, setIsOpen] = useState(false)
+  const [amount, setAmount] = useState(active)
+
+  const handleChange = (v) => {
+    setAmount(v)
+    onChange(v)
+  }
+
+  return (
+    <Dropdown
+      label={label}
+      isOpen={isOpen}
+      setIsOpen={() => setIsOpen}
+      open={() => setIsOpen(!isOpen)}
+      close={() => setIsOpen(false)}
+      isActive={active}>
+      <Stack>
+        <Stack direction="row" align="center" justify="center">
+          <NumberInput
+            step={10}
+            value={amount}
+            min={0}
+            max={1000}
+            width={20}
+            size="sm"
+            onChange={handleChange}
+            focusInputOnChange={false}
+            _focus={{ outline: 'none' }}
+            _hover={{}}>
+            <NumberInputField
+              _focus={{ outline: 'none' }}
+              _hover={{}}
+              borderColor="secondary.300"
+            />
+            <NumberInputStepper>
+              <NumberIncrementStepper
+                _focus={{ outline: 'none' }}
+                _hover={{ backgroundColor: 'secondary.50' }}
+                borderColor="secondary.300"
+              />
+              <NumberDecrementStepper
+                _focus={{ outline: 'none' }}
+                _hover={{ backgroundColor: 'secondary.50' }}
+                borderColor="secondary.300"
+              />
+            </NumberInputStepper>
+          </NumberInput>
+          <Text>minimum games</Text>
+        </Stack>
+        <Stack direction="row" justify="center">
+          <Button onClick={() => handleChange(25)}>25</Button>
+          <Button onClick={() => handleChange(50)}>50</Button>
+          <Button onClick={() => handleChange(100)}>100</Button>
+          <Button onClick={() => handleChange(250)}>250</Button>
+          <Button onClick={() => handleChange(500)}>500</Button>
+          <Button onClick={() => handleChange(1000)}>1000</Button>
+        </Stack>
+      </Stack>
     </Dropdown>
   )
 }

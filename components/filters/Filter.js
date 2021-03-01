@@ -1,4 +1,8 @@
-import DropdownList, { DropdownCheckbox, DropdownDate } from '@octane/components/common/Dropdown'
+import DropdownList, {
+  DropdownCheckbox,
+  DropdownDate,
+  DropdownInput,
+} from '@octane/components/common/Dropdown'
 import {
   minGames,
   tiers,
@@ -121,13 +125,7 @@ export const StatsCategoryFilter = ({ active, onChange }) => (
 )
 
 export const MinGamesFilter = ({ active, onChange }) => (
-  <DropdownList
-    label="Min Games"
-    items={minGames}
-    active={active}
-    itemToLabel={(item) => (item !== 'All' ? `${item}+` : 'No Minimum')}
-    onChange={onChange}
-  />
+  <DropdownInput label="Min Games" active={active} onChange={onChange} />
 )
 
 export const StageFilter = ({ stages, active, onChange }) => (
