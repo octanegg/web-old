@@ -9,6 +9,7 @@ import {
   StageFilter,
   StatsCategoryFilter,
   TierFilter,
+  YearFilter,
 } from '@octane/components/filters/Filter'
 import { buildQuery, route } from '@octane/util/routes'
 import { useRouter } from 'next/router'
@@ -28,7 +29,7 @@ export const UpcomingEventsFilter = ({ initialFilter }) => {
 
   return (
     <Filter
-      onApply={() => route(router, '/events', buildQuery(filter, ['']))}
+      onApply={() => route(router, '/events', buildQuery(filter, ['', 'sort']))}
       onReset={() => {
         setFilter({
           after: moment().toISOString(),
@@ -57,18 +58,25 @@ export const CompletedEventsFilter = ({ initialFilter }) => {
 
   return (
     <Filter
-      onApply={() => route(router, '/events', buildQuery(filter, ['']))}
+      onApply={() => route(router, '/events/archive', buildQuery(filter, ['', 'sort']))}
       onReset={() => {
         setFilter({
           before: moment().toISOString(),
           sort: 'start_date:asc',
         })
-        route(router, '/events', '')
+        route(router, '/events/archive', '')
       }}>
       <GroupFilter active={filter.group} onChange={(item) => updateFilter('group', item)} />
       <TierFilter active={filter.tier} onChange={(item) => updateFilter('tier', item)} />
       <RegionFilter active={filter.region} onChange={(item) => updateFilter('region', item)} />
       <ModeFilter active={filter.mode} onChange={(item) => updateFilter('mode', item)} />
+      <YearFilter
+        active={filter.after && parseInt(moment(filter.after).format('YYYY'), 10)}
+        onChange={(year) => {
+          updateFilter('after', `${year}-01-01`)
+          updateFilter('before', `${year}-12-31`)
+        }}
+      />
     </Filter>
   )
 }

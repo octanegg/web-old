@@ -46,7 +46,7 @@ const fields = [
   },
 ]
 
-export const TeamStats = ({ filter, groupBy, isSortable }) => {
+export const TeamStats = ({ filter, groupBy, setCountMessage, isSortable }) => {
   const [stats, setStats] = useState([])
   const [loading, setLoading] = useState(true)
   const [sort, setSort] = useState(filter.sort ? '' : 'winPercentage')
@@ -78,6 +78,9 @@ export const TeamStats = ({ filter, groupBy, isSortable }) => {
       }
 
       setStats(filter.sort ? data.stats : doSort(data.stats, sort, order))
+      if (setCountMessage) {
+        setCountMessage(`${data.stats.length} teams found`)
+      }
       setLoading(false)
     }
     fetchRecords()

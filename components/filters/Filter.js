@@ -4,7 +4,6 @@ import DropdownList, {
   DropdownInput,
 } from '@octane/components/common/Dropdown'
 import {
-  minGames,
   tiers,
   events,
   modes,
@@ -15,6 +14,7 @@ import {
   statCategories,
   playerStatsTypes,
   teamStatsTypes,
+  years,
 } from '@octane/util/constants'
 import { getCountries } from '@octane/util/countries'
 import { useEffect, useState } from 'react'
@@ -64,6 +64,10 @@ export const ModeFilter = ({ active, onChange }) => (
 
 export const FormatFilter = ({ active, onChange }) => (
   <DropdownCheckbox label="Formats" items={formats} active={active} onChange={onChange} />
+)
+
+export const YearFilter = ({ active, onChange }) => (
+  <DropdownList label="Years" items={years} active={active} onChange={onChange} />
 )
 
 export const NationalityFilter = ({ active, onChange }) => (
@@ -176,7 +180,7 @@ export const ReverseSweepsFilter = ({ reverseSweep, reverseSweepAttempt, onChang
   return (
     <DropdownList
       label="Results"
-      active={reverseSweep || reverseSweepAttempt}
+      active={reverseSweep ? items[1] : reverseSweepAttempt ? items[2] : ''}
       items={items}
       onChange={(item) => onChange(item === items[1] || '', item === items[2] || '')}
     />

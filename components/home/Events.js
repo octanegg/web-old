@@ -41,14 +41,18 @@ const EventsList = ({ events, isUpcoming }) => (
 
 export const Events = ({ ongoing, upcoming }) => (
   <Flex direction="column" color="secondary.800" minWidth={60}>
-    <Flex direction="column">
-      <Heading>Ongoing Events</Heading>
-      <EventsList events={ongoing} />
-    </Flex>
-    <Flex direction="column" marginTop={4}>
-      <Heading>Upcoming Events</Heading>
-      <EventsList events={upcoming} isUpcoming />
-    </Flex>
+    {ongoing && (
+      <Flex direction="column">
+        <Heading>Ongoing Events</Heading>
+        <EventsList events={ongoing} />
+      </Flex>
+    )}
+    {upcoming && (
+      <Flex direction="column" marginTop={4}>
+        <Heading>Upcoming Events</Heading>
+        <EventsList events={upcoming} isUpcoming />
+      </Flex>
+    )}
   </Flex>
 )
 

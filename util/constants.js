@@ -82,7 +82,7 @@ export const formats = [
   },
 ]
 export const results = ['All', 'Wins', 'Losses']
-export const minGames = ['All', 1000, 500, 250, 100, 50]
+export const years = [2021, 2020, 2019, 2018, 2017, 2016, 2015]
 export const statCategories = ['players', 'teams']
 export const playerStatsTypes = ['teams', 'opponents', 'events']
 export const teamStatsTypes = ['players', 'opponents', 'events']

@@ -7,7 +7,7 @@ import { CompletedEventsFilter } from '@octane/components/filters/EventFilters'
 
 const EventsPage = ({ auth, filter }) => (
   <Content auth={auth}>
-    <Navigation type="events" active="completed" filter={filter} />
+    <Navigation type="events" active="completed" />
     <CompletedEventsFilter initialFilter={filter} />
     <Events filter={filter} />
   </Content>
@@ -23,7 +23,8 @@ export async function getServerSideProps({ req, query }) {
         tier: query.tier || '',
         region: query.region || '',
         group: query.group || '',
-        before: moment().toISOString(),
+        before: query.before || moment().toISOString(),
+        after: query.after || '',
         sort: 'start_date:desc',
       },
     },

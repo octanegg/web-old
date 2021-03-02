@@ -57,7 +57,7 @@ const fields = [
   },
 ]
 
-export const PlayerStats = ({ filter, groupBy, defaultSort, isSortable }) => {
+export const PlayerStats = ({ filter, groupBy, setCountMessage, defaultSort, isSortable }) => {
   const [stats, setStats] = useState([])
   const [loading, setLoading] = useState(true)
   const [sort, setSort] = useState(filter.sort ? '' : defaultSort || 'averages.rating')
@@ -89,6 +89,9 @@ export const PlayerStats = ({ filter, groupBy, defaultSort, isSortable }) => {
       }
 
       setStats(filter.sort ? data.stats : doSort(data.stats, sort, order))
+      if (setCountMessage) {
+        setCountMessage(`${data.stats.length} players found`)
+      }
       setLoading(false)
     }
     fetchRecords()

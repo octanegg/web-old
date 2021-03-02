@@ -137,6 +137,7 @@ export const DropdownList = ({ items, active, label, itemToLabel, itemToId, onCh
             fontWeight="semi"
             cursor="pointer"
             value={itemToId ? itemToId(item) : item}
+            backgroundColor={active === (itemToId ? itemToId(item) : item) && 'secondary.50'}
             onClick={(e) => {
               onChange(e.currentTarget.getAttribute('value'))
               setIsOpen(false)
@@ -289,7 +290,7 @@ const Checkboxes = ({ items, tier, isChecked, handleChange, showImage }) => (
                   {item.image && <Image src={item.image} />}
                 </Flex>
               )}
-              <Flex>{item.label}</Flex>
+              <Flex>{item.label || item.id}</Flex>
             </Stack>
           </Stack>
         </ListItem>

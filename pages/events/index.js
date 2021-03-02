@@ -7,7 +7,7 @@ import { UpcomingEventsFilter } from '@octane/components/filters/EventFilters'
 
 const EventsPage = ({ auth, filter }) => (
   <Content auth={auth}>
-    <Navigation type="events" active="ongoing" filter={filter} />
+    <Navigation type="events" active="ongoing" />
     <UpcomingEventsFilter initialFilter={filter} />
     {!filter.mode && !filter.tier && !filter.region && (
       <Events
