@@ -50,6 +50,7 @@ const Search = () => {
               type: 'event',
               id: event._id,
               label: event.name,
+              groups: event.groups,
             }))
           )
           .sort((a, b) => a.label.toLowerCase().localeCompare(b.label.toLowerCase()))
@@ -61,8 +62,10 @@ const Search = () => {
 
   useEffect(() => {
     const filter = () => {
-      const _results = options.filter((result) =>
-        result.label.toLowerCase().includes(search.toLowerCase())
+      const _results = options.filter(
+        (result) =>
+          result.label.toLowerCase().includes(search.toLowerCase()) ||
+          result.groups?.find((group) => group.toLowerCase().includes(search.toLowerCase()))
       )
       if (_results.length < MAX_RESULTS) {
         setResults(_results)
