@@ -1,4 +1,4 @@
-import { Divider, Stack, Spacer, Text } from '@chakra-ui/core'
+import { Divider, Stack, Spacer } from '@chakra-ui/core'
 import { buildQuery } from '@octane/util/routes'
 import { ButtonLink } from './Button'
 
@@ -126,7 +126,7 @@ const navigation = {
   ],
 }
 
-const Navigation = ({ type, active, baseHref, filter, message, hasDivider }) => (
+const Navigation = ({ type, active, baseHref, filter, hasDivider }) => (
   <Stack
     paddingLeft={2}
     paddingRight={2}
@@ -142,12 +142,7 @@ const Navigation = ({ type, active, baseHref, filter, message, hasDivider }) => 
         {item.label}
       </ButtonLink>
     ))}
-    {hasDivider ? <Divider borderColor="secondary.400" /> : <Spacer />}
-    {message && (
-      <Text fontSize="xs" fontWeight="medium" color="secondary.800">
-        {message}
-      </Text>
-    )}
+    {hasDivider ? <Divider borderColor="secondary.300" /> : <Spacer />}
   </Stack>
 )
 

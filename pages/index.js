@@ -49,10 +49,11 @@ export async function getServerSideProps({ req }) {
       auth,
       articles,
       matches: {
-        completed: completedMatches.matches
-          .filter((m) => m.blue && m.orange && (m.blue.score > 0 || m.orange.score > 0))
-          .slice(0, 10),
-        upcoming: upcomingMatches.matches.filter((m) => m.blue && m.orange).slice(0, 10),
+        completed:
+          completedMatches.matches
+            ?.filter((m) => m.blue && m.orange && (m.blue.score > 0 || m.orange.score > 0))
+            .slice(0, 10) || [],
+        upcoming: upcomingMatches.matches?.filter((m) => m.blue && m.orange).slice(0, 10) || [],
       },
       events: {
         ongoing: ongoingEvents.events,

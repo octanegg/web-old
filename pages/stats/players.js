@@ -3,19 +3,14 @@ import PlayerStats from '@octane/components/stats/PlayerStats'
 import Navigation from '@octane/components/common/Navigation'
 import { getServerSideAuth } from '@octane/util/auth'
 import { PlayerStatsFilter } from '@octane/components/filters/StatFilters'
-import { useState } from 'react'
 
-const Stats = ({ auth, filter }) => {
-  const [message, setMessage] = useState('')
-
-  return (
-    <Content auth={auth}>
-      <Navigation type="stats" active="players" filter={filter} message={message} />
-      <PlayerStatsFilter initialFilter={filter} />
-      <PlayerStats filter={filter} setCountMessage={setMessage} isSortable />
-    </Content>
-  )
-}
+const Stats = ({ auth, filter }) => (
+  <Content auth={auth}>
+    <Navigation type="stats" active="players" filter={filter} />
+    <PlayerStatsFilter initialFilter={filter} />
+    <PlayerStats filter={filter} isSortable />
+  </Content>
+)
 
 export async function getServerSideProps({ req, query }) {
   const auth = getServerSideAuth(req)

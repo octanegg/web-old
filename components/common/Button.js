@@ -28,6 +28,28 @@ export const ButtonTypes = {
       _focus: { outline: 'none' },
     },
   },
+  nav: {
+    default: {
+      color: 'secondary.400',
+      variant: 'ghost',
+      fontWeight: 'semi',
+      height: 7,
+      size: 'sm',
+      fontSize: 'xs',
+      _hover: { color: 'secondary.700' },
+      _focus: { outline: 'none' },
+    },
+    selected: {
+      variant: 'ghost',
+      color: 'secondary.700',
+      fontWeight: 'extra',
+      height: 7,
+      size: 'sm',
+      fontSize: 'xs',
+      _hover: {},
+      _focus: { outline: 'none' },
+    },
+  },
   default: {
     backgroundColor: 'secondary.50',
     color: 'secondary.700',

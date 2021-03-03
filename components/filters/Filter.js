@@ -32,6 +32,7 @@ export const Filter = ({ children, onApply, onReset }) => (
     width="full"
     direction="row"
     marginBottom={2}
+    marginTop={2}
     align="center">
     {children}
     <Spacer />

@@ -100,6 +100,7 @@ export const DropdownDate = ({ label, startDate, endDate, onChange }) => {
         <Stack direction="row" justify="center">
           {[2020, 2019, 2018, 2017, 2016, 2015].map((year) => (
             <Button
+              key={year}
               onClick={() =>
                 quickChange([
                   moment(`${year}-01-01`, 'YYYY-MM-DD'),
@@ -315,6 +316,7 @@ const Dropdown = ({ label, isOpen, open, close, footer, children, isActive }) =>
         size="sm"
         fontWeight="semi"
         fontSize="xs"
+        border={isActive ? '1px solid #94e8be' : ''}
         backgroundColor={isActive ? 'primary.50' : 'secondary.50'}
         _focus={{ outline: 'none' }}
         _hover={

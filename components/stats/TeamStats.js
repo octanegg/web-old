@@ -1,4 +1,4 @@
-import { Flex, Stack, Image, Text } from '@chakra-ui/core'
+import { Flex, Stack, Image, Text, Spacer } from '@chakra-ui/core'
 import { useEffect, useState } from 'react'
 import { Table, Header, HeaderItem, Body, Row, Cell } from '@octane/components/common/Table'
 import { ChevronDownIcon, ChevronUpIcon, UpDownIcon } from '@chakra-ui/icons'
@@ -7,61 +7,15 @@ import { apiFetch } from '@octane/util/fetch'
 import { buildQuery } from '@octane/util/routes'
 import LabeledText, { Link } from '@octane/components/common/Text'
 import { toDateYearString } from '@octane/util/dates'
+import sortObj, { getFieldFromObj, sortObjLex, teamStatFields } from '@octane/util/stats'
+import { Button, ButtonTypes } from '@octane/components/common/Button'
 
-const fields = [
-  {
-    id: 'games',
-    label: 'Games',
-    round: 0,
-  },
-  {
-    id: 'winPercentage',
-    label: 'Win %',
-    percentage: true,
-  },
-  {
-    id: 'averages.score',
-    label: 'Score',
-  },
-  {
-    id: 'averages.goals',
-    label: 'Goals',
-  },
-  {
-    id: 'averages.assists',
-    label: 'Assists',
-  },
-  {
-    id: 'averages.saves',
-    label: 'Saves',
-  },
-  {
-    id: 'averages.shots',
-    label: 'Shots',
-  },
-  {
-    id: 'averages.shootingPercentage',
-    label: 'SH%',
-    percentage: true,
-  },
-]
-
-export const TeamStats = ({ filter, groupBy, setCountMessage, isSortable }) => {
+export const TeamStats = ({ filter, groupBy, isSortable }) => {
   const [stats, setStats] = useState([])
   const [loading, setLoading] = useState(true)
-  const [sort, setSort] = useState(filter.sort ? '' : 'winPercentage')
+  const [sort, setSort] = useState('winPercentage')
   const [order, setOrder] = useState(false)
-
-  const doSort = (data, _sort, _order) => {
-    const keys = sort.split('.')
-    return keys.length > 1
-      ? [...data].sort((a, b) =>
-          _order
-            ? a[keys[0]][keys[1]] - b[keys[0]][keys[1]]
-            : b[keys[0]][keys[1]] - a[keys[0]][keys[1]]
-        )
-      : [...data].sort((a, b) => (_order ? a[_sort] - b[_sort] : b[_sort] - a[_sort]))
-  }
+  const [statType, setStatType] = useState('averages')
 
   useEffect(() => {
     const fetchRecords = async () => {
@@ -72,15 +26,8 @@ export const TeamStats = ({ filter, groupBy, setCountMessage, isSortable }) => {
         `/stats/teams${groupBy ? `/${groupBy}` : ''}`,
         buildQuery(filter, [''])
       )
-      if (!data.stats) {
-        setLoading(false)
-        return
-      }
 
-      setStats(filter.sort ? data.stats : doSort(data.stats, sort, order))
-      if (setCountMessage) {
-        setCountMessage(`${data.stats.length} teams found`)
-      }
+      setStats(data.stats ? sortObj(data.stats, sort, order) : [])
       setLoading(false)
     }
     fetchRecords()
@@ -89,15 +36,9 @@ export const TeamStats = ({ filter, groupBy, setCountMessage, isSortable }) => {
   const updateSort = (field) => {
     const newOrder = sort === field ? !order : false
     if (field === 'team.name') {
-      setStats(
-        [...stats].sort((a, b) =>
-          newOrder
-            ? b.team.name.localeCompare(a.team.name, 'en', { sensitivity: 'base' })
-            : a.team.name.localeCompare(b.team.name, 'en', { sensitivity: 'base' })
-        )
-      )
+      setStats(sortObjLex(stats, field, newOrder))
     } else {
-      setStats(doSort(stats, field, newOrder))
+      setStats(sortObj(stats, field, newOrder))
     }
     setOrder(newOrder)
     setSort(field)
@@ -109,42 +50,72 @@ export const TeamStats = ({ filter, groupBy, setCountMessage, isSortable }) => {
   return loading ? (
     <Loading />
   ) : (
-    <Table>
-      <Header>
-        <HeaderItem align="left" onClick={isSortable && (() => updateSort('team.name'))}>
-          <Flex align="center">
-            <Text marginRight={1}>{groupBy || 'Team'}</Text>
-            <SortIcon field="team.name" />
-          </Flex>
-        </HeaderItem>
-        {fields.map((field) => (
-          <HeaderItem onClick={isSortable && (() => updateSort(field.id))}>
-            <Flex justify="center" align="center">
-              <Text marginRight={1}>{field.label}</Text>
-              <SortIcon field={field.id} />
+    <Stack width="full" align="center">
+      <Flex padding={2} align="center" width="full">
+        <Stack direction="row" align="center">
+          {Object.keys(teamStatFields).map((field) => (
+            <Button
+              buttonType={statType === field ? ButtonTypes.nav.selected : ButtonTypes.nav.default}
+              onClick={() => setStatType(field)}>
+              {field.charAt(0).toUpperCase() + field.slice(1)}
+            </Button>
+          ))}
+        </Stack>
+        <Spacer />
+        <Text fontSize="xs" fontWeight="medium" color="secondary.800">
+          {`${stats.length} teams found`}
+        </Text>
+      </Flex>
+      <Table>
+        <Header>
+          <HeaderItem align="left" onClick={isSortable && (() => updateSort('team.name'))}>
+            <Flex align="center">
+              <Text marginRight={1}>{groupBy || 'Team'}</Text>
+              <SortIcon field="team.name" />
             </Flex>
           </HeaderItem>
-        ))}
-      </Header>
-      <Body>
-        {stats?.map((stat, i) => (
-          <StatsRow key={i} stat={stat} sort={sort} groupBy={groupBy} isEven={i % 2 === 0} />
-        ))}
-      </Body>
-    </Table>
+          {teamStatFields[statType].map((field) => (
+            <HeaderItem onClick={isSortable && (() => updateSort(field.id))}>
+              <Flex justify="center" align="center">
+                <Text marginRight={1}>{field.label}</Text>
+                <SortIcon field={field.id} />
+              </Flex>
+            </HeaderItem>
+          ))}
+        </Header>
+        <Body>
+          {stats?.map((record, i) => (
+            <StatsRow
+              key={i}
+              record={record}
+              fields={teamStatFields[statType]}
+              sort={sort}
+              groupBy={groupBy}
+              isEven={i % 2 === 0}
+            />
+          ))}
+        </Body>
+      </Table>
+    </Stack>
   )
 }
 
-const StatsRow = ({ stat, sort, groupBy, isEven }) => {
-  const { team, opponents, events, startDate, endDate, averages } = stat
+const StatsRow = ({ record, fields, sort, groupBy, isEven }) => {
+  const { team, opponents, events, startDate, endDate } = record
   const event = events[0]
   const opponent = opponents[0]
 
   return (
     <Row>
-      <Cell>
-        {groupBy === 'events' && (
-          <Flex align="center" justify="flex-start" fontSize="sm" paddingTop={1} paddingBottom={1}>
+      {groupBy === 'events' && (
+        <Cell>
+          <Flex
+            align="center"
+            justify="flex-start"
+            fontSize="sm"
+            height={10}
+            paddingTop={1}
+            paddingBottom={1}>
             <Flex minWidth={10} justify="center">
               <Flex minWidth={8} marginRight={2} marginLeft={2}>
                 {event.image && <Image height={6} src={event.image} />}
@@ -159,49 +130,53 @@ const StatsRow = ({ stat, sort, groupBy, isEven }) => {
               <Link href={`/events/${event._id}`}>{event.name}</Link>
             </LabeledText>
           </Flex>
-        )}
-        {groupBy === 'opponents' && (
-          <Stack direction="row" align="center" fontSize="sm" marginLeft={2}>
+        </Cell>
+      )}
+      {groupBy === 'opponents' && (
+        <Cell width="16rem">
+          <Stack direction="row" align="center" fontSize="sm" height={10} marginLeft={2}>
             <Flex width={6} justify="center">
               {opponent.image && <Image src={opponent.image} />}
             </Flex>
             <Link href={`/teams/${opponent._id}`}>{opponent.name}</Link>
           </Stack>
-        )}
-        {!groupBy && (
+        </Cell>
+      )}
+      {!groupBy && (
+        <Cell width="16rem">
           <Stack
             direction="row"
             align="center"
             fontSize="sm"
             backgroundColor={sort === 'team.name' && (isEven ? '#effef7' : 'primary.50')}
             height={10}
-            marginLeft={2}>
+            paddingLeft={2}>
             <Flex width={6} justify="center">
               {team.image && <Image src={team.image} />}
             </Flex>
-            <Link href={`/teams/${team._id}`}>{team.name}</Link>
-          </Stack>
-        )}
-      </Cell>
-      {fields.map(({ id, round, percentage }) => {
-        const keys = id.split('.')
-        const value = keys.length > 1 ? averages[keys[1]] : stat[keys[0]]
-        return (
-          <Cell>
-            <Flex
-              width="full"
-              padding={2}
-              fontSize="sm"
-              fontWeight={sort === id && 'bold'}
-              backgroundColor={sort === id && (isEven ? '#effef7' : 'primary.50')}
-              height={10}
-              align="center"
-              justify="center">
-              {percentage ? `${(value * 100).toFixed(2)}%` : value.toFixed(round ?? 2)}
+            <Flex width="full">
+              <Link href={`/teams/${team._id}`}>{team.name}</Link>
             </Flex>
-          </Cell>
-        )
-      })}
+          </Stack>
+        </Cell>
+      )}
+      {fields.map(({ id, round, percentage }) => (
+        <Cell>
+          <Flex
+            width="full"
+            padding={2}
+            fontSize="sm"
+            fontWeight={sort === id && 'bold'}
+            backgroundColor={sort === id && (isEven ? '#effef7' : 'primary.50')}
+            height={10}
+            align="center"
+            justify="center">
+            {`${(getFieldFromObj(record, id) * (percentage ? 100 : 1)).toFixed(round ?? 2)}${
+              percentage ? '%' : ''
+            }`}
+          </Flex>
+        </Cell>
+      ))}
     </Row>
   )
 }
