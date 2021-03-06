@@ -13,7 +13,7 @@ import {
 } from '@octane/components/filters/Filter'
 import { buildQuery, route } from '@octane/util/routes'
 import { useRouter } from 'next/router'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import moment from 'moment'
 
 export const UpcomingEventsFilter = ({ initialFilter }) => {
@@ -136,17 +136,12 @@ export const EventStatsFilter = ({ event, type, initialFilter }) => {
     }))
   }
 
+  useEffect(() => {
+    route(router, `/events/${event._id}/stats/${type}`, buildQuery(filter, ['event']))
+  }, [filter])
+
   return (
-    <Filter
-      onApply={() =>
-        route(router, `/events/${event._id}/stats/${type}`, buildQuery(filter, ['event']))
-      }
-      onReset={() => {
-        setFilter({
-          event: event._id,
-        })
-        route(router, `/events/${event._id}/stats/${type}`, '')
-      }}>
+    <Filter>
       <StatsCategoryFilter
         active={type}
         onChange={(item) => route(router, `/events/${event._id}/stats/${item}`, '')}

@@ -36,14 +36,18 @@ export const Filter = ({ children, onApply, onReset }) => (
     align="center">
     {children}
     <Spacer />
-    <Button buttonType={ButtonTypes.submit} onClick={onApply}>
-      <CheckIcon paddingRight={1} />
-      <Text>Apply</Text>
-    </Button>
-    <Button buttonType={ButtonTypes.cancel} onClick={onReset}>
-      <CloseIcon paddingRight={1} />
-      <Text>Reset</Text>
-    </Button>
+    {onApply && (
+      <Button buttonType={ButtonTypes.submit} onClick={onApply}>
+        <CheckIcon paddingRight={1} />
+        <Text>Apply</Text>
+      </Button>
+    )}
+    {onReset && (
+      <Button buttonType={ButtonTypes.cancel} onClick={onReset}>
+        <CloseIcon paddingRight={1} />
+        <Text>Reset</Text>
+      </Button>
+    )}
   </Stack>
 )
 

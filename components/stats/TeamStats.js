@@ -10,7 +10,7 @@ import { toDateYearString } from '@octane/util/dates'
 import sortObj, { getFieldFromObj, sortObjLex, teamStatFields } from '@octane/util/stats'
 import { Button, ButtonTypes } from '@octane/components/common/Button'
 
-export const TeamStats = ({ filter, groupBy, isSortable }) => {
+export const TeamStats = ({ filter, groupBy, showCount, isSortable }) => {
   const [stats, setStats] = useState([])
   const [loading, setLoading] = useState(true)
   const [sort, setSort] = useState('winPercentage')
@@ -62,9 +62,11 @@ export const TeamStats = ({ filter, groupBy, isSortable }) => {
           ))}
         </Stack>
         <Spacer />
-        <Text fontSize="xs" fontWeight="medium" color="secondary.800">
-          {`${stats.length} teams found`}
-        </Text>
+        {showCount && (
+          <Text fontSize="xs" fontWeight="medium" color="secondary.800">
+            {`${stats.length} teams found`}
+          </Text>
+        )}
       </Flex>
       <Table>
         <Header>

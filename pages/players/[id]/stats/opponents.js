@@ -9,7 +9,7 @@ const Player = ({ auth, player, filter }) => (
   <Content auth={auth}>
     <PlayerInfobox player={player} />
     <Navigation type="player" active="stats" baseHref={`/players/${player._id}`} hasDivider />
-    <PlayerStatsFilter player={player} type="events" initialFilter={filter} />
+    <PlayerStatsFilter player={player} type="opponents" initialFilter={filter} />
     <PlayerStats filter={filter} groupBy="opponents" defaultSort="games" isSortable />
   </Content>
 )

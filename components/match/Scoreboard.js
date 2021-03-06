@@ -10,7 +10,7 @@ export const Scoreboard = ({ blue, orange, map, duration, showMvp }) => (
   <Stack width="full" spacing={6}>
     {map && duration && (
       <Flex direction="row" justify="center">
-        <LabeledField label="map">{map}</LabeledField>
+        <LabeledField label="map">{map.name}</LabeledField>
         <LabeledField label="duration">{toMinuteSeconds(duration)}</LabeledField>
       </Flex>
     )}
@@ -37,8 +37,8 @@ const ScoreboardTable = ({ side, showMvp }) => (
     <tbody>
       {side.players
         .sort((a, b) => b.stats.core.score - a.stats.core.score)
-        .map(({ player, stats }) => (
-          <tr>
+        .map(({ player, stats, advanced }, i) => (
+          <tr key={i}>
             <td>
               <Stack paddingLeft={2} direction="row" align="center">
                 <Flag country={player.country || 'int'} />
@@ -54,8 +54,8 @@ const ScoreboardTable = ({ side, showMvp }) => (
             <td>{stats.core.saves}</td>
             <td>{stats.core.shots}</td>
             <td>{`${(stats.core.shooting_percentage * 100).toFixed(2)}%`}</td>
-            <td>{`${(stats.core.goal_participation * 100).toFixed(2)}%`}</td>
-            <td>{stats.core.rating.toFixed(3)}</td>
+            <td>{`${(advanced.goal_participation * 100).toFixed(2)}%`}</td>
+            <td>{advanced.rating.toFixed(3)}</td>
           </tr>
         ))}
       <tr>

@@ -8,7 +8,7 @@ const Stats = ({ auth, filter }) => (
   <Content auth={auth}>
     <Navigation type="stats" active="teams" filter={filter} />
     <TeamStatsFilter initialFilter={filter} />
-    <TeamStats filter={filter} isSortable />
+    <TeamStats filter={filter} showCount isSortable />
   </Content>
 )
 

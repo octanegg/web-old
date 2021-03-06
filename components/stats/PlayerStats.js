@@ -11,7 +11,7 @@ import { Flag } from '@octane/components/common/Flag'
 import { toDateYearString } from '@octane/util/dates'
 import { Button, ButtonTypes } from '@octane/components/common/Button'
 
-export const PlayerStats = ({ filter, groupBy, defaultSort, isSortable }) => {
+export const PlayerStats = ({ filter, groupBy, defaultSort, showCount, isSortable }) => {
   const [stats, setStats] = useState([])
   const [loading, setLoading] = useState(true)
   const [sort, setSort] = useState(defaultSort || 'stats.averages.rating')
@@ -68,9 +68,11 @@ export const PlayerStats = ({ filter, groupBy, defaultSort, isSortable }) => {
           </Button>
         </Stack>
         <Spacer />
-        <Text fontSize="xs" fontWeight="medium" color="secondary.800">
-          {`${stats.length} players found`}
-        </Text>
+        {showCount && (
+          <Text fontSize="xs" fontWeight="medium" color="secondary.800">
+            {`${stats.length} players found`}
+          </Text>
+        )}
       </Flex>
       <Table>
         <Header>
