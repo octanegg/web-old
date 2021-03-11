@@ -2,14 +2,12 @@ import DropdownList, {
   DropdownCheckbox,
   DropdownDate,
   DropdownInput,
+  DropdownNestedList,
 } from '@octane/components/common/Dropdown'
 import {
   tiers,
   events,
   modes,
-  recordCategories,
-  recordTypes,
-  recordStats,
   formats,
   statCategories,
   playerStatsTypes,
@@ -24,16 +22,16 @@ import { Stack, Spacer, Text } from '@chakra-ui/core'
 import { buildQuery } from '@octane/util/routes'
 import { Button, ButtonTypes } from '@octane/components/common/Button'
 import { CheckIcon, CloseIcon } from '@chakra-ui/icons'
+import records, {
+  gameRecords,
+  playerRecords,
+  seriesRecords,
+  teamRecords,
+} from '@octane/config/records/records'
+import { getRecordStat } from '@octane/util/stats'
 
 export const Filter = ({ children, onApply, onReset }) => (
-  <Stack
-    paddingLeft={2}
-    paddingRight={2}
-    width="full"
-    direction="row"
-    marginBottom={2}
-    marginTop={2}
-    align="center">
+  <Stack paddingLeft={2} paddingRight={2} width="full" direction="row" align="center">
     {children}
     <Spacer />
     {onApply && (
@@ -93,7 +91,7 @@ export const RecordsCategoryFilter = ({ active, onChange }) => (
   <DropdownList
     label={active[0].toUpperCase() + active.substring(1)}
     active={active}
-    items={recordCategories}
+    items={Object.keys(records)}
     itemToLabel={(item) => item[0].toUpperCase() + item.substring(1)}
     onChange={onChange}
   />
@@ -103,17 +101,25 @@ export const RecordsTypeFilter = ({ active, onChange }) => (
   <DropdownList
     label={active[0].toUpperCase() + active.substring(1)}
     active={active}
-    items={recordTypes}
+    items={['game', 'series']}
     itemToLabel={(item) => item[0].toUpperCase() + item.substring(1)}
     onChange={onChange}
   />
 )
 
 export const RecordsStatsFilter = ({ type, active, onChange }) => {
-  const stats = recordStats[type]
+  const stats =
+    type === 'players'
+      ? playerRecords
+      : type === 'teams'
+      ? teamRecords
+      : type === 'games'
+      ? gameRecords
+      : seriesRecords
+
   return (
-    <DropdownList
-      label={stats.find((stat) => stat.id === active)?.label}
+    <DropdownNestedList
+      label={getRecordStat(stats, active)?.label}
       items={stats}
       active={active}
       itemToId={(item) => item.id}
@@ -205,9 +211,9 @@ export const TeamsFilter = ({ player, active, onChange }) => {
       setTeams(
         data.stats
           .map((stat) => ({
-            id: stat.teams[0]._id,
-            label: stat.teams[0].name,
-            image: stat.teams[0].image,
+            id: stat.team._id,
+            label: stat.team.name,
+            image: stat.team.image,
           }))
           .sort((a, b) => a.label.toLowerCase().localeCompare(b.label.toLowerCase()))
       )

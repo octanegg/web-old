@@ -4,13 +4,16 @@ import { EventInfobox } from '@octane/components/common/Infobox'
 import GameRecords from '@octane/components/records/GameRecords'
 import { getServerSideAuth } from '@octane/util/auth'
 import { EventRecordsFilter } from '@octane/components/filters/EventFilters'
+import { Stack } from '@chakra-ui/core'
 
 const Event = ({ auth, event, filter }) => (
   <Content auth={auth}>
-    <EventInfobox event={event} />
-    <Navigation type="event" active="records" baseHref={`/events/${event._id}`} hasDivider />
-    <EventRecordsFilter event={event} type="games" initialFilter={filter} />
-    <GameRecords filter={filter} />
+    <Stack width="full" spacing={3}>
+      <EventInfobox event={event} />
+      <Navigation type="event" active="records" baseHref={`/events/${event._id}`} hasDivider />
+      <EventRecordsFilter event={event} type="games" initialFilter={filter} />
+      <GameRecords filter={filter} />
+    </Stack>
   </Content>
 )
 
@@ -18,6 +21,12 @@ export async function getServerSideProps({ req, params, query }) {
   const auth = getServerSideAuth(req)
   const { id } = params
   const res = await fetch(`${process.env.API_URL}/events/${id}`)
+  if (res.status !== 200) {
+    return {
+      notFound: true,
+    }
+  }
+
   const event = await res.json()
   return {
     props: {

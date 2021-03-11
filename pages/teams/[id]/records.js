@@ -4,13 +4,16 @@ import { TeamRecords } from '@octane/components/records/TeamRecords'
 import { TeamInfobox } from '@octane/components/common/Infobox'
 import { getServerSideAuth } from '@octane/util/auth'
 import { TeamRecordsFilter } from '@octane/components/filters/TeamFilters'
+import { Stack } from '@chakra-ui/core'
 
 const Team = ({ auth, team, filter }) => (
   <Content auth={auth}>
-    <TeamInfobox team={team} />
-    <Navigation type="team" active="records" baseHref={`/teams/${team._id}`} hasDivider />
-    <TeamRecordsFilter team={team} initialFilter={filter} />
-    <TeamRecords filter={filter} isHighlighted />
+    <Stack width="full" spacing={3}>
+      <TeamInfobox team={team} />
+      <Navigation type="team" active="records" baseHref={`/teams/${team._id}`} hasDivider />
+      <TeamRecordsFilter team={team} initialFilter={filter} />
+      <TeamRecords filter={filter} isHighlighted />
+    </Stack>
   </Content>
 )
 
@@ -18,6 +21,12 @@ export async function getServerSideProps({ req, params, query }) {
   const auth = getServerSideAuth(req)
   const { id } = params
   const res = await fetch(`${process.env.API_URL}/teams/${id}`)
+  if (res.status !== 200) {
+    return {
+      notFound: true,
+    }
+  }
+
   const team = await res.json()
   return {
     props: {

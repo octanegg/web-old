@@ -76,7 +76,7 @@ const Navbar = ({ auth }) => {
             Events
           </NavItem>
           <NavItem
-            href="/stats/players?mode=3&minGames=50&group=rlcsxfall&group=rlcsxwinter"
+            href="/stats/players?mode=3&minGames=50&group=rlcsxfall&group=rlcsxwinter&group=rlcsxspring"
             leftBorder>
             Stats
           </NavItem>

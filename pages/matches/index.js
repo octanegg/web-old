@@ -4,12 +4,15 @@ import Matches from '@octane/components/matches/Matches'
 import Navigation from '@octane/components/common/Navigation'
 import { getServerSideAuth } from '@octane/util/auth'
 import UpcomingMatchesFilter from '@octane/components/filters/MatchFilters'
+import { Stack } from '@chakra-ui/core'
 
 const MatchesPage = ({ auth, filter }) => (
   <Content auth={auth}>
-    <Navigation type="matches" active="ongoing" />
-    <UpcomingMatchesFilter initialFilter={filter} />
-    <Matches filter={filter} />
+    <Stack width="full" spacing={3}>
+      <Navigation type="matches" active="ongoing" />
+      <UpcomingMatchesFilter initialFilter={filter} />
+      <Matches filter={filter} />
+    </Stack>
   </Content>
 )
 

@@ -42,27 +42,27 @@ const InfoboxScore = ({ blue, orange }) => (
   </Flex>
 )
 
-const SeriesOverviewHeader = ({ label, isActive }) => (
-  <th align="center" style={{ width: 32, padding: 0 }}>
-    <Flex
-      height={7}
-      align="center"
-      fontWeight="medium"
-      fontSize="xs"
-      color="secondary.500"
-      justify="center"
-      backgroundColor={isActive && 'primary.50'}
-      borderRadius="15px 15px 0px 0px">
-      {label}
-    </Flex>
-  </th>
+const SeriesOverviewHeader = ({ label, isActive, isLast }) => (
+  <Flex
+    height={7}
+    align="center"
+    paddingLeft={isLast ? 2 : 0}
+    paddingRight={isLast ? 2 : 0}
+    fontWeight="medium"
+    fontSize="xs"
+    color="secondary.500"
+    justify="center"
+    backgroundColor={isActive && 'primary.50'}
+    borderRadius="15px 15px 0px 0px">
+    {label}
+  </Flex>
 )
 
 const SeriesOverviewBlue = ({ team, games, isWinner, isActive }) => (
   <tr>
     <td align="center">{team.team.image && <Image width={6} src={team.team.image} />}</td>
     {games.map((game, i) => (
-      <td align="center" style={{ padding: 0 }}>
+      <td key={i} align="center" style={{ padding: 0 }}>
         <Flex
           height={7}
           fontSize="sm"
@@ -85,6 +85,8 @@ const SeriesOverviewBlue = ({ team, games, isWinner, isActive }) => (
       <Flex
         height={7}
         fontSize="sm"
+        paddingLeft={2}
+        paddingRight={2}
         align="center"
         justify="center"
         color={isWinner ? 'win' : 'loss'}
@@ -120,6 +122,8 @@ const SeriesOverviewOrange = ({ team, games, isWinner, isActive }) => (
       <Flex
         height={7}
         fontSize="sm"
+        paddingLeft={2}
+        paddingRight={2}
         align="center"
         justify="center"
         color={isWinner ? 'win' : 'loss'}
@@ -138,20 +142,22 @@ const SeriesOverview = ({ blue, orange, games, isBlueWinner, isActive }) => (
       <tr>
         <th align="center" style={{ width: 32 }} />
         {games.map(({ duration }, i) => (
-          <SeriesOverviewHeader
-            label={
-              duration > 300 ? (
-                <Tooltip hasArrow placement="top" label={`${toMinuteSeconds(duration)} OT`}>
-                  {`G${i + 1}'`}
-                </Tooltip>
-              ) : (
-                `G${i + 1}`
-              )
-            }
-            isActive={isActive === i + 1}
-          />
+          <th key={i} align="center" style={{ width: 32, padding: 0 }}>
+            <SeriesOverviewHeader
+              label={
+                duration > 300 ? (
+                  <Tooltip hasArrow placement="top" label={`${toMinuteSeconds(duration)} OT`}>
+                    {`G${i + 1}'`}
+                  </Tooltip>
+                ) : (
+                  `G${i + 1}`
+                )
+              }
+              isActive={isActive === i + 1}
+            />
+          </th>
         ))}
-        <SeriesOverviewHeader label="T" isActive={!isActive} />
+        <SeriesOverviewHeader label="T" isActive={!isActive} isLast />
       </tr>
     </thead>
     <tbody>
@@ -213,7 +219,7 @@ export const Infobox = ({ match, active }) => {
 
 export const Navigation = ({ baseHref, games, active }) => (
   <Flex paddingLeft={2} paddingRight={2} marginTop={4} direction="column" width="full">
-    <Stack width="full" direction="row" marginBottom={4} align="center">
+    <Stack width="full" direction="row" align="center">
       <ButtonLink href={baseHref} isActive={!active}>
         Overview
       </ButtonLink>

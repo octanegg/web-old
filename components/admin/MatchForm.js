@@ -138,10 +138,10 @@ export const MatchForm = ({ match, enqueue }) => {
           </Flex>
         </Stack>
         {details && (
-          <React.Fragment>
+          <>
             <Divider />
             <GamesContainer match={match} date={match.date} handleChange={handleChange} />
-          </React.Fragment>
+          </>
         )}
       </VStack>
     </Card>

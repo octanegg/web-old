@@ -65,7 +65,7 @@ const Search = () => {
       const _results = options.filter(
         (result) =>
           result.label.toLowerCase().includes(search.toLowerCase()) ||
-          result.groups?.find((group) => group.toLowerCase().includes(search.toLowerCase()))
+          result.groups?.some((group) => group === search.replaceAll(' ', '').toLowerCase())
       )
       if (_results.length < MAX_RESULTS) {
         setResults(_results)

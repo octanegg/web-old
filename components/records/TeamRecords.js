@@ -8,6 +8,8 @@ import moment from 'moment'
 import LabeledText, { Link } from '@octane/components/common/Text'
 import { toMinuteSeconds } from '@octane/util/dates'
 import NextLink from 'next/link'
+import { formatStat, getRecordStat } from '@octane/util/stats'
+import { teamRecords } from '@octane/config/records/records'
 
 export const TeamRecords = ({ filter, isHighlighted }) => {
   const [records, setRecords] = useState([])
@@ -37,6 +39,7 @@ export const TeamRecords = ({ filter, isHighlighted }) => {
         {records?.map((record, rank) => (
           <TeamRecordsRow
             key={rank}
+            statType={getRecordStat(teamRecords, filter.stat)}
             record={record}
             rank={rank + 1}
             isHighlighted={isHighlighted}
@@ -47,7 +50,7 @@ export const TeamRecords = ({ filter, isHighlighted }) => {
   )
 }
 
-const TeamRecordsRow = ({ record, rank, isHighlighted }) => {
+const TeamRecordsRow = ({ record, rank, statType, isHighlighted }) => {
   const { game, team, opponent, winner, stat } = record
   const match = game ? game.match : record.match
   const date = game ? game.date : record.date
@@ -68,7 +71,7 @@ const TeamRecordsRow = ({ record, rank, isHighlighted }) => {
   return (
     <Row key={rank} className={backgroundColor}>
       <Cell>
-        <NextLink passHref href={`/matches/${match._id}`}>
+        <NextLink passHref href={`/matches/${match._id}${game ? `/${game._id}` : ''}`}>
           <Flex
             as="a"
             direction="row"
@@ -112,7 +115,10 @@ const TeamRecordsRow = ({ record, rank, isHighlighted }) => {
                         L
                       </Text>
                     )}
-                    {duration && <Text fontSize="xs">{` - ${toMinuteSeconds(duration)}`}</Text>}
+                    {game && <Text fontSize="xs" paddingLeft={1}>{`G${game.number}`}</Text>}
+                    {duration && (
+                      <Text fontSize="xs" paddingLeft={1}>{` - ${toMinuteSeconds(duration)}`}</Text>
+                    )}
                   </Flex>
                 </LabeledText>
               </Link>
@@ -143,7 +149,7 @@ const TeamRecordsRow = ({ record, rank, isHighlighted }) => {
               </LabeledText>
             </Flex>
             <Flex fontSize="sm" fontWeight="bold" justify="center" width={24}>
-              {stat % 1 === 0 ? stat : stat.toFixed(3)}
+              {stat ? formatStat(stat, statType) : '-'}
             </Flex>
           </Flex>
         </NextLink>

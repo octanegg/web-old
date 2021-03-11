@@ -1,15 +1,17 @@
 import { Content } from '@octane/components/common/Layout'
 import Navigation from '@octane/components/common/Navigation'
 import { GameRecords } from '@octane/components/records/GameRecords'
-import { recordStats } from '@octane/util/constants'
 import { getServerSideAuth } from '@octane/util/auth'
 import RecordsFilter from '@octane/components/filters/RecordFilters'
+import { Stack } from '@chakra-ui/core'
 
 const Records = ({ auth, filter }) => (
   <Content auth={auth}>
-    <Navigation type="records" active="games" filter={filter} />
-    <RecordsFilter type="games" initialFilter={filter} />
-    <GameRecords filter={filter} isHighlighted />
+    <Stack width="full" spacing={3}>
+      <Navigation type="records" active="games" />
+      <RecordsFilter type="games" initialFilter={filter} />
+      <GameRecords filter={filter} isHighlighted />
+    </Stack>
   </Content>
 )
 
@@ -25,7 +27,7 @@ export async function getServerSideProps({ req, query }) {
         before: query.before || '',
         after: query.after || '',
         group: query.group || '',
-        stat: recordStats.games.find((stat) => stat.id === query.stat)?.id || 'scoreTotal',
+        stat: query.stat || 'scoreTotal',
         bestOf: query.bestOf || '',
         qualifier: query.qualifier || '',
       },

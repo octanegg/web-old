@@ -4,13 +4,16 @@ import Navigation from '@octane/components/common/Navigation'
 import TeamMatchesFilter from '@octane/components/filters/TeamFilters'
 import Matches from '@octane/components/matches/Matches'
 import { getServerSideAuth } from '@octane/util/auth'
+import { Stack } from '@chakra-ui/core'
 
 const Team = ({ auth, team, filter }) => (
   <Content auth={auth}>
-    <TeamInfobox team={team} />
-    <Navigation type="team" active="matches" baseHref={`/teams/${team._id}`} hasDivider />
-    <TeamMatchesFilter team={team} initialFilter={filter} />
-    <Matches filter={filter} />
+    <Stack width="full" spacing={3}>
+      <TeamInfobox team={team} />
+      <Navigation type="team" active="matches" baseHref={`/teams/${team._id}`} hasDivider />
+      <TeamMatchesFilter team={team} initialFilter={filter} />
+      <Matches filter={filter} />
+    </Stack>
   </Content>
 )
 
@@ -18,6 +21,12 @@ export async function getServerSideProps({ req, params, query }) {
   const auth = getServerSideAuth(req)
   const { id } = params
   const res = await fetch(`${process.env.API_URL}/teams/${id}`)
+  if (res.status !== 200) {
+    return {
+      notFound: true,
+    }
+  }
+
   const team = await res.json()
   return {
     props: {

@@ -56,7 +56,10 @@ export const RecordsFilter = ({ type, initialFilter }) => {
         }}
       />
       <FormatFilter active={filter.bestOf} onChange={(item) => updateFilter('bestOf', item)} />
-      <QualifierFilter onChange={(item) => updateFilter('qualifier', item)} />
+      <QualifierFilter
+        active={filter.qualifier}
+        onChange={(item) => updateFilter('qualifier', item)}
+      />
     </Filter>
   )
 }

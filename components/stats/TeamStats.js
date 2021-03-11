@@ -1,4 +1,4 @@
-import { Flex, Stack, Image, Text, Spacer } from '@chakra-ui/core'
+import { Flex, Stack, Image, Text } from '@chakra-ui/core'
 import { useEffect, useState } from 'react'
 import { Table, Header, HeaderItem, Body, Row, Cell } from '@octane/components/common/Table'
 import { ChevronDownIcon, ChevronUpIcon, UpDownIcon } from '@chakra-ui/icons'
@@ -7,15 +7,13 @@ import { apiFetch } from '@octane/util/fetch'
 import { buildQuery } from '@octane/util/routes'
 import LabeledText, { Link } from '@octane/components/common/Text'
 import { toDateYearString } from '@octane/util/dates'
-import sortObj, { getFieldFromObj, sortObjLex, teamStatFields } from '@octane/util/stats'
-import { Button, ButtonTypes } from '@octane/components/common/Button'
+import sortObj, { formatStatFromObj, sortObjLex } from '@octane/util/stats'
 
-export const TeamStats = ({ filter, groupBy, showCount, isSortable }) => {
+export const TeamStats = ({ filter, statGroup, groupBy, isSortable }) => {
   const [stats, setStats] = useState([])
   const [loading, setLoading] = useState(true)
   const [sort, setSort] = useState('winPercentage')
   const [order, setOrder] = useState(false)
-  const [statType, setStatType] = useState('averages')
 
   useEffect(() => {
     const fetchRecords = async () => {
@@ -50,60 +48,42 @@ export const TeamStats = ({ filter, groupBy, showCount, isSortable }) => {
   return loading ? (
     <Loading />
   ) : (
-    <Stack width="full" align="center">
-      <Flex padding={2} align="center" width="full">
-        <Stack direction="row" align="center">
-          {Object.keys(teamStatFields).map((field) => (
-            <Button
-              buttonType={statType === field ? ButtonTypes.nav.selected : ButtonTypes.nav.default}
-              onClick={() => setStatType(field)}>
-              {field.charAt(0).toUpperCase() + field.slice(1)}
-            </Button>
-          ))}
-        </Stack>
-        <Spacer />
-        {showCount && (
-          <Text fontSize="xs" fontWeight="medium" color="secondary.800">
-            {`${stats.length} teams found`}
-          </Text>
-        )}
-      </Flex>
-      <Table>
-        <Header>
-          <HeaderItem align="left" onClick={isSortable && (() => updateSort('team.name'))}>
-            <Flex align="center">
-              <Text marginRight={1}>{groupBy || 'Team'}</Text>
-              <SortIcon field="team.name" />
+    <Table>
+      <Header>
+        <HeaderItem align="left" onClick={isSortable && (() => updateSort('team.name'))}>
+          <Flex align="center">
+            <Text marginRight={1}>{groupBy || 'Team'}</Text>
+            <SortIcon field="team.name" />
+          </Flex>
+        </HeaderItem>
+        {statGroup.stats.map((field) => (
+          <HeaderItem onClick={isSortable && (() => updateSort(field.id))}>
+            <Flex justify="center" align="center">
+              <Text marginRight={1}>{field.label}</Text>
+              <SortIcon field={field.id} />
             </Flex>
           </HeaderItem>
-          {teamStatFields[statType].map((field) => (
-            <HeaderItem onClick={isSortable && (() => updateSort(field.id))}>
-              <Flex justify="center" align="center">
-                <Text marginRight={1}>{field.label}</Text>
-                <SortIcon field={field.id} />
-              </Flex>
-            </HeaderItem>
-          ))}
-        </Header>
-        <Body>
-          {stats?.map((record, i) => (
-            <StatsRow
-              key={i}
-              record={record}
-              fields={teamStatFields[statType]}
-              sort={sort}
-              groupBy={groupBy}
-              isEven={i % 2 === 0}
-            />
-          ))}
-        </Body>
-      </Table>
-    </Stack>
+        ))}
+      </Header>
+      <Body>
+        {stats?.map((record, i) => (
+          <StatsRow
+            key={i}
+            record={record}
+            statGroup={statGroup}
+            sort={sort}
+            intsAsFloat={filter.cluster}
+            groupBy={groupBy}
+            isEven={i % 2 === 0}
+          />
+        ))}
+      </Body>
+    </Table>
   )
 }
 
-const StatsRow = ({ record, fields, sort, groupBy, isEven }) => {
-  const { team, opponents, events, startDate, endDate } = record
+const StatsRow = ({ record, statGroup, sort, intsAsFloat, groupBy, isEven }) => {
+  const { team, opponents, events, startDate, endDate, replays } = record
   const event = events[0]
   const opponent = opponents[0]
 
@@ -162,20 +142,20 @@ const StatsRow = ({ record, fields, sort, groupBy, isEven }) => {
           </Stack>
         </Cell>
       )}
-      {fields.map(({ id, round, percentage }) => (
+      {statGroup.stats.map((stat) => (
         <Cell>
           <Flex
             width="full"
             padding={2}
             fontSize="sm"
-            fontWeight={sort === id && 'bold'}
-            backgroundColor={sort === id && (isEven ? '#effef7' : 'primary.50')}
+            fontWeight={sort === stat.id && 'bold'}
+            backgroundColor={sort === stat.id && (isEven ? '#effef7' : 'primary.50')}
             height={10}
             align="center"
             justify="center">
-            {`${(getFieldFromObj(record, id) * (percentage ? 100 : 1)).toFixed(round ?? 2)}${
-              percentage ? '%' : ''
-            }`}
+            {statGroup.id === 'core' || replays > 0
+              ? formatStatFromObj(record, stat, intsAsFloat)
+              : '-'}
           </Flex>
         </Cell>
       ))}

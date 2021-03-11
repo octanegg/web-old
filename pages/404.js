@@ -1,16 +1,10 @@
-import { Image, Text } from '@chakra-ui/core'
 import { Content } from '@octane/components/common/Layout'
+import { Error } from '@octane/components/common/Error'
 
-const Error = () => (
+const ErrorPage = () => (
   <Content auth>
-    <Image width="md" marginTop={8} cursor="pointer" src="/images/404.svg" />
-    <Text fontSize="sm" color="secondary.800" fontWeight="medium">
-      Sorry, this page does not exist.
-    </Text>
-    <Text fontSize="sm" color="secondary.800" fontWeight="medium">
-      Please recheck the URL and try again.
-    </Text>
+    <Error />
   </Content>
 )
 
-export default Error
+export default ErrorPage

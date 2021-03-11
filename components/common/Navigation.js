@@ -127,13 +127,7 @@ const navigation = {
 }
 
 const Navigation = ({ type, active, baseHref, filter, hasDivider }) => (
-  <Stack
-    paddingLeft={2}
-    paddingRight={2}
-    width="full"
-    direction="row"
-    marginBottom={2}
-    align="center">
+  <Stack paddingLeft={2} paddingRight={2} width="full" direction="row" align="center">
     {navigation[type].map((item) => (
       <ButtonLink
         key={item.id}

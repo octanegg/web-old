@@ -6,8 +6,9 @@ import { apiFetch } from '@octane/util/fetch'
 import { buildQuery } from '@octane/util/routes'
 import moment from 'moment'
 import LabeledText, { Link } from '@octane/components/common/Text'
-import { toMinuteSeconds } from '@octane/util/dates'
 import NextLink from 'next/link'
+import { formatStat, getRecordStat } from '@octane/util/stats'
+import { seriesRecords } from '@octane/config/records/records'
 
 export const SeriesRecords = ({ filter, isHighlighted }) => {
   const [records, setRecords] = useState([])
@@ -37,7 +38,7 @@ export const SeriesRecords = ({ filter, isHighlighted }) => {
         {records?.map((record, rank) => (
           <SeriesRecordsRow
             key={rank}
-            statField={filter.stat}
+            statType={getRecordStat(seriesRecords, filter.stat)}
             record={record}
             rank={rank + 1}
             isHighlighted={isHighlighted}
@@ -48,7 +49,7 @@ export const SeriesRecords = ({ filter, isHighlighted }) => {
   )
 }
 
-const SeriesRecordsRow = ({ record, rank, statField, isHighlighted }) => {
+const SeriesRecordsRow = ({ record, rank, statType, isHighlighted }) => {
   const { match, date, stat } = record
   const { event, stage } = match
 
@@ -140,11 +141,7 @@ const SeriesRecordsRow = ({ record, rank, statField, isHighlighted }) => {
               </LabeledText>
             </Flex>
             <Flex fontSize="sm" fontWeight="bold" width={24} justify="center">
-              {statField === 'duration'
-                ? toMinuteSeconds(stat)
-                : stat % 1 === 0
-                ? stat
-                : stat.toFixed(3)}
+              {stat ? formatStat(stat, statType) : '-'}
             </Flex>
           </Flex>
         </NextLink>

@@ -55,7 +55,7 @@ export const DropdownDate = ({ label, startDate, endDate, onChange }) => {
       open={() => setIsOpen(!isOpen)}
       close={() => setIsOpen(false)}
       isActive={startDate || endDate}>
-      <Stack direction="column">
+      <Stack direction="column" padding={2}>
         <Text fontWeight="bold" fontSize="sm">
           Dates
         </Text>
@@ -131,20 +131,71 @@ export const DropdownList = ({ items, active, label, itemToLabel, itemToId, onCh
         {items.map((item, i) => (
           <ListItem
             key={i}
-            padding={1}
+            padding={2}
+            borderTopRadius={i === 0 ? 6 : 0}
+            borderBottomRadius={i === items.length - 1 ? 6 : 0}
             _hover={{ backgroundColor: 'secondary.50' }}
-            borderRadius={8}
-            fontSize="sm"
+            fontSize="13px"
             fontWeight="semi"
             cursor="pointer"
+            color="secondary.800"
             value={itemToId ? itemToId(item) : item}
-            backgroundColor={active === (itemToId ? itemToId(item) : item) && 'secondary.50'}
+            backgroundColor={active === (itemToId ? itemToId(item) : item) && 'primary.50'}
             onClick={(e) => {
               onChange(e.currentTarget.getAttribute('value'))
               setIsOpen(false)
             }}>
             {itemToLabel ? itemToLabel(item) : item}
           </ListItem>
+        ))}
+      </List>
+    </Dropdown>
+  )
+}
+
+export const DropdownNestedList = ({ items, active, label, itemToLabel, itemToId, onChange }) => {
+  const [isOpen, setIsOpen] = useState(false)
+
+  return (
+    <Dropdown
+      label={label}
+      isOpen={isOpen}
+      setIsOpen={() => setIsOpen}
+      open={() => setIsOpen(!isOpen)}
+      close={() => setIsOpen(false)}
+      isActive={active}>
+      <List maxHeight={400} overflowY="auto">
+        {items.map((group, j) => (
+          <>
+            <ListItem
+              padding={1}
+              fontSize="11px"
+              color="secondary.400"
+              fontWeight="semi"
+              textTransform="uppercase">
+              {group.label}
+            </ListItem>
+            {group.items.map((item, i) => (
+              <ListItem
+                key={i}
+                padding={2}
+                paddingLeft={4}
+                borderBottomRadius={j === items.length - 1 && i === group.items.length - 1 ? 6 : 0}
+                _hover={{ backgroundColor: 'secondary.50' }}
+                fontSize="13px"
+                fontWeight="semi"
+                color="secondary.800"
+                cursor="pointer"
+                value={itemToId ? itemToId(item) : item}
+                backgroundColor={active === (itemToId ? itemToId(item) : item) && 'primary.50'}
+                onClick={(e) => {
+                  onChange(e.currentTarget.getAttribute('value'))
+                  setIsOpen(false)
+                }}>
+                {itemToLabel ? itemToLabel(item) : item}
+              </ListItem>
+            ))}
+          </>
         ))}
       </List>
     </Dropdown>
@@ -168,7 +219,7 @@ export const DropdownInput = ({ active, label, onChange }) => {
       open={() => setIsOpen(!isOpen)}
       close={() => setIsOpen(false)}
       isActive={active}>
-      <Stack>
+      <Stack padding={2}>
         <Stack direction="row" align="center" justify="center">
           <NumberInput
             step={10}
@@ -242,7 +293,7 @@ export const DropdownCheckbox = ({ items, active, label, onChange, showImage }) 
       open={() => setIsOpen(!isOpen)}
       close={() => setIsOpen(false)}
       isActive={active}>
-      <List maxHeight={400} overflowY="scroll" padding={1}>
+      <List maxHeight={400} overflowY="scroll">
         <Checkboxes
           items={items}
           tier={0}
@@ -255,56 +306,58 @@ export const DropdownCheckbox = ({ items, active, label, onChange, showImage }) 
   )
 }
 
-const Checkboxes = ({ items, tier, isChecked, handleChange, showImage }) => (
+const Checkboxes = ({ items, tier, isChecked, handleChange, showImage, isLast }) => (
   <>
-    {items.map((item, i) => (
-      // eslint-disable-next-line react/jsx-no-undef
-      <React.Fragment key={`${tier}-${i}`}>
-        <ListItem
-          key={`${tier}-${i}`}
-          paddingLeft={2}
-          paddingRight={2}
-          paddingTop={1}
-          paddingBottom={1}
-          marginLeft={tier * 6}
-          _hover={{ backgroundColor: 'secondary.50' }}
-          borderRadius={8}
-          fontSize="sm"
-          fontWeight="semi"
-          cursor="pointer"
-          value={item.id}
-          onClick={(e) => {
-            e.preventDefault()
-            handleChange(item)
-          }}>
-          <Stack direction="row">
-            <Checkbox
-              borderColor="secondary.200"
-              colorScheme="whatsapp"
-              size="md"
-              isChecked={isChecked(item)}
-              isReadOnly
-            />
-            <Stack direction="row" align="center">
-              {showImage && (
-                <Flex width={5} justify="flex-end">
-                  {item.image && <Image src={item.image} />}
-                </Flex>
-              )}
-              <Flex>{item.label || item.id}</Flex>
+    {items.map((item, i) => {
+      const [hover, setHover] = useState(false)
+      return (
+        <>
+          <ListItem
+            key={`${tier}-${i}`}
+            padding="0.375rem"
+            borderTopRadius={tier === 0 && i === 0 ? 6 : 0}
+            borderBottomRadius={!item.children && isLast && i === items.length - 1 ? 6 : 0}
+            fontSize="13px"
+            fontWeight="semi"
+            cursor="pointer"
+            value={item.id}
+            _hover={{ backgroundColor: 'secondary.50' }}
+            onMouseEnter={() => setHover(true)}
+            onMouseLeave={() => setHover(false)}
+            onClick={(e) => {
+              e.preventDefault()
+              handleChange(item)
+            }}>
+            <Stack direction="row" marginLeft={tier * 6}>
+              <Checkbox
+                borderColor={hover ? 'secondary.50' : ''}
+                colorScheme="whatsapp"
+                size="md"
+                isChecked={isChecked(item)}
+                isReadOnly
+              />
+              <Stack direction="row" align="center">
+                {showImage && (
+                  <Flex width={5} justify="flex-end">
+                    {item.image && <Image src={item.image} />}
+                  </Flex>
+                )}
+                <Flex>{item.label || item.id}</Flex>
+              </Stack>
             </Stack>
-          </Stack>
-        </ListItem>
-        {item.children && (
-          <Checkboxes
-            items={item.children}
-            tier={tier + 1}
-            handleChange={handleChange}
-            isChecked={isChecked}
-          />
-        )}
-      </React.Fragment>
-    ))}
+          </ListItem>
+          {item.children && (
+            <Checkboxes
+              items={item.children}
+              tier={tier + 1}
+              handleChange={handleChange}
+              isChecked={isChecked}
+              isLast={i === items.length - 1}
+            />
+          )}
+        </>
+      )
+    })}
   </>
 )
 
@@ -312,11 +365,11 @@ const Dropdown = ({ label, isOpen, open, close, footer, children, isActive }) =>
   <Popover placement="bottom" isOpen={isOpen} onClose={close}>
     <PopoverTrigger>
       <ChakraButton
-        borderRadius={64}
-        size="sm"
-        fontWeight="semi"
+        borderRadius={8}
+        size="xs"
+        fontWeight={isActive ? 'bold' : 'semi'}
         fontSize="xs"
-        border={isActive ? '1px solid #94e8be' : ''}
+        color={isActive ? 'primary.600' : 'secondary.800'}
         backgroundColor={isActive ? 'primary.50' : 'secondary.50'}
         _focus={{ outline: 'none' }}
         _hover={
@@ -335,7 +388,7 @@ const Dropdown = ({ label, isOpen, open, close, footer, children, isActive }) =>
       bg="white"
       shadow="0px 1px 2px rgba(128, 138, 157, 0.12), 0px 8px 32px rgba(128, 138, 157, 0.24)">
       <PopoverArrow />
-      <PopoverBody>{children}</PopoverBody>
+      <PopoverBody padding={0}>{children}</PopoverBody>
       {footer && (
         <PopoverFooter
           border="0"

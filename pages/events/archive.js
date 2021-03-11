@@ -4,12 +4,15 @@ import Events from '@octane/components/events/Events'
 import Navigation from '@octane/components/common/Navigation'
 import { getServerSideAuth } from '@octane/util/auth'
 import { CompletedEventsFilter } from '@octane/components/filters/EventFilters'
+import { Stack } from '@chakra-ui/core'
 
 const EventsPage = ({ auth, filter }) => (
   <Content auth={auth}>
-    <Navigation type="events" active="completed" />
-    <CompletedEventsFilter initialFilter={filter} />
-    <Events filter={filter} />
+    <Stack width="full" spacing={3}>
+      <Navigation type="events" active="completed" />
+      <CompletedEventsFilter initialFilter={filter} />
+      <Events filter={filter} />
+    </Stack>
   </Content>
 )
 

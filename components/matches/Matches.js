@@ -54,8 +54,7 @@ export const Matches = ({ filter, onPaginate }) => {
   ) : (
     <>
       {matches?.map((group, i) => (
-        // eslint-disable-next-line react/jsx-no-undef
-        <React.Fragment key={i}>
+        <>
           <Heading>{labels[i]}</Heading>
           <Table>
             <Body>
@@ -64,7 +63,7 @@ export const Matches = ({ filter, onPaginate }) => {
               ))}
             </Body>
           </Table>
-        </React.Fragment>
+        </>
       ))}
       {showPaginate && (
         <Flex justify="flex-end" width="full">

@@ -1,255 +1,4 @@
-export const playerStatFields = {
-  averages: [
-    {
-      id: 'games',
-      label: 'Games',
-      round: 0,
-    },
-    {
-      id: 'winPercentage',
-      label: 'Win %',
-      percentage: true,
-    },
-    {
-      id: 'stats.averages.score',
-      label: 'Score',
-    },
-    {
-      id: 'stats.averages.goals',
-      label: 'Goals',
-    },
-    {
-      id: 'stats.averages.assists',
-      label: 'Assists',
-    },
-    {
-      id: 'stats.averages.saves',
-      label: 'Saves',
-    },
-    {
-      id: 'stats.averages.shots',
-      label: 'Shots',
-    },
-    {
-      id: 'stats.averages.shootingPercentage',
-      label: 'SH%',
-      percentage: true,
-    },
-    {
-      id: 'stats.averages.goalParticipation',
-      label: 'GP%',
-      percentage: true,
-    },
-    {
-      id: 'stats.averages.rating',
-      label: 'Rating',
-      round: 3,
-    },
-  ],
-  totals: [
-    {
-      id: 'games',
-      label: 'Games',
-      round: 0,
-    },
-    {
-      id: 'winPercentage',
-      label: 'Win %',
-      percentage: true,
-    },
-    {
-      id: 'stats.totals.score',
-      label: 'Score',
-      round: 0,
-    },
-    {
-      id: 'stats.totals.goals',
-      label: 'Goals',
-      round: 0,
-    },
-    {
-      id: 'stats.totals.assists',
-      label: 'Assists',
-      round: 0,
-    },
-    {
-      id: 'stats.totals.saves',
-      label: 'Saves',
-      round: 0,
-    },
-    {
-      id: 'stats.totals.shots',
-      label: 'Shots',
-      round: 0,
-    },
-    {
-      id: 'stats.averages.rating',
-      label: 'Rating',
-      round: 3,
-    },
-  ],
-}
-
-export const teamStatFields = {
-  averages: [
-    {
-      id: 'games',
-      label: 'Games',
-      round: 0,
-    },
-    {
-      id: 'winPercentage',
-      label: 'Win %',
-      percentage: true,
-    },
-    {
-      id: 'stats.averages.score',
-      label: 'Score',
-    },
-    {
-      id: 'stats.averages.goals',
-      label: 'Goals',
-    },
-    {
-      id: 'stats.averages.assists',
-      label: 'Assists',
-    },
-    {
-      id: 'stats.averages.saves',
-      label: 'Saves',
-    },
-    {
-      id: 'stats.averages.shots',
-      label: 'Shots',
-    },
-    {
-      id: 'stats.averages.shootingPercentage',
-      label: 'SH%',
-      percentage: true,
-    },
-    {
-      id: 'stats.averages.savePercentage',
-      label: 'SV%',
-      percentage: true,
-    },
-  ],
-  totals: [
-    {
-      id: 'games',
-      label: 'Games',
-      round: 0,
-    },
-    {
-      id: 'winPercentage',
-      label: 'Win %',
-      percentage: true,
-    },
-    {
-      id: 'stats.totals.score',
-      label: 'Score',
-      round: 0,
-    },
-    {
-      id: 'stats.totals.goals',
-      label: 'Goals',
-      round: 0,
-    },
-    {
-      id: 'stats.totals.assists',
-      label: 'Assists',
-      round: 0,
-    },
-    {
-      id: 'stats.totals.saves',
-      label: 'Saves',
-      round: 0,
-    },
-    {
-      id: 'stats.totals.shots',
-      label: 'Shots',
-      round: 0,
-    },
-  ],
-  against: [
-    {
-      id: 'games',
-      label: 'Games',
-      round: 0,
-    },
-    {
-      id: 'winPercentage',
-      label: 'Win %',
-      percentage: true,
-    },
-    {
-      id: 'stats.against.score',
-      label: 'Score',
-    },
-    {
-      id: 'stats.against.goals',
-      label: 'Goals',
-    },
-    {
-      id: 'stats.against.assists',
-      label: 'Assists',
-    },
-    {
-      id: 'stats.against.saves',
-      label: 'Saves',
-    },
-    {
-      id: 'stats.against.shots',
-      label: 'Shots',
-    },
-    {
-      id: 'stats.against.shootingPercentage',
-      label: 'SH%',
-      percentage: true,
-    },
-    {
-      id: 'stats.against.savePercentage',
-      label: 'SV%',
-      percentage: true,
-    },
-  ],
-  differentials: [
-    {
-      id: 'games',
-      label: 'Games',
-      round: 0,
-    },
-    {
-      id: 'winPercentage',
-      label: 'Win %',
-      percentage: true,
-    },
-    {
-      id: 'stats.differentials.score',
-      label: 'Score',
-      round: 2,
-    },
-    {
-      id: 'stats.differentials.goals',
-      label: 'Goals',
-      round: 2,
-    },
-    {
-      id: 'stats.differentials.assists',
-      label: 'Assists',
-      round: 2,
-    },
-    {
-      id: 'stats.differentials.saves',
-      label: 'Saves',
-      round: 2,
-    },
-    {
-      id: 'stats.differentials.shots',
-      label: 'Shots',
-      round: 2,
-    },
-  ],
-}
+import { toMinuteSeconds } from '@octane/util/dates'
 
 export const getFieldFromObj = (obj, field) =>
   field.split('.').reduce((a, b) => (a !== undefined ? a[b] : a), obj)
@@ -265,5 +14,50 @@ export const sortObjLex = (data, field, order) =>
       (order ? 1 : -1) *
       getFieldFromObj(b, field).localeCompare(getFieldFromObj(a, field), { sensitivity: 'base' })
   )
+
+export const formatStat = (value, constraints, round) => {
+  if (Number.isNaN(value)) {
+    return ''
+  }
+
+  return constraints.time
+    ? toMinuteSeconds(value)
+    : `${value.toFixed(round ?? constraints.round ?? 2)}${constraints.percentage ? '%' : ''}`
+}
+
+export const formatStatFromObj = (obj, stat, intsAsFloat) => {
+  if (!stat.id) {
+    return ''
+  }
+
+  let value = getFieldFromObj(obj, stat.id)
+  if (!value && stat.alternate) {
+    value = getFieldFromObj(obj, stat.alternate)
+  }
+
+  return intsAsFloat ? formatStat(value || 0, stat, 2) : formatStat(value || 0, stat)
+}
+
+export const formatAggregateStatFromObj = (objs, stat) => {
+  if (!stat.id) {
+    return ''
+  }
+  const value = objs.reduce((v, cur) => v + getFieldFromObj(cur, stat.id), 0)
+  return stat.hideAggregate
+    ? ''
+    : formatStat(stat.aggregateIsAverage ? value / objs.length : value, stat)
+}
+
+export const getRecordStat = (records, id) => {
+  let res
+  records.forEach(({ items }) =>
+    items.forEach((stat) => {
+      if (stat.id === id) {
+        res = stat
+      }
+    })
+  )
+  return res
+}
 
 export default sortObj

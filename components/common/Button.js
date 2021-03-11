@@ -7,8 +7,7 @@ export const ButtonTypes = {
       color: 'secondary.600',
       variant: 'ghost',
       fontWeight: 'bold',
-      height: 7,
-      size: 'sm',
+      size: 'xs',
       fontSize: 'xs',
       paddingLeft: 4,
       paddingRight: 4,
@@ -19,8 +18,7 @@ export const ButtonTypes = {
       backgroundColor: 'primary.50',
       color: 'primary.600',
       fontWeight: 'bold',
-      height: 7,
-      size: 'sm',
+      size: 'xs',
       fontSize: 'xs',
       paddingLeft: 4,
       paddingRight: 4,
@@ -28,24 +26,22 @@ export const ButtonTypes = {
       _focus: { outline: 'none' },
     },
   },
-  nav: {
+  stat: {
     default: {
-      color: 'secondary.400',
-      variant: 'ghost',
+      color: 'secondary.800',
+      backgroundColor: 'secondary.50',
       fontWeight: 'semi',
-      height: 7,
-      size: 'sm',
-      fontSize: 'xs',
-      _hover: { color: 'secondary.700' },
+      size: 'xs',
+      borderRadius: 0,
+      _hover: { color: 'secondary.800' },
       _focus: { outline: 'none' },
     },
     selected: {
-      variant: 'ghost',
-      color: 'secondary.700',
+      color: 'primary.600',
+      backgroundColor: 'primary.50',
       fontWeight: 'extra',
-      height: 7,
-      size: 'sm',
-      fontSize: 'xs',
+      size: 'xs',
+      borderRadius: 0,
       _hover: {},
       _focus: { outline: 'none' },
     },
@@ -61,20 +57,18 @@ export const ButtonTypes = {
     _focus: { outline: 'none' },
   },
   cancel: {
-    size: 'sm',
+    size: 'xs',
     fontSize: 'xs',
     fontWeight: 'bold',
-    height: 7,
     color: 'tertiary.500',
     backgroundColor: 'tertiary.50',
     _focus: { outline: 'none' },
     _hover: { backgroundColor: 'tertiary.100' },
   },
   submit: {
-    size: 'sm',
+    size: 'xs',
     fontSize: 'xs',
     fontWeight: 'bold',
-    height: 7,
     color: 'primary.600',
     backgroundColor: 'primary.50',
     _focus: { outline: 'none' },
@@ -82,11 +76,15 @@ export const ButtonTypes = {
   },
 }
 
-export const Button = ({ buttonType, onClick, isDisabled, children }) => (
-  <ChakraButton onClick={onClick} isDisabled={isDisabled} {...(buttonType || ButtonTypes.default)}>
-    {children}
-  </ChakraButton>
-)
+export const Button = ({ buttonType, override, onClick, isDisabled, children }) => {
+  const props = { ...(buttonType || ButtonTypes.default), ...override }
+
+  return (
+    <ChakraButton onClick={onClick} isDisabled={isDisabled} {...props}>
+      {children}
+    </ChakraButton>
+  )
+}
 
 export const ButtonLink = ({ isActive, href, children }) => (
   <Link href={href || '#'}>

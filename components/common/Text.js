@@ -8,7 +8,7 @@ export const Heading = ({ children }) => (
       color="secondary.700"
       fontSize="xs"
       fontWeight="bold"
-      padding={2}>
+      paddingLeft={2}>
       {children}
     </Text>
   </Flex>

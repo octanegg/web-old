@@ -50,6 +50,7 @@ const theme = {
     secondary: {
       50: '#E4F2FF',
       100: '#D8E6FE',
+      150: '#D0DEF6',
       200: '#BECCE4',
       300: '#A5B3CB',
       400: '#8B99B1',
