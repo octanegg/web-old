@@ -3,12 +3,11 @@ import {
   Filter,
   FormatFilter,
   ModeFilter,
-  OpponentsFilter,
   PlayerStatsTypeFilter,
   RecordsStatsFilter,
   RecordsTypeFilter,
   RegionFilter,
-  TeamsFilter,
+  TeamsOpponentsFilter,
   TierFilter,
 } from '@octane/components/filters/Filter'
 import { buildQuery, route } from '@octane/util/routes'
@@ -47,19 +46,14 @@ export const PlayerMatchesFilter = ({ player, initialFilter }) => {
       }}>
       <TierFilter active={filter.tier} onChange={(item) => updateFilter('tier', item)} />
       <ModeFilter active={filter.mode} onChange={(item) => updateFilter('mode', item)} />
-      <TeamsFilter
-        player={player._id}
-        active={filter.team}
-        onChange={(item) => {
-          updateFilter('team', item)
-          updateFilter('opponent', '')
-        }}
-      />
-      <OpponentsFilter
+      <TeamsOpponentsFilter
         player={player._id}
         team={filter.team}
-        active={filter.opponent}
-        onChange={(item) => updateFilter('opponent', item)}
+        opponent={filter.opponent}
+        onTeamChange={(item) => {
+          updateFilter('team', item)
+        }}
+        onOpponentChange={(item) => updateFilter('opponent', item)}
       />
     </Filter>
   )

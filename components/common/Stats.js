@@ -127,18 +127,18 @@ export const StatsNavigation = ({
       {onClusterChange && (
         <Stack direction="row" spacing={0} divider={<StackDivider borderColor="secondary.200" />}>
           <Button
-            buttonType={!selectedCluster ? ButtonTypes.stat.selected : ButtonTypes.stat.default}
+            buttonType={
+              selectedCluster === 'total' ? ButtonTypes.stat.selected : ButtonTypes.stat.default
+            }
             override={{ borderLeftRadius: 8 }}
-            onClick={() => onClusterChange('')}>
+            onClick={() => onClusterChange('total')}>
             <Stack direction="row" spacing={1} align="center">
               <Text>Total</Text>
             </Stack>
           </Button>
           <Button
-            buttonType={
-              selectedCluster === 'game' ? ButtonTypes.stat.selected : ButtonTypes.stat.default
-            }
-            onClick={() => onClusterChange('game')}>
+            buttonType={!selectedCluster ? ButtonTypes.stat.selected : ButtonTypes.stat.default}
+            onClick={() => onClusterChange('')}>
             <Stack direction="row" spacing={1} align="center">
               <Text>Game</Text>
             </Stack>

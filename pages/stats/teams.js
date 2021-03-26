@@ -8,23 +8,11 @@ import StatsNavigation from '@octane/components/common/Stats'
 import { teamStats } from '@octane/config/stats/stats'
 import { useRouter } from 'next/router'
 import { buildQuery, route } from '@octane/util/routes'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 
 const Stats = ({ auth, filter }) => {
   const [stats, setStats] = useState(teamStats[0])
-  const [cluster, setCluster] = useState(filter.cluster)
   const router = useRouter()
-
-  useEffect(() => {
-    const updateCluster = async () => {
-      const newFilter = {
-        ...filter,
-        cluster,
-      }
-      route(router, '/stats/teams', buildQuery(newFilter, ['']))
-    }
-    updateCluster()
-  }, [cluster])
 
   return (
     <Content auth={auth}>
@@ -35,8 +23,20 @@ const Stats = ({ auth, filter }) => {
           stats={teamStats}
           selectedStats={stats}
           onStatsChange={setStats}
-          selectedCluster={cluster}
-          onClusterChange={setCluster}
+          selectedCluster={filter.cluster}
+          onClusterChange={(cluster) =>
+            route(
+              router,
+              '/stats/teams',
+              buildQuery(
+                {
+                  ...filter,
+                  cluster,
+                },
+                ['']
+              )
+            )
+          }
         />
         <TeamStats filter={filter} statGroup={stats} isSortable />
       </Stack>

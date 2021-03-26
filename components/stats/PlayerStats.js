@@ -1,4 +1,4 @@
-import { Flex, Image, Stack, Text } from '@chakra-ui/core'
+import { Flex, Image, Stack, Text, Tooltip } from '@chakra-ui/core'
 import { useEffect, useState } from 'react'
 import { Table, Header, HeaderItem, Body, Row, Cell } from '@octane/components/common/Table'
 import { ChevronDownIcon, ChevronUpIcon, UpDownIcon } from '@chakra-ui/icons'
@@ -51,14 +51,14 @@ export const PlayerStats = ({ filter, statGroup, groupBy, defaultSort, isSortabl
   ) : (
     <Table>
       <Header>
-        <HeaderItem align="left" onClick={isSortable && (() => updateSort('player.tag'))}>
+        <HeaderItem align="left" onClick={isSortable && (() => updateSort({ id: 'player.tag' }))}>
           <Flex align="center">
             <Text marginRight={1}>{groupBy || 'Player'}</Text>
             <SortIcon field="player.tag" />
           </Flex>
         </HeaderItem>
         {filter.event && (
-          <HeaderItem onClick={isSortable && (() => updateSort('team.name'))}>
+          <HeaderItem onClick={isSortable && (() => updateSort({ id: 'team.name' }))}>
             <Flex align="center" justify="center">
               <Text marginRight={1}>Team</Text>
               <SortIcon field="team.name" />
@@ -67,10 +67,12 @@ export const PlayerStats = ({ filter, statGroup, groupBy, defaultSort, isSortabl
         )}
         {statGroup.stats.map((field) => (
           <HeaderItem onClick={isSortable && (() => updateSort(field))}>
-            <Flex justify="center" align="center">
-              <Text marginRight={1}>{field.label}</Text>
-              <SortIcon field={field.id} />
-            </Flex>
+            <Tooltip hasArrow placement="top" label={field.description}>
+              <Flex justify="center" align="center">
+                <Text marginRight={1}>{field.label}</Text>
+                <SortIcon field={field.id} />
+              </Flex>
+            </Tooltip>
           </HeaderItem>
         ))}
       </Header>
@@ -81,7 +83,7 @@ export const PlayerStats = ({ filter, statGroup, groupBy, defaultSort, isSortabl
             record={record}
             statGroup={statGroup}
             sort={sort}
-            intsAsFloat={filter.cluster}
+            intsAsFloat={!filter.cluster || filter.cluster === 'series'}
             groupBy={groupBy}
             isEven={i % 2 === 0}
             showTeams={filter.event}
@@ -171,7 +173,7 @@ const StatsRow = ({ record, statGroup, sort, intsAsFloat, groupBy, isEven, showT
             align="center"
             justify="center">
             {statGroup.id === 'core' || replays > 0
-              ? formatStatFromObj(record, stat, intsAsFloat)
+              ? formatStatFromObj(record, stat, stat.id === 'games' ? false : intsAsFloat)
               : '-'}
           </Flex>
         </Cell>

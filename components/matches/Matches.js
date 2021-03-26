@@ -59,7 +59,13 @@ export const Matches = ({ filter, onPaginate }) => {
           <Table>
             <Body>
               {group.map((match, j) => (
-                <MatchRow key={j} match={match} team={filter.team} player={filter.player} />
+                <MatchRow
+                  key={j}
+                  match={match}
+                  team={filter.team}
+                  player={filter.player}
+                  highlightResult={!filter.event}
+                />
               ))}
             </Body>
           </Table>
@@ -74,7 +80,7 @@ export const Matches = ({ filter, onPaginate }) => {
   )
 }
 
-const MatchRow = ({ match, team, player }) => {
+const MatchRow = ({ match, team, player, highlightResult }) => {
   const { _id, blue, orange, event, stage, date } = match
 
   const isBlue =
@@ -96,7 +102,7 @@ const MatchRow = ({ match, team, player }) => {
             padding={2}
             align="center"
             justify="space-between"
-            shadow={border}>
+            shadow={highlightResult ? border : ''}>
             <Flex width="sm" align="center">
               <Flex minWidth={8} marginRight={2} marginLeft={2}>
                 {event.image && <Image height={6} src={event.image} />}

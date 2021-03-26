@@ -204,18 +204,15 @@ export const TeamsFilter = ({ player, active, onChange }) => {
   useEffect(() => {
     const fetchTeams = async () => {
       const data = await apiFetch(`/stats/players/teams`, buildQuery({ player, mode: 3 }, ['']))
-      if (!data.stats) {
-        return
-      }
 
       setTeams(
         data.stats
-          .map((stat) => ({
+          ?.map((stat) => ({
             id: stat.team._id,
             label: stat.team.name,
             image: stat.team.image,
           }))
-          .sort((a, b) => a.label.toLowerCase().localeCompare(b.label.toLowerCase()))
+          .sort((a, b) => a.label.toLowerCase().localeCompare(b.label.toLowerCase()) || [])
       )
     }
 
@@ -235,18 +232,15 @@ export const OpponentsFilter = ({ player, team, active, onChange }) => {
       const path = `/stats/${player ? 'players' : 'teams'}/opponents`
       const query = { mode: 3, ...(player && { player }), ...(team && { team }) }
       const data = await apiFetch(path, buildQuery(query, ['']))
-      if (!data.stats) {
-        return
-      }
 
       setTeams(
         data.stats
-          .map((stat) => ({
+          ?.map((stat) => ({
             id: stat.opponents[0]._id,
             label: stat.opponents[0].name,
             image: stat.opponents[0].image,
           }))
-          .sort((a, b) => a.label.toLowerCase().localeCompare(b.label.toLowerCase()))
+          .sort((a, b) => a.label.toLowerCase().localeCompare(b.label.toLowerCase()) || [])
       )
     }
 
@@ -256,10 +250,76 @@ export const OpponentsFilter = ({ player, team, active, onChange }) => {
   return (
     <DropdownCheckbox
       label="Opponents"
-      items={teams}
+      items={teams || []}
       active={active}
       onChange={onChange}
       showImage
     />
+  )
+}
+
+export const TeamsOpponentsFilter = ({
+  player,
+  team,
+  opponent,
+  onTeamChange,
+  onOpponentChange,
+}) => {
+  const [teams, setTeams] = useState([])
+  const [opponents, setOpponents] = useState([])
+
+  useEffect(() => {
+    const fetchTeams = async () => {
+      const teamsData = await apiFetch(
+        `/stats/players/teams`,
+        buildQuery({ player, mode: 3 }, [''])
+      )
+      const opponentsData = await apiFetch(
+        `/stats/players/opponents`,
+        buildQuery({ mode: 3, player, ...(team && { team }) }, [''])
+      )
+
+      setTeams(
+        teamsData.stats
+          ?.map((stat) => ({
+            id: stat.team._id,
+            label: stat.team.name,
+            image: stat.team.image,
+          }))
+          .sort((a, b) => a.label.toLowerCase().localeCompare(b.label.toLowerCase()) || [])
+      )
+
+      setOpponents(
+        opponentsData.stats
+          ?.map((stat) => ({
+            id: stat.opponents[0]._id,
+            team: stat.team._id,
+            label: stat.opponents[0].name,
+            image: stat.opponents[0].image,
+          }))
+          .sort((a, b) => a.label.toLowerCase().localeCompare(b.label.toLowerCase()) || [])
+      )
+    }
+
+    fetchTeams()
+  }, [])
+
+  return (
+    <>
+      <DropdownCheckbox
+        label="Teams"
+        items={teams}
+        active={team}
+        onChange={onTeamChange}
+        showImage
+      />
+      <DropdownCheckbox
+        label="Opponents"
+        items={opponents}
+        active={opponent}
+        onChange={onOpponentChange}
+        showImage
+      />
+    </>
   )
 }

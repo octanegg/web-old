@@ -72,7 +72,7 @@ export const TeamStats = ({ filter, statGroup, groupBy, isSortable }) => {
             record={record}
             statGroup={statGroup}
             sort={sort}
-            intsAsFloat={filter.cluster}
+            intsAsFloat={!filter.cluster || filter.cluster === 'series'}
             groupBy={groupBy}
             isEven={i % 2 === 0}
           />
@@ -154,7 +154,7 @@ const StatsRow = ({ record, statGroup, sort, intsAsFloat, groupBy, isEven }) => 
             align="center"
             justify="center">
             {statGroup.id === 'core' || replays > 0
-              ? formatStatFromObj(record, stat, intsAsFloat)
+              ? formatStatFromObj(record, stat, stat.id === 'games' ? false : intsAsFloat)
               : '-'}
           </Flex>
         </Cell>

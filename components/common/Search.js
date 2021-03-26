@@ -1,7 +1,6 @@
 import { apiFetch } from '@octane/util/fetch'
-import { route } from '@octane/util/routes'
-import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
+import NextLink from 'next/link'
 
 const {
   Input,
@@ -21,7 +20,6 @@ const Search = () => {
   const [search, setSearch] = useState('')
   const [options, setOptions] = useState([])
   const [results, setResults] = useState([])
-  const router = useRouter()
 
   useEffect(() => {
     const fetchData = async () => {
@@ -79,11 +77,6 @@ const Search = () => {
     setResults([])
   }
 
-  const handleSearch = (result) => {
-    reset()
-    route(router, `/${result.type}s/${result.id}`, '')
-  }
-
   return (
     <Popover
       placement="bottom"
@@ -119,27 +112,29 @@ const Search = () => {
         <PopoverBody>
           <List maxHeight={400} overflowY="scroll">
             {results.map((result, i) => (
-              <ListItem
-                key={i}
-                padding={2}
-                _hover={{ backgroundColor: 'secondary.50' }}
-                borderRadius={8}
-                cursor="pointer"
-                onClick={() => handleSearch(result)}>
-                <Flex direction="row">
+              <ListItem key={i} onClick={reset}>
+                <NextLink passHref href={`/${result.type}s/${result.id}`}>
                   <Flex
-                    fontSize="10px"
-                    color="secondary.400"
-                    fontWeight="light"
-                    width={12}
-                    justify="flex-end"
-                    marginRight={2}>
-                    {result.type.toUpperCase()}
+                    as="a"
+                    padding={2}
+                    _hover={{ backgroundColor: 'secondary.50' }}
+                    borderRadius={8}
+                    cursor="pointer"
+                    direction="row">
+                    <Flex
+                      fontSize="10px"
+                      color="secondary.400"
+                      fontWeight="light"
+                      width={12}
+                      justify="flex-end"
+                      marginRight={2}>
+                      {result.type.toUpperCase()}
+                    </Flex>
+                    <Flex fontSize="xs" fontWeight="semi" color="secondary.800" width="full">
+                      {result.label}
+                    </Flex>
                   </Flex>
-                  <Flex fontSize="xs" fontWeight="semi" color="secondary.800" width="full">
-                    {result.label}
-                  </Flex>
-                </Flex>
+                </NextLink>
               </ListItem>
             ))}
           </List>

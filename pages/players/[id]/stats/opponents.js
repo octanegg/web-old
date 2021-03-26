@@ -9,23 +9,11 @@ import StatsNavigation from '@octane/components/common/Stats'
 import { playerStats } from '@octane/config/stats/stats'
 import { useRouter } from 'next/router'
 import { buildQuery, route } from '@octane/util/routes'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 
 const Player = ({ auth, player, filter }) => {
   const [stats, setStats] = useState(playerStats[0])
-  const [cluster, setCluster] = useState(filter.cluster)
   const router = useRouter()
-
-  useEffect(() => {
-    const updateCluster = async () => {
-      const newFilter = {
-        ...filter,
-        cluster,
-      }
-      route(router, `/players/${player._id}/stats/opponents`, buildQuery(newFilter, ['player', '']))
-    }
-    updateCluster()
-  }, [cluster])
 
   return (
     <Content auth={auth}>
@@ -37,8 +25,20 @@ const Player = ({ auth, player, filter }) => {
           stats={playerStats}
           selectedStats={stats}
           onStatsChange={setStats}
-          selectedCluster={cluster}
-          onClusterChange={setCluster}
+          selectedCluster={filter.cluster}
+          onClusterChange={(cluster) =>
+            route(
+              router,
+              `/players/${player._id}/stats/opponents`,
+              buildQuery(
+                {
+                  ...filter,
+                  cluster,
+                },
+                ['player', '']
+              )
+            )
+          }
         />
         <PlayerStats
           filter={filter}

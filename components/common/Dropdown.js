@@ -35,8 +35,11 @@ export const DropdownDate = ({ label, startDate, endDate, onChange }) => {
     moment(d).isValid() && new Date(new Date(d).getTime() + new Date(d).getTimezoneOffset() * 60000)
 
   const handleChange = ([s, e]) => {
-    setStart(moment(s).format('YYYY-MM-DD'))
-    setEnd(e ? moment(e).format('YYYY-MM-DD') : '')
+    const _s = moment(s).format('YYYY-MM-DD')
+    const _e = e ? moment(e).format('YYYY-MM-DD') : ''
+    setStart(_s)
+    setEnd(_e)
+    onChange([_s, _e])
   }
 
   const quickChange = ([s, e]) => {
@@ -98,7 +101,21 @@ export const DropdownDate = ({ label, startDate, endDate, onChange }) => {
           </Button>
         </Stack>
         <Stack direction="row" justify="center">
-          {[2020, 2019, 2018, 2017, 2016, 2015].map((year) => (
+          {[2021, 2020, 2019, 2018].map((year) => (
+            <Button
+              key={year}
+              onClick={() =>
+                quickChange([
+                  moment(`${year}-01-01`, 'YYYY-MM-DD'),
+                  moment(`${year}-12-31`, 'YYYY-MM-DD'),
+                ])
+              }>
+              {year}
+            </Button>
+          ))}
+        </Stack>
+        <Stack direction="row" justify="center">
+          {[2017, 2016, 2015].map((year) => (
             <Button
               key={year}
               onClick={() =>
