@@ -1,5 +1,3 @@
-import { toMinuteSeconds } from '@octane/util/dates'
-
 export const getFieldFromObj = (obj, field) =>
   field.split('.').reduce((a, b) => (a !== undefined ? a[b] : a), obj)
 
@@ -15,13 +13,22 @@ export const sortObjLex = (data, field, order) =>
       getFieldFromObj(b, field).localeCompare(getFieldFromObj(a, field), { sensitivity: 'base' })
   )
 
+export const formatTime = (time) => {
+  const hours = Math.floor(time / 3600)
+  const minutes = Math.floor((time - hours * 3600) / 60)
+  const seconds = Math.round(time - hours * 3600 - minutes * 60)
+  return `${hours > 0 ? `${hours}:` : ''}${minutes < 10 ? `0${minutes}` : minutes}:${
+    seconds < 10 ? `0${seconds}` : seconds
+  }`
+}
+
 export const formatStat = (value, constraints, round) => {
   if (Number.isNaN(value)) {
     return ''
   }
 
   return constraints.time
-    ? toMinuteSeconds(value)
+    ? formatTime(value)
     : `${value.toFixed(round ?? constraints.round ?? 2)}${constraints.percentage ? '%' : ''}`
 }
 

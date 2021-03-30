@@ -117,7 +117,10 @@ export const EventRecordsFilter = ({ event, type, initialFilter }) => {
         onChange={(item) => updateFilter('stat', item)}
       />
       <StageFilter
-        stages={event.stages}
+        stages={event.stages.map((stage) => ({
+          id: stage._id,
+          label: stage.name,
+        }))}
         active={filter.stage}
         onChange={(item) => updateFilter('stage', item)}
       />
@@ -147,7 +150,10 @@ export const EventStatsFilter = ({ event, type, initialFilter }) => {
         onChange={(item) => route(router, `/events/${event._id}/stats/${item}`, '')}
       />
       <StageFilter
-        stages={event.stages}
+        stages={event.stages.map((stage) => ({
+          id: stage._id,
+          label: stage.name,
+        }))}
         active={filter.stage}
         onChange={(item) => updateFilter('stage', item)}
       />

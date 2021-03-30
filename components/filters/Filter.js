@@ -144,14 +144,7 @@ export const MinGamesFilter = ({ active, onChange }) => (
 )
 
 export const StageFilter = ({ stages, active, onChange }) => (
-  <DropdownList
-    label="Stages"
-    items={['All'].concat(stages)}
-    active={active}
-    itemToLabel={(item) => (item !== 'All' ? item.name : 'All Stages')}
-    itemToId={(item) => (item !== 'All' ? item._id : '')}
-    onChange={onChange}
-  />
+  <DropdownCheckbox label="Stages" items={stages} active={active} onChange={onChange} />
 )
 
 export const PlayerStatsTypeFilter = ({ active, onChange }) => (
