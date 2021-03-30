@@ -11,9 +11,9 @@ import NextLink from 'next/link'
 
 export const Matches = ({ filter, onPaginate }) => {
   const [matches, setMatches] = useState([])
+  const [matchCount, setMatchCount] = useState(0)
   const [labels, setLabels] = useState([])
   const [loading, setLoading] = useState(true)
-  const [showPaginate, setShowPaginate] = useState(false)
 
   useEffect(() => {
     const fetchMatches = async () => {
@@ -30,6 +30,8 @@ export const Matches = ({ filter, onPaginate }) => {
       const _labels = []
       const _matches = []
 
+      setMatchCount(data.matches.length)
+
       data.matches.forEach((match, i) => {
         const date = moment(match.date)
         if (i === 0 || !date.isSame(day, 'day')) {
@@ -43,7 +45,6 @@ export const Matches = ({ filter, onPaginate }) => {
 
       setLabels(_labels)
       setMatches(_matches)
-      setShowPaginate(onPaginate && data.matches.length === filter.perPage)
       setLoading(false)
     }
     fetchMatches()
@@ -71,9 +72,13 @@ export const Matches = ({ filter, onPaginate }) => {
           </Table>
         </>
       ))}
-      {showPaginate && (
+      {onPaginate && (
         <Flex justify="flex-end" width="full">
-          <Pagination page={filter.page} onChange={onPaginate} />
+          <Pagination
+            page={parseInt(filter.page, 10)}
+            onChange={onPaginate}
+            isLast={matchCount < filter.perPage}
+          />
         </Flex>
       )}
     </>

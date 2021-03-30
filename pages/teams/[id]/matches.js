@@ -5,17 +5,31 @@ import TeamMatchesFilter from '@octane/components/filters/TeamFilters'
 import Matches from '@octane/components/matches/Matches'
 import { getServerSideAuth } from '@octane/util/auth'
 import { Stack } from '@chakra-ui/core'
+import { useRouter } from 'next/router'
+import { buildQuery, route } from '@octane/util/routes'
 
-const Team = ({ auth, team, filter }) => (
-  <Content auth={auth}>
-    <Stack width="full" spacing={3}>
-      <TeamInfobox team={team} />
-      <Navigation type="team" active="matches" baseHref={`/teams/${team._id}`} hasDivider />
-      <TeamMatchesFilter team={team} initialFilter={filter} />
-      <Matches filter={filter} />
-    </Stack>
-  </Content>
-)
+const Team = ({ auth, team, filter }) => {
+  const router = useRouter()
+
+  const handlePagination = (page) => {
+    route(
+      router,
+      `/teams/${team._id}/matches`,
+      buildQuery({ ...filter, page }, ['', 'team', 'sort', 'perPage'])
+    )
+  }
+
+  return (
+    <Content auth={auth}>
+      <Stack width="full" spacing={3}>
+        <TeamInfobox team={team} />
+        <Navigation type="team" active="matches" baseHref={`/teams/${team._id}`} hasDivider />
+        <TeamMatchesFilter team={team} initialFilter={filter} />
+        <Matches filter={filter} onPaginate={handlePagination} />
+      </Stack>
+    </Content>
+  )
+}
 
 export async function getServerSideProps({ req, params, query }) {
   const auth = getServerSideAuth(req)
