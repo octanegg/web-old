@@ -138,7 +138,7 @@ export const teamBoost = [
   },
   {
     id: 'stats.boost.amountCollectedSmall',
-    label: 'Collected',
+    label: 'Collected (S)',
     description: 'Boost Collected (Small)',
     round: 0,
   },
@@ -156,7 +156,7 @@ export const teamBoost = [
   },
   {
     id: 'stats.boost.amountStolenSmall',
-    label: 'Stolen',
+    label: 'Stolen (S)',
     description: 'Boost Stolen (Small)',
     round: 0,
   },
@@ -166,12 +166,12 @@ export const teamBoostCount = [
   {
     id: 'stats.boost.countCollectedBig',
     label: 'Collected (B)',
-    description: 'Big oost Pads Collected',
+    description: 'Big Boost Pads Collected',
     round: 0,
   },
   {
     id: 'stats.boost.countCollectedSmall',
-    label: 'Collected',
+    label: 'Collected (S)',
     description: 'Small Boost Pads Collected',
     round: 0,
   },
@@ -183,7 +183,7 @@ export const teamBoostCount = [
   },
   {
     id: 'stats.boost.countStolenSmall',
-    label: 'Stolen',
+    label: 'Stolen (S)',
     description: 'Small Boost Pads Stolen',
     round: 0,
   },

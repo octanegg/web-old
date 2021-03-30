@@ -1,4 +1,4 @@
-import { Flex, Stack, Image, Text } from '@chakra-ui/core'
+import { Flex, Stack, Image, Text, Tooltip } from '@chakra-ui/core'
 import { useEffect, useState } from 'react'
 import { Table, Header, HeaderItem, Body, Row, Cell } from '@octane/components/common/Table'
 import { ChevronDownIcon, ChevronUpIcon, UpDownIcon } from '@chakra-ui/icons'
@@ -58,10 +58,12 @@ export const TeamStats = ({ filter, statGroup, groupBy, isSortable }) => {
         </HeaderItem>
         {statGroup.stats.map((field) => (
           <HeaderItem onClick={isSortable && (() => updateSort(field.id))}>
-            <Flex justify="center" align="center">
-              <Text marginRight={1}>{field.label}</Text>
-              <SortIcon field={field.id} />
-            </Flex>
+            <Tooltip hasArrow placement="top" label={field.description}>
+              <Flex justify="center" align="center">
+                <Text marginRight={1}>{field.label}</Text>
+                <SortIcon field={field.id} />
+              </Flex>
+            </Tooltip>
           </HeaderItem>
         ))}
       </Header>
