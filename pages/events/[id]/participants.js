@@ -4,23 +4,30 @@ import { EventInfobox } from '@octane/components/common/Infobox'
 import { getServerSideAuth } from '@octane/util/auth'
 import { Stack } from '@chakra-ui/core'
 import Participants from '@octane/components/events/Participants'
+import { EventParticipantsFilter } from '@octane/components/filters/EventFilters'
+import { buildQuery } from '@octane/util/routes'
 
-const Event = ({ auth, event, participants }) => (
+const Event = ({ auth, event, participants, filter }) => (
   <Content auth={auth}>
     <Stack width="full" spacing={3}>
       <EventInfobox event={event} />
       <Navigation type="event" active="participants" baseHref={`/events/${event._id}`} hasDivider />
+      <EventParticipantsFilter event={event} initialFilter={filter} />
       {participants && <Participants participants={participants} />}
     </Stack>
   </Content>
 )
 
-export async function getServerSideProps({ req, params }) {
+export async function getServerSideProps({ req, params, query }) {
   const auth = getServerSideAuth(req)
   const { id } = params
   const [resEvents, resParticipants] = await Promise.all([
     fetch(`${process.env.API_URL}/events/${id}`),
-    fetch(`${process.env.API_URL}/events/${id}/participants`),
+    fetch(
+      `${process.env.API_URL}/events/${id}/participants${
+        query.stage ? buildQuery({ stage: query.stage }, ['']) : ''
+      }`
+    ),
   ])
   if (resEvents.status !== 200) {
     return {
@@ -30,7 +37,14 @@ export async function getServerSideProps({ req, params }) {
 
   const [event, participants] = await Promise.all([resEvents.json(), resParticipants.json()])
   return {
-    props: { auth, event, participants: participants.participants },
+    props: {
+      auth,
+      event,
+      participants: participants.participants,
+      filter: {
+        stage: query.stage || '',
+      },
+    },
   }
 }
 

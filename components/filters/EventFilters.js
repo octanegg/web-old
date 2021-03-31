@@ -13,7 +13,7 @@ import {
 } from '@octane/components/filters/Filter'
 import { buildQuery, route } from '@octane/util/routes'
 import { useRouter } from 'next/router'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import moment from 'moment'
 
 export const UpcomingEventsFilter = ({ initialFilter }) => {
@@ -121,7 +121,11 @@ export const EventRecordsFilter = ({ event, type, initialFilter }) => {
           id: stage._id,
           label: stage.name,
         }))}
-        active={filter.stage}
+        active={
+          Array.isArray(filter.stage)
+            ? filter.stage.map((i) => parseInt(i, 10))
+            : parseInt(filter.stage, 10)
+        }
         onChange={(item) => updateFilter('stage', item)}
       />
     </Filter>
@@ -139,12 +143,17 @@ export const EventStatsFilter = ({ event, type, initialFilter }) => {
     }))
   }
 
-  useEffect(() => {
-    route(router, `/events/${event._id}/stats/${type}`, buildQuery(filter, ['event']))
-  }, [filter])
-
   return (
-    <Filter>
+    <Filter
+      onApply={() =>
+        route(router, `/events/${event._id}/stats/${type}`, buildQuery(filter, ['event']))
+      }
+      onReset={() => {
+        setFilter({
+          event: event._id,
+        })
+        route(router, `/events/${event._id}/stats/${type}`, '')
+      }}>
       <StatsCategoryFilter
         active={type}
         onChange={(item) => route(router, `/events/${event._id}/stats/${item}`, '')}
@@ -154,7 +163,49 @@ export const EventStatsFilter = ({ event, type, initialFilter }) => {
           id: stage._id,
           label: stage.name,
         }))}
-        active={filter.stage}
+        active={
+          Array.isArray(filter.stage)
+            ? filter.stage.map((i) => parseInt(i, 10))
+            : parseInt(filter.stage, 10)
+        }
+        onChange={(item) => updateFilter('stage', item)}
+      />
+    </Filter>
+  )
+}
+
+export const EventParticipantsFilter = ({ event, initialFilter }) => {
+  const router = useRouter()
+  const [filter, setFilter] = useState(initialFilter)
+
+  const updateFilter = (key, value) => {
+    setFilter((prev) => ({
+      ...prev,
+      [key]: value === 'All' ? '' : value,
+    }))
+  }
+
+  return (
+    <Filter
+      onApply={() =>
+        route(router, `/events/${event._id}/participants`, buildQuery(filter, ['event']))
+      }
+      onReset={() => {
+        setFilter({
+          event: event._id,
+        })
+        route(router, `/events/${event._id}/participants`, '')
+      }}>
+      <StageFilter
+        stages={event.stages.map((stage) => ({
+          id: stage._id,
+          label: stage.name,
+        }))}
+        active={
+          Array.isArray(filter.stage)
+            ? filter.stage.map((i) => parseInt(i, 10))
+            : parseInt(filter.stage, 10)
+        }
         onChange={(item) => updateFilter('stage', item)}
       />
     </Filter>

@@ -4,13 +4,13 @@ import { Link } from '@octane/components/common/Text'
 
 export const Participants = ({ participants }) => (
   <SimpleGrid columns={4} spacingY={6}>
-    {participants?.map(({ team, players }) => {
+    {participants?.map(({ team, players }, j) => {
       const sortedPlayers = players.sort((a, b) => a.tag.localeCompare(b.tag))
       const playerSetOne = sortedPlayers.slice(0, 3)
       const playerSetTwo = sortedPlayers.slice(3)
 
       return (
-        <Stack width="full" marginLeft={8}>
+        <Stack key={j} width="full" marginLeft={8}>
           <Stack direction="row">
             {team.image && <Image width={6} src={team.image} />}
             <Link href={`/teams/${team._id}`}>
@@ -19,8 +19,8 @@ export const Participants = ({ participants }) => (
           </Stack>
           <Flex paddingLeft={2}>
             <Stack borderLeft="2px solid #94e8be">
-              {playerSetOne.map((player) => (
-                <Stack paddingLeft={4} direction="row" align="center">
+              {playerSetOne.map((player, i) => (
+                <Stack key={i} paddingLeft={4} direction="row" align="center">
                   <Flag country={player.country || 'int'} />
                   <Link href={`/players/${player._id}`}>
                     <Text>{player.tag}</Text>
@@ -30,8 +30,8 @@ export const Participants = ({ participants }) => (
             </Stack>
             {playerSetTwo.length > 0 && (
               <Stack>
-                {playerSetTwo.map((player) => (
-                  <Stack paddingLeft={4} direction="row" align="center">
+                {playerSetTwo.map((player, i) => (
+                  <Stack key={i} paddingLeft={4} direction="row" align="center">
                     <Flag country={player.country || 'int'} />
                     <Link href={`/players/${player._id}`}>
                       <Text>{player.tag}</Text>
