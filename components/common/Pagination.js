@@ -15,7 +15,10 @@ const Pagination = ({ page, onChange, isLast }) => {
       <PaginationButton isActive={page === 1} onClick={() => onChange(prev)}>
         {prev}
       </PaginationButton>
-      <PaginationButton isActive={page !== 1 && true} onClick={() => onChange(_page)}>
+      <PaginationButton
+        isActive={page !== 1 && true}
+        isDisabled={page === 1 && isLast}
+        onClick={() => onChange(_page)}>
         {_page}
       </PaginationButton>
       <PaginationButton onClick={() => onChange(next)} isDisabled={isLast}>

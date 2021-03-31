@@ -325,7 +325,7 @@ export const DropdownCheckbox = ({ items, active, label, onChange, showImage }) 
 
 const Checkboxes = ({ items, tier, isChecked, handleChange, showImage, isLast }) => (
   <>
-    {items.map((item, i) => {
+    {items?.map((item, i) => {
       const [hover, setHover] = useState(false)
       return (
         <>
