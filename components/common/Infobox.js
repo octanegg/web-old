@@ -54,7 +54,7 @@ export const EventInfobox = ({ event }) => {
 }
 
 export const PlayerInfobox = ({ player }) => {
-  const { tag, name, country } = player
+  const { tag, name, country, team } = player
 
   return (
     <Infobox title={tag}>
@@ -64,6 +64,14 @@ export const PlayerInfobox = ({ player }) => {
       <LabeledField label="nationality" width="auto">
         <Flag country={country || 'int'} isLabeled={country} />
       </LabeledField>
+      {team && (
+        <LabeledField label="team" width="auto">
+          <Stack direction="row">
+            {team.image && <Image width={5} src={team.image} />}
+            <Text>{team.name}</Text>
+          </Stack>
+        </LabeledField>
+      )}
     </Infobox>
   )
 }

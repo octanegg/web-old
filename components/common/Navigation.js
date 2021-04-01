@@ -73,6 +73,12 @@ const navigation = {
       href: '/records',
       label: 'Records',
     },
+    {
+      id: 'admin',
+      href: '/admin',
+      label: 'Admin',
+      adminOnly: true,
+    },
   ],
   records: [
     {
@@ -131,16 +137,18 @@ const navigation = {
   ],
 }
 
-const Navigation = ({ type, active, baseHref, filter, hasDivider }) => (
+const Navigation = ({ type, active, baseHref, filter, hasDivider, isAdmin }) => (
   <Stack paddingLeft={2} paddingRight={2} width="full" direction="row" align="center">
-    {navigation[type].map((item) => (
-      <ButtonLink
-        key={item.id}
-        href={`${baseHref || ''}${item.href || ''}${buildQuery(filter || {}, [''])}`}
-        isActive={active === item.id}>
-        {item.label}
-      </ButtonLink>
-    ))}
+    {navigation[type]
+      .filter((nav) => !nav.adminOnly || isAdmin)
+      .map(({ id, href, label }) => (
+        <ButtonLink
+          key={id}
+          href={`${baseHref || ''}${href || ''}${buildQuery(filter || {}, [''])}`}
+          isActive={active === id}>
+          {label}
+        </ButtonLink>
+      ))}
     {hasDivider ? <Divider borderColor="secondary.300" /> : <Spacer />}
   </Stack>
 )

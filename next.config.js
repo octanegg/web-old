@@ -4,6 +4,9 @@ module.exports = (phase) => {
   switch (phase) {
     case PHASE_DEVELOPMENT_SERVER:
       return {
+        publicRuntimeConfig: {
+          API_KEY: 'LOCALAPIKEY',
+        },
         env: {
           API_URL: 'http://localhost:8080',
           CONTENT_URL: 'https://content.octane.gg',
@@ -18,6 +21,9 @@ module.exports = (phase) => {
       }
     default:
       return {
+        publicRuntimeConfig: {
+          API_KEY: process.env.API_KEY,
+        },
         env: {
           API_URL: 'https://zsr.octane.gg',
           CONTENT_URL: 'https://content.octane.gg',
