@@ -2,7 +2,7 @@ import { TeamInfobox } from '@octane/components/common/Infobox'
 import { Content } from '@octane/components/common/Layout'
 import Navigation from '@octane/components/common/Navigation'
 import TeamStats from '@octane/components/stats/TeamStats'
-import { getServerSideAuth } from '@octane/util/auth'
+import { getServerSideAuth, isAdmin } from '@octane/util/auth'
 import { TeamStatsFilter } from '@octane/components/filters/TeamFilters'
 import { Stack } from '@chakra-ui/core'
 import StatsNavigation from '@octane/components/common/Stats'
@@ -19,7 +19,13 @@ const Team = ({ auth, team, filter }) => {
     <Content auth={auth}>
       <Stack width="full" spacing={3}>
         <TeamInfobox team={team} />
-        <Navigation type="team" active="stats" baseHref={`/teams/${team._id}`} hasDivider />
+        <Navigation
+          type="team"
+          active="stats"
+          baseHref={`/teams/${team._id}`}
+          isAdmin={isAdmin(auth)}
+          hasDivider
+        />
         <TeamStatsFilter team={team} type="events" initialFilter={filter} />
         <StatsNavigation
           stats={teamStats}

@@ -3,7 +3,7 @@ import { Content } from '@octane/components/common/Layout'
 import Navigation from '@octane/components/common/Navigation'
 import TeamMatchesFilter from '@octane/components/filters/TeamFilters'
 import Matches from '@octane/components/matches/Matches'
-import { getServerSideAuth } from '@octane/util/auth'
+import { getServerSideAuth, isAdmin } from '@octane/util/auth'
 import { Stack } from '@chakra-ui/core'
 import { useRouter } from 'next/router'
 import { buildQuery, route } from '@octane/util/routes'
@@ -23,7 +23,13 @@ const Team = ({ auth, team, filter }) => {
     <Content auth={auth}>
       <Stack width="full" spacing={3}>
         <TeamInfobox team={team} />
-        <Navigation type="team" active="matches" baseHref={`/teams/${team._id}`} hasDivider />
+        <Navigation
+          type="team"
+          active="matches"
+          baseHref={`/teams/${team._id}`}
+          isAdmin={isAdmin(auth)}
+          hasDivider
+        />
         <TeamMatchesFilter team={team} initialFilter={filter} />
         <Matches filter={filter} onPaginate={handlePagination} />
       </Stack>

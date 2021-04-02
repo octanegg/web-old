@@ -1,6 +1,7 @@
-import { Flex, FormControl, FormHelperText, FormLabel } from '@chakra-ui/core'
+import { Flex, FormControl, FormHelperText, FormLabel, Stack } from '@chakra-ui/core'
+import { Button } from '@octane/components/common/Button'
 
-const FormField = ({ label, description, children }) => (
+export const FormField = ({ label, description, children }) => (
   <FormControl id="id">
     <FormLabel
       marginBottom={1}
@@ -27,4 +28,18 @@ export const FormPreview = ({ data }) => (
   </Flex>
 )
 
-export default FormField
+export const Form = ({ data, onSubmit, children }) => (
+  <Stack width="full" direction="row" paddingLeft={8} spacing={16}>
+    <Stack width={64} spacing={4}>
+      {children}
+      <Flex paddingTop={4}>
+        <Button override={{ width: 64, height: 8 }} onClick={onSubmit}>
+          Submit
+        </Button>
+      </Flex>
+    </Stack>
+    <FormPreview data={data} />
+  </Stack>
+)
+
+export default Form

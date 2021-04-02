@@ -28,6 +28,12 @@ const navigation = {
       href: '/records/players',
       label: 'Records',
     },
+    {
+      id: 'admin',
+      href: '/admin',
+      label: 'Admin',
+      adminOnly: true,
+    },
   ],
   events: [
     {
@@ -133,6 +139,12 @@ const navigation = {
       id: 'records',
       href: '/records',
       label: 'Records',
+    },
+    {
+      id: 'admin',
+      href: '/admin',
+      label: 'Admin',
+      adminOnly: true,
     },
   ],
 }

@@ -2,7 +2,7 @@ import { Content } from '@octane/components/common/Layout'
 import Navigation from '@octane/components/common/Navigation'
 import { TeamRecords } from '@octane/components/records/TeamRecords'
 import { TeamInfobox } from '@octane/components/common/Infobox'
-import { getServerSideAuth } from '@octane/util/auth'
+import { getServerSideAuth, isAdmin } from '@octane/util/auth'
 import { TeamRecordsFilter } from '@octane/components/filters/TeamFilters'
 import { Stack } from '@chakra-ui/core'
 
@@ -10,7 +10,13 @@ const Team = ({ auth, team, filter }) => (
   <Content auth={auth}>
     <Stack width="full" spacing={3}>
       <TeamInfobox team={team} />
-      <Navigation type="team" active="records" baseHref={`/teams/${team._id}`} hasDivider />
+      <Navigation
+        type="team"
+        active="records"
+        baseHref={`/teams/${team._id}`}
+        isAdmin={isAdmin(auth)}
+        hasDivider
+      />
       <TeamRecordsFilter team={team} initialFilter={filter} />
       <TeamRecords filter={filter} isHighlighted />
     </Stack>
