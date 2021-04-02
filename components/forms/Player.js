@@ -1,23 +1,14 @@
 import { Flex, Stack } from '@chakra-ui/core'
 import { Button } from '@octane/components/common/Button'
-import { Input, Select } from '@octane/components/common/Input'
+import { Input } from '@octane/components/common/Input'
 import FormField, { FormPreview } from '@octane/components/forms/Forms'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { getCountries } from '@octane/util/countries'
-import apiFetch, { apiUpdate } from '@octane/util/fetch'
-import { buildQuery } from '@octane/util/routes'
+import { apiUpdate } from '@octane/util/fetch'
+import { Select, TeamSelect } from '@octane/components/common/Select'
 
 export const PlayerForm = ({ data }) => {
   const [player, setPlayer] = useState(data)
-  const [teams, setTeams] = useState([])
-
-  useEffect(() => {
-    const fetchTeams = async () => {
-      const res = await apiFetch('/teams', buildQuery({ sort: 'name:asc' }, []))
-      setTeams(res.teams)
-    }
-    fetchTeams()
-  }, [])
 
   const updatePlayer = (key, value) => {
     if (value !== '') {
@@ -74,19 +65,7 @@ export const PlayerForm = ({ data }) => {
           />
         </FormField>
         <FormField label="Team">
-          <Select
-            id="team"
-            value={player.team?._id}
-            onChange={(e) =>
-              updatePlayer('team', teams.find((t) => t._id === e.currentTarget.value) || '')
-            }>
-            <option value="">None</option>
-            {teams.map(({ _id, name }) => (
-              <option key={_id} value={_id}>
-                {name}
-              </option>
-            ))}
-          </Select>
+          <TeamSelect active={player.team} onChange={(team) => updatePlayer('team', team)} />
         </FormField>
         <Flex paddingTop={4}>
           <Button override={{ width: 64, height: 8 }} onClick={handleSubmit}>

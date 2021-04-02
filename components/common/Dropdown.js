@@ -23,7 +23,7 @@ import { ChevronDownIcon } from '@chakra-ui/icons'
 import { useState } from 'react'
 import DatePicker from 'react-datepicker'
 import moment from 'moment'
-import Input from './Input'
+import { Input } from './Input'
 import { Button } from './Button'
 
 export const DropdownDate = ({ label, startDate, endDate, onChange }) => {
