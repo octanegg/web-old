@@ -57,8 +57,14 @@ export const GroupFilter = ({ active, onChange }) => (
   <DropdownCheckbox label="Events" items={events} active={active} onChange={onChange} />
 )
 
-export const RegionFilter = ({ active, onChange }) => (
-  <DropdownCheckbox label="Regions" items={regions} active={active} onChange={onChange} showImage />
+export const RegionFilter = ({ active, onChange, noInternational }) => (
+  <DropdownCheckbox
+    label="Regions"
+    items={regions.filter((r) => !noInternational || r.id !== 'INT')}
+    active={active}
+    onChange={onChange}
+    showImage
+  />
 )
 
 export const ModeFilter = ({ active, onChange }) => (

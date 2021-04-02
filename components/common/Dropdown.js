@@ -151,7 +151,7 @@ export const DropdownList = ({ items, active, label, itemToLabel, itemToId, onCh
             padding={2}
             borderTopRadius={i === 0 ? 6 : 0}
             borderBottomRadius={i === items.length - 1 ? 6 : 0}
-            _hover={{ backgroundColor: 'secondary.50' }}
+            _hover={{ backgroundColor: 'secondary.25' }}
             fontSize="13px"
             fontWeight="semi"
             cursor="pointer"
@@ -198,7 +198,7 @@ export const DropdownNestedList = ({ items, active, label, itemToLabel, itemToId
                 padding={2}
                 paddingLeft={4}
                 borderBottomRadius={j === items.length - 1 && i === group.items.length - 1 ? 6 : 0}
-                _hover={{ backgroundColor: 'secondary.50' }}
+                _hover={{ backgroundColor: 'secondary.25' }}
                 fontSize="13px"
                 fontWeight="semi"
                 color="secondary.800"
@@ -257,12 +257,12 @@ export const DropdownInput = ({ active, label, onChange }) => {
             <NumberInputStepper>
               <NumberIncrementStepper
                 _focus={{ outline: 'none' }}
-                _hover={{ backgroundColor: 'secondary.50' }}
+                _hover={{ backgroundColor: 'secondary.25' }}
                 borderColor="secondary.300"
               />
               <NumberDecrementStepper
                 _focus={{ outline: 'none' }}
-                _hover={{ backgroundColor: 'secondary.50' }}
+                _hover={{ backgroundColor: 'secondary.25' }}
                 borderColor="secondary.300"
               />
             </NumberInputStepper>
@@ -338,7 +338,7 @@ const Checkboxes = ({ items, tier, isChecked, handleChange, showImage, isLast })
             fontWeight="semi"
             cursor="pointer"
             value={item.id}
-            _hover={{ backgroundColor: 'secondary.50' }}
+            _hover={{ backgroundColor: 'secondary.25' }}
             onMouseEnter={() => setHover(true)}
             onMouseLeave={() => setHover(false)}
             onClick={(e) => {
@@ -347,7 +347,7 @@ const Checkboxes = ({ items, tier, isChecked, handleChange, showImage, isLast })
             }}>
             <Stack direction="row" marginLeft={tier * 6}>
               <Checkbox
-                borderColor={hover ? 'secondary.50' : ''}
+                borderColor={hover ? 'secondary.25' : ''}
                 colorScheme="whatsapp"
                 size="md"
                 isChecked={isChecked(item)}

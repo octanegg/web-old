@@ -48,6 +48,7 @@ const theme = {
       900: '#001708',
     },
     secondary: {
+      25: '#f1f8ff',
       50: '#E4F2FF',
       100: '#D8E6FE',
       150: '#D0DEF6',

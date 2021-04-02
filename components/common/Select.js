@@ -77,9 +77,10 @@ export const InputSelect = ({ items, value, onChange }) => {
         </Flex>
       </PopoverTrigger>
       <PopoverContent
-        borderColor="secondary.300"
+        borderColor="secondary.100"
         display={options.length > 0 ? 'block' : 'none'}
-        _focus={{ outline: 'none' }}>
+        _focus={{ outline: 'none' }}
+        shadow="0px 1px 2px rgba(128, 138, 157, 0.12), 0px 8px 32px rgba(128, 138, 157, 0.24)">
         <PopoverBody padding={0}>
           <List maxHeight={200} overflowY="scroll" cursor="pointer">
             {options.map((item, i) => (
@@ -93,7 +94,7 @@ export const InputSelect = ({ items, value, onChange }) => {
                 paddingTop={2}
                 paddingBottom={2}
                 color="secondary.800"
-                _hover={{ backgroundColor: 'secondary.50' }}
+                _hover={{ backgroundColor: 'secondary.25' }}
                 onClick={() => handleChange(item)}>
                 <Stack direction="row">
                   <Flex minWidth={6}>{item.image && <Image width={6} src={item.image} />}</Flex>
