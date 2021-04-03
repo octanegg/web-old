@@ -2,7 +2,7 @@ import { Content } from '@octane/components/common/Layout'
 import Navigation from '@octane/components/common/Navigation'
 import { EventInfobox } from '@octane/components/common/Infobox'
 import TeamStats from '@octane/components/stats/TeamStats'
-import { getServerSideAuth } from '@octane/util/auth'
+import { getServerSideAuth, isAdmin } from '@octane/util/auth'
 import { EventStatsFilter } from '@octane/components/filters/EventFilters'
 import { Stack } from '@chakra-ui/core'
 import StatsNavigation from '@octane/components/common/Stats'
@@ -31,7 +31,13 @@ const Event = ({ auth, event, filter }) => {
     <Content auth={auth}>
       <Stack width="full" spacing={3}>
         <EventInfobox event={event} />
-        <Navigation type="event" active="stats" baseHref={`/events/${event._id}`} hasDivider />
+        <Navigation
+          type="event"
+          active="stats"
+          baseHref={`/events/${event._id}`}
+          isAdmin={isAdmin(auth)}
+          hasDivider
+        />
         <EventStatsFilter event={event} type="teams" initialFilter={filter} />
         <StatsNavigation
           stats={teamStats}

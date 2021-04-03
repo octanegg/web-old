@@ -2,7 +2,7 @@ import { Content } from '@octane/components/common/Layout'
 import Navigation from '@octane/components/common/Navigation'
 import { EventInfobox } from '@octane/components/common/Infobox'
 import SeriesRecords from '@octane/components/records/SeriesRecords'
-import { getServerSideAuth } from '@octane/util/auth'
+import { getServerSideAuth, isAdmin } from '@octane/util/auth'
 import { EventRecordsFilter } from '@octane/components/filters/EventFilters'
 import { Stack } from '@chakra-ui/core'
 
@@ -10,7 +10,13 @@ const Event = ({ auth, event, filter }) => (
   <Content auth={auth}>
     <Stack width="full" spacing={3}>
       <EventInfobox event={event} />
-      <Navigation type="event" active="records" baseHref={`/events/${event._id}`} hasDivider />
+      <Navigation
+        type="event"
+        active="records"
+        baseHref={`/events/${event._id}`}
+        isAdmin={isAdmin(auth)}
+        hasDivider
+      />
       <EventRecordsFilter event={event} type="series" initialFilter={filter} />
       <SeriesRecords filter={filter} />
     </Stack>

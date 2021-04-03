@@ -43,6 +43,7 @@ export const PlayerForm = ({ data }) => {
       <FormField label="Country">
         <Select
           id="country"
+          width={64}
           value={player.country}
           onChange={(e) => updatePlayer('country', e.currentTarget.value)}>
           {getCountries().map(({ id, label }) => (

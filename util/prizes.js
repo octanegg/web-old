@@ -1,4 +1,4 @@
-const currencies = [
+export const currencies = [
   { id: 'MXN', prefix: 'Mex$' },
   { id: 'NOK', suffix: 'kr' },
   { id: 'CHF', suffix: 'fr.' },
@@ -13,7 +13,7 @@ const currencies = [
   { id: 'DKK', suffix: 'kr.' },
 ]
 
-const rates = {
+export const rates = {
   CAD: 1.2652320884,
   HKD: 7.7527413637,
   ISK: 128.2875752329,

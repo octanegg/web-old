@@ -1,33 +1,31 @@
+import { EventInfobox } from '@octane/components/common/Infobox'
 import { Content } from '@octane/components/common/Layout'
 import Navigation from '@octane/components/common/Navigation'
-import { EventInfobox } from '@octane/components/common/Infobox'
-import TeamRecords from '@octane/components/records/TeamRecords'
 import { getServerSideAuth, isAdmin } from '@octane/util/auth'
-import { EventRecordsFilter } from '@octane/components/filters/EventFilters'
 import { Stack } from '@chakra-ui/core'
+import EventForm from '@octane/components/forms/Event'
 
-const Event = ({ auth, event, filter }) => (
+const Admin = ({ auth, event }) => (
   <Content auth={auth}>
     <Stack width="full" spacing={3}>
       <EventInfobox event={event} />
       <Navigation
         type="event"
-        active="records"
+        active="admin"
         baseHref={`/events/${event._id}`}
         isAdmin={isAdmin(auth)}
         hasDivider
       />
-      <EventRecordsFilter event={event} type="teams" initialFilter={filter} />
-      <TeamRecords filter={filter} />
+      <EventForm data={event} />
     </Stack>
   </Content>
 )
 
-export async function getServerSideProps({ req, params, query }) {
+export async function getServerSideProps({ req, params }) {
   const auth = getServerSideAuth(req)
   const { id } = params
   const res = await fetch(`${process.env.API_URL}/events/${id}`)
-  if (res.status !== 200) {
+  if (res.status !== 200 || !isAdmin(auth)) {
     return {
       notFound: true,
     }
@@ -35,17 +33,8 @@ export async function getServerSideProps({ req, params, query }) {
 
   const event = await res.json()
   return {
-    props: {
-      auth,
-      event,
-      filter: {
-        event: id,
-        stat: query.stat || 'score',
-        type: query.type || 'game',
-        stage: query.stage || '',
-      },
-    },
+    props: { auth, event },
   }
 }
 
-export default Event
+export default Admin

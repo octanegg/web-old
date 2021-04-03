@@ -11,8 +11,8 @@
 
 .react-datepicker__input-container {
   background-color: rgb(255, 255, 255);
-  border: 1px solid rgb(207, 214, 228);
-  border-radius: 8px;
+  border: 1px solid #A5B3CB;
+  border-radius: 4px;
   box-sizing: border-box;
   color: #25334b;
   outline: 0px;
@@ -21,7 +21,7 @@
   font-size: 14px;
   height: 40px;
   line-height: 21px;
-  max-width: 164px;
+  width: 254px;
 }
 
 .react-datepicker__input-container:hover {
@@ -137,4 +137,12 @@
 
 .react-datepicker__day--keyboard-selected {
   background: #fff;
+}
+
+.react-datepicker-popper {
+  border: 1px solid #BECCE4;
+}
+
+.react-datepicker__triangle {
+  display: none;
 }

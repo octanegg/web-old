@@ -4,14 +4,9 @@ import { useRef, useState } from 'react'
 import { apiUpdate } from '@octane/util/fetch'
 import { Select } from '@octane/components/common/Select'
 import { regions } from '@octane/util/regions'
-import AWS from 'aws-sdk'
 import { Button } from '@octane/components/common/Button'
 import { Flex } from '@chakra-ui/core'
-
-AWS.config.update({
-  accessKeyId: 'AKIAQZEUPQDBRYVJBDC4',
-  secretAccessKey: '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',
-})
+import { uploadTeamImage } from '@octane/util/upload'
 
 export const TeamForm = ({ data }) => {
   const [team, setTeam] = useState(data)
@@ -38,25 +33,10 @@ export const TeamForm = ({ data }) => {
     updateTeam('image', name)
   }
 
-  const uploadImage = () => {
-    const file = fileInput.current.files[0]
-    const params = {
-      ACL: 'public-read',
-      Key: `teams/${file.name}`,
-      ContentType: file.type,
-      Body: file,
-    }
-
-    const bucket = new AWS.S3({
-      params: { Bucket: 'griffon-octane' },
-      region: 'us-east-1',
-    })
-
-    bucket.putObject(params)
-  }
-
   const handleSubmit = async () => {
-    uploadImage()
+    if (fileInput.current?.files?.length > 0) {
+      uploadTeamImage(fileInput)
+    }
     const res = await apiUpdate(`/teams/${team._id}`, team)
     if (res === 200) {
       window.location.reload()
@@ -80,6 +60,7 @@ export const TeamForm = ({ data }) => {
       <FormField label="Region">
         <Select
           id="region"
+          width={64}
           value={team.region}
           onChange={(e) => updateTeam('region', e.currentTarget.value)}>
           {regions.map(({ id, label }) => (

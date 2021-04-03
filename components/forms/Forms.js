@@ -30,7 +30,7 @@ export const FormPreview = ({ data }) => (
 
 export const Form = ({ data, onSubmit, children }) => (
   <Stack width="full" direction="row" paddingLeft={8} spacing={16}>
-    <Stack width={64} spacing={4}>
+    <Stack width="sm" spacing={4}>
       {children}
       <Flex paddingTop={4}>
         <Button override={{ width: 64, height: 8 }} onClick={onSubmit}>

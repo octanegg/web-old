@@ -1,14 +1,20 @@
 import { Content } from '@octane/components/common/Layout'
 import Navigation from '@octane/components/common/Navigation'
 import { EventInfobox } from '@octane/components/common/Infobox'
-import { getServerSideAuth } from '@octane/util/auth'
+import { getServerSideAuth, isAdmin } from '@octane/util/auth'
 import { Stack } from '@chakra-ui/core'
 
 const Event = ({ auth, event }) => (
   <Content auth={auth}>
     <Stack width="full" spacing={3}>
       <EventInfobox event={event} />
-      <Navigation type="event" active="overview" baseHref={`/events/${event._id}`} hasDivider />
+      <Navigation
+        type="event"
+        active="overview"
+        baseHref={`/events/${event._id}`}
+        isAdmin={isAdmin(auth)}
+        hasDivider
+      />
     </Stack>
   </Content>
 )
