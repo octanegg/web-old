@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { getCountries } from '@octane/util/countries'
 import { apiUpdate } from '@octane/util/fetch'
 import { Select, TeamSelect } from '@octane/components/common/Select'
+import { Switch } from '@chakra-ui/core'
 
 export const PlayerForm = ({ data }) => {
   const [player, setPlayer] = useState(data)
@@ -64,6 +65,18 @@ export const PlayerForm = ({ data }) => {
       </FormField>
       <FormField label="Team">
         <TeamSelect active={player.team} onChange={(team) => updatePlayer('team', team)} />
+      </FormField>
+      <FormField label="Substitute">
+        <Switch
+          isChecked={player.substitute}
+          onChange={() => updatePlayer('substitute', player.substitute ? '' : true)}
+        />
+      </FormField>
+      <FormField label="Coach">
+        <Switch
+          isChecked={player.coach}
+          onChange={() => updatePlayer('coach', player.coach ? '' : true)}
+        />
       </FormField>
     </Form>
   )
