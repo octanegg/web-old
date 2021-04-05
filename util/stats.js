@@ -1,5 +1,9 @@
 export const cleanObj = (obj) =>
-  Object.fromEntries(Object.entries(obj).filter(([, v]) => v !== null && v !== ''))
+  Object.fromEntries(
+    Object.entries(obj).filter(
+      ([, v]) => v !== null && v !== '' && (!Array.isArray(v) || v.length > 0)
+    )
+  )
 
 export const getFieldFromObj = (obj, field) =>
   field.split('.').reduce((a, b) => (a !== undefined ? a[b] : a), obj)

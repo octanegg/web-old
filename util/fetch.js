@@ -16,7 +16,19 @@ export const apiUpdate = async (path, data) => {
     },
     body: JSON.stringify(data),
   })
-  return res.status
+  return res
+}
+
+export const apiCreate = async (path, data) => {
+  const res = await fetch(`${process.env.API_URL}${path}`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'X-Api-Key': publicRuntimeConfig.API_KEY,
+    },
+    body: JSON.stringify(data),
+  })
+  return res
 }
 
 export default apiFetch

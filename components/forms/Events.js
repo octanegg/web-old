@@ -1,7 +1,7 @@
 import { Input } from '@octane/components/common/Input'
 import { FormField, Form } from '@octane/components/forms/Forms'
 import { useRef, useState } from 'react'
-import { apiUpdate } from '@octane/util/fetch'
+import { apiCreate, apiUpdate } from '@octane/util/fetch'
 import { Select } from '@octane/components/common/Select'
 import { regions } from '@octane/util/regions'
 import { Button, ButtonTypes } from '@octane/components/common/Button'
@@ -22,21 +22,21 @@ import { modes, tiers } from '@octane/util/constants'
 import DatePicker from 'react-datepicker'
 import { currencies } from '@octane/util/prizes'
 import { cleanObj } from '@octane/util/stats'
+import { useRouter } from 'next/router'
 
 export const EventForm = ({ data }) => {
   const [event, setEvent] = useState(data)
   const [fileName, setFileName] = useState(data.image ? data.image.split('/')[4] : '')
   const fileInput = useRef()
+  const router = useRouter()
 
   const updateEvent = (key, value) => {
-    if (value !== '') {
-      setEvent((prev) => ({
+    setEvent((prev) =>
+      cleanObj({
         ...prev,
         [key]: value,
-      }))
-    } else {
-      setEvent(Object.fromEntries(Object.entries(event).filter(([k]) => k !== key)))
-    }
+      })
+    )
   }
 
   const handleImageChange = () => {
@@ -52,16 +52,25 @@ export const EventForm = ({ data }) => {
     if (fileInput.current?.files?.length > 0) {
       uploadEventImage(fileInput)
     }
-    const res = await apiUpdate(`/events/${event._id}`, event)
-    if (res === 200) {
-      window.location.reload()
+
+    if (event._id) {
+      const res = await apiUpdate(`/events/${event._id}`, event)
+      if (res.status === 200) {
+        window.location.reload()
+      }
+    } else {
+      const res = await apiCreate(`/events`, event)
+      if (res.status === 200) {
+        const { _id } = await res.json()
+        router.push(`/events/${_id}`)
+      }
     }
   }
 
   const updatePrize = (amount, currency) => {
     updateEvent('prize', {
       amount,
-      currency,
+      currency: currency || 'USD',
     })
   }
 
@@ -185,15 +194,22 @@ export const EventForm = ({ data }) => {
       </FormField>
       <FormField label="Stages">
         <StagesForm
-          stages={event.stages.concat({})}
+          stages={(event.stages || []).concat({})}
           onChange={(i, account) =>
             updateEvent(
               'stages',
-              [].concat(event.stages.slice(0, i), account, event.stages.slice(i + 1))
+              [].concat(
+                (event.stages || []).slice(0, i),
+                account,
+                (event.stages || []).slice(i + 1)
+              )
             )
           }
           onDelete={(i) =>
-            updateEvent('stages', [].concat(event.stages.slice(0, i), event.stages.slice(i + 1)))
+            updateEvent(
+              'stages',
+              [].concat((event.stages || []).slice(0, i), (event.stages || []).slice(i + 1))
+            )
           }
         />
       </FormField>
@@ -204,7 +220,7 @@ export const EventForm = ({ data }) => {
 const StagesForm = ({ stages, onChange, onDelete }) => (
   <Accordion allowToggle>
     {stages.map((account, i) => {
-      const { _id, name, region, liquipedia, startDate, endDate, prize, qualifier } = account
+      const { name, region, liquipedia, startDate, endDate, prize, qualifier } = account
       const isNewStage = i === stages.length - 1
 
       const handleChange = (key, value) => {
@@ -220,7 +236,7 @@ const StagesForm = ({ stages, onChange, onDelete }) => (
       const updatePrize = (amount, currency) => {
         handleChange('prize', {
           amount,
-          currency,
+          currency: currency || 'USD',
         })
       }
 
@@ -236,7 +252,7 @@ const StagesForm = ({ stages, onChange, onDelete }) => (
           <AccordionPanel>
             <Stack>
               <FormField label="ID">
-                <Input width={64} borderRadius={4} value={_id} isDisabled />
+                <Input width={64} borderRadius={4} value={i} isDisabled />
               </FormField>
               <FormField label="Name">
                 <Input
@@ -260,7 +276,7 @@ const StagesForm = ({ stages, onChange, onDelete }) => (
                   ))}
                 </Select>
               </FormField>
-              <FormField label="Liquipedia">
+              <FormField label="Liquipedia URL">
                 <Input
                   id="liquipedia"
                   width={64}

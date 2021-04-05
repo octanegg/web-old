@@ -1,27 +1,28 @@
 import { Input } from '@octane/components/common/Input'
 import { FormField, Form } from '@octane/components/forms/Forms'
 import { useRef, useState } from 'react'
-import { apiUpdate } from '@octane/util/fetch'
+import { apiCreate, apiUpdate } from '@octane/util/fetch'
 import { Select } from '@octane/components/common/Select'
 import { regions } from '@octane/util/regions'
 import { Button } from '@octane/components/common/Button'
 import { Flex } from '@chakra-ui/core'
 import { uploadTeamImage } from '@octane/util/upload'
+import { cleanObj } from '@octane/util/stats'
+import { useRouter } from 'next/router'
 
 export const TeamForm = ({ data }) => {
   const [team, setTeam] = useState(data)
   const [fileName, setFileName] = useState(data.image ? data.image.split('/')[4] : '')
   const fileInput = useRef()
+  const router = useRouter()
 
   const updateTeam = (key, value) => {
-    if (value !== '') {
-      setTeam((prev) => ({
+    setTeam((prev) =>
+      cleanObj({
         ...prev,
         [key]: value,
-      }))
-    } else {
-      setTeam(Object.fromEntries(Object.entries(team).filter(([k]) => k !== key)))
-    }
+      })
+    )
   }
 
   const handleImageChange = () => {
@@ -37,9 +38,18 @@ export const TeamForm = ({ data }) => {
     if (fileInput.current?.files?.length > 0) {
       uploadTeamImage(fileInput)
     }
-    const res = await apiUpdate(`/teams/${team._id}`, team)
-    if (res === 200) {
-      window.location.reload()
+
+    if (team._id) {
+      const res = await apiUpdate(`/teams/${team._id}`, team)
+      if (res.status === 200) {
+        window.location.reload()
+      }
+    } else {
+      const res = await apiCreate(`/teams`, team)
+      if (res.status === 200) {
+        const { _id } = await res.json()
+        router.push(`/teams/${_id}`)
+      }
     }
   }
 

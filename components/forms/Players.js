@@ -2,7 +2,7 @@ import { Input } from '@octane/components/common/Input'
 import { FormField, Form } from '@octane/components/forms/Forms'
 import { useState } from 'react'
 import { getCountries } from '@octane/util/countries'
-import { apiUpdate } from '@octane/util/fetch'
+import { apiCreate, apiUpdate } from '@octane/util/fetch'
 import { Select, TeamSelect } from '@octane/components/common/Select'
 import {
   Accordion,
@@ -18,25 +18,33 @@ import {
 } from '@chakra-ui/core'
 import { cleanObj } from '@octane/util/stats'
 import { Button, ButtonTypes } from '@octane/components/common/Button'
+import { useRouter } from 'next/router'
 
 export const PlayerForm = ({ data }) => {
   const [player, setPlayer] = useState(data)
+  const router = useRouter()
 
   const updatePlayer = (key, value) => {
-    if (value !== '') {
-      setPlayer((prev) => ({
+    setPlayer((prev) =>
+      cleanObj({
         ...prev,
         [key]: value,
-      }))
-    } else {
-      setPlayer(Object.fromEntries(Object.entries(player).filter(([k]) => k !== key)))
-    }
+      })
+    )
   }
 
   const handleSubmit = async () => {
-    const res = await apiUpdate(`/players/${player._id}`, player)
-    if (res === 200) {
-      window.location.reload()
+    if (player._id) {
+      const res = await apiUpdate(`/players/${player._id}`, player)
+      if (res.status === 200) {
+        window.location.reload()
+      }
+    } else {
+      const res = await apiCreate(`/players`, player)
+      if (res.status === 200) {
+        const { _id } = await res.json()
+        router.push(`/players/${_id}`)
+      }
     }
   }
 
@@ -95,17 +103,21 @@ export const PlayerForm = ({ data }) => {
       </FormField>
       <FormField label="Accounts">
         <AccountsForm
-          accounts={player.accounts.concat({})}
+          accounts={(player.accounts || []).concat({})}
           onChange={(i, account) =>
             updatePlayer(
               'accounts',
-              [].concat(player.accounts.slice(0, i), account, player.accounts.slice(i + 1))
+              [].concat(
+                (player.accounts || []).slice(0, i),
+                account,
+                (player.accounts || []).slice(i + 1)
+              )
             )
           }
           onDelete={(i) =>
             updatePlayer(
               'accounts',
-              [].concat(player.accounts.slice(0, i), player.accounts.slice(i + 1))
+              [].concat((player.accounts || []).slice(0, i), (player.accounts || []).slice(i + 1))
             )
           }
         />
@@ -163,7 +175,12 @@ const AccountsForm = ({ accounts, onChange, onDelete }) => (
                   width={64}
                   borderRadius={4}
                   value={id}
-                  onChange={(e) => onChange(i, cleanObj({ platform, id: e.currentTarget.value }))}
+                  onChange={(e) =>
+                    onChange(
+                      i,
+                      cleanObj({ platform: platform || 'steam', id: e.currentTarget.value })
+                    )
+                  }
                 />
               </FormField>
               {!isNewAccount && (
