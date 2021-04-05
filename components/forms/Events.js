@@ -4,12 +4,24 @@ import { useRef, useState } from 'react'
 import { apiUpdate } from '@octane/util/fetch'
 import { Select } from '@octane/components/common/Select'
 import { regions } from '@octane/util/regions'
-import { Button } from '@octane/components/common/Button'
-import { Flex, Stack } from '@chakra-ui/core'
+import { Button, ButtonTypes } from '@octane/components/common/Button'
+import {
+  Accordion,
+  AccordionButton,
+  AccordionIcon,
+  AccordionItem,
+  AccordionPanel,
+  Flex,
+  Spacer,
+  Stack,
+  Switch,
+  Text,
+} from '@chakra-ui/core'
 import { uploadEventImage } from '@octane/util/upload'
 import { modes, tiers } from '@octane/util/constants'
 import DatePicker from 'react-datepicker'
 import { currencies } from '@octane/util/prizes'
+import { cleanObj } from '@octane/util/stats'
 
 export const EventForm = ({ data }) => {
   const [event, setEvent] = useState(data)
@@ -41,9 +53,9 @@ export const EventForm = ({ data }) => {
       uploadEventImage(fileInput)
     }
     const res = await apiUpdate(`/events/${event._id}`, event)
-    // if (res === 200) {
-    //   window.location.reload()
-    // }
+    if (res === 200) {
+      window.location.reload()
+    }
   }
 
   const updatePrize = (amount, currency) => {
@@ -171,8 +183,152 @@ export const EventForm = ({ data }) => {
           </Button>
         </Flex>
       </FormField>
+      <FormField label="Stages">
+        <StagesForm
+          stages={event.stages.concat({})}
+          onChange={(i, account) =>
+            updateEvent(
+              'stages',
+              [].concat(event.stages.slice(0, i), account, event.stages.slice(i + 1))
+            )
+          }
+          onDelete={(i) =>
+            updateEvent('stages', [].concat(event.stages.slice(0, i), event.stages.slice(i + 1)))
+          }
+        />
+      </FormField>
     </Form>
   )
 }
+
+const StagesForm = ({ stages, onChange, onDelete }) => (
+  <Accordion allowToggle>
+    {stages.map((account, i) => {
+      const { _id, name, region, liquipedia, startDate, endDate, prize, qualifier } = account
+      const isNewStage = i === stages.length - 1
+
+      const handleChange = (key, value) => {
+        onChange(
+          i,
+          cleanObj({
+            ...account,
+            [key]: value,
+          })
+        )
+      }
+
+      const updatePrize = (amount, currency) => {
+        handleChange('prize', {
+          amount,
+          currency,
+        })
+      }
+
+      return (
+        <AccordionItem borderColor="secondary.200">
+          <AccordionButton _focus={{ outline: 'none' }}>
+            <Text fontSize="sm" color="secondary.800">
+              {isNewStage ? '+ Add a new stage' : name}
+            </Text>
+            <Spacer />
+            <AccordionIcon />
+          </AccordionButton>
+          <AccordionPanel>
+            <Stack>
+              <FormField label="ID">
+                <Input width={64} borderRadius={4} value={_id} isDisabled />
+              </FormField>
+              <FormField label="Name">
+                <Input
+                  id="name"
+                  width={64}
+                  borderRadius={4}
+                  value={name}
+                  onChange={(e) => handleChange('name', e.currentTarget.value)}
+                />
+              </FormField>
+              <FormField label="Region">
+                <Select
+                  id="region"
+                  width={64}
+                  value={region}
+                  onChange={(e) => handleChange('region', e.currentTarget.value)}>
+                  {regions.map(({ id, label }) => (
+                    <option key={id} value={id}>
+                      {label}
+                    </option>
+                  ))}
+                </Select>
+              </FormField>
+              <FormField label="Liquipedia">
+                <Input
+                  id="liquipedia"
+                  width={64}
+                  borderRadius={4}
+                  value={liquipedia}
+                  onChange={(e) => handleChange('liquipedia', e.currentTarget.value)}
+                />
+              </FormField>
+              <FormField label="Prize">
+                <Stack direction="row" width={64}>
+                  <Input
+                    id="name"
+                    width="full"
+                    borderRadius={4}
+                    value={prize?.amount}
+                    type="number"
+                    onChange={(e) =>
+                      updatePrize(parseFloat(e.currentTarget.value), prize?.currency)
+                    }
+                  />
+                  <Select
+                    id="currency"
+                    width={40}
+                    value={prize?.currency}
+                    onChange={(e) => updatePrize(prize?.amount, e.currentTarget.value)}>
+                    {currencies.map(({ id }) => (
+                      <option key={id} value={id}>
+                        {id}
+                      </option>
+                    ))}
+                  </Select>
+                </Stack>
+              </FormField>
+              <FormField label="Start Date">
+                <DatePicker
+                  selected={startDate ? new Date(startDate) : new Date()}
+                  dateFormat="MMM d yyyy h:mm aa"
+                  onChange={(date) => handleChange('startDate', date)}
+                  showTimeSelect
+                />
+              </FormField>
+              <FormField label="End Date">
+                <DatePicker
+                  selected={endDate ? new Date(endDate) : new Date()}
+                  dateFormat="MMM d yyyy h:mm aa"
+                  onChange={(date) => handleChange('startDate', date)}
+                  showTimeSelect
+                />
+              </FormField>
+              <FormField label="Qualifier">
+                <Switch
+                  isChecked={qualifier}
+                  onChange={() => handleChange('qualifier', qualifier ? '' : true)}
+                />
+              </FormField>
+              {!isNewStage && (
+                <Flex justify="flex-end">
+                  <Button buttonType={ButtonTypes.cancel} onClick={() => onDelete(i)}>
+                    Remove
+                  </Button>
+                </Flex>
+              )}
+            </Stack>
+          </AccordionPanel>
+        </AccordionItem>
+      )
+    })}
+  </Accordion>
+)
 
 export default EventForm

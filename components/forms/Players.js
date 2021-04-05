@@ -4,7 +4,20 @@ import { useState } from 'react'
 import { getCountries } from '@octane/util/countries'
 import { apiUpdate } from '@octane/util/fetch'
 import { Select, TeamSelect } from '@octane/components/common/Select'
-import { Switch } from '@chakra-ui/core'
+import {
+  Accordion,
+  AccordionButton,
+  AccordionIcon,
+  AccordionItem,
+  AccordionPanel,
+  Flex,
+  Spacer,
+  Stack,
+  Switch,
+  Text,
+} from '@chakra-ui/core'
+import { cleanObj } from '@octane/util/stats'
+import { Button, ButtonTypes } from '@octane/components/common/Button'
 
 export const PlayerForm = ({ data }) => {
   const [player, setPlayer] = useState(data)
@@ -80,8 +93,92 @@ export const PlayerForm = ({ data }) => {
           onChange={() => updatePlayer('coach', player.coach ? '' : true)}
         />
       </FormField>
+      <FormField label="Accounts">
+        <AccountsForm
+          accounts={player.accounts.concat({})}
+          onChange={(i, account) =>
+            updatePlayer(
+              'accounts',
+              [].concat(player.accounts.slice(0, i), account, player.accounts.slice(i + 1))
+            )
+          }
+          onDelete={(i) =>
+            updatePlayer(
+              'accounts',
+              [].concat(player.accounts.slice(0, i), player.accounts.slice(i + 1))
+            )
+          }
+        />
+      </FormField>
     </Form>
   )
 }
+
+const AccountsForm = ({ accounts, onChange, onDelete }) => (
+  <Accordion allowToggle>
+    {accounts.map(({ platform, id }, i) => {
+      const isNewAccount = i === accounts.length - 1
+      return (
+        <AccordionItem borderColor="secondary.200">
+          <AccordionButton _focus={{ outline: 'none' }}>
+            {isNewAccount ? (
+              <Text fontSize="sm" color="secondary.800">
+                + Add a new account
+              </Text>
+            ) : (
+              <Stack direction="row" align="center">
+                <Text
+                  width={8}
+                  align="start"
+                  fontSize="11px"
+                  color="secondary.500"
+                  fontWeight="semi">
+                  {platform}
+                </Text>
+                <Text fontSize="sm" color="secondary.800">
+                  {id}
+                </Text>
+              </Stack>
+            )}
+            <Spacer />
+            <AccordionIcon />
+          </AccordionButton>
+          <AccordionPanel>
+            <Stack>
+              <FormField label="Platform">
+                <Select
+                  id="country"
+                  width={64}
+                  value={platform}
+                  onChange={(e) => onChange(i, cleanObj({ platform: e.currentTarget.value, id }))}>
+                  <option value="steam">steam</option>
+                  <option value="epic">epic</option>
+                  <option value="ps4">ps4</option>
+                  <option value="xbox">xbox</option>
+                </Select>
+              </FormField>
+              <FormField label="ID">
+                <Input
+                  id="accountId"
+                  width={64}
+                  borderRadius={4}
+                  value={id}
+                  onChange={(e) => onChange(i, cleanObj({ platform, id: e.currentTarget.value }))}
+                />
+              </FormField>
+              {!isNewAccount && (
+                <Flex justify="flex-end">
+                  <Button buttonType={ButtonTypes.cancel} onClick={() => onDelete(i)}>
+                    Remove
+                  </Button>
+                </Flex>
+              )}
+            </Stack>
+          </AccordionPanel>
+        </AccordionItem>
+      )
+    })}
+  </Accordion>
+)
 
 export default PlayerForm

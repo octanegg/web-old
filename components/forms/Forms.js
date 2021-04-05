@@ -1,5 +1,6 @@
-import { Flex, FormControl, FormHelperText, FormLabel, Stack } from '@chakra-ui/core'
+import { Flex, FormControl, FormHelperText, FormLabel, Spinner, Stack } from '@chakra-ui/core'
 import { Button } from '@octane/components/common/Button'
+import { useState } from 'react'
 
 export const FormField = ({ label, description, children }) => (
   <FormControl id="id">
@@ -28,18 +29,27 @@ export const FormPreview = ({ data }) => (
   </Flex>
 )
 
-export const Form = ({ data, onSubmit, children }) => (
-  <Stack width="full" direction="row" paddingLeft={8} spacing={16}>
-    <Stack width="sm" spacing={4}>
-      {children}
-      <Flex paddingTop={4}>
-        <Button override={{ width: 64, height: 8 }} onClick={onSubmit}>
-          Submit
-        </Button>
-      </Flex>
+export const Form = ({ data, onSubmit, children }) => {
+  const [loading, setLoading] = useState(false)
+
+  const handleClick = () => {
+    setLoading(true)
+    onSubmit()
+  }
+
+  return (
+    <Stack width="full" direction="row" paddingLeft={8} spacing={16}>
+      <Stack width="sm" spacing={4}>
+        {children}
+        <Flex paddingTop={4}>
+          <Button override={{ width: 64, height: 8 }} onClick={handleClick}>
+            {loading ? <Spinner /> : 'Submit'}
+          </Button>
+        </Flex>
+      </Stack>
+      <FormPreview data={data} />
     </Stack>
-    <FormPreview data={data} />
-  </Stack>
-)
+  )
+}
 
 export default Form
