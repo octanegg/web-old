@@ -9,12 +9,18 @@ export const upload = (fileName, file) => {
   new AWS.S3({
     params: { Bucket: 'griffon-octane' },
     region: 'us-east-1',
-  }).putObject({
-    ACL: 'public-read',
-    Key: fileName,
-    ContentType: file.type,
-    Body: file,
-  })
+  }).putObject(
+    {
+      ACL: 'public-read',
+      Key: fileName,
+      ContentType: file.type,
+      Body: file,
+    },
+    (res, err) => {
+      console.log(res)
+      console.log(err)
+    }
+  )
 }
 
 export const uploadTeamImage = (input) => {

@@ -45,9 +45,11 @@ export const TeamForm = ({ data }) => {
 
   return (
     <Form data={team} onSubmit={handleSubmit}>
-      <FormField label="ID">
-        <Input width={64} borderRadius={4} value={team._id} isDisabled />
-      </FormField>
+      {team._id && (
+        <FormField label="ID">
+          <Input width={64} borderRadius={4} value={team._id} isDisabled />
+        </FormField>
+      )}
       <FormField label="Name">
         <Input
           id="name"

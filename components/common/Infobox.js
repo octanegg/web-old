@@ -5,7 +5,7 @@ import { Flag } from '@octane/components/common/Flag'
 import { LabeledField } from '@octane/components/common/Text'
 import { getRegion } from '@octane/util/regions'
 
-const Infobox = ({ title, image, children }) => (
+export const Infobox = ({ title, image, children }) => (
   <Flex
     direction="row"
     width="full"

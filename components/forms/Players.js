@@ -29,9 +29,11 @@ export const PlayerForm = ({ data }) => {
 
   return (
     <Form data={player} onSubmit={handleSubmit}>
-      <FormField label="ID">
-        <Input width={64} borderRadius={4} value={player._id} isDisabled />
-      </FormField>
+      {player._id && (
+        <FormField label="ID">
+          <Input width={64} borderRadius={4} value={player._id} isDisabled />
+        </FormField>
+      )}
       <FormField label="Tag">
         <Input
           id="tag"

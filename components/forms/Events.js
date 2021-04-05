@@ -41,9 +41,9 @@ export const EventForm = ({ data }) => {
       uploadEventImage(fileInput)
     }
     const res = await apiUpdate(`/events/${event._id}`, event)
-    if (res === 200) {
-      window.location.reload()
-    }
+    // if (res === 200) {
+    //   window.location.reload()
+    // }
   }
 
   const updatePrize = (amount, currency) => {
@@ -55,9 +55,11 @@ export const EventForm = ({ data }) => {
 
   return (
     <Form data={event} onSubmit={handleSubmit}>
-      <FormField label="ID">
-        <Input width={64} borderRadius={4} value={event._id} isDisabled />
-      </FormField>
+      {event._id && (
+        <FormField label="ID">
+          <Input width={64} borderRadius={4} value={event._id} isDisabled />
+        </FormField>
+      )}
       <FormField label="Name">
         <Input
           id="name"
@@ -112,15 +114,15 @@ export const EventForm = ({ data }) => {
             id="name"
             width="full"
             borderRadius={4}
-            value={event.prize.amount}
+            value={event.prize?.amount}
             type="number"
-            onChange={(e) => updatePrize(parseFloat(e.currentTarget.value), event.prize.currency)}
+            onChange={(e) => updatePrize(parseFloat(e.currentTarget.value), event.prize?.currency)}
           />
           <Select
             id="currency"
             width={40}
-            value={event.prize.currency}
-            onChange={(e) => updatePrize(event.prize.amount, e.currentTarget.value)}>
+            value={event.prize?.currency}
+            onChange={(e) => updatePrize(event.prize?.amount, e.currentTarget.value)}>
             {currencies.map(({ id }) => (
               <option key={id} value={id}>
                 {id}
@@ -131,7 +133,7 @@ export const EventForm = ({ data }) => {
       </FormField>
       <FormField label="Start Date">
         <DatePicker
-          selected={new Date(event.startDate)}
+          selected={event.startDate ? new Date(event.startDate) : new Date()}
           onChange={(date) => updateEvent('startDate', date)}
           dateFormat="MMM d yyyy h:mm aa"
           showTimeSelect
@@ -139,7 +141,7 @@ export const EventForm = ({ data }) => {
       </FormField>
       <FormField label="End Date">
         <DatePicker
-          selected={new Date(event.endDate)}
+          selected={event.endDate ? new Date(event.endDate) : new Date()}
           onChange={(date) => updateEvent('endDate', date)}
           dateFormat="MMM d yyyy h:mm aa"
           showTimeSelect
@@ -165,7 +167,7 @@ export const EventForm = ({ data }) => {
             onChange={handleImageChange}
           />
           <Button override={{ width: 64, height: 8 }} onClick={() => fileInput.current.click()}>
-            {fileName}
+            {fileName || 'Upload'}
           </Button>
         </Flex>
       </FormField>

@@ -3,6 +3,44 @@ import { buildQuery } from '@octane/util/routes'
 import { ButtonLink } from './Button'
 
 const navigation = {
+  admin: [
+    {
+      id: 'players',
+      href: '/admin/players/create',
+      label: 'Players',
+    },
+    {
+      id: 'teams',
+      href: '/admin/teams/create',
+      label: 'Teams',
+    },
+    {
+      id: 'events',
+      href: '/admin/events/create',
+      label: 'Events',
+    },
+  ],
+  adminPlayers: [
+    {
+      id: 'create',
+      href: '/admin/players/create',
+      label: 'Create Player',
+    },
+  ],
+  adminTeams: [
+    {
+      id: 'create',
+      href: '/admin/teams/create',
+      label: 'Create Team',
+    },
+  ],
+  adminEvents: [
+    {
+      id: 'create',
+      href: '/admin/events/create',
+      label: 'Create Event',
+    },
+  ],
   event: [
     {
       id: 'overview',
