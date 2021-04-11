@@ -16,6 +16,11 @@ const Admin = ({ auth, event }) => (
         isAdmin={isAdmin(auth)}
         hasDivider
       />
+      <Navigation
+        type="eventAdmin"
+        active="event"
+        baseHref={`/events/${event._id}`}
+      />
       <EventForm data={event} />
     </Stack>
   </Content>

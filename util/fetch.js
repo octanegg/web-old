@@ -31,4 +31,15 @@ export const apiCreate = async (path, data) => {
   return res
 }
 
+export const apiDelete = async (path) => {
+  const res = await fetch(`${process.env.API_URL}${path}`, {
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json',
+      'X-Api-Key': publicRuntimeConfig.API_KEY,
+    },
+  })
+  return res
+}
+
 export default apiFetch

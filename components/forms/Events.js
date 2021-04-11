@@ -1,7 +1,7 @@
 import { Input } from '@octane/components/common/Input'
 import { FormField, Form } from '@octane/components/forms/Forms'
-import { useRef, useState } from 'react'
-import { apiCreate, apiUpdate } from '@octane/util/fetch'
+import { useEffect, useState } from 'react'
+import { apiCreate, apiUpdate, apiFetch } from '@octane/util/fetch'
 import { Select } from '@octane/components/common/Select'
 import { regions } from '@octane/util/regions'
 import { Button, ButtonTypes } from '@octane/components/common/Button'
@@ -17,7 +17,6 @@ import {
   Switch,
   Text,
 } from '@chakra-ui/core'
-import { uploadEventImage } from '@octane/util/upload'
 import { modes, tiers } from '@octane/util/constants'
 import DatePicker from 'react-datepicker'
 import { currencies } from '@octane/util/prizes'
@@ -26,9 +25,24 @@ import { useRouter } from 'next/router'
 
 export const EventForm = ({ data }) => {
   const [event, setEvent] = useState(data)
-  const [fileName, setFileName] = useState(data.image ? data.image.split('/')[4] : '')
-  const fileInput = useRef()
+  const [images, setImages] = useState([])
   const router = useRouter()
+
+  useEffect(() => {
+    const fetchImages = async () => {
+      const res = await apiFetch('/events', '')
+      if (!res.events) {
+        return
+      }
+
+      setImages(
+        [...new Set(res.events.map((e) => e.image?.split('/')[4]))].sort((a, b) =>
+          a.localeCompare(b)
+        )
+      )
+    }
+    fetchImages()
+  }, [])
 
   const updateEvent = (key, value) => {
     setEvent((prev) =>
@@ -39,20 +53,7 @@ export const EventForm = ({ data }) => {
     )
   }
 
-  const handleImageChange = () => {
-    const name =
-      fileInput.current?.files?.length > 0
-        ? `https://griffon.octane.gg/events/${fileInput.current.files[0].name}`
-        : event.image
-    setFileName(name ? name.split('/')[4] : '')
-    updateEvent('image', name)
-  }
-
   const handleSubmit = async () => {
-    if (fileInput.current?.files?.length > 0) {
-      uploadEventImage(fileInput)
-    }
-
     if (event._id) {
       const res = await apiUpdate(`/events/${event._id}`, event)
       if (res.status === 200) {
@@ -178,19 +179,19 @@ export const EventForm = ({ data }) => {
         />
       </FormField>
       <FormField label="Image">
-        <Flex width="full" direction="row">
-          <input
-            type="file"
-            id="file1"
-            name="file1"
-            style={{ display: 'none' }}
-            ref={fileInput}
-            onChange={handleImageChange}
-          />
-          <Button override={{ width: 64, height: 8 }} onClick={() => fileInput.current.click()}>
-            {fileName || 'Upload'}
-          </Button>
-        </Flex>
+        <Select
+          id="image"
+          width={64}
+          value={event.image?.split('/')[4]}
+          onChange={(e) =>
+            updateEvent('image', `https://griffon.octane.gg/events/${e.currentTarget.value}`)
+          }>
+          {images.map((image, i) => (
+            <option key={i} value={image}>
+              {image}
+            </option>
+          ))}
+        </Select>
       </FormField>
       <FormField label="Stages">
         <StagesForm

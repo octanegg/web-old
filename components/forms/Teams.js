@@ -6,7 +6,7 @@ import { Select } from '@octane/components/common/Select'
 import { regions } from '@octane/util/regions'
 import { Button } from '@octane/components/common/Button'
 import { Flex } from '@chakra-ui/core'
-import { uploadTeamImage } from '@octane/util/upload'
+import { uploadTeamImage } from '@octane/util/s3'
 import { cleanObj } from '@octane/util/stats'
 import { useRouter } from 'next/router'
 

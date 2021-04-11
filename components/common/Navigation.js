@@ -73,6 +73,18 @@ const navigation = {
       adminOnly: true,
     },
   ],
+  eventAdmin: [
+    {
+      id: 'event',
+      href: '/admin',
+      label: 'Event',
+    },
+    {
+      id: 'matches',
+      href: '/admin/matches',
+      label: 'Matches',
+    },
+  ],
   events: [
     {
       id: 'ongoing',

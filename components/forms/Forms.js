@@ -3,7 +3,7 @@ import { Button } from '@octane/components/common/Button'
 import { useState } from 'react'
 
 export const FormField = ({ label, description, children }) => (
-  <FormControl id="id">
+  <FormControl id="id" width="auto">
     <FormLabel
       marginBottom={1}
       fontSize="11px"

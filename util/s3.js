@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import AWS from 'aws-sdk'
 
 AWS.config.update({
@@ -16,9 +17,9 @@ export const upload = (fileName, file) => {
       ContentType: file.type,
       Body: file,
     },
-    (res, err) => {
-      console.log(res)
+    (err, res) => {
       console.log(err)
+      console.log(res)
     }
   )
 }
