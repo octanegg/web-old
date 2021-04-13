@@ -22,6 +22,7 @@ import DatePicker from 'react-datepicker'
 import { currencies } from '@octane/util/prizes'
 import { cleanObj } from '@octane/util/stats'
 import { useRouter } from 'next/router'
+import { getCountries } from '@octane/util/countries'
 
 export const EventForm = ({ data }) => {
   const [event, setEvent] = useState(data)
@@ -221,7 +222,7 @@ export const EventForm = ({ data }) => {
 const StagesForm = ({ stages, onChange, onDelete }) => (
   <Accordion allowToggle>
     {stages.map((account, i) => {
-      const { name, region, liquipedia, startDate, endDate, prize, qualifier } = account
+      const { name, region, liquipedia, startDate, endDate, prize, qualifier, location } = account
       const isNewStage = i === stages.length - 1
 
       const handleChange = (key, value) => {
@@ -238,6 +239,14 @@ const StagesForm = ({ stages, onChange, onDelete }) => (
         handleChange('prize', {
           amount,
           currency: currency || 'USD',
+        })
+      }
+
+      const updateLocation = (venue, city, country) => {
+        handleChange('location', {
+          venue,
+          city,
+          country,
         })
       }
 
@@ -333,6 +342,55 @@ const StagesForm = ({ stages, onChange, onDelete }) => (
                   onChange={() => handleChange('qualifier', qualifier ? '' : true)}
                 />
               </FormField>
+              <FormField label="LAN">
+                <Switch
+                  isChecked={location}
+                  onChange={() =>
+                    location ? handleChange('location', '') : updateLocation('', '', '')
+                  }
+                />
+              </FormField>
+              {location && (
+                <>
+                  <FormField label="Venue">
+                    <Input
+                      id="name"
+                      width={64}
+                      borderRadius={4}
+                      value={location?.venue}
+                      onChange={(e) =>
+                        updateLocation(e.currentTarget.value, location?.city, location?.country)
+                      }
+                    />
+                  </FormField>
+                  <FormField label="City">
+                    <Input
+                      id="name"
+                      width={64}
+                      borderRadius={4}
+                      value={location?.city}
+                      onChange={(e) =>
+                        updateLocation(location?.venue, e.currentTarget.value, location?.country)
+                      }
+                    />
+                  </FormField>
+                  <FormField label="Country">
+                    <Select
+                      id="country"
+                      width={64}
+                      value={location?.country}
+                      onChange={(e) =>
+                        updateLocation(location?.venue, location?.city, e.currentTarget.value)
+                      }>
+                      {getCountries().map(({ id, label }) => (
+                        <option key={id} value={id}>
+                          {label}
+                        </option>
+                      ))}
+                    </Select>
+                  </FormField>
+                </>
+              )}
               {!isNewStage && (
                 <Flex justify="flex-end">
                   <Button buttonType={ButtonTypes.cancel} onClick={() => onDelete(i)}>
