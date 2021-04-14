@@ -1,59 +1,67 @@
 import { Link, Flex, Image, Stack, Text } from '@chakra-ui/core'
 import NextLink from 'next/link'
-import { Heading, LabeledField } from '@octane/components/common/Text'
+import { LabeledField } from '@octane/components/common/Text'
 import { formatPrizeUSD } from '@octane/util/prizes'
 import { timeUntil, toDateString } from '@octane/util/dates'
+import { useState } from 'react'
+import { Button, ButtonTypes } from '@octane/components/common/Button'
 
-const EventsList = ({ events, isUpcoming }) => (
-  <Stack>
-    {events?.map(({ _id, name, startDate, endDate, image, tier, prize }) => (
-      <NextLink passHref href={`/events/${_id}`} key={_id}>
-        <Link _hover={{}}>
-          <Stack
-            fontSize="xs"
-            cursor="pointer"
-            borderRadius={8}
-            _hover={{ backgroundColor: 'secondary.50' }}
-            padding={2}>
-            <Flex direction="column">
-              <Text fontWeight="bold">{name}</Text>
-              <Text fontSize="10px">
-                {isUpcoming ? timeUntil(startDate) : toDateString(startDate, endDate)}
-              </Text>
-            </Flex>
-            <Stack direction="row" align="center">
-              <Flex width={10}>
-                <Image src={image} />
-              </Flex>
-              <LabeledField label="tier" width={16}>
-                {tier}
-              </LabeledField>
-              <LabeledField label="prize" width={24}>
-                {prize ? formatPrizeUSD(prize) : '-'}
-              </LabeledField>
-            </Stack>
-          </Stack>
-        </Link>
-      </NextLink>
-    ))}
-  </Stack>
-)
+export const Events = ({ events }) => {
+  const { ongoing, upcoming } = events
+  const [toggle, setToggle] = useState(true)
 
-export const Events = ({ ongoing, upcoming }) => (
-  <Flex direction="column" color="secondary.800" minWidth={60}>
-    {ongoing && (
-      <Flex direction="column">
-        <Heading>Ongoing Events</Heading>
-        <EventsList events={ongoing} />
+  return (
+    <Flex direction="column" minWidth={60}>
+      <Flex justify="space-around" marginBottom={1}>
+        <Button
+          buttonType={toggle ? ButtonTypes.link.selected : ButtonTypes.link.default}
+          isActive={toggle}
+          onClick={() => setToggle(true)}>
+          Ongoing
+        </Button>
+        <Button
+          buttonType={!toggle ? ButtonTypes.link.selected : ButtonTypes.link.default}
+          isActive={!toggle}
+          onClick={() => setToggle(false)}>
+          Upcoming
+        </Button>
       </Flex>
-    )}
-    {upcoming && (
-      <Flex direction="column" marginTop={4}>
-        <Heading>Upcoming Events</Heading>
-        <EventsList events={upcoming} isUpcoming />
-      </Flex>
-    )}
-  </Flex>
-)
+      <Stack>
+        {(toggle ? ongoing : upcoming).map(
+          ({ _id, name, startDate, endDate, image, tier, prize }) => (
+            <NextLink passHref href={`/events/${_id}`} key={_id}>
+              <Link _hover={{}}>
+                <Stack
+                  fontSize="xs"
+                  cursor="pointer"
+                  borderRadius={8}
+                  _hover={{ backgroundColor: 'secondary.50' }}
+                  padding={2}>
+                  <Flex direction="column">
+                    <Text fontWeight="bold">{name}</Text>
+                    <Text fontSize="10px">
+                      {!toggle ? timeUntil(startDate) : toDateString(startDate, endDate)}
+                    </Text>
+                  </Flex>
+                  <Stack direction="row" align="center">
+                    <Flex width={10}>
+                      <Image src={image} />
+                    </Flex>
+                    <LabeledField label="tier" width={16}>
+                      {tier}
+                    </LabeledField>
+                    <LabeledField label="prize" width={24}>
+                      {prize ? formatPrizeUSD(prize) : '-'}
+                    </LabeledField>
+                  </Stack>
+                </Stack>
+              </Link>
+            </NextLink>
+          )
+        )}
+      </Stack>
+    </Flex>
+  )
+}
 
 export default Events

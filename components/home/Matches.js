@@ -24,7 +24,7 @@ export const Matches = ({ matches }) => {
           Results
         </Button>
       </Flex>
-      <Stack spacing={0}>
+      <Stack>
         {(toggle ? upcoming : completed).map(({ _id, event, date, blue, orange }) => {
           const blueScore = blue?.score || 0
           const orangeScore = orange?.score || 0
@@ -53,9 +53,9 @@ export const Matches = ({ matches }) => {
                         align="center"
                         fontWeight={blueScore > orangeScore ? 'bold' : ''}>
                         <Flex width={5}>
-                          <Image src={blue.team.team.image} />
+                          {blue?.team.team.image && <Image src={blue.team.team.image} />}
                         </Flex>
-                        <Text>{blue.team.team.name}</Text>
+                        <Text>{blue?.team.team.name || 'TBD'}</Text>
                         <Spacer />
                         {(blueScore || orangeScore) && (
                           <Text
@@ -75,9 +75,9 @@ export const Matches = ({ matches }) => {
                         align="center"
                         fontWeight={orangeScore > blueScore ? 'bold' : ''}>
                         <Flex width={5}>
-                          <Image src={orange.team.team.image} />
+                          {orange?.team.team.image && <Image src={orange.team.team.image} />}
                         </Flex>
-                        <Text>{orange.team.team.name}</Text>
+                        <Text>{orange?.team.team.name || 'TBD'}</Text>
                         <Spacer />
                         {(blueScore || orangeScore) && (
                           <Text

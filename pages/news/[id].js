@@ -1,44 +1,50 @@
+/* eslint-disable react/no-danger */
 /* eslint-disable camelcase */
 import { Content } from '@octane/components/common/Layout'
-import ReactMarkdown from 'react-markdown'
-import { Flex, Image, Link, Spacer, Stack, Text } from '@chakra-ui/core'
-import NextLink from 'next/link'
+import { Flex, Image, Spacer, Stack, Text } from '@chakra-ui/core'
 import { getServerSideAuth } from '@octane/util/auth'
+import { useEffect } from 'react'
+import { unescape } from 'lodash'
+import styles from '@octane/styles/Article.module.scss'
+import { Link } from '@octane/components/common/Text'
 
 const News = ({ auth, article }) => {
   const { title, authors, image, content, published_at } = article
+
+  useEffect(() => {
+    const s = document.createElement('script')
+    s.setAttribute('src', 'https://platform.twitter.com/widgets.js')
+    s.setAttribute('async', 'true')
+    document.head.appendChild(s)
+  }, [])
+
   return (
     <Content auth={auth}>
       <Stack
-        backgroundColor="white"
-        border="main"
-        paddingTop={4}
         paddingLeft={8}
         paddingRight={8}
-        spacing={4}
-        direction="column"
+        paddingTop={4}
+        paddingBottom={4}
         color="secondary.800">
         <Text fontSize="4xl" fontWeight="bold" textTransform="uppercase">
           {title}
         </Text>
         <Flex direction="row">
           {authors.map((author) => (
-            <Flex key={author.name}>
+            <Flex key={author.name} align="center">
               <Image src="/images/twitter-dark.svg" width={4} marginRight={1} />
-              <NextLink href={`https://twitter.com/${author.twitter}`}>
-                <Link>{`@${author.name}`}</Link>
-              </NextLink>
+              <Link fontSize="md" href={`https://twitter.com/${author.twitter}`}>
+                {author.name}
+              </Link>
             </Flex>
           ))}
           <Spacer />
-          <Text fontStyle="italic">
-            {`${new Date(published_at).toLocaleDateString()}  ${new Date(
-              published_at
-            ).toLocaleTimeString()}`}
+          <Text fontStyle="italic" fontSize="md">
+            {new Date(published_at).toLocaleDateString()}
           </Text>
         </Flex>
         <Image src={process.env.CONTENT_URL + image.url} />
-        <ReactMarkdown>{content}</ReactMarkdown>
+        <div className={styles.article} dangerouslySetInnerHTML={{ __html: unescape(content) }} />
       </Stack>
     </Content>
   )

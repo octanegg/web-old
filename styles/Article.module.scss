@@ -1,0 +1,33 @@
+.article {
+  color: #25334b;
+  font-size: 16px;
+
+  p {
+    padding-top: 5px;
+    padding-bottom: 5px;
+  }
+
+  div {
+    padding-top: 5px;
+    padding-bottom: 5px;
+  }
+
+  a {
+    font-weight: 700;
+
+    &:hover {
+      color: #30c97b;
+    }
+  }
+
+  ul {
+    list-style-type: none;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-left: 20px;
+
+    li > img {
+      display: inline-block;
+    }
+  }
+}

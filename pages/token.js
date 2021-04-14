@@ -28,36 +28,48 @@ const Home = ({ auth, articles, matches, events }) => {
 
 export async function getServerSideProps({ req }) {
   const auth = getServerSideAuth(req)
-  const [resCompleted, resUpcoming, resEvents, resArticles] = await Promise.all([
+  const [
+    resCompletedMatches,
+    resUpcomingMatches,
+    resOngoingEvents,
+    resUpcomingEvents,
+    resArticles,
+  ] = await Promise.all([
     fetch(
       `${
         process.env.API_URL
-      }/matches?before=${moment().toISOString()}&tier=A&tier=S&page=1&perPage=100&sort=date:desc`
+      }/matches?before=${moment().toISOString()}&tier=A&tier=S&page=1&perPage=500&sort=date:desc`
     ),
     fetch(
       `${
         process.env.API_URL
       }/matches?after=${moment().toISOString()}&page=1&perPage=100&sort=date:asc`
     ),
-    fetch(`${process.env.API_URL}/events?date=${moment().toISOString()}&sort=end_date:asc`),
+    fetch(`${process.env.API_URL}/events?date=${moment().toISOString()}&sort=tier:asc`),
+    fetch(`${process.env.API_URL}/events?after=${moment().toISOString()}&sort=tier:asc`),
     fetch(`${process.env.CONTENT_URL}/articles?_sort=published_at:desc&_limit=3`),
   ])
   const articles = await resArticles.json()
-  const completed = await resCompleted.json()
-  const upcoming = await resUpcoming.json()
-  const events = await resEvents.json()
+  const completedMatches = await resCompletedMatches.json()
+  const upcomingMatches = await resUpcomingMatches.json()
+  const ongoingEvents = await resOngoingEvents.json()
+  const upcomingEvents = await resUpcomingEvents.json()
+
   return {
     props: {
       auth,
       articles,
       matches: {
         completed:
-          completed.matches
+          completedMatches.matches
             ?.filter((m) => m.blue && m.orange && (m.blue.score > 0 || m.orange.score > 0))
             .slice(0, 10) || [],
-        upcoming: upcoming.matches?.filter((m) => m.blue && m.orange).slice(0, 10) || [],
+        upcoming: upcomingMatches.matches?.slice(0, 10) || [],
       },
-      events: events.events,
+      events: {
+        ongoing: ongoingEvents.events,
+        upcoming: upcomingEvents.events,
+      },
     },
   }
 }
