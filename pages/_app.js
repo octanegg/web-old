@@ -1,5 +1,5 @@
 import React from 'react'
-import { theme as defaultTheme, ThemeProvider, CSSReset } from '@chakra-ui/core'
+import { theme as defaultTheme, ThemeProvider, CSSReset } from '@chakra-ui/react'
 import Layout from '@octane/components/common/Layout'
 import Head from 'next/head'
 import Amplify from '@aws-amplify/core'

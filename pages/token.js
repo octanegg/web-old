@@ -2,7 +2,7 @@
 import { Content } from '@octane/components/common/Layout'
 import { getServerSideAuth } from '@octane/util/auth'
 import moment from 'moment'
-import { Stack } from '@chakra-ui/core'
+import { Stack } from '@chakra-ui/react'
 import Events from '@octane/components/home/Events'
 import Articles from '@octane/components/home/Articles'
 import Matches from '@octane/components/home/Matches'

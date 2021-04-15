@@ -1,4 +1,4 @@
-import { Flex, Image, Text } from '@chakra-ui/core'
+import { Flex, Image, Text } from '@chakra-ui/react'
 import { useEffect, useState } from 'react'
 import moment from 'moment'
 import { Table, Body, Row, Cell } from '@octane/components/common/Table'

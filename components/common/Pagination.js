@@ -1,4 +1,4 @@
-import { Stack } from '@chakra-ui/core'
+import { Stack } from '@chakra-ui/react'
 import { ArrowBackIcon, ArrowForwardIcon } from '@chakra-ui/icons'
 import { PaginationButton } from '@octane/components/common/Button'
 

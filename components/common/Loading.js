@@ -1,4 +1,4 @@
-import { Flex, Spinner } from '@chakra-ui/core'
+import { Flex, Spinner } from '@chakra-ui/react'
 
 const Loading = () => (
   <Flex width="full" justify="center" align="center" height="sm">

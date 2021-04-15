@@ -2,7 +2,7 @@ import { EventInfobox } from '@octane/components/common/Infobox'
 import { Content } from '@octane/components/common/Layout'
 import Navigation from '@octane/components/common/Navigation'
 import { getServerSideAuth, isAdmin } from '@octane/util/auth'
-import { Stack } from '@chakra-ui/core'
+import { Stack } from '@chakra-ui/react'
 import EventForm from '@octane/components/forms/Events'
 
 const Admin = ({ auth, event }) => (
@@ -16,11 +16,7 @@ const Admin = ({ auth, event }) => (
         isAdmin={isAdmin(auth)}
         hasDivider
       />
-      <Navigation
-        type="eventAdmin"
-        active="event"
-        baseHref={`/events/${event._id}`}
-      />
+      <Navigation type="eventAdmin" active="event" baseHref={`/events/${event._id}`} />
       <EventForm data={event} />
     </Stack>
   </Content>

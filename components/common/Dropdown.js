@@ -18,7 +18,7 @@ import {
   NumberInputStepper,
   NumberIncrementStepper,
   NumberDecrementStepper,
-} from '@chakra-ui/core'
+} from '@chakra-ui/react'
 import { ChevronDownIcon } from '@chakra-ui/icons'
 import { useState } from 'react'
 import DatePicker from 'react-datepicker'

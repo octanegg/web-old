@@ -1,13 +1,13 @@
-import { Flex, Text, Link as ChakraLink } from '@chakra-ui/core'
+import { Flex, Text, Link as ChakraLink } from '@chakra-ui/react'
 import NextLink from 'next/link'
 
 export const Heading = ({ children }) => (
   <Flex width="full" align="flex-start" direction="column">
     <Text
       textTransform="uppercase"
-      color="secondary.700"
+      color="secondary.500"
       fontSize="xs"
-      fontWeight="bold"
+      fontWeight="semi"
       paddingLeft={2}>
       {children}
     </Text>

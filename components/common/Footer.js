@@ -1,4 +1,4 @@
-import { Flex, Image } from '@chakra-ui/core'
+import { Flex, Image } from '@chakra-ui/react'
 
 const FooterIcon = ({ icon, href }) => (
   <a href={href} target="_blank" rel="noreferrer">

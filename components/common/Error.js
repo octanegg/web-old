@@ -1,4 +1,4 @@
-import { Image, Text } from '@chakra-ui/core'
+import { Image, Text } from '@chakra-ui/react'
 
 export const Error = () => (
   <>

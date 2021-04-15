@@ -4,7 +4,7 @@ import { PlayerRecords } from '@octane/components/records/PlayerRecords'
 import { PlayerInfobox } from '@octane/components/common/Infobox'
 import { getServerSideAuth, isAdmin } from '@octane/util/auth'
 import { PlayerRecordsFilter } from '@octane/components/filters/PlayerFilters'
-import { Stack } from '@chakra-ui/core'
+import { Stack } from '@chakra-ui/react'
 
 const Player = ({ auth, player, filter }) => (
   <Content auth={auth}>

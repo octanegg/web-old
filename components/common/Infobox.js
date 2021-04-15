@@ -1,4 +1,4 @@
-import { Flex, Image, Stack, Text } from '@chakra-ui/core'
+import { Flex, Image, Stack, Text } from '@chakra-ui/react'
 import { toDateYearString } from '@octane/util/dates'
 import { formatPrize } from '@octane/util/prizes'
 import { Flag } from '@octane/components/common/Flag'

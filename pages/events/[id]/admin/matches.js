@@ -11,7 +11,7 @@ import {
   Spacer,
   Stack,
   Text,
-} from '@chakra-ui/core'
+} from '@chakra-ui/react'
 import MatchForm from '@octane/components/forms/Matches'
 import { groupBy } from 'lodash'
 import { useState } from 'react'

@@ -1,5 +1,5 @@
 /* eslint-disable jsx-a11y/control-has-associated-label */
-import { Flex, Image, Stack, Text } from '@chakra-ui/core'
+import { Flex, Image, Stack, Text } from '@chakra-ui/react'
 import { Link } from '@octane/components/common/Text'
 import { toMinuteSeconds } from '@octane/util/dates'
 import styles from '@octane/styles/Table.module.scss'

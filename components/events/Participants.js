@@ -1,4 +1,4 @@
-import { Flex, Stack, Text, Image, SimpleGrid } from '@chakra-ui/core'
+import { Flex, Stack, Text, Image, SimpleGrid } from '@chakra-ui/react'
 import Flag from '@octane/components/common/Flag'
 import { Link } from '@octane/components/common/Text'
 

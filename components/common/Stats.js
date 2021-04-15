@@ -11,7 +11,7 @@ import {
   Button as ChakraButton,
   ListItem,
   List,
-} from '@chakra-ui/core'
+} from '@chakra-ui/react'
 import { Button, ButtonTypes } from '@octane/components/common/Button'
 import { useState } from 'react'
 

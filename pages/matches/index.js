@@ -4,7 +4,7 @@ import Matches from '@octane/components/matches/Matches'
 import Navigation from '@octane/components/common/Navigation'
 import { getServerSideAuth } from '@octane/util/auth'
 import UpcomingMatchesFilter from '@octane/components/filters/MatchFilters'
-import { Stack } from '@chakra-ui/core'
+import { Stack } from '@chakra-ui/react'
 import { useRouter } from 'next/router'
 import { buildQuery, route } from '@octane/util/routes'
 

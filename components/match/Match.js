@@ -1,5 +1,5 @@
 /* eslint-disable jsx-a11y/control-has-associated-label */
-import { Divider, Flex, Image, Stack, Text, Tooltip } from '@chakra-ui/core'
+import { Divider, Flex, Image, Stack, Text, Tooltip } from '@chakra-ui/react'
 import ButtonLink from '@octane/components/common/Button'
 import { LabeledField, Link } from '@octane/components/common/Text'
 import { toDateYear, toMinuteSeconds, toTime } from '@octane/util/dates'

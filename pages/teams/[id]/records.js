@@ -4,7 +4,7 @@ import { TeamRecords } from '@octane/components/records/TeamRecords'
 import { TeamInfobox } from '@octane/components/common/Infobox'
 import { getServerSideAuth, isAdmin } from '@octane/util/auth'
 import { TeamRecordsFilter } from '@octane/components/filters/TeamFilters'
-import { Stack } from '@chakra-ui/core'
+import { Stack } from '@chakra-ui/react'
 
 const Team = ({ auth, team, filter }) => (
   <Content auth={auth}>

@@ -1,7 +1,7 @@
 import { Content } from '@octane/components/common/Layout'
 import { getServerSideAuth } from '@octane/util/auth'
 import moment from 'moment'
-import { Stack } from '@chakra-ui/core'
+import { Stack } from '@chakra-ui/react'
 import Events from '@octane/components/home/Events'
 import Articles from '@octane/components/home/Articles'
 import Matches from '@octane/components/home/Matches'
@@ -37,7 +37,7 @@ export async function getServerSideProps({ req }) {
     ),
     fetch(`${process.env.API_URL}/events?date=${moment().toISOString()}&sort=tier:asc`),
     fetch(`${process.env.API_URL}/events?after=${moment().toISOString()}&sort=tier:asc`),
-    fetch(`${process.env.CONTENT_URL}/articles?_sort=published_at:desc&_limit=3`),
+    fetch(`${process.env.CONTENT_URL}/articles?_sort=published_at:desc&_limit=17`),
   ])
   const articles = await resArticles.json()
   const completedMatches = await resCompletedMatches.json()

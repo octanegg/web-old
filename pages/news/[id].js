@@ -1,7 +1,7 @@
 /* eslint-disable react/no-danger */
 /* eslint-disable camelcase */
 import { Content } from '@octane/components/common/Layout'
-import { Flex, Image, Spacer, Stack, Text } from '@chakra-ui/core'
+import { Flex, Image, Spacer, Stack, Text } from '@chakra-ui/react'
 import { getServerSideAuth } from '@octane/util/auth'
 import { useEffect } from 'react'
 import { unescape } from 'lodash'

@@ -1,4 +1,4 @@
-import { Button as ChakraButton } from '@chakra-ui/core'
+import { Button as ChakraButton } from '@chakra-ui/react'
 import Link from 'next/link'
 
 export const ButtonTypes = {

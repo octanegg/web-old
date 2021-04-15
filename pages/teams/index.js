@@ -1,6 +1,6 @@
 import { Content } from '@octane/components/common/Layout'
 import { getServerSideAuth } from '@octane/util/auth'
-import { Stack } from '@chakra-ui/core'
+import { Stack } from '@chakra-ui/react'
 import Participants from '@octane/components/events/Participants'
 import { Filter, RegionFilter } from '@octane/components/filters/Filter'
 import { buildQuery, route } from '@octane/util/routes'

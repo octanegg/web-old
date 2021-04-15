@@ -1,4 +1,4 @@
-import { Divider, Stack, Spacer } from '@chakra-ui/core'
+import { Divider, Stack, Spacer } from '@chakra-ui/react'
 import { buildQuery } from '@octane/util/routes'
 import { ButtonLink } from './Button'
 

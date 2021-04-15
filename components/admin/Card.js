@@ -1,4 +1,4 @@
-import { Box, Heading, Select, Input, List, ListItem } from '@chakra-ui/core'
+import { Box, Heading, Select, Input, List, ListItem } from '@chakra-ui/react'
 import Downshift from 'downshift'
 import { useState } from 'react'
 

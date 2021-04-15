@@ -12,7 +12,7 @@ const {
   PopoverBody,
   List,
   ListItem,
-} = require('@chakra-ui/core')
+} = require('@chakra-ui/react')
 
 const MAX_RESULTS = 100
 

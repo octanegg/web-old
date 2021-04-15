@@ -2,7 +2,7 @@ import { PlayerInfobox } from '@octane/components/common/Infobox'
 import { Content } from '@octane/components/common/Layout'
 import Navigation from '@octane/components/common/Navigation'
 import { getServerSideAuth, isAdmin } from '@octane/util/auth'
-import { Stack } from '@chakra-ui/core'
+import { Stack } from '@chakra-ui/react'
 import PlayerForm from '@octane/components/forms/Players'
 
 const Admin = ({ auth, player }) => (

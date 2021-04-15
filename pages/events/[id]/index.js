@@ -2,7 +2,8 @@ import { Content } from '@octane/components/common/Layout'
 import Navigation from '@octane/components/common/Navigation'
 import { EventInfobox } from '@octane/components/common/Infobox'
 import { getServerSideAuth, isAdmin } from '@octane/util/auth'
-import { Stack } from '@chakra-ui/core'
+import { Stack } from '@chakra-ui/react'
+import Timeline from '@octane/components/events/Timeline'
 
 const Event = ({ auth, event }) => (
   <Content auth={auth}>
@@ -15,6 +16,7 @@ const Event = ({ auth, event }) => (
         isAdmin={isAdmin(auth)}
         hasDivider
       />
+      <Timeline data={event.stages} />
     </Stack>
   </Content>
 )

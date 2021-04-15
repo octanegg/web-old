@@ -3,7 +3,7 @@ import Navigation from '@octane/components/common/Navigation'
 import { EventInfobox } from '@octane/components/common/Infobox'
 import Matches from '@octane/components/matches/Matches'
 import { getServerSideAuth, isAdmin } from '@octane/util/auth'
-import { Stack } from '@chakra-ui/core'
+import { Stack } from '@chakra-ui/react'
 
 const Event = ({ auth, event }) => (
   <Content auth={auth}>

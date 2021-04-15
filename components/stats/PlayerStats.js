@@ -1,4 +1,4 @@
-import { Flex, Image, Stack, Text, Tooltip } from '@chakra-ui/core'
+import { Flex, Image, Stack, Text, Tooltip } from '@chakra-ui/react'
 import { useEffect, useState } from 'react'
 import { Table, Header, HeaderItem, Body, Row, Cell } from '@octane/components/common/Table'
 import { ChevronDownIcon, ChevronUpIcon, UpDownIcon } from '@chakra-ui/icons'

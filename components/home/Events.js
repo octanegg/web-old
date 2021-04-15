@@ -1,4 +1,4 @@
-import { Link, Flex, Image, Stack, Text } from '@chakra-ui/core'
+import { Link, Flex, Image, Stack, Text } from '@chakra-ui/react'
 import NextLink from 'next/link'
 import { LabeledField } from '@octane/components/common/Text'
 import { formatPrizeUSD } from '@octane/util/prizes'

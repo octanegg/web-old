@@ -4,7 +4,7 @@ import { EventInfobox } from '@octane/components/common/Infobox'
 import PlayerRecords from '@octane/components/records/PlayerRecords'
 import { getServerSideAuth, isAdmin } from '@octane/util/auth'
 import { EventRecordsFilter } from '@octane/components/filters/EventFilters'
-import { Stack } from '@chakra-ui/core'
+import { Stack } from '@chakra-ui/react'
 
 const Event = ({ auth, event, filter }) => (
   <Content auth={auth}>

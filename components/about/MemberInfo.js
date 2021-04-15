@@ -1,4 +1,4 @@
-import { Flex, Image, Text, Divider, Stack } from '@chakra-ui/core'
+import { Flex, Image, Text, Divider, Stack } from '@chakra-ui/react'
 import NextLink from 'next/link'
 
 // TODO: Clean up

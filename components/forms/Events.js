@@ -16,7 +16,7 @@ import {
   Stack,
   Switch,
   Text,
-} from '@chakra-ui/core'
+} from '@chakra-ui/react'
 import { modes, tiers } from '@octane/util/constants'
 import DatePicker from 'react-datepicker'
 import { currencies } from '@octane/util/prizes'

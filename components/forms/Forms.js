@@ -1,4 +1,4 @@
-import { Flex, FormControl, FormHelperText, FormLabel, Spinner, Stack } from '@chakra-ui/core'
+import { Flex, FormControl, FormHelperText, FormLabel, Spinner, Stack } from '@chakra-ui/react'
 import { Button } from '@octane/components/common/Button'
 import { useState } from 'react'
 

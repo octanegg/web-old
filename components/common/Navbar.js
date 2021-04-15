@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Flex, Spacer, Image, Link } from '@chakra-ui/core'
+import { Flex, Spacer, Image, Link } from '@chakra-ui/react'
 import NextLink from 'next/link'
 import Search from '@octane/components/common/Search'
 import { useAuthFunctions } from 'aws-cognito-next'

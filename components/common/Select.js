@@ -10,7 +10,7 @@ import {
   Select as ChakraSelect,
   Stack,
   Text,
-} from '@chakra-ui/core'
+} from '@chakra-ui/react'
 import Input from '@octane/components/common/Input'
 import apiFetch from '@octane/util/fetch'
 import { buildQuery } from '@octane/util/routes'

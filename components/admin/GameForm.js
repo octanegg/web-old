@@ -8,7 +8,7 @@ import {
   Spacer,
   Stack,
   VStack,
-} from '@chakra-ui/core'
+} from '@chakra-ui/react'
 import { useEffect, useState } from 'react'
 import DeleteModal from './DeleteModal'
 

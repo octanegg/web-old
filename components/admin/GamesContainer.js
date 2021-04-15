@@ -1,4 +1,4 @@
-import { Box, Stack, Tab, TabList, TabPanel, TabPanels, Tabs } from '@chakra-ui/core'
+import { Box, Stack, Tab, TabList, TabPanel, TabPanels, Tabs } from '@chakra-ui/react'
 import { useEffect, useState } from 'react'
 import GameForm from './GameForm'
 

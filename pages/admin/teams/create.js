@@ -1,6 +1,6 @@
 import { Content } from '@octane/components/common/Layout'
 import { getServerSideAuth, isAdmin } from '@octane/util/auth'
-import { Stack } from '@chakra-ui/core'
+import { Stack } from '@chakra-ui/react'
 import Navigation from '@octane/components/common/Navigation'
 import TeamForm from '@octane/components/forms/Teams'
 

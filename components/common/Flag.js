@@ -1,4 +1,4 @@
-import { Text, Image, Stack } from '@chakra-ui/core'
+import { Text, Image, Stack } from '@chakra-ui/react'
 import { getCountry } from '@octane/util/countries'
 
 export const Flag = ({ country, justify, isLabeled }) => {

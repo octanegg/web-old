@@ -1,4 +1,4 @@
-import { Stack } from '@chakra-ui/core'
+import { Stack } from '@chakra-ui/react'
 import { Content } from '@octane/components/common/Layout'
 import { Infobox, Navigation } from '@octane/components/match/Match'
 import { ScoreboardGame } from '@octane/components/match/Scoreboard'

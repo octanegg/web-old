@@ -3,7 +3,7 @@ import RecordsFilter from '@octane/components/filters/RecordFilters'
 import Navigation from '@octane/components/common/Navigation'
 import { TeamRecords } from '@octane/components/records/TeamRecords'
 import { getServerSideAuth } from '@octane/util/auth'
-import { Stack } from '@chakra-ui/core'
+import { Stack } from '@chakra-ui/react'
 
 const Records = ({ auth, filter }) => (
   <Content auth={auth}>

@@ -15,7 +15,7 @@ import {
   Stack,
   Switch,
   Text,
-} from '@chakra-ui/core'
+} from '@chakra-ui/react'
 import { cleanObj } from '@octane/util/stats'
 import { Button, ButtonTypes } from '@octane/components/common/Button'
 import { useRouter } from 'next/router'

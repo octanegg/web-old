@@ -1,4 +1,4 @@
-import { Input as ChakraInput } from '@chakra-ui/core'
+import { Input as ChakraInput } from '@chakra-ui/react'
 
 export const Input = (props) => {
   const { width } = props

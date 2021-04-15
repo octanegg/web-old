@@ -1,4 +1,4 @@
-import { Stack, Button, Input, Flex, Spacer, Link, VStack, Divider } from '@chakra-ui/core'
+import { Stack, Button, Input, Flex, Spacer, Link, VStack, Divider } from '@chakra-ui/react'
 import { useState, useEffect } from 'react'
 import { useIsFirstRender } from '@octane/hooks/useIsFirstRender'
 import Card from './Card'

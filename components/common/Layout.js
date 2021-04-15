@@ -2,7 +2,7 @@ import { useAuthFunctions } from 'aws-cognito-next'
 import Navbar from './Navbar'
 import Footer from './Footer'
 
-const { Flex } = require('@chakra-ui/core')
+const { Flex } = require('@chakra-ui/react')
 
 export const Content = ({ auth, children }) => {
   const { login } = useAuthFunctions()

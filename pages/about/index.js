@@ -1,6 +1,6 @@
 import { Content } from '@octane/components/common/Layout'
 import MemberInfo from '@octane/components/about/MemberInfo'
-import { Stack } from '@chakra-ui/core'
+import { Stack } from '@chakra-ui/react'
 import { getServerSideAuth } from '@octane/util/auth'
 
 const staff = [

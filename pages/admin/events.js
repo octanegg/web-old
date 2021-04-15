@@ -1,4 +1,4 @@
-import { VStack, Center, Stack, Button, Spinner, Flex } from '@chakra-ui/core'
+import { VStack, Center, Stack, Button, Spinner, Flex } from '@chakra-ui/react'
 import { useEffect, useState } from 'react'
 import Card, { SelectionCard, DropdownCard } from '@octane/components/admin/Card'
 import MatchForm from '@octane/components/admin/MatchForm'

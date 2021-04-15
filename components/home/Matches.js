@@ -1,4 +1,4 @@
-import { Link, Flex, Image, Spacer, Stack, Text } from '@chakra-ui/core'
+import { Link, Flex, Image, Spacer, Stack, Text } from '@chakra-ui/react'
 import { Button, ButtonTypes } from '@octane/components/common/Button'
 import { useState } from 'react'
 import NextLink from 'next/link'
