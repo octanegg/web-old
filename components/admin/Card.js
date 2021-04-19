@@ -4,7 +4,7 @@ import { useState } from 'react'
 
 export const Card = ({ title, width, children }) => {
   return (
-    <Box border="1px solid black" padding="1rem" width={width} backgroundColor="#fff">
+    <Box border="1px solid black" padding="1rem" width={width || 'xl'} backgroundColor="#fff">
       {title && (
         <Heading size="md" paddingBottom="0.5rem">
           {title}
@@ -17,7 +17,7 @@ export const Card = ({ title, width, children }) => {
 
 export const SelectionCard = ({ title, onChange, data, display, placeholder, value }) => {
   return (
-    <Card title={title} width={['100%', 1 / 2]}>
+    <Card title={title}>
       <Select onChange={onChange} placeholder={placeholder} value={value}>
         {data.map((item, i) => (
           <option key={i} value={i}>
@@ -33,7 +33,7 @@ export const DropdownCard = ({ title, items, itemToString, onChange }) => {
   const [lastSelected, setLastSelected] = useState()
 
   return (
-    <Card title={title} width={['100%', 1 / 2]}>
+    <Card title={title}>
       <Downshift
         id={title}
         onChange={(selected) => {

@@ -115,7 +115,7 @@ const TeamRecordsRow = ({ record, rank, statType, isHighlighted }) => {
                         L
                       </Text>
                     )}
-                    {game && <Text fontSize="xs" paddingLeft={1}>{`G${game.number}`}</Text>}
+                    {game?.number && <Text fontSize="xs" paddingLeft={1}>{`G${game.number}`}</Text>}
                     {duration && (
                       <Text fontSize="xs" paddingLeft={1}>{` - ${toMinuteSeconds(duration)}`}</Text>
                     )}

@@ -75,7 +75,7 @@ export const MatchForm = ({ match, enqueue }) => {
           {match.octane_id}
         </Link>
       }
-      width="100%"
+      width="6xl"
       key={match._id}>
       <VStack align="stretch">
         <Stack justify="left" direction={['column', 'row']}>

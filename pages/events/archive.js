@@ -11,7 +11,7 @@ const EventsPage = ({ auth, filter }) => (
     <Stack width="full" spacing={3}>
       <Navigation type="events" active="completed" />
       <CompletedEventsFilter initialFilter={filter} />
-      <Events filter={filter} />
+      <Events filter={filter} sort="endDate" />
     </Stack>
   </Content>
 )
@@ -28,7 +28,7 @@ export async function getServerSideProps({ req, query }) {
         group: query.group || '',
         before: query.before || moment().toISOString(),
         after: query.after || '',
-        sort: 'start_date:desc',
+        sort: 'end_date:desc',
       },
     },
   }

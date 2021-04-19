@@ -11,7 +11,7 @@ import { buildQuery } from '@octane/util/routes'
 import { formatPrizeUSD } from '@octane/util/prizes'
 import NextLink from 'next/link'
 
-export const EventsTable = ({ filter, isOngoing }) => {
+export const EventsTable = ({ filter, sort, isOngoing }) => {
   const [events, setEvents] = useState([])
   const [labels, setLabels] = useState([])
   const [loading, setLoading] = useState(true)
@@ -33,12 +33,12 @@ export const EventsTable = ({ filter, isOngoing }) => {
         return
       }
 
-      let day = moment(data.events[0].startDate)
+      let day = moment(data.events[0][sort || 'startDate'])
       const _labels = []
       const _events = []
 
       data.events.forEach((event, i) => {
-        const date = moment(event.startDate)
+        const date = moment(event[sort || 'startDate'])
         if (i === 0 || !date.isSame(day, 'month')) {
           _labels.push(date.format('MMMM YYYY'))
           _events.push([event])

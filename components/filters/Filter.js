@@ -22,7 +22,7 @@ import { Stack, Spacer, Text } from '@chakra-ui/react'
 import { buildQuery } from '@octane/util/routes'
 import { Button, ButtonTypes } from '@octane/components/common/Button'
 import { CheckIcon, CloseIcon } from '@chakra-ui/icons'
-import records, {
+import {
   gameRecords,
   playerRecords,
   seriesRecords,
@@ -97,7 +97,7 @@ export const RecordsCategoryFilter = ({ active, onChange }) => (
   <DropdownList
     label={active[0].toUpperCase() + active.substring(1)}
     active={active}
-    items={Object.keys(records)}
+    items={['players', 'teams', 'games', 'series']}
     itemToLabel={(item) => item[0].toUpperCase() + item.substring(1)}
     onChange={onChange}
   />

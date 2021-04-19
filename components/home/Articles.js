@@ -108,7 +108,7 @@ export const Articles = ({ articles }) => {
       <Banner article={banner} />
       <Flex
         direction="column"
-        paddingTop={2}
+        marginTop={2}
         height="full"
         borderLeft="1px solid #BECCE4"
         borderRight="1px solid #BECCE4">

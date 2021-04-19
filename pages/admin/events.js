@@ -62,7 +62,7 @@ const MatchContainer = ({ event, stage }) => {
   ) : (
     matches.length > 0 && (
       <>
-        <Card>
+        <Card width="6xl">
           <Center>
             <Button
               variant="solid"
@@ -91,7 +91,7 @@ const Matches = ({ auth, events }) => {
   return (
     <Content auth={auth}>
       {isAdmin(auth) && (
-        <VStack align="stretch" width="100%">
+        <VStack width="full">
           <Stack justify="left" direction={['column', 'row']} width="full">
             <DropdownCard
               title="Events"

@@ -111,12 +111,13 @@ const GameRecordsRow = ({ record, rank, statType, isHighlighted }) => {
                     <Text fontWeight="bold" fontSize="xs" color="win">
                       W
                     </Text>
-                    <Text fontSize="xs" paddingLeft={1}>{`G${number}`}</Text>
-                    <Text fontSize="xs" paddingLeft={1}>{` - ${toMinuteSeconds(duration)}`}</Text>
+                    {number && <Text fontSize="xs" paddingLeft={1}>{`G${number}`}</Text>}
+                    {duration && (
+                      <Text fontSize="xs" paddingLeft={1}>{` - ${toMinuteSeconds(duration)}`}</Text>
+                    )}
                   </Flex>
                 </LabeledText>
               </Link>
-              s
               <Text fontSize="xs" width={8}>
                 vs
               </Text>
