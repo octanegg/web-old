@@ -1,5 +1,4 @@
-import { Button as ChakraButton } from '@chakra-ui/react'
-import Link from 'next/link'
+import { Button as ChakraButton, Link } from '@chakra-ui/react'
 
 export const ButtonTypes = {
   link: {
@@ -87,7 +86,7 @@ export const Button = ({ buttonType, override, onClick, isDisabled, children }) 
 }
 
 export const ButtonLink = ({ isActive, href, children }) => (
-  <Link href={href || '#'}>
+  <Link href={href || '#'} _hover={{ textDecoration: 'none' }}>
     <Button buttonType={isActive ? ButtonTypes.link.selected : ButtonTypes.link.default}>
       {children}
     </Button>

@@ -269,32 +269,27 @@ export const TeamsOpponentsFilter = ({
 
   useEffect(() => {
     const fetchTeams = async () => {
-      const teamsData = await apiFetch(
-        `/stats/players/teams`,
-        buildQuery({ player, mode: 3 }, [''])
-      )
-      const opponentsData = await apiFetch(
-        `/stats/players/opponents`,
-        buildQuery({ mode: 3, player, ...(team && { team }) }, [''])
-      )
+      const [teamsData, opponentsData] = await Promise.all([
+        apiFetch(`/players/${player}/teams`, ''),
+        apiFetch(`/players/${player}/opponents`, buildQuery({ ...(team && { team }) }, [''])),
+      ])
 
       setTeams(
-        teamsData.stats
-          ?.map((stat) => ({
-            id: stat.team._id,
-            label: stat.team.name,
-            image: stat.team.image,
+        teamsData.teams
+          ?.map(({ _id, name, image }) => ({
+            id: _id,
+            label: name,
+            image,
           }))
           .sort((a, b) => a.label.toLowerCase().localeCompare(b.label.toLowerCase()) || [])
       )
 
       setOpponents(
-        opponentsData.stats
-          ?.map((stat) => ({
-            id: stat.opponents[0]._id,
-            team: stat.team._id,
-            label: stat.opponents[0].name,
-            image: stat.opponents[0].image,
+        opponentsData.teams
+          ?.map(({ _id, name, image }) => ({
+            id: _id,
+            label: name,
+            image,
           }))
           .sort((a, b) => a.label.toLowerCase().localeCompare(b.label.toLowerCase()) || [])
       )
