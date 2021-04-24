@@ -273,6 +273,22 @@ const StagesForm = ({ stages, onChange, onDelete }) => (
                   onChange={(e) => handleChange('name', e.currentTarget.value)}
                 />
               </FormField>
+              <FormField label="Start Date">
+                <DatePicker
+                  selected={startDate ? new Date(startDate) : new Date()}
+                  dateFormat="MMM d yyyy h:mm aa"
+                  onChange={(date) => handleChange('startDate', date)}
+                  showTimeSelect
+                />
+              </FormField>
+              <FormField label="End Date">
+                <DatePicker
+                  selected={endDate ? new Date(endDate) : new Date()}
+                  dateFormat="MMM d yyyy h:mm aa"
+                  onChange={(date) => handleChange('startDate', date)}
+                  showTimeSelect
+                />
+              </FormField>
               <FormField label="Region">
                 <Select
                   id="region"
@@ -319,22 +335,6 @@ const StagesForm = ({ stages, onChange, onDelete }) => (
                     ))}
                   </Select>
                 </Stack>
-              </FormField>
-              <FormField label="Start Date">
-                <DatePicker
-                  selected={startDate ? new Date(startDate) : new Date()}
-                  dateFormat="MMM d yyyy h:mm aa"
-                  onChange={(date) => handleChange('startDate', date)}
-                  showTimeSelect
-                />
-              </FormField>
-              <FormField label="End Date">
-                <DatePicker
-                  selected={endDate ? new Date(endDate) : new Date()}
-                  dateFormat="MMM d yyyy h:mm aa"
-                  onChange={(date) => handleChange('startDate', date)}
-                  showTimeSelect
-                />
               </FormField>
               <FormField label="Qualifier">
                 <Switch

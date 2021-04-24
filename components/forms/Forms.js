@@ -39,7 +39,7 @@ export const Form = ({ data, onSubmit, children }) => {
 
   return (
     <Stack width="full" direction="row" paddingLeft={8} spacing={16}>
-      <Stack width="sm" spacing={4}>
+      <Stack width="md" spacing={4}>
         {children}
         <Flex paddingTop={4}>
           <Button override={{ width: 64, height: 8 }} onClick={handleClick}>

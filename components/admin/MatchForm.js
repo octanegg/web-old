@@ -12,7 +12,7 @@ export const MatchForm = ({ match, enqueue }) => {
     orange: match.orange.name,
     blue_score: match.blue.score,
     orange_score: match.orange.score,
-    date: new Date(match.date),
+    date: match.date !== '0001-01-01T00:00:00Z' ? new Date(match.date) : null,
   })
   const [details, showDetails] = useState(false)
   const isFirstRender = useIsFirstRender()
