@@ -217,7 +217,7 @@ export const Infobox = ({ match, active }) => {
   )
 }
 
-export const Navigation = ({ baseHref, games, active }) => (
+export const Navigation = ({ baseHref, games, active, isAdmin }) => (
   <Flex paddingLeft={2} paddingRight={2} marginTop={4} direction="column" width="full">
     <Stack width="full" direction="row" align="center">
       <ButtonLink href={baseHref} isActive={!active}>
@@ -228,6 +228,11 @@ export const Navigation = ({ baseHref, games, active }) => (
           {`Game ${i + 1}`}
         </ButtonLink>
       ))}
+      {isAdmin && (
+        <ButtonLink href={`${baseHref}/admin`} isActive={active === 'admin'}>
+          Admin
+        </ButtonLink>
+      )}
       <Divider borderColor="secondary.400" />
     </Stack>
   </Flex>

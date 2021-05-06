@@ -85,7 +85,7 @@ const Navbar = ({ auth }) => {
           </NavItem>
           <Search />
           <Spacer display={{ base: 'none', md: 'block' }} />
-          {isAdmin(auth) && <NavItem href="/admin/events">Admin</NavItem>}
+          {isAdmin(auth) && <NavItem href="/admin/events/create">Admin</NavItem>}
           {auth ? (
             <NavItem onClick={() => logout()}>Logout</NavItem>
           ) : (

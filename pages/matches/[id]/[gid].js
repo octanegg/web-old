@@ -2,13 +2,18 @@ import { Stack } from '@chakra-ui/react'
 import { Content } from '@octane/components/common/Layout'
 import { Infobox, Navigation } from '@octane/components/match/Match'
 import { ScoreboardGame } from '@octane/components/match/Scoreboard'
-import { getServerSideAuth } from '@octane/util/auth'
+import { getServerSideAuth, isAdmin } from '@octane/util/auth'
 
 const Match = ({ auth, match, game }) => (
   <Content auth={auth}>
     <Stack width="full" spacing={3}>
       <Infobox match={match} active={game.number} />
-      <Navigation baseHref={`/matches/${match._id}`} games={match.games} active={game.number} />
+      <Navigation
+        baseHref={`/matches/${match._id}`}
+        games={match.games}
+        active={game.number}
+        isAdmin={isAdmin(auth)}
+      />
       <ScoreboardGame
         blue={game.blue}
         orange={game.orange}

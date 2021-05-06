@@ -18,7 +18,7 @@ const Event = ({ auth, event, participants, filter }) => (
         isAdmin={isAdmin(auth)}
         hasDivider
       />
-      <EventParticipantsFilter event={event} initialFilter={filter} />
+      {event.stages && <EventParticipantsFilter event={event} initialFilter={filter} />}
       {participants && <Participants participants={participants} />}
     </Stack>
   </Content>

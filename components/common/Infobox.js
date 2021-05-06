@@ -33,22 +33,30 @@ export const EventInfobox = ({ event }) => {
 
   return (
     <Infobox title={name} image={image}>
-      <LabeledField label="dates" width="auto">
-        {toDateYearString(startDate, endDate)}
-      </LabeledField>
-      <LabeledField label="region" width="auto">
-        <Stack direction="row" align="center">
-          <Image width="16px" height="11px" src={_region?.image} />
-          <Text>{_region?.label}</Text>
-        </Stack>
-      </LabeledField>
-      <LabeledField label="tier" width="auto">
-        {tier}
-      </LabeledField>
-      <LabeledField label="mode" width="auto">{`${mode}v${mode}`}</LabeledField>
-      <LabeledField label="prize" width="auto">
-        {prize ? formatPrize(prize) : '-'}
-      </LabeledField>
+      {(startDate || endDate) && (
+        <LabeledField label="dates" width="auto">
+          {toDateYearString(startDate, endDate)}
+        </LabeledField>
+      )}
+      {region && (
+        <LabeledField label="region" width="auto">
+          <Stack direction="row" align="center">
+            <Image width="16px" height="11px" src={_region?.image} />
+            <Text>{_region?.label}</Text>
+          </Stack>
+        </LabeledField>
+      )}
+      {tier && (
+        <LabeledField label="tier" width="auto">
+          {tier}
+        </LabeledField>
+      )}
+      {mode && <LabeledField label="mode" width="auto">{`${mode}v${mode}`}</LabeledField>}
+      {prize && (
+        <LabeledField label="prize" width="auto">
+          {prize ? formatPrize(prize) : '-'}
+        </LabeledField>
+      )}
     </Infobox>
   )
 }

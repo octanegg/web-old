@@ -16,7 +16,7 @@ const Event = ({ auth, event }) => (
         isAdmin={isAdmin(auth)}
         hasDivider
       />
-      <Timeline data={event.stages} />
+      {event.stages && <Timeline data={event.stages} />}
     </Stack>
   </Content>
 )

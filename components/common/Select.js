@@ -29,15 +29,19 @@ export const Select = (props) => (
   />
 )
 
-export const InputSelect = ({ items, value, onChange }) => {
+export const InputSelect = ({ items, value, itemToString, onChange }) => {
   const [isOpen, setIsOpen] = useState(false)
   const [input, setInput] = useState(value || '')
   const [options, setOptions] = useState([])
 
+  const toString = itemToString || ((item) => item.name)
+
   useEffect(() => {
     const updateOptions = () => {
       setOptions(
-        input ? items.filter((item) => item.name.toLowerCase().includes(input.toLowerCase())) : []
+        input
+          ? items.filter((item) => toString(item).toLowerCase().includes(input.toLowerCase()))
+          : []
       )
     }
     updateOptions()
@@ -59,7 +63,7 @@ export const InputSelect = ({ items, value, onChange }) => {
 
   const handleChange = (item) => {
     onChange(item)
-    setInput(item.name)
+    setInput(toString(item))
     setIsOpen(false)
   }
 
@@ -98,7 +102,7 @@ export const InputSelect = ({ items, value, onChange }) => {
                 onClick={() => handleChange(item)}>
                 <Stack direction="row">
                   <Flex minWidth={6}>{item.image && <Image width={6} src={item.image} />}</Flex>
-                  <Text>{item.name}</Text>
+                  <Text>{toString(item)}</Text>
                 </Stack>
               </ListItem>
             ))}
@@ -121,6 +125,27 @@ export const TeamSelect = ({ active, onChange }) => {
   }, [])
 
   return <InputSelect value={active?.name || ''} items={teams} onChange={onChange} />
+}
+
+export const PlayerSelect = ({ active, onChange }) => {
+  const [players, setPlayers] = useState([])
+
+  useEffect(() => {
+    const fetchPlayers = async () => {
+      const res = await apiFetch('/players', buildQuery({ sort: 'tag:asc' }, []))
+      setPlayers(res.players)
+    }
+    fetchPlayers()
+  }, [])
+
+  return (
+    <InputSelect
+      value={active?.tag || ''}
+      items={players}
+      itemToString={(player) => player?.tag || ''}
+      onChange={onChange}
+    />
+  )
 }
 
 export default Select

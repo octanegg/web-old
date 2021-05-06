@@ -116,18 +116,20 @@ export const EventRecordsFilter = ({ event, type, initialFilter }) => {
         active={filter.stat}
         onChange={(item) => updateFilter('stat', item)}
       />
-      <StageFilter
-        stages={event.stages.map((stage) => ({
-          id: stage._id,
-          label: stage.name,
-        }))}
-        active={
-          Array.isArray(filter.stage)
-            ? filter.stage.map((i) => parseInt(i, 10))
-            : parseInt(filter.stage, 10)
-        }
-        onChange={(item) => updateFilter('stage', item)}
-      />
+      {event.stages && (
+        <StageFilter
+          stages={event.stages.map((stage) => ({
+            id: stage._id,
+            label: stage.name,
+          }))}
+          active={
+            Array.isArray(filter.stage)
+              ? filter.stage.map((i) => parseInt(i, 10))
+              : parseInt(filter.stage, 10)
+          }
+          onChange={(item) => updateFilter('stage', item)}
+        />
+      )}
     </Filter>
   )
 }
@@ -158,18 +160,20 @@ export const EventStatsFilter = ({ event, type, initialFilter }) => {
         active={type}
         onChange={(item) => route(router, `/events/${event._id}/stats/${item}`, '')}
       />
-      <StageFilter
-        stages={event.stages.map((stage) => ({
-          id: stage._id,
-          label: stage.name,
-        }))}
-        active={
-          Array.isArray(filter.stage)
-            ? filter.stage.map((i) => parseInt(i, 10))
-            : parseInt(filter.stage, 10)
-        }
-        onChange={(item) => updateFilter('stage', item)}
-      />
+      {event.stages && (
+        <StageFilter
+          stages={event.stages.map((stage) => ({
+            id: stage._id,
+            label: stage.name,
+          }))}
+          active={
+            Array.isArray(filter.stage)
+              ? filter.stage.map((i) => parseInt(i, 10))
+              : parseInt(filter.stage, 10)
+          }
+          onChange={(item) => updateFilter('stage', item)}
+        />
+      )}
     </Filter>
   )
 }

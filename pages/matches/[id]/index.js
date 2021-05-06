@@ -3,13 +3,13 @@ import { WarningIcon } from '@chakra-ui/icons'
 import { Content } from '@octane/components/common/Layout'
 import { Infobox, Navigation } from '@octane/components/match/Match'
 import { ScoreboardMatch } from '@octane/components/match/Scoreboard'
-import { getServerSideAuth } from '@octane/util/auth'
+import { getServerSideAuth, isAdmin } from '@octane/util/auth'
 
 const Match = ({ auth, match }) => (
   <Content auth={auth}>
     <Stack width="full" spacing={3}>
       <Infobox match={match} />
-      <Navigation baseHref={`/matches/${match._id}`} games={match.games} />
+      <Navigation baseHref={`/matches/${match._id}`} games={match.games} isAdmin={isAdmin(auth)} />
       {match.games ? (
         <ScoreboardMatch
           blue={match.blue}

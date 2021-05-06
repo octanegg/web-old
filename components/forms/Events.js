@@ -285,7 +285,7 @@ const StagesForm = ({ stages, onChange, onDelete }) => (
                 <DatePicker
                   selected={endDate ? new Date(endDate) : new Date()}
                   dateFormat="MMM d yyyy h:mm aa"
-                  onChange={(date) => handleChange('startDate', date)}
+                  onChange={(date) => handleChange('endDate', date)}
                   showTimeSelect
                 />
               </FormField>

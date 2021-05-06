@@ -3,7 +3,7 @@ import { FormField } from '@octane/components/forms/Forms'
 import { useState } from 'react'
 import { apiCreate, apiUpdate } from '@octane/util/fetch'
 import { Select, TeamSelect } from '@octane/components/common/Select'
-import { Flex, FormLabel, Spacer, Stack, Text } from '@chakra-ui/react'
+import { Flex, FormControl, FormLabel, Spacer, Stack, Text } from '@chakra-ui/react'
 import { cleanObj } from '@octane/util/stats'
 import DatePicker from 'react-datepicker'
 import { Button, ButtonTypes } from '@octane/components/common/Button'
@@ -17,7 +17,9 @@ export const MatchForm = ({ data, onUpdate }) => {
       [key]: value,
     })
     setMatch(m)
-    onUpdate(m)
+    if (onUpdate) {
+      onUpdate(m)
+    }
   }
 
   const updateFormat = (type, length) => {
@@ -77,14 +79,16 @@ export const MatchForm = ({ data, onUpdate }) => {
           </FormField>
         )}
         <Flex direction="column">
-          <FormLabel
-            marginBottom={1}
-            fontSize="11px"
-            fontWeight="bold"
-            textTransform="uppercase"
-            color="secondary.800">
-            Date
-          </FormLabel>
+          <FormControl>
+            <FormLabel
+              marginBottom={1}
+              fontSize="11px"
+              fontWeight="bold"
+              textTransform="uppercase"
+              color="secondary.800">
+              Date
+            </FormLabel>
+          </FormControl>
           <DatePicker
             selected={match.date ? new Date(match.date) : new Date()}
             onChange={(date) => updateMatch('date', date)}
