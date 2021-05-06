@@ -1,7 +1,7 @@
 export const cleanObj = (obj) =>
   Object.fromEntries(
     Object.entries(obj).filter(
-      ([, v]) => v !== null && v !== '' && (!Array.isArray(v) || v.length > 0)
+      ([, v]) => v !== undefined && v !== null && v !== '' && (!Array.isArray(v) || v.length > 0)
     )
   )
 

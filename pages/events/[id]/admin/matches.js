@@ -17,6 +17,7 @@ import { groupBy } from 'lodash'
 import { useState } from 'react'
 import { Button, ButtonTypes } from '@octane/components/common/Button'
 import { apiUpdate } from '@octane/util/fetch'
+import { cleanObj } from '@octane/util/stats'
 
 const Admin = ({ auth, event, stages }) => {
   const [matches, setMatches] = useState(stages)
@@ -40,21 +41,51 @@ const Admin = ({ auth, event, stages }) => {
   }
 
   const handleAdd = (stage) => {
-    if (!matches[stage] || matches[stage].length === 0) {
+    if (!matches[stage._id] || matches[stage._id].length === 0) {
       setMatches({
         ...matches,
-        [stage]: [
+        [stage._id]: [
           {
             number: 1,
             date: new Date(),
+            event: cleanObj({
+              _id: event._id,
+              name: event.name,
+              mode: event.mode,
+              region: event.region,
+              tier: event.tier,
+              image: event.image,
+              groups: event.groups,
+            }),
+            stage: cleanObj({
+              _id: stage._id,
+              name: stage.name,
+              format: stage.format,
+              qualifier: stage.qualifier,
+            }),
           },
         ],
       })
     } else {
-      const size = matches[stage].length
-      handleMatchUpdate(stage, size, {
+      const size = matches[stage._id].length
+      handleMatchUpdate(stage._id, size, {
         number: size + 1,
-        date: matches[stage][size - 1].date,
+        date: matches[stage._id][size - 1].date,
+        event: cleanObj({
+          _id: event._id,
+          name: event.name,
+          mode: event.mode,
+          region: event.region,
+          tier: event.tier,
+          image: event.image,
+          groups: event.groups,
+        }),
+        stage: cleanObj({
+          _id: stage._id,
+          name: stage.name,
+          format: stage.format,
+          qualifier: stage.qualifier,
+        }),
       })
     }
   }
@@ -72,12 +103,12 @@ const Admin = ({ auth, event, stages }) => {
         />
         <Navigation type="eventAdmin" active="matches" baseHref={`/events/${event._id}`} />
         <Accordion allowToggle>
-          {event.stages.map(({ _id, name }) => (
+          {event.stages.map((stage) => (
             <AccordionItem borderColor="secondary.200">
               <AccordionButton _focus={{ outline: 'none' }}>
                 <Stack direction="row" align="center">
                   <Text fontSize="sm" color="secondary.800">
-                    {name}
+                    {stage.name}
                   </Text>
                 </Stack>
                 <Spacer />
@@ -85,14 +116,19 @@ const Admin = ({ auth, event, stages }) => {
               </AccordionButton>
               <AccordionPanel>
                 <Stack>
-                  {matches[_id]?.map((match, i) => (
-                    <MatchForm data={match} onUpdate={(m) => handleMatchUpdate(_id, i, m)} />
+                  {matches[stage._id]?.map((match, i) => (
+                    <MatchForm
+                      data={match}
+                      onUpdate={(m) => handleMatchUpdate(stage._id, i, m)}
+                      event={event}
+                      stage={stage}
+                    />
                   ))}
                   <Stack direction="row" justify="center" width="full">
-                    <Button buttonType={ButtonTypes.submit} onClick={() => handleAdd(_id)}>
+                    <Button buttonType={ButtonTypes.submit} onClick={() => handleAdd(stage)}>
                       <Text>Add Match</Text>
                     </Button>
-                    <Button buttonType={ButtonTypes.submit} onClick={() => handleSubmit(_id)}>
+                    <Button buttonType={ButtonTypes.submit} onClick={() => handleSubmit(stage._id)}>
                       <Text>Update All</Text>
                     </Button>
                   </Stack>

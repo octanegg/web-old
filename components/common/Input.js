@@ -11,6 +11,7 @@ export const Input = (props) => {
       color="secondary.800"
       _hover={{ borderColor: 'secondary.400' }}
       _focus={{ border: 'focus', shadow: 'focus' }}
+      onFocus={(e) => e.target.select()}
       {...props}
       width={width || ''}
     />

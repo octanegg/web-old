@@ -57,6 +57,6 @@ export const formatPrize = ({ amount, currency }) => {
 }
 
 export const formatPrizeUSD = ({ amount, currency }) =>
-  formatPrize({ amount: amount / rates[currency], currency: 'USD' })
+  formatPrize({ amount: currency === 'USD' ? amount : amount / rates[currency], currency: 'USD' })
 
 export default formatPrize
