@@ -28,8 +28,8 @@ export const Events = ({ events }) => {
       </Flex>
       <Stack>
         {(toggle ? ongoing : upcoming).map(
-          ({ _id, name, startDate, endDate, image, tier, prize }) => (
-            <NextLink passHref href={`/events/${_id}`} key={_id}>
+          ({ _id, slug, name, startDate, endDate, image, tier, prize }) => (
+            <NextLink passHref href={`/events/${slug}`} key={_id}>
               <Link _hover={{}}>
                 <Stack
                   fontSize="xs"

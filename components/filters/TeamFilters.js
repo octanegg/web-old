@@ -28,7 +28,11 @@ export const TeamMatchesFilter = ({ team, initialFilter }) => {
   return (
     <Filter
       onApply={() =>
-        route(router, `/teams/${team._id}/matches`, buildQuery(filter, ['team', 'sort', 'perPage']))
+        route(
+          router,
+          `/teams/${team.slug}/matches`,
+          buildQuery(filter, ['team', 'sort', 'perPage'])
+        )
       }
       onReset={() => {
         setFilter({
@@ -38,7 +42,7 @@ export const TeamMatchesFilter = ({ team, initialFilter }) => {
           perPage: 50,
           sort: 'date:desc',
         })
-        route(router, `/teams/${team._id}/matches`, '')
+        route(router, `/teams/${team.slug}/matches`, '')
       }}>
       <TierFilter active={filter.tier} onChange={(item) => updateFilter('tier', item)} />
       <ModeFilter active={filter.mode} onChange={(item) => updateFilter('mode', item)} />
@@ -65,7 +69,11 @@ export const TeamRecordsFilter = ({ team, initialFilter }) => {
   return (
     <Filter
       onApply={() =>
-        route(router, `/teams/${team._id}/records`, buildQuery(filter, ['team', 'sort', 'perPage']))
+        route(
+          router,
+          `/teams/${team.slug}/records`,
+          buildQuery(filter, ['team', 'sort', 'perPage'])
+        )
       }
       onReset={() => {
         setFilter({
@@ -74,7 +82,7 @@ export const TeamRecordsFilter = ({ team, initialFilter }) => {
           type: 'game',
           stat: 'score',
         })
-        route(router, `/teams/${team._id}/records`, '')
+        route(router, `/teams/${team.slug}/records`, '')
       }}>
       <RecordsTypeFilter active={filter.type} onChange={(item) => updateFilter('type', item)} />
       <RecordsStatsFilter
@@ -114,7 +122,7 @@ export const TeamStatsFilter = ({ team, type, initialFilter }) => {
       onApply={() =>
         route(
           router,
-          `/teams/${team._id}/stats/${type}`,
+          `/teams/${team.slug}/stats/${type}`,
           buildQuery(filter, ['team', 'sort', 'perPage'])
         )
       }
@@ -124,11 +132,11 @@ export const TeamStatsFilter = ({ team, type, initialFilter }) => {
           mode: 3,
           sort: 'date:desc',
         })
-        route(router, `/teams/${team._id}/stats/${type}`, '')
+        route(router, `/teams/${team.slug}/stats/${type}`, '')
       }}>
       <TeamStatsTypeFilter
         active={type}
-        onChange={(item) => route(router, `/teams/${team._id}/stats/${item}`, '')}
+        onChange={(item) => route(router, `/teams/${team.slug}/stats/${item}`, '')}
       />
       <TierFilter active={filter.tier} onChange={(item) => updateFilter('tier', item)} />
       <ModeFilter active={filter.mode} onChange={(item) => updateFilter('mode', item)} />

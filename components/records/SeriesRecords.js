@@ -72,7 +72,7 @@ const SeriesRecordsRow = ({ record, rank, statType, isHighlighted }) => {
   return (
     <Row key={rank} className={backgroundColor}>
       <Cell>
-        <NextLink passHref href={`/matches/${match._id}`}>
+        <NextLink passHref href={`/matches/${match.slug}`}>
           <Flex
             as="a"
             direction="row"
@@ -94,11 +94,11 @@ const SeriesRecordsRow = ({ record, rank, statType, isHighlighted }) => {
                 {winner.image && <Image width={6} src={winner.image} />}
               </Flex>
               <Flex>
-                <Link href={`/teams/${winner._id}`}>{winner.name}</Link>
+                <Link href={`/teams/${winner.slug}`}>{winner.name}</Link>
               </Flex>
             </Flex>
             <Flex align="center">
-              <Link href={`/matches/${match._id}`} noStyle>
+              <Link href={`/matches/${match.slug}`} noStyle>
                 <LabeledText
                   width={24}
                   label={
@@ -120,7 +120,7 @@ const SeriesRecordsRow = ({ record, rank, statType, isHighlighted }) => {
                 <Flex minWidth={8} marginRight={2} marginLeft={2}>
                   {loser.image && <Image width={6} src={loser.image} />}
                 </Flex>
-                <Link href={`/teams/${loser._id}`}>{loser.name}</Link>
+                <Link href={`/teams/${loser.slug}`}>{loser.name}</Link>
               </Flex>
             </Flex>
             <Flex align="center" width="sm">
@@ -136,7 +136,7 @@ const SeriesRecordsRow = ({ record, rank, statType, isHighlighted }) => {
                   </Text>
                 }>
                 <Flex>
-                  <Link href={`/events/${event._id}`}>{event.name}</Link>
+                  <Link href={`/events/${event.slug}`}>{event.name}</Link>
                 </Flex>
               </LabeledText>
             </Flex>

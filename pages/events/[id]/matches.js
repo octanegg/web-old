@@ -12,7 +12,7 @@ const Event = ({ auth, event }) => (
       <Navigation
         type="event"
         active="matches"
-        baseHref={`/events/${event._id}`}
+        baseHref={`/events/${event.slug}`}
         isAdmin={isAdmin(auth)}
         hasDivider
       />

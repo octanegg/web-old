@@ -97,11 +97,11 @@ const Admin = ({ auth, event, stages }) => {
         <Navigation
           type="event"
           active="admin"
-          baseHref={`/events/${event._id}`}
+          baseHref={`/events/${event.slug}`}
           isAdmin={isAdmin(auth)}
           hasDivider
         />
-        <Navigation type="eventAdmin" active="matches" baseHref={`/events/${event._id}`} />
+        <Navigation type="eventAdmin" active="matches" baseHref={`/events/${event.slug}`} />
         <Accordion allowToggle>
           {event.stages.map((stage) => (
             <AccordionItem borderColor="secondary.200">
@@ -145,17 +145,23 @@ const Admin = ({ auth, event, stages }) => {
 export async function getServerSideProps({ req, params }) {
   const auth = getServerSideAuth(req)
   const { id } = params
-  const [resEvent, resMatches] = await Promise.all([
-    fetch(`${process.env.API_URL}/events/${id}`),
-    fetch(`${process.env.API_URL}/matches?event=${id}&`),
-  ])
-  if (resEvent.status !== 200 || resMatches.status !== 200 || !isAdmin(auth)) {
+
+  const resEvent = await fetch(`${process.env.API_URL}/events/${id}`)
+  if (resEvent.status !== 200 || !isAdmin(auth)) {
     return {
       notFound: true,
     }
   }
+  const event = await resEvent.json()
 
-  const [event, matches] = await Promise.all([resEvent.json(), resMatches.json()])
+  const resMatches = await fetch(`${process.env.API_URL}/matches?event=${event._id}&`)
+  if (resMatches.status !== 200) {
+    return {
+      notFound: true,
+    }
+  }
+  const matches = await resMatches.json()
+
   return {
     props: { auth, event, stages: groupBy(matches.matches, 'stage._id') },
   }

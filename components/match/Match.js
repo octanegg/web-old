@@ -11,7 +11,7 @@ const InfoboxSide = ({ team, isReversed }) => (
     width="full"
     align="center"
     direction={isReversed ? 'row-reverse' : 'row'}>
-    <Link fontSize="2xl" href={`/teams/${team.team._id}`}>
+    <Link fontSize="2xl" href={`/teams/${team.team.slug}`}>
       {team.team.name}
     </Link>
     <Flex minWidth={24} marginLeft={4} marginRight={4}>
@@ -197,7 +197,7 @@ export const Infobox = ({ match, active }) => {
         <LabeledField label={stage.name} width="sm">
           <Stack direction="row" align="center">
             {event.image && <Image width={6} src={event.image} />}
-            <Link href={`/events/${event._id}`}>{event.name}</Link>
+            <Link href={`/events/${event.slug}`}>{event.name}</Link>
           </Stack>
         </LabeledField>
         {games && (

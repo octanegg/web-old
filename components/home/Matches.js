@@ -25,12 +25,12 @@ export const Matches = ({ matches }) => {
         </Button>
       </Flex>
       <Stack>
-        {(toggle ? upcoming : completed).map(({ _id, event, date, blue, orange }) => {
+        {(toggle ? upcoming : completed).map(({ _id, slug, event, date, blue, orange }) => {
           const blueScore = blue?.score || 0
           const orangeScore = orange?.score || 0
 
           return (
-            <NextLink passHref href={`/matches/${_id}`} key={_id}>
+            <NextLink passHref href={`/matches/${slug}`} key={_id}>
               <Link _hover={{}}>
                 <Stack
                   fontSize="xs"

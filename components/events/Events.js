@@ -74,7 +74,7 @@ export const EventsTable = ({ filter, sort, isOngoing }) => {
 }
 
 const EventRow = ({ event }) => {
-  const { _id, region, tier, mode, prize, name, startDate, endDate, stages, image } = event
+  const { _id, slug, region, tier, mode, prize, name, startDate, endDate, stages, image } = event
 
   const [stagesVisible, setStagesVisible] = useState(false)
 
@@ -84,7 +84,7 @@ const EventRow = ({ event }) => {
     <>
       <Row key={_id}>
         <Cell>
-          <NextLink passHref href={`/events/${_id}`}>
+          <NextLink passHref href={`/events/${slug}`}>
             <Flex
               as="a"
               width="full"
@@ -108,7 +108,7 @@ const EventRow = ({ event }) => {
                   </Stack>
                 }>
                 <Flex>
-                  <Link href={`/events/${_id}`}>{name}</Link>
+                  <Link href={`/events/${slug}`}>{name}</Link>
                 </Flex>
               </LabeledText>
               <Spacer />

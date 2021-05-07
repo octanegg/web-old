@@ -157,8 +157,8 @@ export const GameForm = ({ data, match }) => {
       <FormField
         label={
           <Stack direction="row">
-            {match.blue.team.team.image && <Image width={4} src={match.blue.team.team.image} />}
-            <Text>{match.blue.team.team.name}</Text>
+            {match.blue?.team.team.image && <Image width={4} src={match.blue.team.team.image} />}
+            <Text>{match.blue?.team.team.name || 'TBD'}</Text>
           </Stack>
         }>
         {[...Array(match.event.mode).keys()].map((i) => (
@@ -173,8 +173,10 @@ export const GameForm = ({ data, match }) => {
       <FormField
         label={
           <Stack direction="row">
-            {match.orange.team.team.image && <Image width={4} src={match.orange.team.team.image} />}
-            <Text>{match.orange.team.team.name}</Text>
+            {match.orange?.team.team.image && (
+              <Image width={4} src={match.orange.team.team.image} />
+            )}
+            <Text>{match.orange?.team.team.name || 'TBD'}</Text>
           </Stack>
         }>
         {[...Array(match.event.mode).keys()].map((i) => (

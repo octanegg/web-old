@@ -11,7 +11,7 @@ const Team = ({ auth, team }) => (
       <Navigation
         type="team"
         active="overview"
-        baseHref={`/teams/${team._id}`}
+        baseHref={`/teams/${team.slug}`}
         isAdmin={isAdmin(auth)}
         hasDivider
       />

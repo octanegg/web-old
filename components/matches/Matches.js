@@ -86,7 +86,7 @@ export const Matches = ({ filter, onPaginate }) => {
 }
 
 const MatchRow = ({ match, team, player, highlightResult }) => {
-  const { _id, blue, orange, event, stage, date } = match
+  const { slug, blue, orange, event, stage, date } = match
 
   const isBlue =
     blue?.team?.team?._id === team || blue?.players?.find((p) => p.player._id === player)
@@ -98,7 +98,7 @@ const MatchRow = ({ match, team, player, highlightResult }) => {
   return (
     <Row>
       <Cell>
-        <NextLink passHref href={`/matches/${_id}`}>
+        <NextLink passHref href={`/matches/${slug}`}>
           <Flex
             as="a"
             width="full"
@@ -120,13 +120,13 @@ const MatchRow = ({ match, team, player, highlightResult }) => {
                   </Flex>
                 }>
                 <Flex>
-                  <Link href={`/events/${event._id}`}>{event.name}</Link>
+                  <Link href={`/events/${event.slug}`}>{event.name}</Link>
                 </Flex>
               </LabeledText>
             </Flex>
             <Flex direction="row" width="2xl">
               <Team side={left} />
-              <Link href={`/matches/${_id}`}>
+              <Link href={`/matches/${slug}`}>
                 <Score left={left?.score} right={right?.score} />
               </Link>
               <Team side={right} isReversed />
@@ -171,7 +171,7 @@ const Score = ({ left, right }) => {
 const Team = ({ side, isReversed }) =>
   side ? (
     <Flex direction={isReversed ? 'row-reverse' : 'row'} width="full" justify="flex-end">
-      <Link href={`/teams/${side.team.team._id}`} align={isReversed && 'end'}>
+      <Link href={`/teams/${side.team.team.slug}`} align={isReversed && 'end'}>
         {side.team.team.name}
       </Link>
       <Flex minWidth={6} marginLeft={4} marginRight={4}>

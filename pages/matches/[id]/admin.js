@@ -19,7 +19,7 @@ const Match = ({ auth, match, games }) => (
     <Stack width="full" spacing={3}>
       <Infobox match={match} />
       <Navigation
-        baseHref={`/matches/${match._id}`}
+        baseHref={`/matches/${match.slug}`}
         games={match.games}
         active="admin"
         isAdmin={isAdmin(auth)}
@@ -50,19 +50,25 @@ const Match = ({ auth, match, games }) => (
 export async function getServerSideProps({ req, params }) {
   const auth = getServerSideAuth(req)
   const { id } = params
-  const [resMatch, resGames] = await Promise.all([
-    fetch(`${process.env.API_URL}/matches/${id}`),
-    fetch(`${process.env.API_URL}/games?match=${id}&sort=number:asc`),
-  ])
-  if (resMatch.status !== 200 || resGames.status !== 200 || !isAdmin(auth)) {
+
+  const resMatch = await fetch(`${process.env.API_URL}/matches/${id}`)
+  if (resMatch.status !== 200 || !isAdmin(auth)) {
     return {
       notFound: true,
     }
   }
+  const match = await resMatch.json()
 
-  const [match, games] = await Promise.all([resMatch.json(), resGames.json()])
+  const resGames = await fetch(`${process.env.API_URL}/games?match=${match._id}&sort=number:asc`)
+  if (resGames.status !== 200) {
+    return {
+      notFound: true,
+    }
+  }
+  const games = await resGames.json()
+
   return {
-    props: { auth, match, games: games.games },
+    props: { auth, match, games: games.games || [] },
   }
 }
 

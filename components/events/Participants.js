@@ -5,7 +5,7 @@ import { Link } from '@octane/components/common/Text'
 const Player = ({ player }) => (
   <Stack paddingLeft={4} direction="row" align="center">
     <Flag country={player.country || 'int'} />
-    <Link href={`/players/${player._id}`}>
+    <Link href={`/players/${player.slug}`}>
       <Stack direction="row" align="center" spacing={1}>
         <Text>{player.tag}</Text>
         {player.substitute && (
@@ -36,7 +36,7 @@ export const Participants = ({ participants }) => (
               {team.region}
             </Text>
             {team.image && <Image width={6} src={team.image} />}
-            <Link href={`/teams/${team._id}`}>
+            <Link href={`/teams/${team.slug}`}>
               <Text>{team.name}</Text>
             </Link>
           </Stack>

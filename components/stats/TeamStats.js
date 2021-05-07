@@ -111,7 +111,7 @@ const StatsRow = ({ record, statGroup, sort, intsAsFloat, groupBy, isEven }) => 
                   {toDateYearString(startDate, endDate)}
                 </Text>
               }>
-              <Link href={`/events/${event._id}`}>{event.name}</Link>
+              <Link href={`/events/${event.slug}`}>{event.name}</Link>
             </LabeledText>
           </Flex>
         </Cell>
@@ -122,7 +122,7 @@ const StatsRow = ({ record, statGroup, sort, intsAsFloat, groupBy, isEven }) => 
             <Flex width={6} justify="center">
               {opponent.image && <Image src={opponent.image} />}
             </Flex>
-            <Link href={`/teams/${opponent._id}`}>{opponent.name}</Link>
+            <Link href={`/teams/${opponent.slug}`}>{opponent.name}</Link>
           </Stack>
         </Cell>
       )}
@@ -139,7 +139,7 @@ const StatsRow = ({ record, statGroup, sort, intsAsFloat, groupBy, isEven }) => 
               {team.image && <Image src={team.image} />}
             </Flex>
             <Flex width="full">
-              <Link href={`/teams/${team._id}`}>{team.name}</Link>
+              <Link href={`/teams/${team.slug}`}>{team.name}</Link>
             </Flex>
           </Stack>
         </Cell>

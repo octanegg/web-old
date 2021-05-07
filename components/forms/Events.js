@@ -55,13 +55,20 @@ export const EventForm = ({ data }) => {
   }
 
   const handleSubmit = async () => {
+    const payload = {
+      ...event,
+      region: event.region || 'INT',
+      tier: event.tier || 'S',
+      mode: event.mode || 3,
+    }
+
     if (event._id) {
-      const res = await apiUpdate(`/events/${event._id}`, event)
+      const res = await apiUpdate(`/events/${event._id}`, payload)
       if (res.status === 200) {
         window.location.reload()
       }
     } else {
-      const res = await apiCreate(`/events`, event)
+      const res = await apiCreate(`/events`, payload)
       if (res.status === 200) {
         const { _id } = await res.json()
         router.push(`/events/${_id}`)
@@ -110,7 +117,7 @@ export const EventForm = ({ data }) => {
           id="mode"
           width={64}
           value={event.mode}
-          onChange={(e) => updateEvent('mode', e.currentTarget.value)}>
+          onChange={(e) => updateEvent('mode', parseInt(e.currentTarget.value, 10))}>
           {modes.map(({ id, label }) => (
             <option key={id} value={id}>
               {label}

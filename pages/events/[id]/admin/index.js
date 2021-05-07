@@ -12,11 +12,11 @@ const Admin = ({ auth, event }) => (
       <Navigation
         type="event"
         active="admin"
-        baseHref={`/events/${event._id}`}
+        baseHref={`/events/${event.slug}`}
         isAdmin={isAdmin(auth)}
         hasDivider
       />
-      <Navigation type="eventAdmin" active="event" baseHref={`/events/${event._id}`} />
+      <Navigation type="eventAdmin" active="event" baseHref={`/events/${event.slug}`} />
       <EventForm data={event} />
     </Stack>
   </Content>

@@ -84,7 +84,7 @@ const ScoreboardTable = ({ stats, side, showMvp }) => (
             <td>
               <Stack paddingLeft={2} direction="row" align="center">
                 <Flag country={player.player.country || 'int'} />
-                <Link href={`/players/${player.player._id}`}>
+                <Link href={`/players/${player.player.slug}`}>
                   <Text>{player.player.tag}</Text>
                 </Link>
                 {showMvp && player.stats.core.mvp && <StarIcon fontSize="xs" />}
@@ -101,7 +101,7 @@ const ScoreboardTable = ({ stats, side, showMvp }) => (
             <Flex minWidth={5} justify="center">
               {side.team.team.image && <Image width={6} src={side.team.team.image} />}
             </Flex>
-            <Link href={`/teams/${side.team.team._id}`}>{side.team.team.name}</Link>
+            <Link href={`/teams/${side.team.team.slug}`}>{side.team.team.name}</Link>
           </Stack>
         </td>
         {stats.map((stat) => (

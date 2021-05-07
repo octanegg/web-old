@@ -95,18 +95,18 @@ export const EventRecordsFilter = ({ event, type, initialFilter }) => {
   return (
     <Filter
       onApply={() =>
-        route(router, `/events/${event._id}/records/${type}`, buildQuery(filter, ['event']))
+        route(router, `/events/${event.slug}/records/${type}`, buildQuery(filter, ['event']))
       }
       onReset={() => {
         setFilter({
-          event: event._id,
+          event: event.slug,
           stat: type === 'players' || type === 'teams' ? 'score' : 'scoreTotal',
         })
-        route(router, `/events/${event._id}/records/${type}`, '')
+        route(router, `/events/${event.slug}/records/${type}`, '')
       }}>
       <RecordsCategoryFilter
         active={type}
-        onChange={(item) => route(router, `/events/${event._id}/records/${item}`, '')}
+        onChange={(item) => route(router, `/events/${event.slug}/records/${item}`, '')}
       />
       {(type === 'players' || type === 'teams') && (
         <RecordsTypeFilter active={filter.type} onChange={(item) => updateFilter('type', item)} />
@@ -148,17 +148,17 @@ export const EventStatsFilter = ({ event, type, initialFilter }) => {
   return (
     <Filter
       onApply={() =>
-        route(router, `/events/${event._id}/stats/${type}`, buildQuery(filter, ['event']))
+        route(router, `/events/${event.slug}/stats/${type}`, buildQuery(filter, ['event']))
       }
       onReset={() => {
         setFilter({
-          event: event._id,
+          event: event.slug,
         })
-        route(router, `/events/${event._id}/stats/${type}`, '')
+        route(router, `/events/${event.slug}/stats/${type}`, '')
       }}>
       <StatsCategoryFilter
         active={type}
-        onChange={(item) => route(router, `/events/${event._id}/stats/${item}`, '')}
+        onChange={(item) => route(router, `/events/${event.slug}/stats/${item}`, '')}
       />
       {event.stages && (
         <StageFilter
@@ -192,13 +192,13 @@ export const EventParticipantsFilter = ({ event, initialFilter }) => {
   return (
     <Filter
       onApply={() =>
-        route(router, `/events/${event._id}/participants`, buildQuery(filter, ['event']))
+        route(router, `/events/${event.slug}/participants`, buildQuery(filter, ['event']))
       }
       onReset={() => {
         setFilter({
-          event: event._id,
+          event: event.slug,
         })
-        route(router, `/events/${event._id}/participants`, '')
+        route(router, `/events/${event.slug}/participants`, '')
       }}>
       <StageFilter
         stages={event.stages.map((stage) => ({

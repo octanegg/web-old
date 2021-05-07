@@ -12,7 +12,7 @@ const Admin = ({ auth, team }) => (
       <Navigation
         type="team"
         active="admin"
-        baseHref={`/teams/${team._id}`}
+        baseHref={`/teams/${team.slug}`}
         isAdmin={isAdmin(auth)}
         hasDivider
       />

@@ -13,7 +13,7 @@ const Event = ({ auth, event, filter }) => (
       <Navigation
         type="event"
         active="records"
-        baseHref={`/events/${event._id}`}
+        baseHref={`/events/${event.slug}`}
         isAdmin={isAdmin(auth)}
         hasDivider
       />

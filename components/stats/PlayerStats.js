@@ -115,7 +115,7 @@ const StatsRow = ({ record, statGroup, sort, intsAsFloat, groupBy, isEven, showT
                   {toDateYearString(startDate, endDate)}
                 </Text>
               }>
-              <Link href={`/events/${event._id}`}>{event.name}</Link>
+              <Link href={`/events/${event.slug}`}>{event.name}</Link>
             </LabeledText>
           </Flex>
         </Cell>
@@ -126,7 +126,7 @@ const StatsRow = ({ record, statGroup, sort, intsAsFloat, groupBy, isEven, showT
             <Flex width={6} justify="center">
               {team.image && <Image src={team.image} />}
             </Flex>
-            <Link href={`/teams/${team._id}`}>{team.name}</Link>
+            <Link href={`/teams/${team.slug}`}>{team.name}</Link>
           </Stack>
         </Cell>
       )}
@@ -136,7 +136,7 @@ const StatsRow = ({ record, statGroup, sort, intsAsFloat, groupBy, isEven, showT
             <Flex width={6} justify="center">
               {opponent.image && <Image src={opponent.image} />}
             </Flex>
-            <Link href={`/teams/${opponent._id}`}>{opponent.name}</Link>
+            <Link href={`/teams/${opponent.slug}`}>{opponent.name}</Link>
           </Stack>
         </Cell>
       )}
@@ -151,7 +151,7 @@ const StatsRow = ({ record, statGroup, sort, intsAsFloat, groupBy, isEven, showT
             height={10}>
             <Flag country={player.country || 'int'} />
             <Flex>
-              <Link href={`/players/${player._id}`}>{player.tag}</Link>
+              <Link href={`/players/${player.slug}`}>{player.tag}</Link>
             </Flex>
           </Stack>
         </Cell>

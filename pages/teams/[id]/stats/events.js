@@ -22,7 +22,7 @@ const Team = ({ auth, team, filter }) => {
         <Navigation
           type="team"
           active="stats"
-          baseHref={`/teams/${team._id}`}
+          baseHref={`/teams/${team.slug}`}
           isAdmin={isAdmin(auth)}
           hasDivider
         />
@@ -35,7 +35,7 @@ const Team = ({ auth, team, filter }) => {
           onClusterChange={(cluster) =>
             route(
               router,
-              `/teams/${team._id}/stats/events`,
+              `/teams/${team.slug}/stats/events`,
               buildQuery(
                 {
                   ...filter,

@@ -22,7 +22,7 @@ const Event = ({ auth, event, filter }) => {
         ...filter,
         cluster,
       }
-      route(router, `/events/${event._id}/stats/players`, buildQuery(newFilter, ['event', '']))
+      route(router, `/events/${event.slug}/stats/players`, buildQuery(newFilter, ['event', '']))
     }
     updateCluster()
   }, [cluster])
@@ -34,7 +34,7 @@ const Event = ({ auth, event, filter }) => {
         <Navigation
           type="event"
           active="stats"
-          baseHref={`/events/${event._id}`}
+          baseHref={`/events/${event.slug}`}
           isAdmin={isAdmin(auth)}
           hasDivider
         />

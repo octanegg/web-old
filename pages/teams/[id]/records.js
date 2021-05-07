@@ -13,7 +13,7 @@ const Team = ({ auth, team, filter }) => (
       <Navigation
         type="team"
         active="records"
-        baseHref={`/teams/${team._id}`}
+        baseHref={`/teams/${team.slug}`}
         isAdmin={isAdmin(auth)}
         hasDivider
       />

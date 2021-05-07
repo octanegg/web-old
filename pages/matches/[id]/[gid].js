@@ -9,7 +9,7 @@ const Match = ({ auth, match, game }) => (
     <Stack width="full" spacing={3}>
       <Infobox match={match} active={game.number} />
       <Navigation
-        baseHref={`/matches/${match._id}`}
+        baseHref={`/matches/${match.slug}`}
         games={match.games}
         active={game.number}
         isAdmin={isAdmin(auth)}

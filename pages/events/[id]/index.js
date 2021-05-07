@@ -12,7 +12,7 @@ const Event = ({ auth, event }) => (
       <Navigation
         type="event"
         active="overview"
-        baseHref={`/events/${event._id}`}
+        baseHref={`/events/${event.slug}`}
         isAdmin={isAdmin(auth)}
         hasDivider
       />
@@ -24,14 +24,14 @@ const Event = ({ auth, event }) => (
 export async function getServerSideProps({ req, params }) {
   const auth = getServerSideAuth(req)
   const { id } = params
-  const [resEvents] = await Promise.all([fetch(`${process.env.API_URL}/events/${id}`)])
-  if (resEvents.status !== 200) {
+  const res = await fetch(`${process.env.API_URL}/events/${id}`)
+  if (res.status !== 200) {
     return {
       notFound: true,
     }
   }
 
-  const [event] = await Promise.all([resEvents.json()])
+  const event = await res.json()
   return {
     props: { auth, event },
   }

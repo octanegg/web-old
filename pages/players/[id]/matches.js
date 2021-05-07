@@ -14,7 +14,7 @@ const Player = ({ auth, player, filter }) => {
   const handlePagination = (page) => {
     route(
       router,
-      `/players/${player._id}/matches`,
+      `/players/${player.slug}/matches`,
       buildQuery({ ...filter, page }, ['', 'player', 'sort', 'perPage'])
     )
   }
@@ -26,7 +26,7 @@ const Player = ({ auth, player, filter }) => {
         <Navigation
           type="player"
           active="matches"
-          baseHref={`/players/${player._id}`}
+          baseHref={`/players/${player.slug}`}
           isAdmin={isAdmin(auth)}
           hasDivider
         />
