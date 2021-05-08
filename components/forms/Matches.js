@@ -94,6 +94,7 @@ export const MatchForm = ({ data, onUpdate }) => {
             onChange={(date) => updateMatch('date', date)}
             dateFormat="MMM d yyyy h:mm aa"
             showTimeSelect
+            timeIntervals={15}
           />
         </Flex>
         <FormField label="Format">

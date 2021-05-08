@@ -1,7 +1,7 @@
 import { Divider, Flex, Image, Text } from '@chakra-ui/react'
 import { toDateString } from '@octane/util/dates'
 import { getCountry } from '@octane/util/countries'
-import { formatPrizeUSD } from '@octane/util/prizes'
+import { formatPrize } from '@octane/util/prizes'
 
 const TimelineItem = ({ item, width, isBottom }) => (
   <Flex
@@ -32,7 +32,7 @@ const TimelineItem = ({ item, width, isBottom }) => (
           </Text>
         )}
         <Text fontSize="xs" color="secondary.700" fontStyle={item.prize ? '' : 'italic'}>
-          {item.prize ? formatPrizeUSD(item.prize) : 'No prize'}
+          {item.prize ? formatPrize(item.prize) : 'No prize'}
         </Text>
         <Text fontSize="xs" color="secondary.500">
           {toDateString(item.startDate, item.endDate)}

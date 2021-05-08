@@ -50,6 +50,7 @@ const Admin = ({ auth, event, stages }) => {
             date: new Date(),
             event: cleanObj({
               _id: event._id,
+              slug: event.slug,
               name: event.name,
               mode: event.mode,
               region: event.region,
@@ -73,6 +74,7 @@ const Admin = ({ auth, event, stages }) => {
         date: matches[stage._id][size - 1].date,
         event: cleanObj({
           _id: event._id,
+          slug: event.slug,
           name: event.name,
           mode: event.mode,
           region: event.region,
