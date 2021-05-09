@@ -40,6 +40,11 @@ const navigation = {
       href: '/admin/events/create',
       label: 'Create Event',
     },
+    {
+      id: 'upload',
+      href: '/admin/events/upload',
+      label: 'Upload Image',
+    },
   ],
   event: [
     {

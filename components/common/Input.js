@@ -12,6 +12,7 @@ export const Input = (props) => {
       _hover={{ borderColor: 'secondary.400' }}
       _focus={{ border: 'focus', shadow: 'focus' }}
       onFocus={(e) => e.target.select()}
+      onWheel={(e) => e.currentTarget.blur()}
       {...props}
       width={width || ''}
     />

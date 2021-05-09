@@ -47,7 +47,7 @@ const Admin = ({ auth, event, stages }) => {
         [stage._id]: [
           {
             number: 1,
-            date: new Date(),
+            date: stage.startDate,
             event: cleanObj({
               _id: event._id,
               slug: event.slug,

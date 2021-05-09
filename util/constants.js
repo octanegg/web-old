@@ -50,6 +50,10 @@ export const tiers = [
     label: 'Weekly',
   },
   {
+    id: 'Qualifier',
+    label: 'Qualifier',
+  },
+  {
     id: 'Show Match',
     label: 'Show Match',
   },

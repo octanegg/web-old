@@ -84,10 +84,14 @@ export const EventForm = ({ data }) => {
   }
 
   const updatePrize = (amount, currency) => {
-    updateEvent('prize', {
-      amount,
-      currency: currency || 'USD',
-    })
+    if (amount) {
+      updateEvent('prize', {
+        amount,
+        currency: currency || 'USD',
+      })
+    } else {
+      updateEvent('prize')
+    }
   }
 
   return (
@@ -250,10 +254,14 @@ const StagesForm = ({ stages, onChange, onDelete }) => (
       }
 
       const updatePrize = (amount, currency) => {
-        handleChange('prize', {
-          amount,
-          currency: currency || 'USD',
-        })
+        if (amount) {
+          handleChange('prize', {
+            amount,
+            currency: currency || 'USD',
+          })
+        } else {
+          handleChange('prize')
+        }
       }
 
       const updateLocation = (venue, city, country) => {

@@ -1,4 +1,4 @@
-import { Stack, Text } from '@chakra-ui/react'
+import { Flex, Stack, Text } from '@chakra-ui/react'
 import { WarningIcon } from '@chakra-ui/icons'
 import { Content } from '@octane/components/common/Layout'
 import { Infobox, Navigation } from '@octane/components/match/Match'
@@ -17,10 +17,12 @@ const Match = ({ auth, match }) => (
           showReplayStats={match.blue.players?.some((player) => player.stats.boost)}
         />
       ) : match.blue?.score || match.orange?.score ? (
-        <Stack direction="row" fontSize="sm" align="center" color="secondary.800">
-          <WarningIcon />
-          <Text>Sorry, there is no game data available for this series.</Text>
-        </Stack>
+        <Flex width="full" direction="column" justify="center" align="center">
+          <Stack direction="row" fontSize="sm" align="center" color="secondary.800">
+            <WarningIcon />
+            <Text>Sorry, there is no game data available for this series.</Text>
+          </Stack>
+        </Flex>
       ) : (
         <></>
       )}
