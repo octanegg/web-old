@@ -26,12 +26,12 @@ const Match = ({ auth, match, games }) => (
       />
       <MatchForm data={match} />
       <Accordion allowToggle>
-        {games.concat({}).map((game) => (
+        {games.map((game) => (
           <AccordionItem borderColor="secondary.200">
             <AccordionButton _focus={{ outline: 'none' }}>
               <Stack direction="row" align="center">
                 <Text fontSize="sm" color="secondary.800">
-                  {game.number ? `Game ${game.number}` : '+ Add a new game'}
+                  {`Game ${game.number}`}
                 </Text>
               </Stack>
               <Spacer />
@@ -42,6 +42,20 @@ const Match = ({ auth, match, games }) => (
             </AccordionPanel>
           </AccordionItem>
         ))}
+        <AccordionItem borderColor="secondary.200">
+          <AccordionButton _focus={{ outline: 'none' }}>
+            <Stack direction="row" align="center">
+              <Text fontSize="sm" color="secondary.800">
+                + Add a new game
+              </Text>
+            </Stack>
+            <Spacer />
+            <AccordionIcon />
+          </AccordionButton>
+          <AccordionPanel>
+            <GameForm data={{ number: games.length + 1 }} match={match} />
+          </AccordionPanel>
+        </AccordionItem>
       </Accordion>
     </Stack>
   </Content>

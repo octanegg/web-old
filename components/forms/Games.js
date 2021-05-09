@@ -1,7 +1,7 @@
 import { Input } from '@octane/components/common/Input'
 import { FormField } from '@octane/components/forms/Forms'
 import { useState } from 'react'
-import { apiCreate, apiUpdate } from '@octane/util/fetch'
+import { apiCreate, apiDelete, apiUpdate } from '@octane/util/fetch'
 import { PlayerSelect, Select } from '@octane/components/common/Select'
 import { Image, Spacer, Stack, Switch, Text } from '@chakra-ui/react'
 import { cleanObj } from '@octane/util/stats'
@@ -30,6 +30,13 @@ export const GameForm = ({ data, match }) => {
       ...game[side],
       players: [].concat((players || []).slice(0, i), player, (players || []).slice(i + 1)),
     })
+  }
+
+  const handleDelete = async () => {
+    const res = await apiDelete(`/games/${game._id}`)
+    if (res.status === 200) {
+      window.location.reload()
+    }
   }
 
   const handleSubmit = async () => {
@@ -112,6 +119,11 @@ export const GameForm = ({ data, match }) => {
           />
         </FormField>
         <Spacer />
+        {game._id && (
+          <Button buttonType={ButtonTypes.cancel} onClick={handleDelete}>
+            <Text>Delete</Text>
+          </Button>
+        )}
         <Button buttonType={ButtonTypes.submit} onClick={handleSubmit}>
           <Text>Update</Text>
         </Button>
@@ -164,7 +176,11 @@ export const GameForm = ({ data, match }) => {
         {[...Array(match.event.mode).keys()].map((i) => (
           <PlayerRow
             key={i}
-            player={game?.blue?.players[i] || {}}
+            player={
+              game?.blue?.players[i] || {
+                stats: { core: { score: 0, goals: 0, assists: 0, saves: 0, shots: 0 } },
+              }
+            }
             updatePlayer={(player) => updatePlayer('blue', i, player)}
             isBallchasing={game.ballchasing}
           />
@@ -181,7 +197,11 @@ export const GameForm = ({ data, match }) => {
         }>
         {[...Array(match.event.mode).keys()].map((i) => (
           <PlayerRow
-            player={game?.orange?.players[i] || {}}
+            player={
+              game?.orange?.players[i] || {
+                stats: { core: { score: 0, goals: 0, assists: 0, saves: 0, shots: 0 } },
+              }
+            }
             updatePlayer={(player) => updatePlayer('orange', i, player)}
             isBallchasing={game.ballchasing}
           />

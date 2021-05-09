@@ -1,15 +1,17 @@
 import { Input } from '@octane/components/common/Input'
 import { FormField } from '@octane/components/forms/Forms'
 import { useState } from 'react'
-import { apiCreate, apiUpdate } from '@octane/util/fetch'
+import { apiCreate, apiDelete, apiUpdate } from '@octane/util/fetch'
 import { Select, TeamSelect } from '@octane/components/common/Select'
 import { Flex, FormControl, FormLabel, Spacer, Stack, Text } from '@chakra-ui/react'
 import { cleanObj } from '@octane/util/stats'
 import DatePicker from 'react-datepicker'
 import { Button, ButtonTypes } from '@octane/components/common/Button'
+import { useRouter } from 'next/router'
 
 export const MatchForm = ({ data, onUpdate }) => {
   const [match, setMatch] = useState(data)
+  const router = useRouter()
 
   const updateMatch = (key, value) => {
     const m = cleanObj({
@@ -46,16 +48,23 @@ export const MatchForm = ({ data, onUpdate }) => {
     }
   }
 
+  const handleDelete = async () => {
+    const res = await apiDelete(`/matches/${match._id}`)
+    if (res.status === 200) {
+      window.location.reload()
+    }
+  }
+
   const handleSubmit = async () => {
     if (match._id) {
       const res = await apiUpdate(`/matches/${match._id}`, match)
       if (res.status === 200) {
-        window.location.reload()
+        router.push(`/matches/${match._id}`)
       }
     } else {
       const res = await apiCreate(`/matches`, match)
       if (res.status === 200) {
-        window.location.reload()
+        router.push(`/matches/${match._id}`)
       }
     }
   }
@@ -119,6 +128,11 @@ export const MatchForm = ({ data, onUpdate }) => {
           </Stack>
         </FormField>
         <Spacer />
+        {match._id && (
+          <Button buttonType={ButtonTypes.cancel} onClick={handleDelete}>
+            <Text>Delete</Text>
+          </Button>
+        )}
         <Button buttonType={ButtonTypes.submit} onClick={handleSubmit}>
           <Text>Update</Text>
         </Button>

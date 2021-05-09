@@ -85,9 +85,11 @@ export const Button = ({ buttonType, override, onClick, isDisabled, children }) 
   )
 }
 
-export const ButtonLink = ({ isActive, href, children }) => (
+export const ButtonLink = ({ isActive, isDisabled, href, children }) => (
   <Link href={href || '#'} _hover={{ textDecoration: 'none' }}>
-    <Button buttonType={isActive ? ButtonTypes.link.selected : ButtonTypes.link.default}>
+    <Button
+      buttonType={isActive ? ButtonTypes.link.selected : ButtonTypes.link.default}
+      isDisabled={isDisabled}>
       {children}
     </Button>
   </Link>

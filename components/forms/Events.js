@@ -1,7 +1,7 @@
 import { Input } from '@octane/components/common/Input'
 import { FormField, Form } from '@octane/components/forms/Forms'
 import { useEffect, useState } from 'react'
-import { apiCreate, apiUpdate, apiFetch } from '@octane/util/fetch'
+import { apiCreate, apiUpdate, apiFetch, apiDelete } from '@octane/util/fetch'
 import { Select } from '@octane/components/common/Select'
 import { regions } from '@octane/util/regions'
 import { Button, ButtonTypes } from '@octane/components/common/Button'
@@ -54,6 +54,13 @@ export const EventForm = ({ data }) => {
     )
   }
 
+  const handleDelete = async () => {
+    const res = await apiDelete(`/events/${event._id}`)
+    if (res.status === 200) {
+      window.location.reload()
+    }
+  }
+
   const handleSubmit = async () => {
     const payload = {
       ...event,
@@ -84,7 +91,7 @@ export const EventForm = ({ data }) => {
   }
 
   return (
-    <Form data={event} onSubmit={handleSubmit}>
+    <Form data={event} onSubmit={handleSubmit} onDelete={handleDelete}>
       {event._id && (
         <FormField label="ID">
           <Input width={64} borderRadius={4} value={event._id} isDisabled />
@@ -401,7 +408,7 @@ const StagesForm = ({ stages, onChange, onDelete }) => (
               {!isNewStage && (
                 <Flex justify="flex-end">
                   <Button buttonType={ButtonTypes.cancel} onClick={() => onDelete(i)}>
-                    Remove
+                    Delete
                   </Button>
                 </Flex>
               )}

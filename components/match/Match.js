@@ -224,7 +224,11 @@ export const Navigation = ({ baseHref, games, active, isAdmin }) => (
         Overview
       </ButtonLink>
       {games?.map((game, i) => (
-        <ButtonLink key={i + 1} href={`${baseHref}/${game._id}`} isActive={active === i + 1}>
+        <ButtonLink
+          key={i + 1}
+          href={`${baseHref}/${game._id}`}
+          isActive={active === i + 1}
+          isDisabled={!game._id}>
           {`Game ${i + 1}`}
         </ButtonLink>
       ))}
