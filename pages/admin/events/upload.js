@@ -20,7 +20,7 @@ const Admin = ({ auth }) => {
   const handleSubmit = async () => {
     if (fileInput.current?.files?.length > 0) {
       setSubmitting(true)
-      uploadEventImage(fileInput)
+      await uploadEventImage(fileInput)
       window.location.reload()
     }
   }

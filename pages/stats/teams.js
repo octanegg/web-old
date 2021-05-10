@@ -4,45 +4,16 @@ import TeamStats from '@octane/components/stats/TeamStats'
 import { getServerSideAuth } from '@octane/util/auth'
 import { TeamStatsFilter } from '@octane/components/filters/StatFilters'
 import { Stack } from '@chakra-ui/react'
-import StatsNavigation from '@octane/components/common/Stats'
-import { teamStats } from '@octane/config/stats/stats'
-import { useRouter } from 'next/router'
-import { buildQuery, route } from '@octane/util/routes'
-import { useState } from 'react'
 
-const Stats = ({ auth, filter }) => {
-  const [stats, setStats] = useState(teamStats[0])
-  const router = useRouter()
-
-  return (
-    <Content auth={auth}>
-      <Stack width="full" spacing={3}>
-        <Navigation type="stats" active="teams" filter={filter} />
-        <TeamStatsFilter initialFilter={filter} />
-        <StatsNavigation
-          stats={teamStats}
-          selectedStats={stats}
-          onStatsChange={setStats}
-          selectedCluster={filter.cluster}
-          onClusterChange={(cluster) =>
-            route(
-              router,
-              '/stats/teams',
-              buildQuery(
-                {
-                  ...filter,
-                  cluster,
-                },
-                ['']
-              )
-            )
-          }
-        />
-        <TeamStats filter={filter} statGroup={stats} isSortable />
-      </Stack>
-    </Content>
-  )
-}
+const Stats = ({ auth, filter }) => (
+  <Content auth={auth}>
+    <Stack width="full" spacing={3}>
+      <Navigation type="stats" active="teams" filter={filter} />
+      <TeamStatsFilter initialFilter={filter} />
+      <TeamStats filter={filter} isSortable />
+    </Stack>
+  </Content>
+)
 
 export async function getServerSideProps({ req, query }) {
   const auth = getServerSideAuth(req)

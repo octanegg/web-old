@@ -6,30 +6,33 @@ AWS.config.update({
   secretAccessKey: 'al7vDRexj4FjbsPpw0F8QDSpGc8jc88nHXU4FXqQ',
 })
 
-export const upload = (fileName, file) => {
-  new AWS.S3({
-    params: { Bucket: 'griffon-octane' },
-    region: 'us-east-1',
-  }).putObject(
-    {
-      ACL: 'public-read',
-      Key: fileName,
-      ContentType: file.type,
-      Body: file,
-    },
-    (err, res) => {
-      console.log(err)
-      console.log(res)
-    }
-  )
+const s3Client = new AWS.S3({
+  params: { Bucket: 'griffon-octane' },
+  region: 'us-east-1',
+})
+
+export const upload = async (fileName, file) => {
+  try {
+    const res = await s3Client
+      .putObject({
+        ACL: 'public-read',
+        Key: fileName,
+        ContentType: file.type,
+        Body: file,
+      })
+      .promise()
+    console.log(res)
+  } catch (err) {
+    console.error(err)
+  }
 }
 
-export const uploadTeamImage = (input) => {
+export const uploadTeamImage = async (input) => {
   const file = input.current.files[0]
-  upload(`teams/${file.name}`, file)
+  await upload(`teams/${file.name}`, file)
 }
 
-export const uploadEventImage = (input) => {
+export const uploadEventImage = async (input) => {
   const file = input.current.files[0]
-  upload(`events/${file.name}`, file)
+  await upload(`events/${file.name}`, file)
 }

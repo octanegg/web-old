@@ -5,52 +5,23 @@ import PlayerStats from '@octane/components/stats/PlayerStats'
 import { getServerSideAuth, isAdmin } from '@octane/util/auth'
 import { PlayerStatsFilter } from '@octane/components/filters/PlayerFilters'
 import { Stack } from '@chakra-ui/react'
-import StatsNavigation from '@octane/components/common/Stats'
-import { playerStats } from '@octane/config/stats/stats'
-import { useRouter } from 'next/router'
-import { buildQuery, route } from '@octane/util/routes'
-import { useState } from 'react'
 
-const Player = ({ auth, player, filter }) => {
-  const [stats, setStats] = useState(playerStats[0])
-  const router = useRouter()
-
-  return (
-    <Content auth={auth}>
-      <Stack width="full" spacing={3}>
-        <PlayerInfobox player={player} />
-        <Navigation
-          type="player"
-          active="stats"
-          baseHref={`/players/${player.slug}`}
-          isAdmin={isAdmin(auth)}
-          hasDivider
-        />
-        <PlayerStatsFilter player={player} type="teams" initialFilter={filter} />
-        <StatsNavigation
-          stats={playerStats}
-          selectedStats={stats}
-          onStatsChange={setStats}
-          selectedCluster={filter.cluster}
-          onClusterChange={(cluster) =>
-            route(
-              router,
-              `/players/${player.slug}/stats/teams`,
-              buildQuery(
-                {
-                  ...filter,
-                  cluster,
-                },
-                ['player', '']
-              )
-            )
-          }
-        />
-        <PlayerStats filter={filter} statGroup={stats} groupBy="teams" isSortable />
-      </Stack>
-    </Content>
-  )
-}
+const Player = ({ auth, player, filter }) => (
+  <Content auth={auth}>
+    <Stack width="full" spacing={3}>
+      <PlayerInfobox player={player} />
+      <Navigation
+        type="player"
+        active="stats"
+        baseHref={`/players/${player.slug}`}
+        isAdmin={isAdmin(auth)}
+        hasDivider
+      />
+      <PlayerStatsFilter player={player} type="teams" initialFilter={filter} />
+      <PlayerStats filter={filter} groupBy="teams" isSortable />
+    </Stack>
+  </Content>
+)
 
 export async function getServerSideProps({ req, params, query }) {
   const auth = getServerSideAuth(req)

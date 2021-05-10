@@ -1,91 +1,113 @@
-import { Flex, Stack, Image, Text, Tooltip } from '@chakra-ui/react'
+import { Flex, Image, Stack, Text, Tooltip } from '@chakra-ui/react'
 import { useEffect, useState } from 'react'
 import { Table, Header, HeaderItem, Body, Row, Cell } from '@octane/components/common/Table'
 import { ChevronDownIcon, ChevronUpIcon, UpDownIcon } from '@chakra-ui/icons'
 import Loading from '@octane/components/common/Loading'
 import { apiFetch } from '@octane/util/fetch'
+import { sortObjLex, calculateFormattedStat, sortStats } from '@octane/util/stats'
 import { buildQuery } from '@octane/util/routes'
 import LabeledText, { Link } from '@octane/components/common/Text'
 import { toDateYearString } from '@octane/util/dates'
-import sortObj, { formatStatFromObj, sortObjLex } from '@octane/util/stats'
+import StatsNavigation from '@octane/components/stats/Navigation'
+import { teamStats } from '@octane/config/stats/stats'
 
-export const TeamStats = ({ filter, statGroup, groupBy, isSortable }) => {
-  const [stats, setStats] = useState([])
+export const TeamStats = ({ filter, groupBy, isSortable }) => {
+  const [stats, setStats] = useState()
+  const [group, setGroup] = useState(teamStats[0])
+  const [cluster, setCluster] = useState('')
   const [loading, setLoading] = useState(true)
-  const [sort, setSort] = useState('winPercentage')
+  const [sort, setSort] = useState('')
   const [order, setOrder] = useState(false)
 
   useEffect(() => {
     const fetchRecords = async () => {
-      setStats([])
+      setStats()
       setLoading(true)
 
       const data = await apiFetch(
         `/stats/teams${groupBy ? `/${groupBy}` : ''}`,
-        buildQuery(filter, [''])
+        buildQuery({ ...filter, stat: group.stats.map((stat) => stat.id) }, [''])
       )
 
-      setStats(data.stats ? sortObj(data.stats, sort, order) : [])
-      setLoading(false)
+      setStats(data.stats)
     }
     fetchRecords()
-  }, [filter, groupBy])
+  }, [filter, groupBy, group])
 
-  const updateSort = (field) => {
-    const newOrder = sort === field ? !order : false
-    if (field === 'team.name') {
-      setStats(sortObjLex(stats, field, newOrder))
+  useEffect(() => {
+    if (stats) {
+      setLoading(false)
+    }
+  }, [stats])
+
+  const updateSort = (stat) => {
+    const newOrder = sort === stat.id ? !order : false
+    if (stat.id === 'team.name') {
+      setStats(sortObjLex(stats, stat, newOrder))
     } else {
-      setStats(sortObj(stats, field, newOrder))
+      setStats(sortStats(stats, stat, order, cluster))
     }
     setOrder(newOrder)
-    setSort(field)
+    setSort(stat.id)
   }
 
   const SortIcon = ({ field }) =>
     sort === field ? order ? <ChevronUpIcon /> : <ChevronDownIcon /> : <UpDownIcon />
 
-  return loading ? (
-    <Loading />
-  ) : (
-    <Table>
-      <Header>
-        <HeaderItem align="left" onClick={isSortable && (() => updateSort('team.name'))}>
-          <Flex align="center">
-            <Text marginRight={1}>{groupBy || 'Team'}</Text>
-            <SortIcon field="team.name" />
-          </Flex>
-        </HeaderItem>
-        {statGroup.stats.map((field) => (
-          <HeaderItem onClick={isSortable && (() => updateSort(field.id))}>
-            <Tooltip hasArrow placement="top" label={field.description}>
-              <Flex justify="center" align="center">
-                <Text marginRight={1}>{field.label}</Text>
-                <SortIcon field={field.id} />
+  return (
+    <>
+      <StatsNavigation
+        groups={teamStats}
+        selectedGroup={group}
+        onGroupChange={setGroup}
+        selectedCluster={cluster}
+        onClusterChange={setCluster}
+      />
+      {loading ? (
+        <Loading />
+      ) : (
+        <Table>
+          <Header>
+            <HeaderItem
+              align="left"
+              onClick={isSortable && (() => updateSort({ id: 'team.name' }))}>
+              <Flex align="center">
+                <Text marginRight={1}>{groupBy || 'Team'}</Text>
+                <SortIcon field="team.name" />
               </Flex>
-            </Tooltip>
-          </HeaderItem>
-        ))}
-      </Header>
-      <Body>
-        {stats?.map((record, i) => (
-          <StatsRow
-            key={i}
-            record={record}
-            statGroup={statGroup}
-            sort={sort}
-            intsAsFloat={!filter.cluster || filter.cluster === 'series'}
-            groupBy={groupBy}
-            isEven={i % 2 === 0}
-          />
-        ))}
-      </Body>
-    </Table>
+            </HeaderItem>
+            {group.stats.map((stat) => (
+              <HeaderItem onClick={isSortable && (() => updateSort(stat))}>
+                <Tooltip hasArrow placement="top" label={stat.description}>
+                  <Flex justify="center" align="center">
+                    <Text marginRight={1}>{stat.label}</Text>
+                    <SortIcon field={stat.id} />
+                  </Flex>
+                </Tooltip>
+              </HeaderItem>
+            ))}
+          </Header>
+          <Body>
+            {stats?.map((record, i) => (
+              <StatsRow
+                key={i}
+                record={record}
+                statGroup={group}
+                sort={sort}
+                cluster={cluster}
+                groupBy={groupBy}
+                isEven={i % 2 === 0}
+              />
+            ))}
+          </Body>
+        </Table>
+      )}
+    </>
   )
 }
 
-const StatsRow = ({ record, statGroup, sort, intsAsFloat, groupBy, isEven }) => {
-  const { team, opponents, events, startDate, endDate, replays } = record
+const StatsRow = ({ record, statGroup, sort, groupBy, cluster, isEven }) => {
+  const { team, events, startDate, endDate, opponents } = record
   const event = events[0]
   const opponent = opponents[0]
 
@@ -155,9 +177,7 @@ const StatsRow = ({ record, statGroup, sort, intsAsFloat, groupBy, isEven }) => 
             height={10}
             align="center"
             justify="center">
-            {statGroup.id === 'core' || replays > 0
-              ? formatStatFromObj(record, stat, stat.id === 'games' ? false : intsAsFloat)
-              : '-'}
+            {calculateFormattedStat(record, stat, cluster)}
           </Flex>
         </Cell>
       ))}

@@ -1,13 +1,14 @@
 export const winPercentage = [
   {
-    id: 'games',
-    label: 'Games',
-    round: 0,
+    id: 'played',
+    label: 'Played',
+    isNonReplay: true,
   },
   {
-    id: 'winPercentage',
+    id: 'wins',
     label: 'Win %',
-    percentage: true,
+    isNonReplay: true,
+    isPercentage: true,
   },
 ]
 

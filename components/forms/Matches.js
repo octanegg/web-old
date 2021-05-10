@@ -59,12 +59,13 @@ export const MatchForm = ({ data, onUpdate }) => {
     if (match._id) {
       const res = await apiUpdate(`/matches/${match._id}`, match)
       if (res.status === 200) {
-        router.push(`/matches/${match._id}`)
+        window.location.reload()
       }
     } else {
       const res = await apiCreate(`/matches`, match)
       if (res.status === 200) {
-        router.push(`/matches/${match._id}`)
+        const { _id } = await res.json()
+        router.push(`/matches/${_id}`)
       }
     }
   }
