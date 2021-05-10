@@ -29,12 +29,13 @@ export const Select = (props) => (
   />
 )
 
-export const InputSelect = ({ items, value, itemToString, onChange }) => {
+export const InputSelect = ({ items, value, itemToString, itemToDisplay, onChange }) => {
   const [isOpen, setIsOpen] = useState(false)
   const [input, setInput] = useState(value || '')
   const [options, setOptions] = useState([])
 
   const toString = itemToString || ((item) => item.name)
+  const toDisplay = itemToDisplay || toString
 
   useEffect(() => {
     const updateOptions = () => {
@@ -77,6 +78,7 @@ export const InputSelect = ({ items, value, itemToString, onChange }) => {
             value={input}
             onChange={(e) => handleInputChange(e.currentTarget.value)}
             onClick={() => setIsOpen(true)}
+            onBlur={close}
           />
         </Flex>
       </PopoverTrigger>
@@ -100,10 +102,7 @@ export const InputSelect = ({ items, value, itemToString, onChange }) => {
                 color="secondary.800"
                 _hover={{ backgroundColor: 'secondary.25' }}
                 onClick={() => handleChange(item)}>
-                <Stack direction="row">
-                  <Flex minWidth={6}>{item.image && <Image width={6} src={item.image} />}</Flex>
-                  <Text>{toString(item)}</Text>
-                </Stack>
+                {toDisplay(item)}
               </ListItem>
             ))}
           </List>
@@ -124,7 +123,19 @@ export const TeamSelect = ({ active, onChange }) => {
     fetchTeams()
   }, [])
 
-  return <InputSelect value={active?.name || ''} items={teams} onChange={onChange} />
+  return (
+    <InputSelect
+      value={active?.name || ''}
+      items={teams}
+      itemToDisplay={(team) => (
+        <Stack direction="row">
+          <Flex minWidth={6}>{team.image && <Image width={6} src={team.image} />}</Flex>
+          <Text>{team.name}</Text>
+        </Stack>
+      )}
+      onChange={onChange}
+    />
+  )
 }
 
 export const PlayerSelect = ({ active, onChange }) => {
@@ -143,6 +154,19 @@ export const PlayerSelect = ({ active, onChange }) => {
       value={active?.tag || ''}
       items={players}
       itemToString={(player) => player?.tag || ''}
+      itemToDisplay={(player) => (
+        <Stack
+          width="full"
+          justify="space-between"
+          direction="row"
+          paddingLeft={2}
+          paddingRight={2}>
+          <Text>{player.tag}</Text>
+          <Text color="secondary.500" fontSize="sm">
+            {player._id.substring(player._id.length - 6)}
+          </Text>
+        </Stack>
+      )}
       onChange={onChange}
     />
   )

@@ -26,6 +26,11 @@ const navigation = {
       href: '/admin/players/create',
       label: 'Create Player',
     },
+    {
+      id: 'merge',
+      href: '/admin/players/merge',
+      label: 'Merge Players',
+    },
   ],
   adminTeams: [
     {
