@@ -51,7 +51,7 @@ export const GameRecords = ({ filter, isHighlighted }) => {
 }
 
 const GameRecordsRow = ({ record, rank, statType, isHighlighted }) => {
-  const { _id, number, match, date, duration, stat } = record
+  const { number, match, date, duration, stat } = record
   const { event, stage } = match
 
   const winner =
@@ -73,7 +73,7 @@ const GameRecordsRow = ({ record, rank, statType, isHighlighted }) => {
   return (
     <Row key={rank} className={backgroundColor}>
       <Cell>
-        <NextLink passHref href={`/matches/${match.slug}/${_id}`}>
+        <NextLink passHref href={`/matches/${match.slug}/${number}`}>
           <Flex
             as="a"
             direction="row"

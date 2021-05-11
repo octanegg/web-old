@@ -78,7 +78,6 @@ export const InputSelect = ({ items, value, itemToString, itemToDisplay, onChang
             value={input}
             onChange={(e) => handleInputChange(e.currentTarget.value)}
             onClick={() => setIsOpen(true)}
-            onBlur={close}
           />
         </Flex>
       </PopoverTrigger>

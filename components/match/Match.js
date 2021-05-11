@@ -226,7 +226,7 @@ export const Navigation = ({ baseHref, games, active, isAdmin }) => (
       {games?.map((game, i) => (
         <ButtonLink
           key={i + 1}
-          href={`${baseHref}/${game._id}`}
+          href={`${baseHref}/${i + 1}`}
           isActive={active === i + 1}
           isDisabled={!game._id}>
           {`Game ${i + 1}`}

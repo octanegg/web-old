@@ -89,7 +89,7 @@ const MatchRow = ({ match, team, player, highlightResult }) => {
   const { slug, blue, orange, event, stage, date } = match
 
   const isBlue =
-    blue?.team?.team?._id === team || blue?.players?.find((p) => p.player._id === player)
+    blue?.team?.team?.slug === team || blue?.players?.find((p) => p.player.slug === player)
 
   const left = (!team && !player) || isBlue ? blue : orange
   const right = (!team && !player) || isBlue ? orange : blue

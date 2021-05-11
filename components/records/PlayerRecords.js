@@ -71,7 +71,7 @@ const PlayerRecordsRow = ({ record, rank, statType, isHighlighted }) => {
   return (
     <Row key={rank} className={backgroundColor}>
       <Cell>
-        <NextLink passHref href={`/matches/${match.slug}${game ? `/${game._id}` : ''}`}>
+        <NextLink passHref href={`/matches/${match.slug}${game ? `/${game.number}` : ''}`}>
           <Flex
             as="a"
             direction="row"

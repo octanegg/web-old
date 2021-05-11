@@ -29,17 +29,23 @@ const Match = ({ auth, match, game }) => (
 export async function getServerSideProps({ req, params }) {
   const auth = getServerSideAuth(req)
   const { id, gid } = params
-  const [resMatch, resGame] = await Promise.all([
-    fetch(`${process.env.API_URL}/matches/${id}`),
-    fetch(`${process.env.API_URL}/games/${gid}`),
-  ])
-  if (resMatch.status !== 200 || resGame.status !== 200) {
+
+  const resMatch = await fetch(`${process.env.API_URL}/matches/${id}`)
+  if (resMatch.status !== 200) {
     return {
       notFound: true,
     }
   }
+  const match = await resMatch.json()
 
-  const [match, game] = await Promise.all([resMatch.json(), resGame.json()])
+  const resGame = await fetch(`${process.env.API_URL}/matches/${id}/games/${gid}`)
+  if (resGame.status !== 200) {
+    return {
+      notFound: true,
+    }
+  }
+  const game = await resGame.json()
+
   return {
     props: { auth, match, game },
   }
