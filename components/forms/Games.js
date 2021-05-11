@@ -47,11 +47,19 @@ export const GameForm = ({ data, match }) => {
         team: {
           team: match.blue.team.team,
         },
+        players: game.blue.players.map(({ player, stats }) => ({
+          player,
+          stats,
+        })),
       },
       orange: {
         team: {
           team: match.orange.team.team,
         },
+        players: game.orange.players.map(({ player, stats }) => ({
+          player,
+          stats,
+        })),
       },
     }
 
@@ -59,14 +67,6 @@ export const GameForm = ({ data, match }) => {
       payload.ballchasing = game.ballchasing
       payload.flipBallchasing = flipBallchasing
     } else {
-      payload.blue.players = game.blue.players.map(({ player, stats }) => ({
-        player,
-        stats,
-      }))
-      payload.orange.players = game.orange.players.map(({ player, stats }) => ({
-        player,
-        stats,
-      }))
       payload.map = game.map
       payload.duration = game.duration
       payload.date = game.date

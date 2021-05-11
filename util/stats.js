@@ -42,7 +42,7 @@ export const calculateStat = (record, stat, cluster) => {
   const { games, matches, stats } = record
 
   if (stat.id === 'played') {
-    return cluster === 'series' ? matches.total : games.total
+    return cluster === 'series' ? parseInt(matches.total, 10) : parseInt(games.total, 10)
   }
 
   if (stat.id === 'wins') {

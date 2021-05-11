@@ -27,21 +27,23 @@ const Event = ({ auth, event, participants, filter }) => (
 export async function getServerSideProps({ req, params, query }) {
   const auth = getServerSideAuth(req)
   const { id } = params
-  const [resEvents, resParticipants] = await Promise.all([
-    fetch(`${process.env.API_URL}/events/${id}`),
-    fetch(
-      `${process.env.API_URL}/events/${id}/participants${
-        query.stage ? buildQuery({ stage: query.stage }, ['']) : ''
-      }`
-    ),
-  ])
+
+  const resEvents = await fetch(`${process.env.API_URL}/events/${id}`)
   if (resEvents.status !== 200) {
     return {
       notFound: true,
     }
   }
+  const event = await resEvents.json()
 
-  const [event, participants] = await Promise.all([resEvents.json(), resParticipants.json()])
+  const resParticipants = await fetch(
+    `${process.env.API_URL}/events/${event._id}/participants${
+      query.stage ? buildQuery({ stage: query.stage }, ['']) : ''
+    }`
+  )
+
+  const participants = await resParticipants.json()
+
   return {
     props: {
       auth,

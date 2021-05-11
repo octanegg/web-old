@@ -1,7 +1,7 @@
 import { Input } from '@octane/components/common/Input'
 import { FormField, Form } from '@octane/components/forms/Forms'
 import { useEffect, useState } from 'react'
-import { apiCreate, apiUpdate, apiFetch, apiDelete } from '@octane/util/fetch'
+import { apiCreate, apiUpdate, apiDelete } from '@octane/util/fetch'
 import { Select } from '@octane/components/common/Select'
 import { regions } from '@octane/util/regions'
 import { Button, ButtonTypes } from '@octane/components/common/Button'
@@ -23,6 +23,7 @@ import { currencies } from '@octane/util/prizes'
 import { cleanObj } from '@octane/util/stats'
 import { useRouter } from 'next/router'
 import { getCountries } from '@octane/util/countries'
+import { listEventImages } from '@octane/util/s3'
 
 export const EventForm = ({ data }) => {
   const [event, setEvent] = useState(data)
@@ -31,16 +32,7 @@ export const EventForm = ({ data }) => {
 
   useEffect(() => {
     const fetchImages = async () => {
-      const res = await apiFetch('/events', '')
-      if (!res.events) {
-        return
-      }
-
-      setImages(
-        [...new Set(res.events.map((e) => e.image?.split('/')[4]))].sort((a, b) =>
-          a.localeCompare(b)
-        )
-      )
+      setImages(await listEventImages())
     }
     fetchImages()
   }, [])
