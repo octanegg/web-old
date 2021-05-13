@@ -47,19 +47,21 @@ export const GameForm = ({ data, match }) => {
         team: {
           team: match.blue.team.team,
         },
-        players: game.blue.players.map(({ player, stats }) => ({
-          player,
-          stats,
-        })),
+        players:
+          game.blue?.players?.map(({ player, stats }) => ({
+            player,
+            stats,
+          })) || [],
       },
       orange: {
         team: {
           team: match.orange.team.team,
         },
-        players: game.orange.players.map(({ player, stats }) => ({
-          player,
-          stats,
-        })),
+        players:
+          game.orange?.players?.map(({ player, stats }) => ({
+            player,
+            stats,
+          })) || [],
       },
     }
 
@@ -177,9 +179,11 @@ export const GameForm = ({ data, match }) => {
           <PlayerRow
             key={i}
             player={
-              game?.blue?.players[i] || {
-                stats: { core: { score: 0, goals: 0, assists: 0, saves: 0, shots: 0 } },
-              }
+              game?.blue?.players
+                ? game.blue.players[i]
+                : {
+                    stats: { core: { score: 0, goals: 0, assists: 0, saves: 0, shots: 0 } },
+                  }
             }
             updatePlayer={(player) => updatePlayer('blue', i, player)}
             isBallchasing={game.ballchasing}
@@ -198,9 +202,11 @@ export const GameForm = ({ data, match }) => {
         {[...Array(match.event.mode).keys()].map((i) => (
           <PlayerRow
             player={
-              game?.orange?.players[i] || {
-                stats: { core: { score: 0, goals: 0, assists: 0, saves: 0, shots: 0 } },
-              }
+              game?.orange?.players
+                ? game.orange.players[i]
+                : {
+                    stats: { core: { score: 0, goals: 0, assists: 0, saves: 0, shots: 0 } },
+                  }
             }
             updatePlayer={(player) => updatePlayer('orange', i, player)}
             isBallchasing={game.ballchasing}
