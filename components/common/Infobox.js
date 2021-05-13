@@ -2,7 +2,7 @@ import { Flex, Image, Stack, Text } from '@chakra-ui/react'
 import { toDateYearString } from '@octane/util/dates'
 import { formatPrize } from '@octane/util/prizes'
 import { Flag } from '@octane/components/common/Flag'
-import { LabeledField } from '@octane/components/common/Text'
+import { LabeledField, Link } from '@octane/components/common/Text'
 import { getRegion } from '@octane/util/regions'
 
 export const Infobox = ({ title, image, children }) => (
@@ -76,7 +76,7 @@ export const PlayerInfobox = ({ player }) => {
         <LabeledField label="team" width="auto">
           <Stack direction="row">
             {team.image && <Image width={5} src={team.image} />}
-            <Text>{team.name}</Text>
+            <Link href={`/teams/${team.slug}`}>{team.name}</Link>
           </Stack>
         </LabeledField>
       )}

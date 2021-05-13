@@ -1,11 +1,13 @@
 export const getFieldFromObj = (obj, field) =>
   field.split('.').reduce((a, b) => (a !== undefined ? a[b] : a), obj)
 
-export const sortObjLex = (data, field, order) =>
+export const sortObjLex = (data, stat, order) =>
   [...data].sort(
     (a, b) =>
       (order ? 1 : -1) *
-      getFieldFromObj(b, field).localeCompare(getFieldFromObj(a, field), { sensitivity: 'base' })
+      getFieldFromObj(b, stat.id).localeCompare(getFieldFromObj(a, stat.id), {
+        sensitivity: 'base',
+      })
   )
 
 export const cleanObj = (obj) =>

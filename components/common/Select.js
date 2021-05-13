@@ -46,7 +46,11 @@ export const InputSelect = ({ items, value, itemToString, itemToDisplay, onChang
       )
     }
     updateOptions()
-  }, [input])
+  }, [input, items])
+
+  const open = () => {
+    setIsOpen(true)
+  }
 
   const close = () => {
     if (!input) {
@@ -77,7 +81,8 @@ export const InputSelect = ({ items, value, itemToString, itemToDisplay, onChang
             borderRadius={4}
             value={input}
             onChange={(e) => handleInputChange(e.currentTarget.value)}
-            onClick={() => setIsOpen(true)}
+            onClick={open}
+            onBlur={close}
           />
         </Flex>
       </PopoverTrigger>

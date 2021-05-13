@@ -170,7 +170,12 @@ const Score = ({ left, right }) => {
 
 const Team = ({ side, isReversed }) =>
   side ? (
-    <Flex direction={isReversed ? 'row-reverse' : 'row'} width="full" justify="flex-end">
+    <Flex
+      direction={isReversed ? 'row-reverse' : 'row'}
+      width="full"
+      justify="flex-end"
+      whiteSpace="nowrap"
+      overflow="hidden">
       <Link href={`/teams/${side.team.team.slug}`} align={isReversed && 'end'}>
         {side.team.team.name}
       </Link>

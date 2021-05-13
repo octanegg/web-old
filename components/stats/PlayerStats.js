@@ -43,8 +43,18 @@ export const PlayerStats = ({ filter, groupBy, isSortable }) => {
 
   const updateSort = (stat) => {
     const newOrder = sort === stat.id ? !order : false
-    if (stat.id === 'player.tag' || stat.id === 'team.name') {
+    if (stat.id === 'player.tag') {
       setStats(sortObjLex(stats, stat, newOrder))
+    } else if (stat.id === 'team.name') {
+      setStats(
+        [...stats].sort(
+          (a, b) =>
+            (order ? 1 : -1) *
+            b.teams[0].name.localeCompare(a.teams[0].name, {
+              sensitivity: 'base',
+            })
+        )
+      )
     } else {
       setStats(sortStats(stats, stat, order, cluster))
     }
