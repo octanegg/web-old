@@ -12,6 +12,7 @@ import { useRouter } from 'next/router'
 export const MatchForm = ({ data, onUpdate }) => {
   const [match, setMatch] = useState(data)
   const router = useRouter()
+  const [submitting, setSubmitting] = useState(false)
 
   const updateMatch = (key, value) => {
     const m = cleanObj({
@@ -49,6 +50,7 @@ export const MatchForm = ({ data, onUpdate }) => {
   }
 
   const handleDelete = async () => {
+    setSubmitting(true)
     const res = await apiDelete(`/matches/${match._id}`)
     if (res.status === 200) {
       window.location.reload()
@@ -56,6 +58,7 @@ export const MatchForm = ({ data, onUpdate }) => {
   }
 
   const handleSubmit = async () => {
+    setSubmitting(true)
     if (match._id) {
       const res = await apiUpdate(`/matches/${match._id}`, match)
       if (res.status === 200) {
@@ -130,11 +133,11 @@ export const MatchForm = ({ data, onUpdate }) => {
         </FormField>
         <Spacer />
         {match._id && (
-          <Button buttonType={ButtonTypes.cancel} onClick={handleDelete}>
+          <Button buttonType={ButtonTypes.cancel} onClick={handleDelete} isDisabled={submitting}>
             <Text>Delete</Text>
           </Button>
         )}
-        <Button buttonType={ButtonTypes.submit} onClick={handleSubmit}>
+        <Button buttonType={ButtonTypes.submit} onClick={handleSubmit} isDisabled={submitting}>
           <Text>Update</Text>
         </Button>
       </Stack>

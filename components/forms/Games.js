@@ -10,6 +10,7 @@ import { Button, ButtonTypes } from '@octane/components/common/Button'
 export const GameForm = ({ data, match }) => {
   const [game, setGame] = useState(data)
   const [flipBallchasing, setFlipBallchasing] = useState(false)
+  const [submitting, setSubmitting] = useState(false)
 
   const updateGame = (key, value) => {
     const g = cleanObj({
@@ -40,6 +41,7 @@ export const GameForm = ({ data, match }) => {
   }
 
   const handleSubmit = async () => {
+    setSubmitting(true)
     const payload = {
       number: game.number,
       match,
@@ -122,11 +124,11 @@ export const GameForm = ({ data, match }) => {
         </FormField>
         <Spacer />
         {game._id && (
-          <Button buttonType={ButtonTypes.cancel} onClick={handleDelete}>
+          <Button buttonType={ButtonTypes.cancel} onClick={handleDelete} isDisabled={submitting}>
             <Text>Delete</Text>
           </Button>
         )}
-        <Button buttonType={ButtonTypes.submit} onClick={handleSubmit}>
+        <Button buttonType={ButtonTypes.submit} onClick={handleSubmit} isDisabled={submitting}>
           <Text>Update</Text>
         </Button>
       </Stack>

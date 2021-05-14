@@ -73,7 +73,14 @@ export const InputSelect = ({ items, value, itemToString, itemToDisplay, onChang
   }
 
   return (
-    <Popover placement="bottom" margin={0} isOpen={isOpen} onClose={close} autoFocus={false}>
+    <Popover
+      placement="bottom"
+      margin={0}
+      isOpen={isOpen}
+      onClose={close}
+      autoFocus={false}
+      openDelay={0}
+      closeDelay={0}>
       <PopoverTrigger>
         <Flex>
           <Input

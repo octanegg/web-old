@@ -4,6 +4,7 @@ import Navigation from '@octane/components/common/Navigation'
 import { getServerSideAuth, isAdmin } from '@octane/util/auth'
 import { Stack } from '@chakra-ui/react'
 import EventForm from '@octane/components/forms/Events'
+import Meta from '@octane/components/common/Meta'
 
 const Admin = ({ auth, event }) => (
   <Content auth={auth}>
