@@ -5,6 +5,7 @@ import Navigation from '@octane/components/common/Navigation'
 import { useRef, useState } from 'react'
 import { uploadEventImage } from '@octane/util/s3'
 import { Button } from '@octane/components/common/Button'
+import Meta from '@octane/components/common/Meta'
 
 const Admin = ({ auth }) => {
   const fileInput = useRef()
@@ -27,6 +28,7 @@ const Admin = ({ auth }) => {
 
   return (
     <Content auth={auth}>
+      <Meta title="About" />
       <Stack width="full" spacing={3}>
         <Navigation type="admin" active="events" isAdmin={isAdmin(auth)} />
         <Navigation type="adminEvents" active="upload" isAdmin={isAdmin(auth)} hasDivider />

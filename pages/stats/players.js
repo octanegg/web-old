@@ -4,9 +4,11 @@ import Navigation from '@octane/components/common/Navigation'
 import { getServerSideAuth } from '@octane/util/auth'
 import { PlayerStatsFilter } from '@octane/components/filters/StatFilters'
 import { Stack } from '@chakra-ui/react'
+import Meta from '@octane/components/common/Meta'
 
 const Stats = ({ auth, filter }) => (
   <Content auth={auth}>
+    <Meta title="Rocket League Player Stats" />
     <Stack width="full" spacing={3}>
       <Navigation type="stats" active="players" filter={filter} />
       <PlayerStatsFilter initialFilter={filter} />

@@ -7,6 +7,7 @@ import EventForm from '@octane/components/forms/Events'
 
 const Admin = ({ auth, event }) => (
   <Content auth={auth}>
+    <Meta title={`${event.name}: Admin`} />
     <Stack width="full" spacing={3}>
       <EventInfobox event={event} />
       <Navigation

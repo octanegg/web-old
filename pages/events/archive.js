@@ -5,9 +5,11 @@ import Navigation from '@octane/components/common/Navigation'
 import { getServerSideAuth } from '@octane/util/auth'
 import { CompletedEventsFilter } from '@octane/components/filters/EventFilters'
 import { Stack } from '@chakra-ui/react'
+import Meta from '@octane/components/common/Meta'
 
 const EventsPage = ({ auth, filter }) => (
   <Content auth={auth}>
+    <Meta title="Rocket League Past Events" />
     <Stack width="full" spacing={3}>
       <Navigation type="events" active="completed" />
       <CompletedEventsFilter initialFilter={filter} />

@@ -18,6 +18,7 @@ import { useState } from 'react'
 import { Button, ButtonTypes } from '@octane/components/common/Button'
 import { apiUpdate } from '@octane/util/fetch'
 import { cleanObj } from '@octane/util/stats'
+import Meta from '@octane/components/common/Meta'
 
 const Admin = ({ auth, event, stages }) => {
   const [matches, setMatches] = useState(stages)
@@ -94,6 +95,7 @@ const Admin = ({ auth, event, stages }) => {
 
   return (
     <Content auth={auth}>
+      <Meta title={`${event.name}: Admin`} />
       <Stack width="full" spacing={3}>
         <EventInfobox event={event} />
         <Navigation

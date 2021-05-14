@@ -7,6 +7,7 @@ import UpcomingMatchesFilter from '@octane/components/filters/MatchFilters'
 import { Stack } from '@chakra-ui/react'
 import { useRouter } from 'next/router'
 import { buildQuery, route } from '@octane/util/routes'
+import Meta from '@octane/components/common/Meta'
 
 const MatchesPage = ({ auth, filter }) => {
   const router = useRouter()
@@ -17,6 +18,7 @@ const MatchesPage = ({ auth, filter }) => {
 
   return (
     <Content auth={auth}>
+      <Meta title="Rocket League Upcoming Matches" />
       <Stack width="full" spacing={3}>
         <Navigation type="matches" active="ongoing" />
         <UpcomingMatchesFilter initialFilter={filter} />

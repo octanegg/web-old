@@ -5,9 +5,11 @@ import PlayerStats from '@octane/components/stats/PlayerStats'
 import { getServerSideAuth, isAdmin } from '@octane/util/auth'
 import { PlayerStatsFilter } from '@octane/components/filters/PlayerFilters'
 import { Stack } from '@chakra-ui/react'
+import Meta from '@octane/components/common/Meta'
 
 const Player = ({ auth, player, filter }) => (
   <Content auth={auth}>
+    <Meta title={`${player.tag}: Rocket League Opponent Statistics`} />
     <Stack width="full" spacing={3}>
       <PlayerInfobox player={player} />
       <Navigation

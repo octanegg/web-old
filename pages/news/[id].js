@@ -7,6 +7,7 @@ import { useEffect } from 'react'
 import { unescape } from 'lodash'
 import styles from '@octane/styles/Article.module.scss'
 import { Link } from '@octane/components/common/Text'
+import Meta from '@octane/components/common/Meta'
 
 const News = ({ auth, article }) => {
   const { title, authors, image, content, published_at } = article
@@ -20,6 +21,7 @@ const News = ({ auth, article }) => {
 
   return (
     <Content auth={auth}>
+      <Meta title={title} />
       <Stack
         paddingLeft={8}
         paddingRight={8}

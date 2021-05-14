@@ -5,12 +5,14 @@ import Participants from '@octane/components/events/Participants'
 import { Filter, RegionFilter } from '@octane/components/filters/Filter'
 import { buildQuery, route } from '@octane/util/routes'
 import { useRouter } from 'next/router'
+import Meta from '@octane/components/common/Meta'
 
 const Team = ({ auth, teams, regions }) => {
   const router = useRouter()
 
   return (
     <Content auth={auth}>
+      <Meta title="Rocket League Active Teams" />
       <Stack width="full" spacing={3}>
         <Filter>
           <RegionFilter

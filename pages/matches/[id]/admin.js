@@ -9,6 +9,7 @@ import {
   Text,
 } from '@chakra-ui/react'
 import { Content } from '@octane/components/common/Layout'
+import Meta from '@octane/components/common/Meta'
 import GameForm from '@octane/components/forms/Games'
 import MatchForm from '@octane/components/forms/Matches'
 import { Infobox, Navigation } from '@octane/components/match/Match'
@@ -16,6 +17,7 @@ import { getServerSideAuth, isAdmin } from '@octane/util/auth'
 
 const Match = ({ auth, match, games }) => (
   <Content auth={auth}>
+    <Meta title={`${match.blue.team.team.name} vs ${match.orange.team.team.name}: Admin`} />
     <Stack width="full" spacing={3}>
       <Infobox match={match} />
       <Navigation

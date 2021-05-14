@@ -7,6 +7,7 @@ import { FormField } from '@octane/components/forms/Forms'
 import { PlayerSelect } from '@octane/components/common/Select'
 import { useState } from 'react'
 import { apiCreate } from '@octane/util/fetch'
+import Meta from '@octane/components/common/Meta'
 
 const Admin = ({ auth }) => {
   const [submitting, setSubmitting] = useState(false)
@@ -23,6 +24,7 @@ const Admin = ({ auth }) => {
 
   return (
     <Content auth={auth}>
+      <Meta title="About" />
       <Stack width="full" spacing={3}>
         <Navigation type="admin" active="players" isAdmin={isAdmin(auth)} />
         <Navigation type="adminPlayers" active="merge" isAdmin={isAdmin(auth)} hasDivider />

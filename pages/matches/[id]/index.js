@@ -4,9 +4,13 @@ import { Content } from '@octane/components/common/Layout'
 import { Infobox, Navigation } from '@octane/components/match/Match'
 import { ScoreboardMatch } from '@octane/components/match/Scoreboard'
 import { getServerSideAuth, isAdmin } from '@octane/util/auth'
+import Meta from '@octane/components/common/Meta'
 
 const Match = ({ auth, match }) => (
   <Content auth={auth}>
+    <Meta
+      title={`${match.blue.team.team.name} vs ${match.orange.team.team.name} | ${match.event.name}`}
+    />
     <Stack width="full" spacing={3}>
       <Infobox match={match} />
       <Navigation baseHref={`/matches/${match.slug}`} games={match.games} isAdmin={isAdmin(auth)} />

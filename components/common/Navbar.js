@@ -83,6 +83,9 @@ const Navbar = ({ auth }) => {
           <NavItem href="/records/players" leftBorder rightBorder>
             Records
           </NavItem>
+          <NavItem href="/teams" leftBorder rightBorder>
+            Teams
+          </NavItem>
           <Search />
           <Spacer display={{ base: 'none', md: 'block' }} />
           {isAdmin(auth) && <NavItem href="/admin/events/create">Admin</NavItem>}

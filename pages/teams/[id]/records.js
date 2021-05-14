@@ -5,9 +5,11 @@ import { TeamInfobox } from '@octane/components/common/Infobox'
 import { getServerSideAuth, isAdmin } from '@octane/util/auth'
 import { TeamRecordsFilter } from '@octane/components/filters/TeamFilters'
 import { Stack } from '@chakra-ui/react'
+import Meta from '@octane/components/common/Meta'
 
 const Team = ({ auth, team, filter }) => (
   <Content auth={auth}>
+    <Meta title={`${team.name}: Rocket League Records`} />
     <Stack width="full" spacing={3}>
       <TeamInfobox team={team} />
       <Navigation

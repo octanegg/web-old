@@ -5,9 +5,11 @@ import PlayerStats from '@octane/components/stats/PlayerStats'
 import { getServerSideAuth, isAdmin } from '@octane/util/auth'
 import { EventStatsFilter } from '@octane/components/filters/EventFilters'
 import { Stack } from '@chakra-ui/react'
+import Meta from '@octane/components/common/Meta'
 
 const Event = ({ auth, event, filter }) => (
   <Content auth={auth}>
+    <Meta title={`${event.name}: Player Stats`} />
     <Stack width="full" spacing={3}>
       <EventInfobox event={event} />
       <Navigation

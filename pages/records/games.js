@@ -4,9 +4,11 @@ import { GameRecords } from '@octane/components/records/GameRecords'
 import { getServerSideAuth } from '@octane/util/auth'
 import RecordsFilter from '@octane/components/filters/RecordFilters'
 import { Stack } from '@chakra-ui/react'
+import Meta from '@octane/components/common/Meta'
 
 const Records = ({ auth, filter }) => (
   <Content auth={auth}>
+    <Meta title="Rocket League Game Records" />
     <Stack width="full" spacing={3}>
       <Navigation type="records" active="games" />
       <RecordsFilter type="games" initialFilter={filter} />

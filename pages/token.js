@@ -8,6 +8,7 @@ import Articles from '@octane/components/home/Articles'
 import Matches from '@octane/components/home/Matches'
 import { useRouter } from 'next/router'
 import { useAuthRedirect } from 'aws-cognito-next'
+import Meta from '@octane/components/common/Meta'
 
 const Home = ({ auth, articles, matches, events }) => {
   const router = useRouter()
@@ -17,6 +18,7 @@ const Home = ({ auth, articles, matches, events }) => {
 
   return (
     <Content auth={auth}>
+      <Meta />
       <Stack width="full" direction="row" paddingLeft={2} paddingRight={2}>
         <Events events={events} />
         <Articles articles={articles} />

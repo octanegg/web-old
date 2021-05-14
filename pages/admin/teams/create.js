@@ -3,9 +3,11 @@ import { getServerSideAuth, isAdmin } from '@octane/util/auth'
 import { Stack } from '@chakra-ui/react'
 import Navigation from '@octane/components/common/Navigation'
 import TeamForm from '@octane/components/forms/Teams'
+import Meta from '@octane/components/common/Meta'
 
 const Admin = ({ auth }) => (
   <Content auth={auth}>
+    <Meta title="About" />
     <Stack width="full" spacing={3}>
       <Navigation type="admin" active="teams" isAdmin={isAdmin(auth)} />
       <Navigation type="adminTeams" active="create" isAdmin={isAdmin(auth)} hasDivider />

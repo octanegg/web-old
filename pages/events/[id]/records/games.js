@@ -5,9 +5,11 @@ import GameRecords from '@octane/components/records/GameRecords'
 import { getServerSideAuth, isAdmin } from '@octane/util/auth'
 import { EventRecordsFilter } from '@octane/components/filters/EventFilters'
 import { Stack } from '@chakra-ui/react'
+import Meta from '@octane/components/common/Meta'
 
 const Event = ({ auth, event, filter }) => (
   <Content auth={auth}>
+    <Meta title={`${event.name}: Game Records`} />
     <Stack width="full" spacing={3}>
       <EventInfobox event={event} />
       <Navigation

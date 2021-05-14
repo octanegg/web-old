@@ -5,9 +5,11 @@ import { Stack } from '@chakra-ui/react'
 import Events from '@octane/components/home/Events'
 import Articles from '@octane/components/home/Articles'
 import Matches from '@octane/components/home/Matches'
+import Meta from '@octane/components/common/Meta'
 
 const Home = ({ auth, articles, matches, events }) => (
   <Content auth={auth}>
+    <Meta />
     <Stack width="full" direction="row" paddingLeft={2} paddingRight={2}>
       <Events events={events} />
       <Articles articles={articles} />

@@ -2,6 +2,7 @@ import { Content } from '@octane/components/common/Layout'
 import MemberInfo from '@octane/components/about/MemberInfo'
 import { Stack } from '@chakra-ui/react'
 import { getServerSideAuth } from '@octane/util/auth'
+import Meta from '@octane/components/common/Meta'
 
 const staff = [
   {
@@ -16,6 +17,7 @@ const staff = [
 
 const AboutUs = ({ auth }) => (
   <Content auth={auth}>
+    <Meta title="About" />
     <Stack direction="row" spacing={0} flexWrap="wrap" justify="space-around">
       {[0, 1, 2, 3, 4].map(() => (
         <MemberInfo info={staff[0]} />

@@ -4,9 +4,11 @@ import Navigation from '@octane/components/common/Navigation'
 import { SeriesRecords } from '@octane/components/records/SeriesRecords'
 import { getServerSideAuth } from '@octane/util/auth'
 import { Stack } from '@chakra-ui/react'
+import Meta from '@octane/components/common/Meta'
 
 const Records = ({ auth, filter }) => (
   <Content auth={auth}>
+    <Meta title="Rocket League Series Records" />
     <Stack width="full" spacing={3}>
       <Navigation type="records" active="series" />
       <RecordsFilter type="series" initialFilter={filter} />

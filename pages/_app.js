@@ -111,7 +111,7 @@ const App = ({ Component, pageProps }) => (
   <ThemeProvider theme={theme}>
     <CSSReset />
     <Head>
-      <title>Octane</title>
+      <title>Rocket League News & Coverage | Octane.gg</title>
       <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
       <link rel="preconnect" href="https://fonts.gstatic.com" />
       <link

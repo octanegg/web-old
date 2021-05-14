@@ -3,9 +3,11 @@ import { Content } from '@octane/components/common/Layout'
 import Navigation from '@octane/components/common/Navigation'
 import { getServerSideAuth, isAdmin } from '@octane/util/auth'
 import { Stack } from '@chakra-ui/react'
+import Meta from '@octane/components/common/Meta'
 
 const Team = ({ auth, team }) => (
   <Content auth={auth}>
+    <Meta title={`${team.name}: Rocket League Team Overview`} />
     <Stack width="full" spacing={3}>
       <TeamInfobox team={team} />
       <Navigation

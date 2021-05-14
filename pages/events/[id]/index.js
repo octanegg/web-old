@@ -4,9 +4,11 @@ import { EventInfobox } from '@octane/components/common/Infobox'
 import { getServerSideAuth, isAdmin } from '@octane/util/auth'
 import { Stack } from '@chakra-ui/react'
 import Timeline from '@octane/components/events/Timeline'
+import Meta from '@octane/components/common/Meta'
 
 const Event = ({ auth, event }) => (
   <Content auth={auth}>
+    <Meta title={`${event.name}: Overview`} />
     <Stack width="full" spacing={3}>
       <EventInfobox event={event} />
       <Navigation

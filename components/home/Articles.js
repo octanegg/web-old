@@ -33,46 +33,43 @@ const Banner = ({ article }) => (
   </NextLink>
 )
 
-const ArticleGroup = ({ group, articles }) =>
-  articles.length > 0 ? (
-    <Stack paddingBottom={4}>
-      <Heading>{group}</Heading>
-      {articles.map(({ _id, published_at, title, authors }, i) => (
-        <NextLink key={i} passHref href={`/news/${_id}`}>
-          <Link _hover={{}}>
-            <Stack
-              direction="row"
-              cursor="pointer"
-              align="center"
-              fontSize="sm"
-              fontWeight="semi"
-              color="secondary.800"
-              borderRadius={8}
-              _hover={{ background: 'secondary.50' }}
-              padding={1}
-              paddingLeft={4}
-              paddingRight={4}>
-              <Text
-                minWidth={6}
-                fontSize="xs"
-                fontWeight="medium"
-                color="secondary.500"
-                align="center">
-                {moment(published_at).format('M/D')}
-              </Text>
-              <Text>{title}</Text>
-              <Spacer />
-              <Text width={40} align="end" fontSize="xs" fontWeight="medium" color="secondary.500">
-                {authors.map((a) => a.name).join(',')}
-              </Text>
-            </Stack>
-          </Link>
-        </NextLink>
-      ))}
-    </Stack>
-  ) : (
-    <></>
-  )
+const ArticleGroup = ({ group, articles }) => (
+  <Stack paddingBottom={4}>
+    <Heading>{group}</Heading>
+    {articles.map(({ _id, published_at, title, authors }, i) => (
+      <NextLink key={i} passHref href={`/news/${_id}`}>
+        <Link _hover={{}}>
+          <Stack
+            direction="row"
+            cursor="pointer"
+            align="center"
+            fontSize="sm"
+            fontWeight="semi"
+            color="secondary.800"
+            borderRadius={8}
+            _hover={{ background: 'secondary.50' }}
+            padding={1}
+            paddingLeft={4}
+            paddingRight={4}>
+            <Text
+              minWidth={6}
+              fontSize="xs"
+              fontWeight="medium"
+              color="secondary.500"
+              align="center">
+              {moment(published_at).format('M/D')}
+            </Text>
+            <Text>{title}</Text>
+            <Spacer />
+            <Text width={40} align="end" fontSize="xs" fontWeight="medium" color="secondary.500">
+              {authors.map((a) => a.name).join(',')}
+            </Text>
+          </Stack>
+        </Link>
+      </NextLink>
+    ))}
+  </Stack>
+)
 
 export const Articles = ({ articles }) => {
   const banner = articles[0]
@@ -106,17 +103,12 @@ export const Articles = ({ articles }) => {
   return (
     <Flex direction="column" width="full">
       <Banner article={banner} />
-      <Flex
-        direction="column"
-        marginTop={2}
-        height="full"
-        borderLeft="1px solid #BECCE4"
-        borderRight="1px solid #BECCE4">
-        <ArticleGroup group="Today" articles={today} />
-        <ArticleGroup group="Yesterday" articles={yesterday} />
-        <ArticleGroup group="Last Week" articles={lastWeek} />
-        <ArticleGroup group="Last Month" articles={lastMonth} />
-        <ArticleGroup group="Older" articles={older} />
+      <Flex direction="column" marginTop={2} height="full">
+        {today.length > 0 && <ArticleGroup group="Today" articles={today} />}
+        {yesterday.length > 0 && <ArticleGroup group="Yesterday" articles={yesterday} />}
+        {lastWeek.length > 0 && <ArticleGroup group="Last Week" articles={lastWeek} />}
+        {lastMonth.length > 0 && <ArticleGroup group="Last Month" articles={lastMonth} />}
+        {older.length > 0 && <ArticleGroup group="Older" articles={older} />}
       </Flex>
     </Flex>
   )

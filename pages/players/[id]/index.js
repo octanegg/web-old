@@ -3,9 +3,11 @@ import { Content } from '@octane/components/common/Layout'
 import Navigation from '@octane/components/common/Navigation'
 import { getServerSideAuth, isAdmin } from '@octane/util/auth'
 import { Stack } from '@chakra-ui/react'
+import Meta from '@octane/components/common/Meta'
 
 const Player = ({ auth, player }) => (
   <Content auth={auth}>
+    <Meta title={`${player.tag}: Rocket League Player Overview`} />
     <Stack width="full" spacing={3}>
       <PlayerInfobox player={player} />
       <Navigation

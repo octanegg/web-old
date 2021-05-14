@@ -1,11 +1,15 @@
 import { Stack } from '@chakra-ui/react'
 import { Content } from '@octane/components/common/Layout'
+import Meta from '@octane/components/common/Meta'
 import { Infobox, Navigation } from '@octane/components/match/Match'
 import { ScoreboardGame } from '@octane/components/match/Scoreboard'
 import { getServerSideAuth, isAdmin } from '@octane/util/auth'
 
 const Match = ({ auth, match, game }) => (
   <Content auth={auth}>
+    <Meta
+      title={`${match.blue.team.team.name} vs ${match.orange.team.team.name}: Game ${game.number} | ${match.event.name}`}
+    />
     <Stack width="full" spacing={3}>
       <Infobox match={match} active={game.number} />
       <Navigation

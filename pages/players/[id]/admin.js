@@ -4,9 +4,11 @@ import Navigation from '@octane/components/common/Navigation'
 import { getServerSideAuth, isAdmin } from '@octane/util/auth'
 import { Stack } from '@chakra-ui/react'
 import PlayerForm from '@octane/components/forms/Players'
+import Meta from '@octane/components/common/Meta'
 
 const Admin = ({ auth, player }) => (
   <Content auth={auth}>
+    <Meta title={`${player.tag}: Admin`} />
     <Stack width="full" spacing={3}>
       <PlayerInfobox player={player} />
       <Navigation

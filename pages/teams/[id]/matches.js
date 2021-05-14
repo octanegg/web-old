@@ -7,6 +7,7 @@ import { getServerSideAuth, isAdmin } from '@octane/util/auth'
 import { Stack } from '@chakra-ui/react'
 import { useRouter } from 'next/router'
 import { buildQuery, route } from '@octane/util/routes'
+import Meta from '@octane/components/common/Meta'
 
 const Team = ({ auth, team, filter }) => {
   const router = useRouter()
@@ -21,6 +22,7 @@ const Team = ({ auth, team, filter }) => {
 
   return (
     <Content auth={auth}>
+      <Meta title={`${team.name}: Rocket League Matches`} />
       <Stack width="full" spacing={3}>
         <TeamInfobox team={team} />
         <Navigation

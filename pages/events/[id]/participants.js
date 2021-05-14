@@ -6,9 +6,11 @@ import { Stack } from '@chakra-ui/react'
 import Participants from '@octane/components/events/Participants'
 import { EventParticipantsFilter } from '@octane/components/filters/EventFilters'
 import { buildQuery } from '@octane/util/routes'
+import Meta from '@octane/components/common/Meta'
 
 const Event = ({ auth, event, participants, filter }) => (
   <Content auth={auth}>
+    <Meta title={`${event.name}: Participants`} />
     <Stack width="full" spacing={3}>
       <EventInfobox event={event} />
       <Navigation
