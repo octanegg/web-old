@@ -1,7 +1,7 @@
 /* eslint-disable react/no-danger */
 /* eslint-disable camelcase */
 import { Content } from '@octane/components/common/Layout'
-import { Flex, Image, Spacer, Stack, Text } from '@chakra-ui/react'
+import { Alert, AlertIcon, Flex, Image, Spacer, Stack, Text } from '@chakra-ui/react'
 import { getServerSideAuth } from '@octane/util/auth'
 import { useEffect } from 'react'
 import { unescape } from 'lodash'
@@ -11,6 +11,8 @@ import Meta from '@octane/components/common/Meta'
 
 const News = ({ auth, article }) => {
   const { title, authors, image, content, published_at } = article
+
+  const isOldArticle = new Date(2021, 4, 1) - new Date(published_at) > 0
 
   useEffect(() => {
     const s = document.createElement('script')
@@ -28,6 +30,12 @@ const News = ({ auth, article }) => {
         paddingTop={4}
         paddingBottom={4}
         color="secondary.800">
+        {isOldArticle && (
+          <Alert status="warning">
+            <AlertIcon />
+            This article was imported from the old site, so formatting may be impacted
+          </Alert>
+        )}
         <Text fontSize="4xl" fontWeight="bold" textTransform="uppercase">
           {title}
         </Text>

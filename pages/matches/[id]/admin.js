@@ -55,7 +55,24 @@ const Match = ({ auth, match, games }) => (
             <AccordionIcon />
           </AccordionButton>
           <AccordionPanel>
-            <GameForm data={{ number: games.length + 1 }} match={match} />
+            <GameForm
+              data={{
+                number: games.length + 1,
+                ...(games.length > 0 && {
+                  blue: {
+                    players: games[games.length - 1].blue.players.map(({ player }) => ({
+                      player,
+                    })),
+                  },
+                  orange: {
+                    players: games[games.length - 1].orange.players.map(({ player }) => ({
+                      player,
+                    })),
+                  },
+                }),
+              }}
+              match={match}
+            />
           </AccordionPanel>
         </AccordionItem>
       </Accordion>

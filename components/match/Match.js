@@ -146,7 +146,7 @@ const SeriesOverview = ({ blue, orange, games, isBlueWinner, isActive }) => (
             <SeriesOverviewHeader
               label={
                 duration > 300 ? (
-                  <Tooltip hasArrow placement="top" label={`${toMinuteSeconds(duration)} OT`}>
+                  <Tooltip hasArrow placement="top" label={`${toMinuteSeconds(duration - 300)} OT`}>
                     {`G${i + 1}'`}
                   </Tooltip>
                 ) : (
