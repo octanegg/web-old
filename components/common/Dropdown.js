@@ -19,8 +19,9 @@ import {
   NumberIncrementStepper,
   NumberDecrementStepper,
 } from '@chakra-ui/react'
+import React, { useState } from 'react'
 import { ChevronDownIcon } from '@chakra-ui/icons'
-import { useState } from 'react'
+
 import DatePicker from 'react-datepicker'
 import moment from 'moment'
 import { Input } from './Input'
@@ -328,9 +329,8 @@ const Checkboxes = ({ items, tier, isChecked, handleChange, showImage, isLast })
     {items?.map((item, i) => {
       const [hover, setHover] = useState(false)
       return (
-        <>
+        <React.Fragment key={`${tier}-${i}`}>
           <ListItem
-            key={`${tier}-${i}`}
             padding="0.375rem"
             borderTopRadius={tier === 0 && i === 0 ? 6 : 0}
             borderBottomRadius={!item.children && isLast && i === items.length - 1 ? 6 : 0}
@@ -372,7 +372,7 @@ const Checkboxes = ({ items, tier, isChecked, handleChange, showImage, isLast })
               isLast={i === items.length - 1}
             />
           )}
-        </>
+        </React.Fragment>
       )
     })}
   </>

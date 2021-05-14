@@ -26,7 +26,10 @@ import { getCountries } from '@octane/util/countries'
 import { listEventImages } from '@octane/util/s3'
 
 export const EventForm = ({ data }) => {
-  const [event, setEvent] = useState(data)
+  const [event, setEvent] = useState({
+    ...data,
+    stages: data.stages?.map((stage, i) => ({ ...stage, _id: i })) || [],
+  })
   const [images, setImages] = useState([])
   const router = useRouter()
 
@@ -231,15 +234,15 @@ export const EventForm = ({ data }) => {
 
 const StagesForm = ({ stages, onChange, onDelete }) => (
   <Accordion allowToggle>
-    {stages.map((account, i) => {
-      const { name, region, liquipedia, startDate, endDate, prize, qualifier, location } = account
+    {stages.map((stage, i) => {
+      const { name, region, liquipedia, startDate, endDate, prize, qualifier, location } = stage
       const isNewStage = i === stages.length - 1
 
       const handleChange = (key, value) => {
         onChange(
           i,
           cleanObj({
-            ...account,
+            ...stage,
             [key]: value,
           })
         )

@@ -5,7 +5,7 @@ import NextLink from 'next/link'
 import { Heading } from '@octane/components/common/Text'
 
 const Banner = ({ article }) => (
-  <NextLink passHref href={`/news/${article._id}`} key={article._id}>
+  <NextLink passHref href={`/news/${article.slug}`} key={article._id}>
     <Link _hover={{}}>
       <Flex
         cursor="pointer"
@@ -36,8 +36,8 @@ const Banner = ({ article }) => (
 const ArticleGroup = ({ group, articles }) => (
   <Stack paddingBottom={4}>
     <Heading>{group}</Heading>
-    {articles.map(({ _id, published_at, title, authors }, i) => (
-      <NextLink key={i} passHref href={`/news/${_id}`}>
+    {articles.map(({ _id, slug, published_at, title, authors }) => (
+      <NextLink key={_id} passHref href={`/news/${slug}`}>
         <Link _hover={{}}>
           <Stack
             direction="row"

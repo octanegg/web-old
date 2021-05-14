@@ -8,6 +8,7 @@ import {
   AccordionIcon,
   AccordionItem,
   AccordionPanel,
+  Flex,
   Spacer,
   Stack,
   Text,
@@ -19,6 +20,8 @@ import { Button, ButtonTypes } from '@octane/components/common/Button'
 import { apiUpdate } from '@octane/util/fetch'
 import { cleanObj } from '@octane/util/stats'
 import Meta from '@octane/components/common/Meta'
+import Select from '@octane/components/common/Select'
+import formats from '@octane/config/formats/formats'
 
 const Admin = ({ auth, event, stages }) => {
   const [matches, setMatches] = useState(stages)
@@ -31,6 +34,17 @@ const Admin = ({ auth, event, stages }) => {
         match,
         (matches[stage] || []).slice(i + 1)
       ),
+    })
+  }
+
+  const handleMatchRemove = (stage, i) => {
+    console.log(
+      'removing',
+      [].concat((matches[stage] || []).slice(0, i), (matches[stage] || []).slice(i + 1))
+    )
+    setMatches({
+      ...matches,
+      [stage]: [].concat((matches[stage] || []).slice(0, i), (matches[stage] || []).slice(i + 1)),
     })
   }
 
@@ -120,14 +134,40 @@ const Admin = ({ auth, event, stages }) => {
               </AccordionButton>
               <AccordionPanel>
                 <Stack>
-                  {matches[stage._id]?.map((match, i) => (
-                    <MatchForm
-                      data={match}
-                      onUpdate={(m) => handleMatchUpdate(stage._id, i, m)}
-                      event={event}
-                      stage={stage}
-                    />
-                  ))}
+                  {matches[stage._id]?.length > 0 ? (
+                    matches[stage._id].map((match, i) => (
+                      <MatchForm
+                        key={match.number}
+                        data={match}
+                        onRemove={(m) => handleMatchRemove(stage._id, i)}
+                        onUpdate={(m) => handleMatchUpdate(stage._id, i, m)}
+                        event={event}
+                        stage={stage}
+                      />
+                    ))
+                  ) : (
+                    <Flex padding={4} justifyContent="center" alignItems="center">
+                      <Select
+                        width={64}
+                        value=""
+                        onChange={(e) =>
+                          setMatches({
+                            ...matches,
+                            [stage._id]:
+                              formats
+                                .find(({ id }) => id === e.currentTarget.value)
+                                .build(event, stage) || [],
+                          })
+                        }>
+                        <option value="" disabled selected>
+                          Select a format...
+                        </option>
+                        {formats.map(({ id, label }) => (
+                          <option value={id}>{label}</option>
+                        ))}
+                      </Select>
+                    </Flex>
+                  )}
                   <Stack direction="row" justify="center" width="full">
                     <Button buttonType={ButtonTypes.submit} onClick={() => handleAdd(stage)}>
                       <Text>Add Match</Text>

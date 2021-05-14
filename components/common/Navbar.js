@@ -31,8 +31,8 @@ const NavItem = ({ href, onClick, children }) => (
 
 const NavImage = ({ src, href }) => (
   <Flex cursor="pointer" paddingTop={{ base: 2, md: 0 }} paddingBottom={{ base: 2, md: 0 }}>
-    <NextLink href={href}>
-      <Link display="block" paddingLeft={4} paddingRight={4}>
+    <NextLink passHref href={href}>
+      <Link display="block" paddingLeft={4} paddingRight={4} _focus={{}}>
         <Image src={src} width={8} />
       </Link>
     </NextLink>

@@ -9,7 +9,7 @@ import DatePicker from 'react-datepicker'
 import { Button, ButtonTypes } from '@octane/components/common/Button'
 import { useRouter } from 'next/router'
 
-export const MatchForm = ({ data, onUpdate }) => {
+export const MatchForm = ({ data, onUpdate, onRemove }) => {
   const [match, setMatch] = useState(data)
   const router = useRouter()
   const [submitting, setSubmitting] = useState(false)
@@ -132,9 +132,13 @@ export const MatchForm = ({ data, onUpdate }) => {
           </Stack>
         </FormField>
         <Spacer />
-        {match._id && (
+        {match._id ? (
           <Button buttonType={ButtonTypes.cancel} onClick={handleDelete} isDisabled={submitting}>
             <Text>Delete</Text>
+          </Button>
+        ) : (
+          <Button buttonType={ButtonTypes.cancel} onClick={onRemove} isDisabled={submitting}>
+            <Text>Remove</Text>
           </Button>
         )}
         <Button buttonType={ButtonTypes.submit} onClick={handleSubmit} isDisabled={submitting}>

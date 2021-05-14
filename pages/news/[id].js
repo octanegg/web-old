@@ -63,10 +63,22 @@ const News = ({ auth, article }) => {
 export async function getServerSideProps({ req, params }) {
   const auth = getServerSideAuth(req)
   const { id } = params
-  const res = await fetch(`${process.env.CONTENT_URL}/articles/${id}`)
-  const article = await res.json()
+  const res = await fetch(`${process.env.CONTENT_URL}/articles?slug=${id}`)
+  if (res.status !== 200) {
+    return {
+      notFound: true,
+    }
+  }
+
+  const articles = await res.json()
+  if (articles.length === 0) {
+    return {
+      notFound: true,
+    }
+  }
+
   return {
-    props: { auth, article },
+    props: { auth, article: articles[0] },
   }
 }
 
