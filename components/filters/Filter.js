@@ -18,7 +18,7 @@ import { getCountries } from '@octane/util/countries'
 import { useEffect, useState } from 'react'
 import { apiFetch } from '@octane/util/fetch'
 import { regions } from '@octane/util/regions'
-import { Stack, Spacer, Text } from '@chakra-ui/react'
+import { Stack, Text } from '@chakra-ui/react'
 import { buildQuery } from '@octane/util/routes'
 import { Button, ButtonTypes } from '@octane/components/common/Button'
 import { CheckIcon, CloseIcon } from '@chakra-ui/icons'
@@ -31,21 +31,29 @@ import {
 import { getRecordStat } from '@octane/util/stats'
 
 export const Filter = ({ children, onApply, onReset }) => (
-  <Stack paddingLeft={2} paddingRight={2} width="full" direction="row" align="center">
-    {children}
-    <Spacer />
-    {onApply && (
-      <Button buttonType={ButtonTypes.submit} onClick={onApply}>
-        <CheckIcon paddingRight={1} />
-        <Text>Apply</Text>
-      </Button>
-    )}
-    {onReset && (
-      <Button buttonType={ButtonTypes.cancel} onClick={onReset}>
-        <CloseIcon paddingRight={1} />
-        <Text>Reset</Text>
-      </Button>
-    )}
+  <Stack
+    direction={{ base: 'column', md: 'row' }}
+    paddingLeft={2}
+    paddingRight={2}
+    width="full"
+    justify="space-between">
+    <Stack direction="row" align="center" wrap={{ base: 'wrap', md: 'nowrap' }} shouldWrapChildren>
+      {children}
+    </Stack>
+    <Stack direction="row" align="center" wrap={{ base: 'wrap', md: 'nowrap' }} shouldWrapChildren>
+      {onApply && (
+        <Button buttonType={ButtonTypes.submit} onClick={onApply}>
+          <CheckIcon paddingRight={1} />
+          <Text>Apply</Text>
+        </Button>
+      )}
+      {onReset && (
+        <Button buttonType={ButtonTypes.cancel} onClick={onReset}>
+          <CloseIcon paddingRight={1} />
+          <Text>Reset</Text>
+        </Button>
+      )}
+    </Stack>
   </Stack>
 )
 

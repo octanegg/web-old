@@ -14,14 +14,17 @@ export const Heading = ({ children }) => (
   </Flex>
 )
 
-export const Link = ({ href, align, fontSize, noStyle, children }) => {
+export const Link = ({ href, align, fontSize, fontWeight, noStyle, children }) => {
   const props = !noStyle
     ? {
         fontSize: fontSize || 'sm',
-        fontWeight: 'bold',
+        fontWeight: fontWeight || 'bold',
         color: 'secondary.800',
         cursor: 'pointer',
         align: align || 'start',
+        whiteSpace: 'nowrap',
+        overflow: 'hidden',
+        textOverflow: 'ellipsis',
         _hover: { color: 'primary.500' },
         _focus: { outline: 'none' },
       }

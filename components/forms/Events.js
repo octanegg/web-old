@@ -268,7 +268,7 @@ const StagesForm = ({ stages, onChange, onDelete }) => (
       }
 
       return (
-        <AccordionItem borderColor="secondary.200">
+        <AccordionItem key={i} borderColor="secondary.200">
           <AccordionButton _focus={{ outline: 'none' }}>
             <Text fontSize="sm" color="secondary.800">
               {isNewStage ? '+ Add a new stage' : name}

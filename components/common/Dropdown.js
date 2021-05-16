@@ -184,7 +184,7 @@ export const DropdownNestedList = ({ items, active, label, itemToLabel, itemToId
       isActive={active}>
       <List maxHeight={400} overflowY="auto">
         {items.map((group, j) => (
-          <>
+          <React.Fragment key={j}>
             <ListItem
               padding={1}
               fontSize="11px"
@@ -213,7 +213,7 @@ export const DropdownNestedList = ({ items, active, label, itemToLabel, itemToId
                 {itemToLabel ? itemToLabel(item) : item}
               </ListItem>
             ))}
-          </>
+          </React.Fragment>
         ))}
       </List>
     </Dropdown>
@@ -382,6 +382,7 @@ const Dropdown = ({ label, isOpen, open, close, footer, children, isActive }) =>
   <Popover placement="bottom" isOpen={isOpen} onClose={close}>
     <PopoverTrigger>
       <ChakraButton
+        margin={{ base: 1, md: 0 }}
         borderRadius={8}
         size="xs"
         fontWeight={isActive ? 'bold' : 'semi'}

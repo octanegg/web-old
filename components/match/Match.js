@@ -102,7 +102,7 @@ const SeriesOverviewOrange = ({ team, games, isWinner, isActive }) => (
   <tr>
     <td align="center">{team.team.image && <Image width={6} src={team.team.image} />}</td>
     {games.map((game, i) => (
-      <td align="center" style={{ padding: 0 }}>
+      <td key={i} align="center" style={{ padding: 0 }}>
         <Flex
           height={7}
           fontSize="sm"
