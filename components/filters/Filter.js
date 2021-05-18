@@ -18,7 +18,7 @@ import { getCountries } from '@octane/util/countries'
 import { useEffect, useState } from 'react'
 import { apiFetch } from '@octane/util/fetch'
 import { regions } from '@octane/util/regions'
-import { Stack, Text } from '@chakra-ui/react'
+import { Divider, Flex, Stack, Text } from '@chakra-ui/react'
 import { buildQuery } from '@octane/util/routes'
 import { Button, ButtonTypes } from '@octane/components/common/Button'
 import { CheckIcon, CloseIcon } from '@chakra-ui/icons'
@@ -30,32 +30,57 @@ import {
 } from '@octane/config/records/records'
 import { getRecordStat } from '@octane/util/stats'
 
-export const Filter = ({ children, onApply, onReset }) => (
-  <Stack
-    direction={{ base: 'column', md: 'row' }}
-    paddingLeft={2}
-    paddingRight={2}
-    width="full"
-    justify="space-between">
-    <Stack direction="row" align="center" wrap={{ base: 'wrap', md: 'nowrap' }} shouldWrapChildren>
-      {children}
-    </Stack>
-    <Stack direction="row" align="center" wrap={{ base: 'wrap', md: 'nowrap' }} shouldWrapChildren>
-      {onApply && (
-        <Button buttonType={ButtonTypes.submit} onClick={onApply}>
-          <CheckIcon paddingRight={1} />
-          <Text>Apply</Text>
+export const Filter = ({ children, onApply, onReset }) => {
+  const [showFilter, setShowFilter] = useState(false)
+
+  return (
+    <Stack>
+      <Flex display={{ base: 'flex', lg: 'none' }} width="full" marginLeft={4}>
+        <Button
+          buttonType={showFilter ? ButtonTypes.stat.selected : ButtonTypes.stat.default}
+          override={{ _hover: {}, borderRadius: 8, width: 24 }}
+          onClick={() => setShowFilter(!showFilter)}>
+          {`${showFilter ? 'Hide' : 'Show'} Filters`}
         </Button>
-      )}
-      {onReset && (
-        <Button buttonType={ButtonTypes.cancel} onClick={onReset}>
-          <CloseIcon paddingRight={1} />
-          <Text>Reset</Text>
-        </Button>
-      )}
+      </Flex>
+      <Stack
+        display={{ base: showFilter ? 'flex' : 'none', lg: 'flex' }}
+        direction={{ base: 'column', lg: 'row' }}
+        paddingLeft={2}
+        paddingRight={2}
+        width="full"
+        justify="space-between">
+        <Stack
+          direction="row"
+          align="center"
+          spacing={{ base: 0, lg: 2 }}
+          wrap={{ base: 'wrap', lg: 'nowrap' }}
+          shouldWrapChildren>
+          {children}
+        </Stack>
+        <Stack width="full" direction="row" justify="flex-end" align="center" shouldWrapChildren>
+          {onApply && (
+            <Button buttonType={ButtonTypes.submit} onClick={onApply}>
+              <CheckIcon paddingRight={1} />
+              <Text>Apply</Text>
+            </Button>
+          )}
+          {onReset && (
+            <Button buttonType={ButtonTypes.cancel} onClick={onReset}>
+              <CloseIcon paddingRight={1} />
+              <Text>Reset</Text>
+            </Button>
+          )}
+        </Stack>
+        <Divider
+          display={{ base: 'flex', md: 'none' }}
+          orientation="horizontal"
+          color="secondary.300"
+        />
+      </Stack>
     </Stack>
-  </Stack>
-)
+  )
+}
 
 export const TierFilter = ({ active, onChange }) => (
   <DropdownCheckbox label="Tiers" items={tiers} active={active} onChange={onChange} />

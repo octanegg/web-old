@@ -22,7 +22,7 @@ const MatchesPage = ({ auth, filter }) => {
 
   return (
     <Content auth={auth}>
-      <Meta title="Rocket League Past Matches" />
+      <Meta title="Rocket League Completed Matches" />
       <Stack width="full" spacing={3}>
         <Navigation type="matches" active="completed" />
         <CompletedMatchesFilter initialFilter={filter} />

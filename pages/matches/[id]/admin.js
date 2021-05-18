@@ -12,7 +12,7 @@ import { Content } from '@octane/components/common/Layout'
 import Meta from '@octane/components/common/Meta'
 import GameForm from '@octane/components/forms/Games'
 import MatchForm from '@octane/components/forms/Matches'
-import { Infobox, Navigation } from '@octane/components/match/Match'
+import { Infobox, MatchNavigation } from '@octane/components/match/Match'
 import { getServerSideAuth, isAdmin } from '@octane/util/auth'
 
 const Match = ({ auth, match, games }) => (
@@ -20,7 +20,7 @@ const Match = ({ auth, match, games }) => (
     <Meta title={`${match.blue.team.team.name} vs ${match.orange.team.team.name}: Admin`} />
     <Stack width="full" spacing={3}>
       <Infobox match={match} />
-      <Navigation
+      <MatchNavigation
         baseHref={`/matches/${match.slug}`}
         games={match.games}
         active="admin"
@@ -93,6 +93,7 @@ export async function getServerSideProps({ req, params }) {
   const match = await resMatch.json()
 
   const resGames = await fetch(`${process.env.API_URL}/games?match=${match._id}&sort=number:asc`)
+  console.log(`${process.env.API_URL}/games?match=${match._id}&sort=number:asc`)
   if (resGames.status !== 200) {
     return {
       notFound: true,

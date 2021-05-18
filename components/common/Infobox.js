@@ -6,23 +6,33 @@ import { LabeledField, Link } from '@octane/components/common/Text'
 import { getRegion } from '@octane/util/regions'
 
 export const Infobox = ({ title, image, children }) => (
-  <Flex
-    direction="row"
-    width="full"
-    justify="space-between"
-    paddingLeft={4}
-    paddingRight={4}
-    marginBottom={2}
-    height={32}>
+  <Flex direction="row" width="full" justify="space-between" paddingLeft={4} paddingRight={4}>
     <Flex direction="column" width="full" justify="space-around">
-      <Text fontWeight="bold" fontSize="2xl" color="secondary.800">
+      <Flex
+        fontWeight="bold"
+        width="full"
+        justify={{ base: 'center', md: 'flex-start' }}
+        textAlign="center"
+        fontSize="2xl"
+        color="secondary.800">
         {title}
-      </Text>
-      <Stack direction="row" width="xl" spacing={8}>
+      </Flex>
+      <Flex justify="center" display={{ base: 'flex', md: 'none' }}>
+        {image && <Image height={20} src={image} />}
+      </Flex>
+      <Stack
+        direction="row"
+        width="full"
+        justify={{ base: 'center', md: 'flex-start' }}
+        spacing={{ base: 2, md: 8 }}
+        wrap="wrap"
+        shouldWrapChildren>
         {children}
       </Stack>
     </Flex>
-    <Flex justify="flex-end">{image && <Image src={image} />}</Flex>
+    <Flex justify="flex-end" display={{ base: 'none', md: 'flex' }}>
+      {image && <Image height={40} src={image} />}
+    </Flex>
   </Flex>
 )
 

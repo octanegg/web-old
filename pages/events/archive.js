@@ -9,7 +9,7 @@ import Meta from '@octane/components/common/Meta'
 
 const EventsPage = ({ auth, filter }) => (
   <Content auth={auth}>
-    <Meta title="Rocket League Past Events" />
+    <Meta title="Rocket League Completed Events" />
     <Stack width="full" spacing={3}>
       <Navigation type="events" active="completed" />
       <CompletedEventsFilter initialFilter={filter} />

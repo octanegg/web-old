@@ -1,9 +1,8 @@
 import { Flex, Image, Text, Spacer, Stack } from '@chakra-ui/react'
 import { useEffect, useState } from 'react'
 import moment from 'moment'
-import { Table, Body, Row, Cell } from '@octane/components/common/Table'
 import Loading from '@octane/components/common/Loading'
-import { LabeledField, LabeledText, Link, Heading } from '@octane/components/common/Text'
+import { Link, Heading } from '@octane/components/common/Text'
 import { toDateString } from '@octane/util/dates'
 import { getRegion } from '@octane/util/regions'
 import { apiFetch } from '@octane/util/fetch'
@@ -61,13 +60,11 @@ export const EventsTable = ({ filter, sort, isOngoing }) => {
     events?.map((group, i) => (
       <>
         <Heading>{labels[i]}</Heading>
-        <Table>
-          <Body>
-            {group.map((event, j) => (
-              <EventRow key={j} event={event} />
-            ))}
-          </Body>
-        </Table>
+        <Flex direction="column">
+          {group.map((event, j) => (
+            <EventRow key={j} event={event} />
+          ))}
+        </Flex>
       </>
     ))
   )
@@ -76,80 +73,62 @@ export const EventsTable = ({ filter, sort, isOngoing }) => {
 const EventRow = ({ event }) => {
   const { _id, slug, region, tier, mode, prize, name, startDate, endDate, stages, image } = event
 
-  const [stagesVisible, setStagesVisible] = useState(false)
-
   const _region = getRegion(region)
 
   return (
-    <>
-      <Row key={_id}>
-        <Cell>
-          <NextLink passHref href={`/events/${slug}`}>
-            <Flex
-              as="a"
-              width="full"
+    <NextLink key={_id} passHref href={`/events/${slug}`}>
+      <Flex as="a" width="full" cursor="pointer" fontSize="sm" padding={2} align="center">
+        <Flex minWidth={8} marginRight={2} marginLeft={2}>
+          {image && <Image height={6} src={image} />}
+        </Flex>
+        <Flex align="center">
+          <Flex direction="column">
+            <Link
+              href={`/events/${slug}`}
+              fontWeight="bold"
               cursor="pointer"
               fontSize="sm"
-              padding={2}
-              align="center"
-              onClick={() => setStagesVisible(false)}>
-              <Flex minWidth={8} marginRight={2} marginLeft={2}>
-                {image && <Image height={6} src={image} />}
-              </Flex>
-              <LabeledText
-                width="md"
-                justify="flex-start"
-                label={
-                  <Stack direction="row" spacing={1} align="center" color="secondary.800">
-                    <Image src={_region?.image} />
-                    <Text fontWeight="regular" fontSize="xs">
-                      {`${_region?.label} | ${toDateString(startDate, endDate)}`}
-                    </Text>
-                  </Stack>
-                }>
-                <Flex>
-                  <Link href={`/events/${slug}`}>{name}</Link>
-                </Flex>
-              </LabeledText>
-              <Spacer />
-              <LabeledField label="mode">{`${mode}v${mode}`}</LabeledField>
-              <LabeledField label="tier">{tier}</LabeledField>
-              <LabeledField label="stages">{stages.length}</LabeledField>
-              <LabeledField label="prize">{prize ? formatPrizeUSD(prize) : '-'}</LabeledField>
-            </Flex>
-          </NextLink>
-        </Cell>
-      </Row>
-      {stagesVisible && stages.map((stage, k) => <StageRow key={k} stage={stage} />)}
-    </>
-  )
-}
-
-const StageRow = ({ stage }) => {
-  const { name, startDate, endDate, format, prize } = stage
-  return (
-    <Row>
-      <Cell>
-        <Flex direct="row" width="full" padding={2} borderLeft="5px #bbf2d7 solid">
-          <LabeledText
-            width="md"
-            justify="flex-start"
-            marginLeft={12}
-            label={
-              <Text fontWeight="regular" fontSize="xs" align="start" color="secondary.800">
-                {toDateString(startDate, endDate)}
-              </Text>
-            }>
-            <Text fontWeight="bold" align="start">
+              _hover={{ color: 'primary.500' }}
+              noStyle>
               {name}
-            </Text>
-          </LabeledText>
-          <Spacer />
-          <LabeledField label="format">{format || '-'}</LabeledField>
-          <LabeledField label="prize">{prize ? `$${prize.amount}` : '-'}</LabeledField>
+            </Link>
+            <Stack direction="row" spacing={1} align="center" color="secondary.800">
+              <Image src={_region?.image} />
+              <Text fontWeight="regular" fontSize="xs">
+                {`${_region?.label} | ${toDateString(startDate, endDate)}`}
+              </Text>
+            </Stack>
+          </Flex>
         </Flex>
-      </Cell>
-    </Row>
+        <Spacer />
+        <Stack direction="row">
+          <Flex direction="column" align="center" width={32} display={{ base: 'none', lg: 'flex' }}>
+            <Text fontWeight="bold">{`${mode}v${mode}`}</Text>
+            <Text textTransform="uppercase" color="secondary.400" fontSize="10px">
+              Mode
+            </Text>
+          </Flex>
+          <Flex direction="column" align="center" width={32} display={{ base: 'none', lg: 'flex' }}>
+            <Text fontWeight="bold">{stages.length}</Text>
+            <Text textTransform="uppercase" color="secondary.400" fontSize="10px">
+              Stages
+            </Text>
+          </Flex>
+          <Flex direction="column" align="center" width={32} display={{ base: 'none', md: 'flex' }}>
+            <Text fontWeight="bold">{tier}</Text>
+            <Text textTransform="uppercase" color="secondary.400" fontSize="10px">
+              Tier
+            </Text>
+          </Flex>
+          <Flex direction="column" align="center" width={32} display={{ base: 'none', sm: 'flex' }}>
+            <Text fontWeight="bold">{prize ? formatPrizeUSD(prize) : '-'}</Text>
+            <Text textTransform="uppercase" color="secondary.400" fontSize="10px">
+              Prize
+            </Text>
+          </Flex>
+        </Stack>
+      </Flex>
+    </NextLink>
   )
 }
 

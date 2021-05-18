@@ -24,40 +24,47 @@ const Player = ({ player }) => (
 )
 
 export const Participants = ({ participants }) => (
-  <SimpleGrid columns={4} spacingY={8}>
-    {participants?.map(({ team, players }, j) => {
-      const playerSetOne = players.slice(0, 5)
-      const playerSetTwo = players.slice(5)
+  <Flex width="full" justify="center" align="center" paddingLeft={8} paddingRight={8}>
+    <SimpleGrid width="full" columns={{ base: 1, sm: 2, md: 3, lg: 4 }} spacingY={8}>
+      {participants?.map(({ team, players }, j) => {
+        const playerSetOne = players.slice(0, 5)
+        const playerSetTwo = players.slice(5)
 
-      return (
-        <Stack key={j} width="full" marginLeft={8}>
-          <Stack direction="row" align="center">
-            <Text width={6} align="center" fontSize="11px" color="secondary.500" fontWeight="semi">
-              {team.region}
-            </Text>
-            {team.image && <Image width={6} src={team.image} />}
-            <Link href={`/teams/${team.slug}`}>
-              <Text>{team.name}</Text>
-            </Link>
-          </Stack>
-          <Flex paddingLeft={3}>
-            <Stack borderLeft="2px solid #94e8be">
-              {playerSetOne.map((player, i) => (
-                <Player key={i} player={player} />
-              ))}
+        return (
+          <Stack key={j} width="full">
+            <Stack direction="row" align="center">
+              <Text
+                width={6}
+                align="center"
+                fontSize="11px"
+                color="secondary.500"
+                fontWeight="semi">
+                {team.region}
+              </Text>
+              {team.image && <Image width={6} src={team.image} />}
+              <Link href={`/teams/${team.slug}`}>
+                <Text>{team.name}</Text>
+              </Link>
             </Stack>
-            {playerSetTwo.length > 0 && (
-              <Stack>
-                {playerSetTwo.map((player, i) => (
+            <Flex paddingLeft={3}>
+              <Stack borderLeft="2px solid #94e8be">
+                {playerSetOne.map((player, i) => (
                   <Player key={i} player={player} />
                 ))}
               </Stack>
-            )}
-          </Flex>
-        </Stack>
-      )
-    })}
-  </SimpleGrid>
+              {playerSetTwo.length > 0 && (
+                <Stack>
+                  {playerSetTwo.map((player, i) => (
+                    <Player key={i} player={player} />
+                  ))}
+                </Stack>
+              )}
+            </Flex>
+          </Stack>
+        )
+      })}
+    </SimpleGrid>
+  </Flex>
 )
 
 export default Participants

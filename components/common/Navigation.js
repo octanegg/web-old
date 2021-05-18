@@ -1,5 +1,7 @@
-import { Divider, Stack, Spacer } from '@chakra-ui/react'
-import { buildQuery } from '@octane/util/routes'
+import { Divider, Stack, Spacer, Flex } from '@chakra-ui/react'
+import Select from '@octane/components/common/Select'
+import { buildQuery, route } from '@octane/util/routes'
+import { useRouter } from 'next/router'
 import { ButtonLink } from './Button'
 
 const navigation = {
@@ -209,20 +211,49 @@ const navigation = {
   ],
 }
 
-const Navigation = ({ type, active, baseHref, filter, hasDivider, isAdmin }) => (
-  <Stack paddingLeft={2} paddingRight={2} width="full" direction="row" align="center">
-    {navigation[type]
-      .filter((nav) => !nav.adminOnly || isAdmin)
-      .map(({ id, href, label }) => (
-        <ButtonLink
-          key={id}
-          href={`${baseHref || ''}${href || ''}${buildQuery(filter || {}, [''])}`}
-          isActive={active === id}>
-          {label}
-        </ButtonLink>
-      ))}
-    {hasDivider ? <Divider borderColor="secondary.300" /> : <Spacer />}
-  </Stack>
-)
+const Navigation = ({ type, active, baseHref, filter, hasDivider, items, isAdmin }) => {
+  const router = useRouter()
+  const _items = items || navigation[type]
+
+  return (
+    <Stack paddingLeft={2} paddingRight={2} width="full" direction="row" align="center">
+      <Flex display={{ base: 'none', sm: 'flex' }}>
+        {_items
+          .filter((nav) => !nav.adminOnly || isAdmin)
+          .map(({ id, href, label }) => (
+            <ButtonLink
+              key={id}
+              href={`${baseHref || ''}${href || ''}${buildQuery(filter || {}, [''])}`}
+              isActive={active === id}>
+              {label}
+            </ButtonLink>
+          ))}
+      </Flex>
+      <Flex display={{ base: 'flex', sm: 'none' }}>
+        <Select
+          width={48}
+          height={7}
+          fontSize="13px"
+          value={active}
+          onChange={(e) =>
+            route(
+              router,
+              `${baseHref || ''}${_items.find((n) => n.id === e.currentTarget.value)?.href || ''}`,
+              buildQuery(filter || {}, [''])
+            )
+          }>
+          {_items
+            .filter((nav) => !nav.adminOnly || isAdmin)
+            .map(({ id, label }) => (
+              <option key={id} value={id}>
+                {label}
+              </option>
+            ))}
+        </Select>
+      </Flex>
+      {hasDivider ? <Divider borderColor="secondary.300" /> : <Spacer />}
+    </Stack>
+  )
+}
 
 export default Navigation

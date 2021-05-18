@@ -1,21 +1,22 @@
 import { Flex, Text, Link as ChakraLink } from '@chakra-ui/react'
 import NextLink from 'next/link'
 
-export const Heading = ({ children }) => (
+export const Heading = (props) => (
   <Flex width="full" align="flex-start" direction="column">
     <Text
       textTransform="uppercase"
       color="secondary.500"
       fontSize="xs"
       fontWeight="semi"
-      paddingLeft={2}>
-      {children}
-    </Text>
+      paddingLeft={2}
+      {...props}
+    />
   </Flex>
 )
 
-export const Link = ({ href, align, fontSize, fontWeight, noStyle, children }) => {
-  const props = !noStyle
+export const Link = (props) => {
+  const { href, align, fontSize, fontWeight, noStyle, children } = props
+  const _props = !noStyle
     ? {
         fontSize: fontSize || 'sm',
         fontWeight: fontWeight || 'bold',
@@ -31,10 +32,11 @@ export const Link = ({ href, align, fontSize, fontWeight, noStyle, children }) =
     : {
         _hover: {},
         _focus: { outline: 'none' },
+        ...props,
       }
   return (
     <NextLink passHref href={href}>
-      <ChakraLink {...props}>{children}</ChakraLink>
+      <ChakraLink {..._props}>{children}</ChakraLink>
     </NextLink>
   )
 }
@@ -54,6 +56,7 @@ export const LabeledField = ({ label, width, children }) => (
     width={width || 32}
     justify="center"
     align="center"
+    padding={1}
     label={
       <Text fontSize="10px" color="secondary.400" textTransform="uppercase">
         {label}

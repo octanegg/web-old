@@ -1,7 +1,9 @@
 import styles from '@octane/styles/Table.module.scss'
 
 export const Table = ({ children, isBordered }) => (
-  <table className={`${styles.table} ${isBordered && styles.bordered}`}>{children}</table>
+  <div className={styles.tableWrapper}>
+    <table className={`${styles.table} ${isBordered && styles.bordered}`}>{children}</table>
+  </div>
 )
 
 export const Header = ({ children }) => (

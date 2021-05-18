@@ -71,7 +71,7 @@ export const TeamStats = ({ filter, groupBy, isSortable }) => {
             <HeaderItem
               align="left"
               onClick={isSortable && (() => updateSort({ id: 'team.name' }))}>
-              <Flex align="center">
+              <Flex align="center" minWidth="125px">
                 <Text marginRight={1}>{groupBy || 'Team'}</Text>
                 <SortIcon field="team.name" />
               </Flex>
@@ -79,7 +79,7 @@ export const TeamStats = ({ filter, groupBy, isSortable }) => {
             {group.stats.map((stat) => (
               <HeaderItem onClick={isSortable && (() => updateSort(stat))}>
                 <Tooltip hasArrow placement="top" label={stat.description}>
-                  <Flex justify="center" align="center">
+                  <Flex justify="center" align="center" minWidth="75px">
                     <Text marginRight={1}>{stat.label}</Text>
                     <SortIcon field={stat.id} />
                   </Flex>

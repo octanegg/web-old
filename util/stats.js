@@ -68,6 +68,10 @@ export const calculateStat = (record, stat, cluster) => {
 
 export const calculateFormattedStat = (record, stat, cluster) => {
   const _value = calculateStat(record, stat, cluster)
+  if (Number.isNaN(_value)) {
+    return ''
+  }
+
   if (!stat.isNonReplay && record.games.replays === 0) {
     return '-'
   }

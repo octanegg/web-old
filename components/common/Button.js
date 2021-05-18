@@ -32,7 +32,7 @@ export const ButtonTypes = {
       fontWeight: 'semi',
       size: 'xs',
       borderRadius: 0,
-      _hover: { color: 'secondary.800' },
+      _hover: { color: 'primary.600', backgroundColor: 'primary.50' },
       _focus: { outline: 'none' },
     },
     selected: {

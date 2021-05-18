@@ -50,7 +50,7 @@ const TimelineItem = ({ item, width, isBottom }) => (
 export const Timeline = ({ data }) => {
   if (data.length === 1) {
     return (
-      <Flex width="full" align="center" direction="column">
+      <Flex width="full" display={{ base: 'none', sm: 'flex' }} align="center" direction="column">
         <Flex width={48} justify="center">
           <TimelineItem item={data[0]} width={32} />
         </Flex>
@@ -85,7 +85,7 @@ export const Timeline = ({ data }) => {
         }
 
   return (
-    <Flex width="full" align="center" direction="column">
+    <Flex width="full" display={{ base: 'none', sm: 'flex' }} align="center" direction="column">
       <Flex width={timelineWidth} justify="space-between">
         {top.map((item, i) => (
           <TimelineItem key={i} item={item} width={item ? itemWidth : separatorWidth} />

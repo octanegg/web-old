@@ -107,7 +107,7 @@ const Match = ({ match, team, player, highlightResult, isEven }) => {
         align="center"
         shadow={highlightResult ? border : ''}
         cursor="pointer"
-        padding={2}
+        padding={1}
         paddingLeft={4}
         paddingRight={4}
         _hover={{ backgroundColor: 'secondary.50' }}>
@@ -134,51 +134,43 @@ const Match = ({ match, team, player, highlightResult, isEven }) => {
             {leftScore === 0 && rightScore === 0 ? '' : rightScore}
           </Text>
         </Flex>
-        <Flex width={72} direction="column">
-          {!leftTeam && !rightTeam ? (
-            <Flex align="center" fontSize="sm" color="secondary.700" fontStyle="italic">
-              To be determined...
+        <Flex width={{ base: 40, sm: 72 }} direction="column">
+          <Flex width={56} padding={1} align="center">
+            <Flex minWidth={4} marginLeft={2} marginRight={2}>
+              {leftTeam?.team?.team?.image && (
+                <Image height={4} src={leftTeam?.team?.team?.image} />
+              )}
             </Flex>
-          ) : (
-            <>
-              <Flex width={56} padding={1} align="center">
-                <Flex minWidth={4} marginLeft={2} marginRight={2}>
-                  {leftTeam?.team?.team?.image && (
-                    <Image height={4} src={leftTeam?.team?.team?.image} />
-                  )}
-                </Flex>
-                {leftTeam ? (
-                  <Link
-                    href={`/teams/${leftTeam.team.team.slug}`}
-                    fontWeight={leftTeam.winner ? 'bold' : 'regular'}>
-                    {leftTeam.team.team.name}
-                  </Link>
-                ) : (
-                  <Text fontSize="sm" color="secondary.700">
-                    TBD
-                  </Text>
-                )}
-              </Flex>
-              <Flex width={56} padding={1} align="center">
-                <Flex minWidth={4} marginLeft={2} marginRight={2}>
-                  {rightTeam?.team?.team?.image && (
-                    <Image height={4} src={rightTeam?.team?.team?.image} />
-                  )}
-                </Flex>
-                {rightTeam ? (
-                  <Link
-                    href={`/teams/${rightTeam.team.team.slug}`}
-                    fontWeight={rightTeam.winner ? 'bold' : 'regular'}>
-                    {rightTeam.team.team.name}
-                  </Link>
-                ) : (
-                  <Text fontSize="sm" color="secondary.700">
-                    TBD
-                  </Text>
-                )}
-              </Flex>
-            </>
-          )}
+            {leftTeam ? (
+              <Link
+                href={`/teams/${leftTeam.team.team.slug}`}
+                fontWeight={leftTeam.winner ? 'bold' : 'regular'}>
+                {leftTeam.team.team.name}
+              </Link>
+            ) : (
+              <Text fontSize="sm" color="secondary.700">
+                TBD
+              </Text>
+            )}
+          </Flex>
+          <Flex width={56} padding={1} align="center">
+            <Flex minWidth={4} marginLeft={2} marginRight={2}>
+              {rightTeam?.team?.team?.image && (
+                <Image height={4} src={rightTeam?.team?.team?.image} />
+              )}
+            </Flex>
+            {rightTeam ? (
+              <Link
+                href={`/teams/${rightTeam.team.team.slug}`}
+                fontWeight={rightTeam.winner ? 'bold' : 'regular'}>
+                {rightTeam.team.team.name}
+              </Link>
+            ) : (
+              <Text fontSize="sm" color="secondary.700">
+                TBD
+              </Text>
+            )}
+          </Flex>
         </Flex>
         <Stack
           direction="row"

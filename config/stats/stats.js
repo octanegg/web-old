@@ -26,78 +26,84 @@ import teamCore, {
   teamMovement,
   teamPositioning,
 } from '@octane/config/stats/teams'
+import { FaStar, FaRocket, FaRuler, FaRunning, FaCloud, FaMapMarkerAlt } from 'react-icons/fa'
+import { IoIosSpeedometer } from 'react-icons/io'
+import { GiMineExplosion } from 'react-icons/gi'
+import { HiChartBar } from 'react-icons/hi'
+import { BsPieChartFill } from 'react-icons/bs'
+import { MdTouchApp } from 'react-icons/md'
 
 export const baseStats = [
   {
     id: 'boost',
     label: 'Boost',
-    icon: LockIcon,
+    icon: FaRocket,
     stats: playerBoost,
   },
   {
     id: 'movement',
     label: 'Movement',
-    icon: LockIcon,
+    icon: FaRunning,
     stats: playerMovement,
   },
   {
     id: 'distance',
     label: 'Distance',
-    icon: LockIcon,
+    icon: FaRuler,
     stats: playerDistance,
   },
   {
     id: 'speed',
     label: 'Speed',
-    icon: LockIcon,
+    icon: IoIosSpeedometer,
     stats: playerSpeed,
   },
   {
     id: 'groundair',
     label: 'Ground / Air',
-    icon: LockIcon,
+    icon: FaCloud,
     stats: playerGroundAir,
   },
   {
     id: 'boost.count',
     label: 'Boost Count',
-    icon: LockIcon,
+    icon: HiChartBar,
     stats: playerBoostCount,
   },
   {
     id: 'boost.management',
     label: 'Boost Management',
-    icon: LockIcon,
+    icon: BsPieChartFill,
     stats: playerBoostManagement,
   },
   {
     id: 'boost.management.percentage',
     label: 'Boost Management %',
-    icon: LockIcon,
+    icon: BsPieChartFill,
     stats: playerBoostManagementPercentage,
   },
   {
     id: 'positioning',
     label: 'Positioning',
-    icon: LockIcon,
+    icon: FaMapMarkerAlt,
     stats: playerPositioning,
   },
   {
     id: 'positioning.percentage',
     label: 'Positioning %',
-    icon: LockIcon,
+    icon: FaMapMarkerAlt,
     stats: playerPositioningPercentage,
   },
   {
     id: 'proximity',
     label: 'Ball Proximity',
-    icon: LockIcon,
+    icon: MdTouchApp,
     stats: playerBallProximity,
   },
   {
     id: 'proximity.percentage',
     label: 'Ball Proximity %',
-    icon: LockIcon,
+    icon: MdTouchApp,
     stats: playerBallProximityPercentage,
   },
 ]
@@ -125,14 +131,14 @@ export const playerStats = [
   {
     id: 'core',
     label: 'Core',
-    icon: LockIcon,
+    icon: FaStar,
     stats: [...winPercentage, ...playerCore],
   },
   ...baseStats,
   {
     id: 'demos',
     label: 'Demolitions',
-    icon: LockIcon,
+    icon: GiMineExplosion,
     stats: playerDemolitions,
   },
 ]

@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/control-has-associated-label */
-import { Divider, Flex, Image, Stack, Text, Tooltip } from '@chakra-ui/react'
-import ButtonLink from '@octane/components/common/Button'
+import { Flex, Image, Stack, Text, Tooltip } from '@chakra-ui/react'
+import Navigation from '@octane/components/common/Navigation'
 import { LabeledField, Link } from '@octane/components/common/Text'
 import { toDateYear, toMinuteSeconds, toTime } from '@octane/util/dates'
 import moment from 'moment'
@@ -201,13 +201,15 @@ export const Infobox = ({ match, active }) => {
           </Stack>
         </LabeledField>
         {games && (
-          <SeriesOverview
-            blue={blue}
-            orange={orange}
-            games={games}
-            isActive={active}
-            isBlueWinner={blue.winner}
-          />
+          <Flex display={{ base: 'none', lg: 'flex' }}>
+            <SeriesOverview
+              blue={blue}
+              orange={orange}
+              games={games}
+              isActive={active}
+              isBlueWinner={blue.winner}
+            />
+          </Flex>
         )}
         <LabeledField label={toTime(date)} width="sm">
           {toDateYear(date)}
@@ -217,29 +219,30 @@ export const Infobox = ({ match, active }) => {
   )
 }
 
-export const Navigation = ({ baseHref, games, active, isAdmin }) => (
-  <Flex paddingLeft={2} paddingRight={2} marginTop={4} direction="column" width="full">
-    <Stack width="full" direction="row" align="center">
-      <ButtonLink href={baseHref} isActive={!active}>
-        Overview
-      </ButtonLink>
-      {games?.map((game, i) => (
-        <ButtonLink
-          key={i + 1}
-          href={`${baseHref}/${i + 1}`}
-          isActive={active === i + 1}
-          isDisabled={!game._id}>
-          {`Game ${i + 1}`}
-        </ButtonLink>
-      ))}
-      {isAdmin && (
-        <ButtonLink href={`${baseHref}/admin`} isActive={active === 'admin'}>
-          Admin
-        </ButtonLink>
-      )}
-      <Divider borderColor="secondary.400" />
-    </Stack>
-  </Flex>
+export const MatchNavigation = ({ baseHref, games, active, isAdmin }) => (
+  <Navigation
+    active={active}
+    baseHref={baseHref}
+    items={[
+      {
+        id: 'overview',
+        label: 'Overview',
+      },
+      ...games.map((game, i) => ({
+        id: `game${i + 1}`,
+        label: `Game ${i + 1}`,
+        href: `/${i + 1}`,
+      })),
+      {
+        id: 'admin',
+        href: '/admin',
+        label: 'Admin',
+        adminOnly: true,
+      },
+    ]}
+    isAdmin={isAdmin}
+    hasDivider
+  />
 )
 
-export default Navigation
+export default MatchNavigation

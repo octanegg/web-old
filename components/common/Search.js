@@ -2,6 +2,8 @@ import { apiFetch } from '@octane/util/fetch'
 import { useEffect, useState } from 'react'
 import NextLink from 'next/link'
 
+import { ImSearch } from 'react-icons/im'
+
 const {
   Input,
   Flex,
@@ -16,10 +18,11 @@ const {
 
 const MAX_RESULTS = 100
 
-const Search = () => {
+const Search = ({ width }) => {
   const [search, setSearch] = useState('')
   const [options, setOptions] = useState([])
   const [results, setResults] = useState([])
+  const [isInputting, setIsInputting] = useState(false)
 
   useEffect(() => {
     const fetchData = async () => {
@@ -78,27 +81,35 @@ const Search = () => {
   }
 
   return (
-    <Popover
-      placement="bottom"
-      isOpen={results.length > 0}
-      autoFocus={false}
-      closeOnBlur
-      onClose={reset}>
+    <Popover placement="bottom" isOpen={results.length > 0} autoFocus={false} onClose={reset}>
       <PopoverTrigger>
-        <Flex paddingLeft={4} paddingRight={4}>
+        <Flex paddingLeft={5} paddingRight={5} align="center">
           <Input
             tabIndex="-1"
             border="none"
             backgroundColor="secondary.700"
             height={8}
-            width={40}
+            width={width || 40}
             color="whitesmoke"
             fontSize="sm"
             fontWeight="medium"
             _focus={{ outline: 'none' }}
             value={search}
+            onBlur={() => {
+              setIsInputting(false)
+              setTimeout(() => {
+                reset()
+              }, 1000)
+            }}
+            onFocus={() => setIsInputting(true)}
             onChange={(e) => setSearch(e.target.value)}
           />
+          <Flex
+            zIndex={isInputting || search ? 0 : 2}
+            marginLeft={-5}
+            color={isInputting || search ? 'secondary.700' : 'secondary.300'}>
+            <ImSearch />
+          </Flex>
         </Flex>
       </PopoverTrigger>
       <PopoverContent

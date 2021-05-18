@@ -2,32 +2,54 @@ import { Content } from '@octane/components/common/Layout'
 import { getServerSideAuth } from '@octane/util/auth'
 import { Stack } from '@chakra-ui/react'
 import Participants from '@octane/components/events/Participants'
-import { Filter, RegionFilter } from '@octane/components/filters/Filter'
-import { buildQuery, route } from '@octane/util/routes'
-import { useRouter } from 'next/router'
 import Meta from '@octane/components/common/Meta'
+import { Heading } from '@octane/components/common/Text'
 
-const Team = ({ auth, teams, regions }) => {
-  const router = useRouter()
+const Team = ({ auth, teams }) => (
+  <Content auth={auth}>
+    <Meta title="Rocket League Active Teams" />
+    <Stack width="full" spacing={8}>
+      {teams.NA?.length > 0 && (
+        <Stack direction="column">
+          <Heading>North America</Heading>
+          <Participants participants={teams.NA} />
+        </Stack>
+      )}
+      {teams.EU?.length > 0 && (
+        <Stack direction="column">
+          <Heading>Europe</Heading>
+          <Participants participants={teams.EU} />
+        </Stack>
+      )}
+      {teams.OCE?.length > 0 && (
+        <Stack direction="column">
+          <Heading>Oceania</Heading>
+          <Participants participants={teams.OCE} />
+        </Stack>
+      )}
+      {teams.SAM?.length > 0 && (
+        <Stack direction="column">
+          <Heading>South America</Heading>
+          <Participants participants={teams.SAM} />
+        </Stack>
+      )}
+      {teams.ASIA?.length > 0 && (
+        <Stack direction="column">
+          <Heading>Asia</Heading>
+          <Participants participants={teams.ASIA} />
+        </Stack>
+      )}
+      {teams.ME?.length > 0 && (
+        <Stack direction="column">
+          <Heading>Middle East</Heading>
+          <Participants participants={teams.ME} />
+        </Stack>
+      )}
+    </Stack>
+  </Content>
+)
 
-  return (
-    <Content auth={auth}>
-      <Meta title="Rocket League Active Teams" />
-      <Stack width="full" spacing={3}>
-        <Filter>
-          <RegionFilter
-            active={regions}
-            onChange={(r) => route(router, '/teams', buildQuery({ region: r }, ''))}
-            noInternational
-          />
-        </Filter>
-        <Participants participants={teams} />
-      </Stack>
-    </Content>
-  )
-}
-
-export async function getServerSideProps({ req, query }) {
+export async function getServerSideProps({ req }) {
   const auth = getServerSideAuth(req)
   const res = await fetch(`${process.env.API_URL}/teams/active`)
   if (res.status !== 200) {
@@ -36,14 +58,18 @@ export async function getServerSideProps({ req, query }) {
     }
   }
 
-  const regions = !query.region ? [] : Array.isArray(query.region) ? query.region : [query.region]
-
   const { teams } = await res.json()
   return {
     props: {
       auth,
-      regions,
-      teams: teams.filter((t) => regions.length === 0 || regions.includes(t.team.region)),
+      teams: {
+        NA: teams.filter((t) => t.team.region === 'NA'),
+        EU: teams.filter((t) => t.team.region === 'EU'),
+        OCE: teams.filter((t) => t.team.region === 'OCE'),
+        SAM: teams.filter((t) => t.team.region === 'SAM'),
+        ASIA: teams.filter((t) => t.team.region === 'ASIA'),
+        ME: teams.filter((t) => t.team.region === 'ME'),
+      },
     },
   }
 }

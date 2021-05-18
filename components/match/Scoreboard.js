@@ -7,7 +7,7 @@ import Flag from '@octane/components/common/Flag'
 import { StarIcon } from '@chakra-ui/icons'
 import { formatStatFromObj, formatAggregateStatFromObj } from '@octane/util/stats'
 import { useState } from 'react'
-import StatsNavigation from '@octane/components/common/Stats'
+import StatsNavigation from '@octane/components/stats/Navigation'
 import { gameBasicStats, gameAdvancedStats } from '@octane/config/stats/stats'
 import ButtonLink from '@octane/components/common/Button'
 
@@ -18,9 +18,10 @@ export const ScoreboardGame = ({ blue, orange, map, duration, ballchasing, showR
   return (
     <>
       <StatsNavigation
-        stats={statGroups}
-        selectedStats={stats}
-        onStatsChange={setStats}
+        groups={statGroups}
+        selectedGroup={stats}
+        onGroupChange={setStats}
+        hideMobileLabels
         right={
           <Stack direction="row" align="center" spacing={8} fontSize="xs" color="secondary.800">
             {map && (
@@ -59,7 +60,12 @@ export const ScoreboardMatch = ({ blue, orange, showReplayStats }) => {
 
   return (
     <>
-      <StatsNavigation stats={statGroups} selectedStats={stats} onStatsChange={setStats} />
+      <StatsNavigation
+        groups={statGroups}
+        selectedGroup={stats}
+        onGroupChange={setStats}
+        hideMobileLabels
+      />
       <ScoreboardTable stats={stats.stats} side={blue} />
       <ScoreboardTable stats={stats.stats} side={orange} />
     </>
@@ -67,49 +73,51 @@ export const ScoreboardMatch = ({ blue, orange, showReplayStats }) => {
 }
 
 const ScoreboardTable = ({ stats, side, showMvp }) => (
-  <table className={styles.scoreboard}>
-    <thead>
-      <tr>
-        <th style={{ textAlign: 'left', paddingLeft: '5px' }}>Player</th>
-        {stats.map((stat) => (
-          <th>{stat.label}</th>
-        ))}
-      </tr>
-    </thead>
-    <tbody>
-      {side.players
-        .sort((a, b) => b.stats.core.score - a.stats.core.score)
-        .map((player, i) => (
-          <tr key={i}>
-            <td>
-              <Stack paddingLeft={2} direction="row" align="center">
-                <Flag country={player.player.country || 'int'} />
-                <Link href={`/players/${player.player.slug}`}>
-                  <Text>{player.player.tag}</Text>
-                </Link>
-                {showMvp && player.stats.core.mvp && <StarIcon fontSize="xs" />}
-              </Stack>
-            </td>
-            {stats.map((stat) => (
-              <td>{formatStatFromObj(player, stat)}</td>
-            ))}
-          </tr>
-        ))}
-      <tr>
-        <td>
-          <Stack paddingLeft={2} direction="row" align="center">
-            <Flex minWidth={5} justify="center">
-              {side.team.team.image && <Image width={6} src={side.team.team.image} />}
-            </Flex>
-            <Link href={`/teams/${side.team.team.slug}`}>{side.team.team.name}</Link>
-          </Stack>
-        </td>
-        {stats.map((stat) => (
-          <td>{formatAggregateStatFromObj(side.players, stat)}</td>
-        ))}
-      </tr>
-    </tbody>
-  </table>
+  <div className={styles.tableWrapper}>
+    <table className={styles.scoreboard}>
+      <thead>
+        <tr>
+          <th style={{ textAlign: 'left', paddingLeft: '5px' }}>Player</th>
+          {stats.map((stat) => (
+            <th>{stat.label}</th>
+          ))}
+        </tr>
+      </thead>
+      <tbody>
+        {side.players
+          .sort((a, b) => b.stats.core.score - a.stats.core.score)
+          .map((player, i) => (
+            <tr key={i}>
+              <td>
+                <Stack paddingLeft={2} direction="row" align="center">
+                  <Flag country={player.player.country || 'int'} />
+                  <Link href={`/players/${player.player.slug}`}>
+                    <Text>{player.player.tag}</Text>
+                  </Link>
+                  {showMvp && player.stats.core.mvp && <StarIcon fontSize="xs" />}
+                </Stack>
+              </td>
+              {stats.map((stat) => (
+                <td>{formatStatFromObj(player, stat)}</td>
+              ))}
+            </tr>
+          ))}
+        <tr>
+          <td>
+            <Stack paddingLeft={2} direction="row" align="center">
+              <Flex minWidth={5} justify="center">
+                {side.team.team.image && <Image width={6} src={side.team.team.image} />}
+              </Flex>
+              <Link href={`/teams/${side.team.team.slug}`}>{side.team.team.name}</Link>
+            </Stack>
+          </td>
+          {stats.map((stat) => (
+            <td>{formatAggregateStatFromObj(side.players, stat)}</td>
+          ))}
+        </tr>
+      </tbody>
+    </table>
+  </div>
 )
 
 export default ScoreboardGame
