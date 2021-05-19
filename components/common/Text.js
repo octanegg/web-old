@@ -1,21 +1,37 @@
-import { Flex, Text, Link as ChakraLink } from '@chakra-ui/react'
+import { Flex, Text, Link as ChakraLink, Divider } from '@chakra-ui/react'
 import NextLink from 'next/link'
 
-export const Heading = (props) => (
-  <Flex width="full" align="flex-start" direction="column">
-    <Text
-      textTransform="uppercase"
-      color="secondary.500"
-      fontSize="xs"
-      fontWeight="semi"
-      paddingLeft={2}
-      {...props}
-    />
-  </Flex>
-)
+export const Heading = (props) => {
+  const { hasDivider } = props
+  return (
+    <Flex width="full" align="center" direction="row">
+      <Text
+        textTransform="uppercase"
+        color="secondary.500"
+        fontSize="xs"
+        fontWeight="bold"
+        letterSpacing={0.5}
+        paddingLeft={2}
+        {...props}
+      />
+      {hasDivider && <Divider marginLeft={2} marginRight={2} borderColor="secondary.300" />}
+    </Flex>
+  )
+}
 
 export const Link = (props) => {
-  const { href, align, fontSize, fontWeight, noStyle, children } = props
+  const {
+    href,
+    align,
+    fontSize,
+    fontWeight,
+    wrap,
+    overflow,
+    textOverflow,
+    textAlign,
+    noStyle,
+    children,
+  } = props
   const _props = !noStyle
     ? {
         fontSize: fontSize || 'sm',
@@ -23,9 +39,11 @@ export const Link = (props) => {
         color: 'secondary.800',
         cursor: 'pointer',
         align: align || 'start',
-        whiteSpace: 'nowrap',
-        overflow: 'hidden',
-        textOverflow: 'ellipsis',
+        whiteSpace: wrap || 'nowrap',
+        overflow: overflow || 'hidden',
+        textOverflow: textOverflow || 'ellipsis',
+        wordBreak: 'break-word',
+        textAlign: textAlign || 'start',
         _hover: { color: 'primary.500' },
         _focus: { outline: 'none' },
       }

@@ -217,7 +217,7 @@ const Navigation = ({ type, active, baseHref, filter, hasDivider, items, isAdmin
 
   return (
     <Stack paddingLeft={2} paddingRight={2} width="full" direction="row" align="center">
-      <Flex display={{ base: 'none', sm: 'flex' }}>
+      <Stack direction="row" display={{ base: 'none', md: 'flex' }}>
         {_items
           .filter((nav) => !nav.adminOnly || isAdmin)
           .map(({ id, href, label }) => (
@@ -228,8 +228,8 @@ const Navigation = ({ type, active, baseHref, filter, hasDivider, items, isAdmin
               {label}
             </ButtonLink>
           ))}
-      </Flex>
-      <Flex display={{ base: 'flex', sm: 'none' }}>
+      </Stack>
+      <Flex display={{ base: 'flex', md: 'none' }}>
         <Select
           width={48}
           height={7}

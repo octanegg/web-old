@@ -4,13 +4,13 @@ import NextLink from 'next/link'
 import Search from '@octane/components/common/Search'
 import { useAuthFunctions } from 'aws-cognito-next'
 import { isAdmin } from '@octane/util/auth'
-import { MdGames, MdSettings } from 'react-icons/md'
-import { FaTrophy, FaMedal } from 'react-icons/fa'
+import { MdSettings } from 'react-icons/md'
+import { FaTrophy, FaMedal, FaListUl } from 'react-icons/fa'
 import { IoStatsChart, IoLogInOutline, IoLogOutOutline } from 'react-icons/io5'
 import { RiTeamFill } from 'react-icons/ri'
 
 const NAV_ITEMS = [
-  { href: '/matches', label: 'Matches', icon: <MdGames /> },
+  { href: '/matches', label: 'Matches', icon: <FaListUl /> },
   { href: '/events', label: 'Events', icon: <FaTrophy /> },
   {
     href: '/stats/players?mode=3&minGames=50&group=rlcsxfall&group=rlcsxwinter&group=rlcsxspring',
@@ -77,6 +77,7 @@ const Navbar = ({ auth }) => {
       backgroundColor="secondary.800"
       justify="center"
       color="whitesmoke"
+      zIndex={10}
       direction={{ base: 'column', lg: 'row' }}>
       <Flex
         width="full"

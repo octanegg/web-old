@@ -36,6 +36,7 @@ const theme = {
   colors: {
     ...defaultTheme.colors,
     primary: {
+      25: '#e5fff4',
       50: '#e0fdef',
       100: '#bbf2d7',
       200: '#94e8be',

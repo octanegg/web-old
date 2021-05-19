@@ -1,46 +1,9 @@
 /* eslint-disable jsx-a11y/control-has-associated-label */
 import { Flex, Image, Stack, Text, Tooltip } from '@chakra-ui/react'
 import Navigation from '@octane/components/common/Navigation'
-import { LabeledField, Link } from '@octane/components/common/Text'
-import { toDateYear, toMinuteSeconds, toTime } from '@octane/util/dates'
+import { Link } from '@octane/components/common/Text'
+import { toDateYear, toMinuteSeconds, toTime, timeUntilFull } from '@octane/util/dates'
 import moment from 'moment'
-
-const InfoboxSide = ({ team, isReversed }) => (
-  <Flex
-    justify="flex-end"
-    width="full"
-    align="center"
-    direction={isReversed ? 'row-reverse' : 'row'}>
-    <Link fontSize="2xl" href={`/teams/${team.team.slug}`}>
-      {team.team.name}
-    </Link>
-    <Flex minWidth={24} marginLeft={4} marginRight={4}>
-      {team.team.image && <Image width={24} src={team.team.image} />}
-    </Flex>
-  </Flex>
-)
-
-const InfoboxTBD = () => (
-  <Flex fontSize="2xl" fontWeight="light" marginLeft={4} marginRight={4}>
-    TBD
-  </Flex>
-)
-
-const InfoboxUpcoming = () => (
-  <Flex fontWeight="bold" justify="center" fontSize="xl" color="secondary.800">
-    vs
-  </Flex>
-)
-
-const InfoboxScore = ({ blue, orange }) => (
-  <Flex fontWeight="bold" justify="center" fontSize="4xl" color="secondary.800" width={24}>
-    <Text color={blue > orange ? 'win' : 'loss'}>{blue}</Text>
-    <Text marginLeft={2} marginRight={2}>
-      -
-    </Text>
-    <Text color={orange > blue ? 'win' : 'loss'}>{orange}</Text>
-  </Flex>
-)
 
 const SeriesOverviewHeader = ({ label, isActive, isLast }) => (
   <Flex
@@ -180,41 +143,112 @@ const SeriesOverview = ({ blue, orange, games, isBlueWinner, isActive }) => (
 export const Infobox = ({ match, active }) => {
   const { blue, orange, date, event, stage, games } = match
 
-  const isUpcoming = !blue || !orange || moment(date).isAfter(moment())
+  const blueScore = blue?.score || 0
+  const orangeScore = orange?.score || 0
 
   return (
-    <Stack direction="column" width="full" margin={2} justify="space-around">
-      <Flex justify="center" align="center">
-        {blue ? <InfoboxSide team={blue.team} /> : <InfoboxTBD />}
-        {isUpcoming ? (
-          <InfoboxUpcoming />
-        ) : (
-          <InfoboxScore blue={blue?.score || 0} orange={orange?.score || 0} />
-        )}
-        {orange ? <InfoboxSide team={orange.team} isReversed /> : <InfoboxTBD />}
+    <Stack
+      direction="column"
+      width="full"
+      justify="center"
+      align="center"
+      paddingLeft={4}
+      paddingRight={4}>
+      <Flex width="full" justify="space-between">
+        <Stack direction="row" align="center">
+          {event.image && <Image width={6} src={event.image} />}
+          <Flex direction="column" width={{ base: 48, sm: 64, md: 'auto' }}>
+            <Link href={`/events/${event.slug}`} wrap={{ base: 'wrap', md: 'nowrap' }}>
+              {event.name}
+            </Link>
+            <Text fontSize="10px" fontWeight="semi" color="secondary.400" textTransform="uppercase">
+              {stage.name}
+            </Text>
+          </Flex>
+        </Stack>
+        <Flex direction="column" align="flex-end" textAlign="end">
+          <Text fontWeight="bold" fontSize="sm">
+            {toDateYear(date)}
+          </Text>
+          <Text fontSize="10px" fontWeight="semi" color="secondary.400" textTransform="uppercase">
+            {toTime(date)}
+          </Text>
+        </Flex>
       </Flex>
-      <Flex justify="space-around">
-        <LabeledField label={stage.name} width="sm">
-          <Stack direction="row" align="center">
-            {event.image && <Image width={6} src={event.image} />}
-            <Link href={`/events/${event.slug}`}>{event.name}</Link>
-          </Stack>
-        </LabeledField>
-        {games && (
-          <Flex display={{ base: 'none', lg: 'flex' }}>
-            <SeriesOverview
-              blue={blue}
-              orange={orange}
-              games={games}
-              isActive={active}
-              isBlueWinner={blue.winner}
-            />
+      <Stack direction="row" align="center" paddingBottom={4}>
+        {blue ? (
+          <Flex
+            align="center"
+            width={{ base: 20, sm: 24, md: 80 }}
+            justify="flex-end"
+            direction={{ base: 'column-reverse', md: 'row' }}>
+            <Link
+              fontSize={{ base: 'md', md: 'xl' }}
+              textAlign="center"
+              href={`/teams/${blue.team.team.slug}`}
+              wrap={{ base: 'wrap', md: 'nowrap' }}>
+              {blue.team.team.name}
+            </Link>
+            <Flex width={{ base: 16, md: 24 }} marginLeft={4} marginRight={4}>
+              <Image width={{ base: 16, md: 24 }} src={blue.team.team.image} />
+            </Flex>
+          </Flex>
+        ) : (
+          <Flex align="center" width={80} justify="flex-end">
+            TBD
           </Flex>
         )}
-        <LabeledField label={toTime(date)} width="sm">
-          {toDateYear(date)}
-        </LabeledField>
-      </Flex>
+        {blueScore || orangeScore ? (
+          <Flex fontWeight="bold" justify="center" fontSize="4xl" color="secondary.800" width={24}>
+            <Text color={blue.score > orange.score ? 'win' : 'loss'}>{blue.score}</Text>
+            <Text marginLeft={2} marginRight={2}>
+              -
+            </Text>
+            <Text color={orange.score > blue.score ? 'win' : 'loss'}>{orange.score}</Text>
+          </Flex>
+        ) : (
+          <Stack width={24} justify="center" align="center" spacing={1}>
+            <Text fontWeight="bold" fontSize="xl" color="secondary.800">
+              vs
+            </Text>
+            <Text fontSize="10px" fontWeight="semi" color="secondary.400" textTransform="uppercase">
+              {moment(date).isAfter(moment()) ? timeUntilFull(date) : 'Awaiting Result'}
+            </Text>
+          </Stack>
+        )}
+        {orange ? (
+          <Flex
+            align="center"
+            width={{ base: 20, sm: 24, md: 80 }}
+            direction={{ base: 'column', md: 'row' }}>
+            <Flex width={{ base: 16, md: 24 }} marginLeft={4} marginRight={4}>
+              <Image width={{ base: 16, md: 24 }} src={orange.team.team.image} />
+            </Flex>
+            <Link
+              fontSize={{ base: 'md', md: 'xl' }}
+              textAlign="center"
+              href={`/teams/${orange.team.team.slug}`}
+              wrap={{ base: 'wrap', md: 'nowrap' }}>
+              {orange.team.team.name}
+            </Link>
+          </Flex>
+        ) : (
+          <Flex align="center" width={80} justify="flex-end">
+            TBD
+          </Flex>
+        )}
+      </Stack>
+      {games && (
+        <Flex paddingBottom={4} display={{ base: 'none', lg: 'flex' }}>
+          <SeriesOverview
+            blue={blue}
+            orange={orange}
+            games={games}
+            isActive={active}
+            isBlueWinner={blue.winner}
+          />
+        </Flex>
+      )}
     </Stack>
   )
 }
@@ -228,7 +262,7 @@ export const MatchNavigation = ({ baseHref, games, active, isAdmin }) => (
         id: 'overview',
         label: 'Overview',
       },
-      ...games.map((game, i) => ({
+      ...(games || []).map((game, i) => ({
         id: `game${i + 1}`,
         label: `Game ${i + 1}`,
         href: `/${i + 1}`,

@@ -1,5 +1,4 @@
 import {
-  Flex,
   Popover,
   PopoverBody,
   PopoverContent,
@@ -80,18 +79,20 @@ export const StatsNavigation = ({
   const moreStats = groups.slice(MAX_STATS)
 
   return (
-    <Flex
+    <Stack
       paddingLeft={2}
       paddingRight={2}
+      spacing={{ base: 2, lg: 0 }}
       align="center"
       width="full"
-      direction={{ base: 'column', lg: 'row' }}
+      direction={{ base: right ? 'column-reverse' : 'column', lg: 'row' }}
       justify="space-between">
       <Stack
         direction="row"
         width={{ base: 'full', lg: 'auto' }}
         spacing={{ base: 2, lg: 0 }}
         paddingBottom={{ base: 2, lg: 0 }}
+        justify={{ base: hideMobileLabels ? 'center' : 'flex-start' }}
         wrap="wrap"
         align="center"
         shouldWrapChildren>
@@ -181,7 +182,7 @@ export const StatsNavigation = ({
           </Button>
         </Stack>
       )}
-    </Flex>
+    </Stack>
   )
 }
 

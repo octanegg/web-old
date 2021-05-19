@@ -35,6 +35,17 @@ export const timeUntil = (date) => {
   return moment(date).format('MMM D')
 }
 
+export const timeUntilFull = (date) => {
+  const minutes = Math.abs(moment().diff(moment(date), 'minutes'))
+  if (minutes < 60) {
+    return `in ${minutes} minute${minutes > 1 ? 's' : ''}`
+  }
+  if (minutes < 60 * 24) {
+    return `in ${Math.floor(minutes / 60)} hour${Math.floor(minutes / 60) > 1 ? 's' : ''}`
+  }
+  return `in ${Math.floor(minutes / 60 / 24)} day${Math.floor(minutes / 60 / 24) > 1 ? 's' : ''}`
+}
+
 export const timeSince = (date) => {
   const minutes = Math.abs(moment().diff(moment(date), 'minutes'))
   if (minutes < 60) {

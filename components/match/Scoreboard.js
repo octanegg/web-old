@@ -23,7 +23,16 @@ export const ScoreboardGame = ({ blue, orange, map, duration, ballchasing, showR
         onGroupChange={setStats}
         hideMobileLabels
         right={
-          <Stack direction="row" align="center" spacing={8} fontSize="xs" color="secondary.800">
+          <Stack
+            width={{ base: 'full', lg: 'auto' }}
+            direction="row"
+            align="center"
+            justify={{ base: 'center', lg: 'flex-start' }}
+            spacing={{ base: 1, sm: 8 }}
+            fontSize="xs"
+            color="secondary.800"
+            wrap="wrap"
+            shouldWrapChildren>
             {map && (
               <Flex direction="row">
                 <Text fontWeight="semi" marginRight={1}>
@@ -41,9 +50,11 @@ export const ScoreboardGame = ({ blue, orange, map, duration, ballchasing, showR
               </Flex>
             )}
             {ballchasing && (
-              <ButtonLink href={`https://ballchasing.com/replay/${ballchasing}`} isActive>
-                Ballchasing
-              </ButtonLink>
+              <Flex padding={1}>
+                <ButtonLink href={`https://ballchasing.com/replay/${ballchasing}`} isActive>
+                  Ballchasing
+                </ButtonLink>
+              </Flex>
             )}
           </Stack>
         }

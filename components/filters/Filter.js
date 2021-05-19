@@ -35,7 +35,7 @@ export const Filter = ({ children, onApply, onReset }) => {
 
   return (
     <Stack>
-      <Flex display={{ base: 'flex', lg: 'none' }} width="full" marginLeft={4}>
+      <Flex display={{ base: 'flex', lg: 'none' }} marginLeft={4}>
         <Button
           buttonType={showFilter ? ButtonTypes.stat.selected : ButtonTypes.stat.default}
           override={{ _hover: {}, borderRadius: 8, width: 24 }}

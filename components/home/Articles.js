@@ -1,46 +1,46 @@
 /* eslint-disable camelcase */
 import moment from 'moment'
-import { Link, Flex, Stack, Text, Spacer } from '@chakra-ui/react'
+import { Link, Flex, Stack, Text, Image, Box } from '@chakra-ui/react'
 import NextLink from 'next/link'
 import { Heading } from '@octane/components/common/Text'
 
 const Banner = ({ article }) => (
   <NextLink passHref href={`/news/${article.slug}`} key={article._id}>
-    <Link _hover={{}}>
-      <Flex
-        cursor="pointer"
-        height="22rem"
-        background={`linear-gradient(rgba(0,23,8,0.2), rgba(0,0,0,0.6)), url(https://octane-content.s3.amazonaws.com/${article.image.hash}${article.image.ext})`}
-        backgroundPosition="center"
-        backgroundSize="cover"
-        align="flex-end"
-        _hover={{
-          background: `linear-gradient(rgba(0,23,8,0.2), rgba(0,0,0,0.4)), url(https://octane-content.s3.amazonaws.com/${article.image.hash}${article.image.ext})`,
-          backgroundPosition: 'center',
-          backgroundSize: 'cover',
-        }}>
+    <Link _hover={{}} _focus={{}}>
+      <Box position="relative" color="primary.200" _hover={{ color: 'primary.50' }}>
+        <Image
+          src={`https://octane-content.s3.amazonaws.com/${article.image.hash}${article.image.ext}`}
+        />
+        <Box
+          width="full"
+          height="full"
+          position="absolute"
+          top={0}
+          background="linear-gradient(to top, rgba(0, 0, 0, 0.65) 0%, transparent 100%)"
+        />
         <Text
-          color="primary.400"
-          fontSize="2xl"
+          fontSize={{ base: 'xl', sm: '2xl' }}
           fontWeight="bold"
-          textTransform="uppercase"
-          width={9 / 10}
-          padding={3}>
+          position="absolute"
+          paddingBottom={2}
+          paddingLeft={4}
+          bottom={0}
+          textShadow="1px 1px 2px rgb(28 28 28 / 10%)">
           {article.title}
         </Text>
-      </Flex>
+      </Box>
     </Link>
   </NextLink>
 )
 
 const ArticleGroup = ({ group, articles }) => (
   <Stack paddingBottom={4}>
-    <Heading>{group}</Heading>
+    <Heading hasDivider>{group}</Heading>
     {articles.map(({ _id, slug, published_at, title, authors }) => (
       <NextLink key={_id} passHref href={`/news/${slug}`}>
-        <Link _hover={{}}>
-          <Stack
-            direction="row"
+        <Link _hover={{}} _focus={{}}>
+          <Flex
+            justify="space-between"
             cursor="pointer"
             align="center"
             fontSize="sm"
@@ -49,22 +49,29 @@ const ArticleGroup = ({ group, articles }) => (
             borderRadius={8}
             _hover={{ background: 'secondary.50' }}
             padding={1}
-            paddingLeft={4}
-            paddingRight={4}>
+            marginLeft={2}
+            marginRight={2}>
+            <Stack direction="row" width="full">
+              <Text minWidth={12} fontSize="xs" fontWeight="semi" color="secondary.600" align="end">
+                {moment(published_at).format('MMM D')}
+              </Text>
+              <Text
+                width={{ base: 'auto', sm: 'xs', md: 'sm' }}
+                overflow="hidden"
+                whiteSpace="nowrap"
+                textOverflow="ellipsis">
+                {title}
+              </Text>
+            </Stack>
             <Text
-              minWidth={6}
+              align="end"
               fontSize="xs"
-              fontWeight="medium"
-              color="secondary.500"
-              align="center">
-              {moment(published_at).format('M/D')}
-            </Text>
-            <Text>{title}</Text>
-            <Spacer />
-            <Text width={40} align="end" fontSize="xs" fontWeight="medium" color="secondary.500">
+              fontWeight="semi"
+              color="secondary.600"
+              display={{ base: 'none', xl: 'flex' }}>
               {authors.map((a) => a.name).join(',')}
             </Text>
-          </Stack>
+          </Flex>
         </Link>
       </NextLink>
     ))}
