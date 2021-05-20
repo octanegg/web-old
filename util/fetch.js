@@ -1,3 +1,4 @@
+/* eslint-disable no-await-in-loop */
 import getConfig from 'next/config'
 
 const { publicRuntimeConfig } = getConfig()
@@ -5,6 +6,23 @@ const { publicRuntimeConfig } = getConfig()
 export const apiFetch = async (path, query) => {
   const res = await fetch(`${process.env.API_URL}${path}${query}`)
   return res.json()
+}
+
+export const apiBulkFetch = async (path, query) => {
+  let page = 1
+  let lastPage = 50
+  const perPage = 50
+
+  const items = []
+  while (lastPage === perPage) {
+    const res = await fetch(`${process.env.API_URL}${path}${query}&page=${page}&perPage=${perPage}`)
+    const data = await res.json()
+    items.push(...data.events)
+    lastPage = data.events.length
+    page += 1
+  }
+
+  return items
 }
 
 export const apiUpdate = async (path, data) => {

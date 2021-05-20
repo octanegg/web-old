@@ -5,7 +5,7 @@ import Loading from '@octane/components/common/Loading'
 import { Link, Heading } from '@octane/components/common/Text'
 import { toDateString } from '@octane/util/dates'
 import { getRegion } from '@octane/util/regions'
-import { apiFetch } from '@octane/util/fetch'
+import { apiBulkFetch } from '@octane/util/fetch'
 import { buildQuery } from '@octane/util/routes'
 import { formatPrizeUSD } from '@octane/util/prizes'
 import NextLink from 'next/link'
@@ -20,23 +20,23 @@ export const EventsTable = ({ filter, sort, isOngoing }) => {
       setEvents([])
       setLoading(!isOngoing && true)
 
-      const data = await apiFetch('/events', buildQuery(filter, ['']))
-      if (!data.events) {
+      const data = await apiBulkFetch('/events', buildQuery(filter, ['']))
+      if (!data) {
         setLoading(false)
         return
       }
       if (isOngoing) {
         setLabels(['Ongoing'])
-        setEvents([data.events])
+        setEvents([data])
         setLoading(false)
         return
       }
 
-      let day = moment(data.events[0][sort || 'startDate'])
+      let day = moment(data[0][sort || 'startDate'])
       const _labels = []
       const _events = []
 
-      data.events.forEach((event, i) => {
+      data.forEach((event, i) => {
         const date = moment(event[sort || 'startDate'])
         if (i === 0 || !date.isSame(day, 'month')) {
           _labels.push(date.format('MMMM YYYY'))

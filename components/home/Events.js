@@ -31,7 +31,7 @@ export const Events = ({ events }) => {
       <Stack
         direction={{ base: 'row', lg: 'column' }}
         divider={<StackDivider borderColor="secondary.200" />}
-        overflowY="scroll">
+        overflowY={{ base: 'scroll', lg: 'auto' }}>
         {(toggle ? ongoing : upcoming).map(
           ({ _id, slug, name, region, stages, startDate, endDate, image, tier, prize }) => (
             <NextLink passHref href={`/events/${slug}`} key={_id}>

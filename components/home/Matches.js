@@ -27,7 +27,7 @@ export const Matches = ({ matches }) => {
       <Stack
         direction={{ base: 'row', lg: 'column' }}
         divider={<StackDivider borderColor="secondary.200" />}
-        overflowY="scroll">
+        overflowY={{ base: 'scroll', lg: 'auto' }}>
         {(toggle ? upcoming : completed).map(({ _id, slug, event, date, blue, orange }) => {
           const blueScore = blue?.score || 0
           const orangeScore = orange?.score || 0

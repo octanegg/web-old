@@ -80,30 +80,31 @@ const ArticleGroup = ({ group, articles }) => (
 
 export const Articles = ({ articles }) => {
   const banner = articles[0]
+  const _articles = articles.slice(1)
 
-  const today = articles.filter((article) =>
+  const today = _articles.filter((article) =>
     moment(article.published_at).isAfter(moment().subtract(1, 'day'))
   )
 
-  const yesterday = articles.filter(
+  const yesterday = _articles.filter(
     (article) =>
       moment(article.published_at).isAfter(moment().subtract(2, 'day')) &&
       moment(article.published_at).isBefore(moment().subtract(1, 'day'))
   )
 
-  const lastWeek = articles.filter(
+  const lastWeek = _articles.filter(
     (article) =>
       moment(article.published_at).isAfter(moment().subtract(7, 'day')) &&
       moment(article.published_at).isBefore(moment().subtract(2, 'day'))
   )
 
-  const lastMonth = articles.filter(
+  const lastMonth = _articles.filter(
     (article) =>
       moment(article.published_at).isAfter(moment().subtract(30, 'day')) &&
       moment(article.published_at).isBefore(moment().subtract(7, 'day'))
   )
 
-  const older = articles.filter((article) =>
+  const older = _articles.filter((article) =>
     moment(article.published_at).isBefore(moment().subtract(30, 'day'))
   )
 

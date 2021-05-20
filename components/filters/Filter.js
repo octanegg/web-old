@@ -332,7 +332,7 @@ export const TeamsOpponentsFilter = ({
   }, [])
 
   return (
-    <>
+    <Stack direction="row" align="center">
       <DropdownCheckbox
         label="Teams"
         items={teams}
@@ -347,6 +347,6 @@ export const TeamsOpponentsFilter = ({
         onChange={onOpponentChange}
         showImage
       />
-    </>
+    </Stack>
   )
 }

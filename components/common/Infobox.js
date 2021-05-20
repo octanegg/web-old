@@ -7,7 +7,7 @@ import { getRegion } from '@octane/util/regions'
 
 export const Infobox = ({ title, image, children }) => (
   <Flex direction="row" width="full" justify="space-between" paddingLeft={4} paddingRight={4}>
-    <Flex direction="column" width="full" justify="space-around">
+    <Flex direction="column" width={{ base: 'full', md: 'auto' }} marginTop={4}>
       <Flex
         fontWeight="bold"
         width="full"
@@ -18,11 +18,12 @@ export const Infobox = ({ title, image, children }) => (
         {title}
       </Flex>
       <Flex justify="center" display={{ base: 'flex', md: 'none' }}>
-        {image && <Image height={20} src={image} />}
+        {image && <Image height={20} width={20} src={image} />}
       </Flex>
       <Stack
         direction="row"
         width="full"
+        marginTop={8}
         justify={{ base: 'center', md: 'flex-start' }}
         spacing={{ base: 2, md: 8 }}
         wrap="wrap"
@@ -30,8 +31,8 @@ export const Infobox = ({ title, image, children }) => (
         {children}
       </Stack>
     </Flex>
-    <Flex minHeight={40} justify="flex-end" display={{ base: 'none', md: 'flex' }}>
-      {image && <Image height={40} src={image} />}
+    <Flex height={40} width={40} display={{ base: 'none', md: 'flex' }}>
+      {image && <Image height={40} width={40} src={image} />}
     </Flex>
   </Flex>
 )
