@@ -102,6 +102,7 @@ const Match = ({ match, team, player, highlightResult, isEven }) => {
   return (
     <NextLink passHref href={`/matches/${slug}`}>
       <Flex
+        as="a"
         width="full"
         backgroundColor={isEven ? 'white' : 'secondary.25'}
         align="center"

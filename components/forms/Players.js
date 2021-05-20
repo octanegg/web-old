@@ -34,6 +34,12 @@ export const PlayerForm = ({ data }) => {
   }, [])
 
   const updatePlayer = (key, value) => {
+    console.log(
+      cleanObj({
+        ...player,
+        [key]: value,
+      })
+    )
     setPlayer((prev) =>
       cleanObj({
         ...prev,
@@ -144,7 +150,7 @@ const AccountsForm = ({ accounts, onChange, onDelete }) => (
     {accounts.map(({ platform, id }, i) => {
       const isNewAccount = i === accounts.length - 1
       return (
-        <AccordionItem borderColor="secondary.200">
+        <AccordionItem key={id} borderColor="secondary.200">
           <AccordionButton _focus={{ outline: 'none' }}>
             {isNewAccount ? (
               <Text fontSize="sm" color="secondary.800">

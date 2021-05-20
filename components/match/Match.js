@@ -200,11 +200,11 @@ export const Infobox = ({ match, active }) => {
         )}
         {blueScore || orangeScore ? (
           <Flex fontWeight="bold" justify="center" fontSize="4xl" color="secondary.800" width={24}>
-            <Text color={blue.score > orange.score ? 'win' : 'loss'}>{blue.score}</Text>
+            <Text color={blueScore > orangeScore ? 'win' : 'loss'}>{blueScore}</Text>
             <Text marginLeft={2} marginRight={2}>
               -
             </Text>
-            <Text color={orange.score > blue.score ? 'win' : 'loss'}>{orange.score}</Text>
+            <Text color={orangeScore > blueScore ? 'win' : 'loss'}>{orangeScore}</Text>
           </Flex>
         ) : (
           <Stack width={24} justify="center" align="center" spacing={1}>
@@ -262,8 +262,8 @@ export const MatchNavigation = ({ baseHref, games, active, isAdmin }) => (
         id: 'overview',
         label: 'Overview',
       },
-      ...(games || []).map((game, i) => ({
-        id: `game${i + 1}`,
+      ...(games || []).map((_, i) => ({
+        id: i + 1,
         label: `Game ${i + 1}`,
         href: `/${i + 1}`,
       })),

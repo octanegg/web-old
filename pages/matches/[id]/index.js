@@ -14,6 +14,7 @@ const Match = ({ auth, match }) => (
     <Stack width="full" spacing={3}>
       <Infobox match={match} />
       <MatchNavigation
+        active="overview"
         baseHref={`/matches/${match.slug}`}
         games={match.games}
         isAdmin={isAdmin(auth)}

@@ -247,7 +247,7 @@ export const PlayerRow = ({ players, player, updatePlayer, isBallchasing }) => (
     </FormField>
     {!isBallchasing &&
       ['Score', 'Goals', 'Assists', 'Saves', 'Shots'].map((stat) => (
-        <FormField label={stat}>
+        <FormField label={stat} key={stat}>
           <Input
             id={stat}
             width={16}

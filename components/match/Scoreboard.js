@@ -84,7 +84,7 @@ export const ScoreboardMatch = ({ blue, orange, showReplayStats }) => {
 }
 
 const ScoreboardTable = ({ stats, side, showMvp }) => (
-  <div className={styles.scoreboardWrapper}>
+  <Flex overflowX={{ base: 'scroll', lg: 'auto' }}>
     <table className={styles.scoreboard}>
       <thead>
         <tr>
@@ -128,7 +128,7 @@ const ScoreboardTable = ({ stats, side, showMvp }) => (
         </tr>
       </tbody>
     </table>
-  </div>
+  </Flex>
 )
 
 export default ScoreboardGame
