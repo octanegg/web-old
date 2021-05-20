@@ -189,8 +189,8 @@ export const Infobox = ({ match, active }) => {
               wrap={{ base: 'wrap', md: 'nowrap' }}>
               {blue.team.team.name}
             </Link>
-            <Flex width={{ base: 16, md: 24 }} marginLeft={4} marginRight={4}>
-              <Image width={{ base: 16, md: 24 }} src={blue.team.team.image} />
+            <Flex width={{ base: 16, md: 20 }} marginLeft={4} marginRight={4}>
+              <Image width={{ base: 16, md: 20 }} src={blue.team.team.image} />
             </Flex>
           </Flex>
         ) : (
@@ -221,8 +221,8 @@ export const Infobox = ({ match, active }) => {
             align="center"
             width={{ base: 20, sm: 24, md: 80 }}
             direction={{ base: 'column', md: 'row' }}>
-            <Flex width={{ base: 16, md: 24 }} marginLeft={4} marginRight={4}>
-              <Image width={{ base: 16, md: 24 }} src={orange.team.team.image} />
+            <Flex width={{ base: 16, md: 20 }} marginLeft={4} marginRight={4}>
+              <Image width={{ base: 16, md: 20 }} src={orange.team.team.image} />
             </Flex>
             <Link
               fontSize={{ base: 'md', md: 'xl' }}

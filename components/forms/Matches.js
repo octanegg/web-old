@@ -1,7 +1,7 @@
 import { Input } from '@octane/components/common/Input'
 import { FormField } from '@octane/components/forms/Forms'
-import { useState } from 'react'
-import { apiCreate, apiDelete, apiUpdate } from '@octane/util/fetch'
+import { useEffect, useState } from 'react'
+import { apiBulkFetch, apiCreate, apiDelete, apiUpdate } from '@octane/util/fetch'
 import { Select, TeamSelect } from '@octane/components/common/Select'
 import { Flex, FormControl, FormLabel, Spacer, Stack, Text } from '@chakra-ui/react'
 import { cleanObj } from '@octane/util/stats'
@@ -13,6 +13,15 @@ export const MatchForm = ({ data, onUpdate, onRemove }) => {
   const [match, setMatch] = useState(data)
   const router = useRouter()
   const [submitting, setSubmitting] = useState(false)
+  const [teams, setTeams] = useState([])
+
+  useEffect(() => {
+    const fetchTeams = async () => {
+      const res = await apiBulkFetch('/teams', '', 'teams')
+      setTeams(res.sort((a, b) => a.name.localeCompare(b.name)))
+    }
+    fetchTeams()
+  }, [])
 
   const updateMatch = (key, value) => {
     const m = cleanObj({
@@ -148,6 +157,7 @@ export const MatchForm = ({ data, onUpdate, onRemove }) => {
       <Stack direction="row" spacing={4}>
         <FormField label="Blue">
           <TeamSelect
+            teams={teams}
             active={match.blue?.team?.team}
             onChange={(team) => {
               updateSide('blue', team, match.blue?.score || 0)
@@ -180,6 +190,7 @@ export const MatchForm = ({ data, onUpdate, onRemove }) => {
         </FormField>
         <FormField label="Orange">
           <TeamSelect
+            teams={teams}
             active={match.orange?.team?.team}
             onChange={(team) => {
               updateSide('orange', team, match.orange?.score || 0)

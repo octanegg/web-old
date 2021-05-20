@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react'
 import NextLink from 'next/link'
 
 import { ImSearch } from 'react-icons/im'
+import { buildQuery } from '@octane/util/routes'
 
 const {
   Input,
@@ -16,19 +17,15 @@ const {
   ListItem,
 } = require('@chakra-ui/react')
 
-const MAX_RESULTS = 100
-
 const Search = ({ width }) => {
   const [search, setSearch] = useState('')
   const [options, setOptions] = useState([])
-  const [results, setResults] = useState([])
   const [isInputting, setIsInputting] = useState(false)
 
   useEffect(() => {
     const fetchData = async () => {
-      const { players } = await apiFetch('/players', '')
-      const { teams } = await apiFetch('/teams', '')
-      const { events } = await apiFetch('/events', '')
+      const { results } = await apiFetch('/search', buildQuery({ input: search }, ''))
+      const { players, teams, events } = results
 
       setOptions(
         players
@@ -59,29 +56,15 @@ const Search = ({ width }) => {
     }
 
     fetchData()
-  }, [])
-
-  useEffect(() => {
-    const filter = () => {
-      const _results = options.filter(
-        (result) =>
-          result.label.toLowerCase().includes(search.toLowerCase()) ||
-          result.groups?.some((group) => group === search.replaceAll(' ', '').toLowerCase())
-      )
-      if (_results.length < MAX_RESULTS) {
-        setResults(_results)
-      }
-    }
-    filter()
   }, [search])
 
   const reset = () => {
     setSearch('')
-    setResults([])
+    setOptions([])
   }
 
   return (
-    <Popover placement="bottom" isOpen={results.length > 0} autoFocus={false} onClose={reset}>
+    <Popover placement="bottom" isOpen={options.length > 0} autoFocus={false} onClose={reset}>
       <PopoverTrigger>
         <Flex paddingLeft={5} paddingRight={5} align="center">
           <Input
@@ -122,7 +105,7 @@ const Search = ({ width }) => {
         <PopoverArrow />
         <PopoverBody>
           <List maxHeight={400} overflowY="scroll">
-            {results.map((result, i) => (
+            {options.map((result, i) => (
               <ListItem key={i} onClick={reset}>
                 <NextLink passHref href={`/${result.type}s/${result.id}`}>
                   <Flex

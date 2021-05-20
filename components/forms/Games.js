@@ -1,7 +1,7 @@
 import { Input } from '@octane/components/common/Input'
 import { FormField } from '@octane/components/forms/Forms'
-import { useState } from 'react'
-import { apiCreate, apiDelete, apiUpdate } from '@octane/util/fetch'
+import { useEffect, useState } from 'react'
+import { apiBulkFetch, apiCreate, apiDelete, apiUpdate } from '@octane/util/fetch'
 import { PlayerSelect, Select } from '@octane/components/common/Select'
 import { Image, Spacer, Stack, Switch, Text } from '@chakra-ui/react'
 import { cleanObj } from '@octane/util/stats'
@@ -11,6 +11,15 @@ export const GameForm = ({ data, match }) => {
   const [game, setGame] = useState(data)
   const [flipBallchasing, setFlipBallchasing] = useState(false)
   const [submitting, setSubmitting] = useState(false)
+  const [playerList, setPlayerList] = useState([])
+
+  useEffect(() => {
+    const fetchPlayers = async () => {
+      const res = await apiBulkFetch('/players', '', 'players')
+      setPlayerList(res.sort((a, b) => a.tag.localeCompare(b.tag)))
+    }
+    fetchPlayers()
+  }, [])
 
   const updateGame = (key, value) => {
     const g = cleanObj({
@@ -183,6 +192,7 @@ export const GameForm = ({ data, match }) => {
         {[...Array(match.event.mode).keys()].map((i) => (
           <PlayerRow
             key={i}
+            players={playerList}
             player={
               game?.blue?.players
                 ? game.blue.players[i]
@@ -206,6 +216,8 @@ export const GameForm = ({ data, match }) => {
         }>
         {[...Array(match.event.mode).keys()].map((i) => (
           <PlayerRow
+            key={i}
+            players={playerList}
             player={
               game?.orange?.players
                 ? game.orange.players[i]
@@ -222,10 +234,11 @@ export const GameForm = ({ data, match }) => {
   )
 }
 
-export const PlayerRow = ({ player, updatePlayer, isBallchasing }) => (
+export const PlayerRow = ({ players, player, updatePlayer, isBallchasing }) => (
   <Stack direction="row" spacing={4} paddingLeft={4}>
     <FormField label="Player">
       <PlayerSelect
+        players={players}
         active={player?.player}
         onChange={(p) => {
           updatePlayer({ ...player, player: p })

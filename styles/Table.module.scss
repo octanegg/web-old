@@ -1,6 +1,5 @@
 .tableWrapper {
   height: 1000px;
-  overflow-x: scroll;
   .table {
     width: 100%;
     background-color: white;
@@ -46,7 +45,10 @@
       }
     }
   }
+}
 
+.scoreboardWrapper {
+  overflow-x: scroll;
   .scoreboard {
     width: 100%;
     color: #1a2f42;

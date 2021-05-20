@@ -6,10 +6,10 @@ import { Button } from '@octane/components/common/Button'
 import { FormField } from '@octane/components/forms/Forms'
 import { PlayerSelect } from '@octane/components/common/Select'
 import { useState } from 'react'
-import { apiCreate } from '@octane/util/fetch'
+import { apiBulkFetch, apiCreate } from '@octane/util/fetch'
 import Meta from '@octane/components/common/Meta'
 
-const Admin = ({ auth }) => {
+const Admin = ({ auth, players }) => {
   const [submitting, setSubmitting] = useState(false)
   const [keep, setKeep] = useState()
   const [remove, setRemove] = useState()
@@ -24,16 +24,15 @@ const Admin = ({ auth }) => {
 
   return (
     <Content auth={auth}>
-      <Meta title="About" />
       <Stack width="full" spacing={3}>
         <Navigation type="admin" active="players" isAdmin={isAdmin(auth)} />
         <Navigation type="adminPlayers" active="merge" isAdmin={isAdmin(auth)} hasDivider />
         <Stack width="full" direction="row" paddingLeft={4}>
           <FormField label="Keep">
-            <PlayerSelect active={keep} onChange={(p) => setKeep(p)} />
+            <PlayerSelect players={players} active={keep} onChange={(p) => setKeep(p)} />
           </FormField>
           <FormField label="Remove">
-            <PlayerSelect active={remove} onChange={(p) => setRemove(p)} />
+            <PlayerSelect players={players} active={remove} onChange={(p) => setRemove(p)} />
           </FormField>
         </Stack>
         <Flex width="full" direction="row" paddingLeft={4}>
@@ -57,8 +56,10 @@ export async function getServerSideProps({ req }) {
     }
   }
 
+  const players = await apiBulkFetch('/players', '', 'players')
+
   return {
-    props: { auth },
+    props: { auth, players: players.sort((a, b) => a.tag.localeCompare(b.tag)) },
   }
 }
 

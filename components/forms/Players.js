@@ -1,8 +1,8 @@
 import { Input } from '@octane/components/common/Input'
 import { FormField, Form } from '@octane/components/forms/Forms'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { getCountries } from '@octane/util/countries'
-import { apiCreate, apiUpdate } from '@octane/util/fetch'
+import { apiBulkFetch, apiCreate, apiUpdate } from '@octane/util/fetch'
 import { Select, TeamSelect } from '@octane/components/common/Select'
 import {
   Accordion,
@@ -23,6 +23,15 @@ import { useRouter } from 'next/router'
 export const PlayerForm = ({ data }) => {
   const [player, setPlayer] = useState(data)
   const router = useRouter()
+  const [teams, setTeams] = useState([])
+
+  useEffect(() => {
+    const fetchTeams = async () => {
+      const res = await apiBulkFetch('/teams', '', 'teams')
+      setTeams(res.sort((a, b) => a.name.localeCompare(b.name)))
+    }
+    fetchTeams()
+  }, [])
 
   const updatePlayer = (key, value) => {
     setPlayer((prev) =>
@@ -87,7 +96,11 @@ export const PlayerForm = ({ data }) => {
         />
       </FormField>
       <FormField label="Team">
-        <TeamSelect active={player.team} onChange={(team) => updatePlayer('team', team)} />
+        <TeamSelect
+          teams={teams}
+          active={player.team}
+          onChange={(team) => updatePlayer('team', team)}
+        />
       </FormField>
       <FormField label="Substitute">
         <Switch

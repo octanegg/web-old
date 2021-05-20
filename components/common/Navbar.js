@@ -89,8 +89,8 @@ const Navbar = ({ auth }) => {
       </Flex>
       {showMenu && (
         <Flex direction="column">
-          {NAV_ITEMS.map(({ href, label, icon }) => (
-            <NavItem href={href}>
+          {NAV_ITEMS.map(({ href, label, icon }, i) => (
+            <NavItem key={i} href={href}>
               <Stack direction="row" align="center">
                 {icon}
                 <Text>{label}</Text>
@@ -133,8 +133,8 @@ const Navbar = ({ auth }) => {
         display={{ base: 'none', lg: 'flex' }}>
         <Flex fontWeight="semi" align="center">
           <NavImage href="/" src="/images/logo.png" />
-          {NAV_ITEMS.map(({ href, label, icon }) => (
-            <NavItem href={href}>
+          {NAV_ITEMS.map(({ href, label, icon }, i) => (
+            <NavItem key={i} href={href}>
               <Stack direction="row" align="center">
                 {icon}
                 <Text>{label}</Text>

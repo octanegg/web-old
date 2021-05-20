@@ -12,8 +12,6 @@ import {
   Text,
 } from '@chakra-ui/react'
 import Input from '@octane/components/common/Input'
-import apiFetch from '@octane/util/fetch'
-import { buildQuery } from '@octane/util/routes'
 import { useEffect, useState } from 'react'
 
 export const Select = (props) => (
@@ -123,64 +121,35 @@ export const InputSelect = ({ items, value, itemToString, itemToDisplay, onChang
   )
 }
 
-export const TeamSelect = ({ active, onChange }) => {
-  const [teams, setTeams] = useState([])
+export const TeamSelect = ({ teams, active, onChange }) => (
+  <InputSelect
+    value={active?.name || ''}
+    items={teams || []}
+    itemToDisplay={(team) => (
+      <Stack direction="row">
+        <Flex minWidth={6}>{team.image && <Image width={6} src={team.image} />}</Flex>
+        <Text>{team.name}</Text>
+      </Stack>
+    )}
+    onChange={onChange}
+  />
+)
 
-  useEffect(() => {
-    const fetchTeams = async () => {
-      const res = await apiFetch('/teams', buildQuery({ sort: 'name:asc' }, []))
-      setTeams(res.teams)
-    }
-    fetchTeams()
-  }, [])
-
-  return (
-    <InputSelect
-      value={active?.name || ''}
-      items={teams}
-      itemToDisplay={(team) => (
-        <Stack direction="row">
-          <Flex minWidth={6}>{team.image && <Image width={6} src={team.image} />}</Flex>
-          <Text>{team.name}</Text>
-        </Stack>
-      )}
-      onChange={onChange}
-    />
-  )
-}
-
-export const PlayerSelect = ({ active, onChange }) => {
-  const [players, setPlayers] = useState([])
-
-  useEffect(() => {
-    const fetchPlayers = async () => {
-      const res = await apiFetch('/players', buildQuery({ sort: 'tag:asc' }, []))
-      setPlayers(res.players)
-    }
-    fetchPlayers()
-  }, [])
-
-  return (
-    <InputSelect
-      value={active?.tag || ''}
-      items={players}
-      itemToString={(player) => player?.tag || ''}
-      itemToDisplay={(player) => (
-        <Stack
-          width="full"
-          justify="space-between"
-          direction="row"
-          paddingLeft={2}
-          paddingRight={2}>
-          <Text>{player.tag}</Text>
-          <Text color="secondary.500" fontSize="sm">
-            {player._id.substring(player._id.length - 6)}
-          </Text>
-        </Stack>
-      )}
-      onChange={onChange}
-    />
-  )
-}
+export const PlayerSelect = ({ players, active, onChange }) => (
+  <InputSelect
+    value={active?.tag || ''}
+    items={players || []}
+    itemToString={(player) => player?.tag || ''}
+    itemToDisplay={(player) => (
+      <Stack width="full" justify="space-between" direction="row" paddingLeft={2} paddingRight={2}>
+        <Text>{player.tag}</Text>
+        <Text color="secondary.500" fontSize="sm">
+          {player._id.substring(player._id.length - 6)}
+        </Text>
+      </Stack>
+    )}
+    onChange={onChange}
+  />
+)
 
 export default Select

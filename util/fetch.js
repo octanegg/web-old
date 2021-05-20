@@ -8,17 +8,20 @@ export const apiFetch = async (path, query) => {
   return res.json()
 }
 
-export const apiBulkFetch = async (path, query) => {
-  let page = 1
-  let lastPage = 50
-  const perPage = 50
-
+export const apiBulkFetch = async (path, query, key) => {
   const items = []
+
+  const perPage = 500
+
+  let page = 1
+  let lastPage = perPage
   while (lastPage === perPage) {
-    const res = await fetch(`${process.env.API_URL}${path}${query}&page=${page}&perPage=${perPage}`)
+    const res = await fetch(
+      `${process.env.API_URL}${path}${query}${query ? '&' : '?'}page=${page}&perPage=${perPage}`
+    )
     const data = await res.json()
-    items.push(...data.events)
-    lastPage = data.events.length
+    items.push(...data[key])
+    lastPage = data[key].length
     page += 1
   }
 

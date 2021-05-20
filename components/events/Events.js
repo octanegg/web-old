@@ -20,7 +20,7 @@ export const EventsTable = ({ filter, sort, isOngoing }) => {
       setEvents([])
       setLoading(!isOngoing && true)
 
-      const data = await apiBulkFetch('/events', buildQuery(filter, ['']))
+      const data = await apiBulkFetch('/events', buildQuery(filter, ['']), 'events')
       if (!data) {
         setLoading(false)
         return

@@ -84,7 +84,7 @@ export const ScoreboardMatch = ({ blue, orange, showReplayStats }) => {
 }
 
 const ScoreboardTable = ({ stats, side, showMvp }) => (
-  <div className={styles.tableWrapper}>
+  <div className={styles.scoreboardWrapper}>
     <table className={styles.scoreboard}>
       <thead>
         <tr>
