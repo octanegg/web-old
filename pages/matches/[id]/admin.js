@@ -64,12 +64,12 @@ const Match = ({ auth, match, games }) => (
                 number: games.length + 1,
                 ...(games.length > 0 && {
                   blue: {
-                    players: games[games.length - 1].blue.players.map(({ player }) => ({
+                    players: games[games.length - 1].blue.players?.map(({ player }) => ({
                       player,
                     })),
                   },
                   orange: {
-                    players: games[games.length - 1].orange.players.map(({ player }) => ({
+                    players: games[games.length - 1].orange.players?.map(({ player }) => ({
                       player,
                     })),
                   },

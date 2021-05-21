@@ -81,50 +81,54 @@ export const PlayerStats = ({ filter, groupBy, isSortable }) => {
       {loading ? (
         <Loading />
       ) : (
-        <Table>
-          <Header>
-            <HeaderItem
-              align="left"
-              onClick={isSortable && (() => updateSort({ id: 'player.tag' }))}>
-              <Flex align="center" minWidth="125px">
-                <Text marginRight={1}>{groupBy || 'Player'}</Text>
-                <SortIcon field="player.tag" />
-              </Flex>
-            </HeaderItem>
-            {filter.event && (
-              <HeaderItem onClick={isSortable && (() => updateSort({ id: 'team.name' }))}>
-                <Flex align="center" justify="center" minWidth="75px">
-                  <Text marginRight={1}>Team</Text>
-                  <SortIcon field="team.name" />
+        <Flex
+          overflowX={{ base: groupBy || filter.event ? 'auto' : 'scroll', lg: 'auto' }}
+          height={groupBy || filter.event || filter.player || filter.team ? 'full' : '1000px'}>
+          <Table>
+            <Header>
+              <HeaderItem
+                align="left"
+                onClick={isSortable && (() => updateSort({ id: 'player.tag' }))}>
+                <Flex align="center" minWidth="125px">
+                  <Text marginRight={1}>{groupBy || 'Player'}</Text>
+                  <SortIcon field="player.tag" />
                 </Flex>
               </HeaderItem>
-            )}
-            {group.stats.map((stat) => (
-              <HeaderItem onClick={isSortable && (() => updateSort(stat))}>
-                <Tooltip hasArrow placement="top" label={stat.description}>
-                  <Flex justify="center" align="center" minWidth="75px">
-                    <Text marginRight={1}>{stat.label}</Text>
-                    <SortIcon field={stat.id} />
+              {filter.event && (
+                <HeaderItem onClick={isSortable && (() => updateSort({ id: 'team.name' }))}>
+                  <Flex align="center" justify="center" minWidth="75px">
+                    <Text marginRight={1}>Team</Text>
+                    <SortIcon field="team.name" />
                   </Flex>
-                </Tooltip>
-              </HeaderItem>
-            ))}
-          </Header>
-          <Body>
-            {stats?.map((record, i) => (
-              <StatsRow
-                key={i}
-                record={record}
-                statGroup={group}
-                sort={sort}
-                cluster={cluster}
-                groupBy={groupBy}
-                isEven={i % 2 === 0}
-                showTeams={filter.event}
-              />
-            ))}
-          </Body>
-        </Table>
+                </HeaderItem>
+              )}
+              {group.stats.map((stat) => (
+                <HeaderItem onClick={isSortable && (() => updateSort(stat))}>
+                  <Tooltip hasArrow placement="top" label={stat.description}>
+                    <Flex justify="center" align="center" minWidth="75px">
+                      <Text marginRight={1}>{stat.label}</Text>
+                      <SortIcon field={stat.id} />
+                    </Flex>
+                  </Tooltip>
+                </HeaderItem>
+              ))}
+            </Header>
+            <Body>
+              {stats?.map((record, i) => (
+                <StatsRow
+                  key={i}
+                  record={record}
+                  statGroup={group}
+                  sort={sort}
+                  cluster={cluster}
+                  groupBy={groupBy}
+                  isEven={i % 2 === 0}
+                  showTeams={filter.event}
+                />
+              ))}
+            </Body>
+          </Table>
+        </Flex>
       )}
     </>
   )

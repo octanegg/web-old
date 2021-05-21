@@ -184,9 +184,9 @@ export const Infobox = ({ match, active }) => {
             direction={{ base: 'column-reverse', md: 'row' }}>
             <Link
               fontSize={{ base: 'md', md: 'xl' }}
-              textAlign="center"
+              textAlign={{ base: 'center', md: 'start' }}
               href={`/teams/${blue.team.team.slug}`}
-              wrap={{ base: 'wrap', md: 'nowrap' }}>
+              wrap="wrap">
               {blue.team.team.name}
             </Link>
             <Flex width={{ base: 16, md: 20 }} marginLeft={4} marginRight={4}>
@@ -231,9 +231,9 @@ export const Infobox = ({ match, active }) => {
             </Flex>
             <Link
               fontSize={{ base: 'md', md: 'xl' }}
-              textAlign="center"
+              textAlign={{ base: 'center', md: 'start' }}
               href={`/teams/${orange.team.team.slug}`}
-              wrap={{ base: 'wrap', md: 'nowrap' }}>
+              wrap="wrap">
               {orange.team.team.name}
             </Link>
           </Flex>

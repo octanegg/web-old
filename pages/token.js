@@ -54,7 +54,7 @@ export async function getServerSideProps({ req }) {
     ),
     fetch(`${process.env.API_URL}/events?date=${moment().toISOString()}&sort=end_date:asc`),
     fetch(`${process.env.API_URL}/events?after=${moment().toISOString()}&sort=start_date:asc`),
-    fetch(`${process.env.CONTENT_URL}/articles?_sort=published_at:desc&_limit=18`),
+    fetch(`${process.env.CONTENT_URL}/articles?_sort=published_at:desc&_limit=20`),
   ])
   const articles = await resArticles.json()
   const completedMatches = await resCompletedMatches.json()

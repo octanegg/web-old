@@ -90,7 +90,7 @@ const ScoreboardTable = ({ stats, side, showMvp }) => (
         <tr>
           <th style={{ textAlign: 'left', paddingLeft: '5px' }}>Player</th>
           {stats.map((stat) => (
-            <th>{stat.label}</th>
+            <th key={stat}>{stat.label}</th>
           ))}
         </tr>
       </thead>
@@ -115,15 +115,13 @@ const ScoreboardTable = ({ stats, side, showMvp }) => (
           ))}
         <tr>
           <td>
-            <Stack paddingLeft={2} direction="row" align="center">
-              <Flex minWidth={5} justify="center">
-                {side.team.team.image && <Image width={6} src={side.team.team.image} />}
-              </Flex>
+            <Stack paddingLeft={2} direction="row" align="center" width={48}>
+              {side.team.team.image && <Image width={6} src={side.team.team.image} />}
               <Link href={`/teams/${side.team.team.slug}`}>{side.team.team.name}</Link>
             </Stack>
           </td>
           {stats.map((stat) => (
-            <td>{formatAggregateStatFromObj(side.players, stat)}</td>
+            <td key={stat}>{formatAggregateStatFromObj(side.players, stat)}</td>
           ))}
         </tr>
       </tbody>
