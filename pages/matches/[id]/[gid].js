@@ -8,7 +8,9 @@ import { getServerSideAuth, isAdmin } from '@octane/util/auth'
 const Match = ({ auth, match, game }) => (
   <Content auth={auth}>
     <Meta
-      title={`${match.blue.team.team.name} vs ${match.orange.team.team.name}: Game ${game.number} | ${match.event.name}`}
+      title={`${match.blue?.team?.team.name || 'TBD'} vs ${
+        match.orange?.team?.team.name || 'TBD'
+      }: Game ${game.number} | ${match.event.name}`}
     />
     <Stack width="full" spacing={3}>
       <Infobox match={match} active={game.number} />

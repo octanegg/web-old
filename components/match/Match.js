@@ -194,7 +194,12 @@ export const Infobox = ({ match, active }) => {
             </Flex>
           </Flex>
         ) : (
-          <Flex align="center" width={80} justify="flex-end">
+          <Flex
+            align="center"
+            width={80}
+            justify="flex-end"
+            fontSize={{ base: 'md', md: '2xl' }}
+            fontWeight="bold">
             TBD
           </Flex>
         )}
@@ -208,7 +213,7 @@ export const Infobox = ({ match, active }) => {
           </Flex>
         ) : (
           <Stack width={24} justify="center" align="center" spacing={1}>
-            <Text fontWeight="bold" fontSize="xl" color="secondary.800">
+            <Text fontWeight="bold" fontSize="md" color="secondary.800">
               vs
             </Text>
             <Text fontSize="10px" fontWeight="semi" color="secondary.400" textTransform="uppercase">
@@ -233,7 +238,7 @@ export const Infobox = ({ match, active }) => {
             </Link>
           </Flex>
         ) : (
-          <Flex align="center" width={80} justify="flex-end">
+          <Flex align="center" width={80} fontSize={{ base: 'md', md: '2xl' }} fontWeight="bold">
             TBD
           </Flex>
         )}

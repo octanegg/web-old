@@ -91,32 +91,34 @@ export const InputSelect = ({ items, value, itemToString, itemToDisplay, onChang
           />
         </Flex>
       </PopoverTrigger>
-      <PopoverContent
-        borderColor="secondary.100"
-        display={options.length > 0 ? 'block' : 'none'}
-        _focus={{ outline: 'none' }}
-        shadow="0px 1px 2px rgba(128, 138, 157, 0.12), 0px 8px 32px rgba(128, 138, 157, 0.24)">
-        <PopoverBody padding={0}>
-          <List maxHeight={200} overflowY="scroll" cursor="pointer">
-            {options.map((item, i) => (
-              <ListItem
-                key={item._id}
-                borderTopRadius={i === 0 ? 6 : 0}
-                borderBottomRadius={i === options.length - 1 ? 6 : 0}
-                fontSize="sm"
-                fontWeight="medium"
-                paddingLeft={2}
-                paddingTop={2}
-                paddingBottom={2}
-                color="secondary.800"
-                _hover={{ backgroundColor: 'secondary.25' }}
-                onClick={() => handleChange(item)}>
-                {toDisplay(item)}
-              </ListItem>
-            ))}
-          </List>
-        </PopoverBody>
-      </PopoverContent>
+      {options.length > 0 && options.length < 20 && (
+        <PopoverContent
+          borderColor="secondary.100"
+          display={options.length > 0 ? 'block' : 'none'}
+          _focus={{ outline: 'none' }}
+          shadow="0px 1px 2px rgba(128, 138, 157, 0.12), 0px 8px 32px rgba(128, 138, 157, 0.24)">
+          <PopoverBody padding={0}>
+            <List maxHeight={200} overflowY="scroll" cursor="pointer">
+              {options.map((item, i) => (
+                <ListItem
+                  key={item._id}
+                  borderTopRadius={i === 0 ? 6 : 0}
+                  borderBottomRadius={i === options.length - 1 ? 6 : 0}
+                  fontSize="sm"
+                  fontWeight="medium"
+                  paddingLeft={2}
+                  paddingTop={2}
+                  paddingBottom={2}
+                  color="secondary.800"
+                  _hover={{ backgroundColor: 'secondary.25' }}
+                  onClick={() => handleChange(item)}>
+                  {toDisplay(item)}
+                </ListItem>
+              ))}
+            </List>
+          </PopoverBody>
+        </PopoverContent>
+      )}
     </Popover>
   )
 }

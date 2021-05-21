@@ -17,7 +17,11 @@ import { getServerSideAuth, isAdmin } from '@octane/util/auth'
 
 const Match = ({ auth, match, games }) => (
   <Content auth={auth}>
-    <Meta title={`${match.blue.team.team.name} vs ${match.orange.team.team.name}: Admin`} />
+    <Meta
+      title={`${match.blue?.team?.team.name || 'TBD'} vs ${
+        match.orange?.team?.team.name || 'TBD'
+      } | ${match.event.name}`}
+    />
     <Stack width="full" spacing={3}>
       <Infobox match={match} />
       <MatchNavigation

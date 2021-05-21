@@ -6,7 +6,7 @@ import Loading from '@octane/components/common/Loading'
 import { apiFetch } from '@octane/util/fetch'
 import { sortObjLex, calculateFormattedStat, sortStats } from '@octane/util/stats'
 import { buildQuery } from '@octane/util/routes'
-import LabeledText, { Link } from '@octane/components/common/Text'
+import { Link } from '@octane/components/common/Text'
 import { Flag } from '@octane/components/common/Flag'
 import { toDateYearString } from '@octane/util/dates'
 import StatsNavigation from '@octane/components/stats/Navigation'
@@ -30,7 +30,11 @@ export const PlayerStats = ({ filter, groupBy, isSortable }) => {
         buildQuery({ ...filter, stat: group.stats.map((stat) => stat.id) }, [''])
       )
 
-      setStats(data.stats)
+      if (groupBy) {
+        setStats(data.stats.sort((a, b) => new Date(b.endDate) - new Date(a.endDate)))
+      } else {
+        setStats(data.stats)
+      }
     }
     fetchRecords()
   }, [filter, groupBy, group])
@@ -142,14 +146,14 @@ const StatsRow = ({ record, statGroup, sort, groupBy, cluster, isEven, showTeams
                 {event.image && <Image height={6} src={event.image} />}
               </Flex>
             </Flex>
-            <LabeledText
-              label={
-                <Text fontSize="10px" color="secondary.800" textTransform="uppercase" align="start">
-                  {toDateYearString(startDate, endDate)}
-                </Text>
-              }>
-              <Link href={`/events/${event.slug}`}>{event.name}</Link>
-            </LabeledText>
+            <Flex direction="column" width={72}>
+              <Link href={`/events/${event.slug}`} wrap="wrap">
+                {event.name}
+              </Link>
+              <Text fontSize="10px" color="secondary.800" textTransform="uppercase" align="start">
+                {toDateYearString(startDate, endDate)}
+              </Text>
+            </Flex>
           </Flex>
         </Cell>
       )}

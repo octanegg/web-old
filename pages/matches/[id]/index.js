@@ -9,7 +9,9 @@ import Meta from '@octane/components/common/Meta'
 const Match = ({ auth, match }) => (
   <Content auth={auth}>
     <Meta
-      title={`${match.blue.team.team.name} vs ${match.orange.team.team.name} | ${match.event.name}`}
+      title={`${match.blue?.team?.team.name || 'TBD'} vs ${
+        match.orange?.team?.team.name || 'TBD'
+      } | ${match.event.name}`}
     />
     <Stack width="full" spacing={3}>
       <Infobox match={match} />
