@@ -1,7 +1,7 @@
 import { Input } from '@octane/components/common/Input'
 import { FormField } from '@octane/components/forms/Forms'
 import { useEffect, useState } from 'react'
-import { apiBulkFetch, apiCreate, apiDelete, apiUpdate } from '@octane/util/fetch'
+import apiFetch, { apiCreate, apiDelete, apiUpdate } from '@octane/util/fetch'
 import { Select, TeamSelect } from '@octane/components/common/Select'
 import { Flex, FormControl, FormLabel, Spacer, Stack, Text } from '@chakra-ui/react'
 import { cleanObj } from '@octane/util/stats'
@@ -17,8 +17,8 @@ export const MatchForm = ({ data, onUpdate, onRemove }) => {
 
   useEffect(() => {
     const fetchTeams = async () => {
-      const res = await apiBulkFetch('/teams', '', 'teams')
-      setTeams(res.sort((a, b) => a.name.localeCompare(b.name)))
+      const res = await apiFetch('/teams', '')
+      setTeams(res.teams.sort((a, b) => a.name.localeCompare(b.name)))
     }
     fetchTeams()
   }, [])

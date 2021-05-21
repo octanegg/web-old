@@ -25,7 +25,7 @@ module.exports = (phase) => {
           API_KEY: process.env.API_KEY,
         },
         env: {
-          API_URL: 'https://zsr.octane.gg',
+          API_URL: 'https://zsr-internal.octane.gg',
           CONTENT_URL: 'https://content.octane.gg',
           ASSETS_URL: 'https://griffon.octane.gg',
           IDP_DOMAIN: 'auth.octane.gg',

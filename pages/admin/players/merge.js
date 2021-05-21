@@ -6,8 +6,7 @@ import { Button } from '@octane/components/common/Button'
 import { FormField } from '@octane/components/forms/Forms'
 import { PlayerSelect } from '@octane/components/common/Select'
 import { useState } from 'react'
-import { apiBulkFetch, apiCreate } from '@octane/util/fetch'
-import Meta from '@octane/components/common/Meta'
+import apiFetch, { apiCreate } from '@octane/util/fetch'
 
 const Admin = ({ auth, players }) => {
   const [submitting, setSubmitting] = useState(false)
@@ -56,10 +55,10 @@ export async function getServerSideProps({ req }) {
     }
   }
 
-  const players = await apiBulkFetch('/players', '', 'players')
+  const players = await apiFetch('/players', '')
 
   return {
-    props: { auth, players: players.sort((a, b) => a.tag.localeCompare(b.tag)) },
+    props: { auth, players: players.players.sort((a, b) => a.tag.localeCompare(b.tag)) },
   }
 }
 

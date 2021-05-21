@@ -38,10 +38,6 @@ const Admin = ({ auth, event, stages }) => {
   }
 
   const handleMatchRemove = (stage, i) => {
-    console.log(
-      'removing',
-      [].concat((matches[stage] || []).slice(0, i), (matches[stage] || []).slice(i + 1))
-    )
     setMatches({
       ...matches,
       [stage]: [].concat((matches[stage] || []).slice(0, i), (matches[stage] || []).slice(i + 1)),

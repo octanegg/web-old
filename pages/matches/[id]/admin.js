@@ -97,7 +97,6 @@ export async function getServerSideProps({ req, params }) {
   const match = await resMatch.json()
 
   const resGames = await fetch(`${process.env.API_URL}/games?match=${match._id}&sort=number:asc`)
-  console.log(`${process.env.API_URL}/games?match=${match._id}&sort=number:asc`)
   if (resGames.status !== 200) {
     return {
       notFound: true,

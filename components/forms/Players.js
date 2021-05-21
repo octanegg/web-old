@@ -2,7 +2,7 @@ import { Input } from '@octane/components/common/Input'
 import { FormField, Form } from '@octane/components/forms/Forms'
 import { useEffect, useState } from 'react'
 import { getCountries } from '@octane/util/countries'
-import { apiBulkFetch, apiCreate, apiUpdate } from '@octane/util/fetch'
+import apiFetch, { apiCreate, apiUpdate } from '@octane/util/fetch'
 import { Select, TeamSelect } from '@octane/components/common/Select'
 import {
   Accordion,
@@ -27,19 +27,13 @@ export const PlayerForm = ({ data }) => {
 
   useEffect(() => {
     const fetchTeams = async () => {
-      const res = await apiBulkFetch('/teams', '', 'teams')
-      setTeams(res.sort((a, b) => a.name.localeCompare(b.name)))
+      const res = await apiFetch('/teams', '')
+      setTeams(res.teams.sort((a, b) => a.name.localeCompare(b.name)))
     }
     fetchTeams()
   }, [])
 
   const updatePlayer = (key, value) => {
-    console.log(
-      cleanObj({
-        ...player,
-        [key]: value,
-      })
-    )
     setPlayer((prev) =>
       cleanObj({
         ...prev,
