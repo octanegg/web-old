@@ -13,14 +13,14 @@ import ButtonLink from '@octane/components/common/Button'
 
 export const ScoreboardGame = ({ blue, orange, map, duration, ballchasing, showReplayStats }) => {
   const statGroups = showReplayStats ? gameAdvancedStats : gameBasicStats
-  const [stats, setStats] = useState(statGroups[0])
+  const [group, setGroup] = useState(statGroups[0])
 
   return (
     <>
       <StatsNavigation
         groups={statGroups}
-        selectedGroup={stats}
-        onGroupChange={setStats}
+        group={group.id}
+        onGroupChange={setGroup}
         hideMobileLabels
         right={
           <Stack
@@ -59,26 +59,26 @@ export const ScoreboardGame = ({ blue, orange, map, duration, ballchasing, showR
           </Stack>
         }
       />
-      <ScoreboardTable stats={stats.stats} side={blue} showMvp />
-      <ScoreboardTable stats={stats.stats} side={orange} showMvp />
+      <ScoreboardTable stats={group.stats} side={blue} showMvp />
+      <ScoreboardTable stats={group.stats} side={orange} showMvp />
     </>
   )
 }
 
 export const ScoreboardMatch = ({ blue, orange, showReplayStats }) => {
   const statGroups = showReplayStats ? gameAdvancedStats : gameBasicStats
-  const [stats, setStats] = useState(statGroups[0])
+  const [group, setGroup] = useState(statGroups[0])
 
   return (
     <>
       <StatsNavigation
         groups={statGroups}
-        selectedGroup={stats}
-        onGroupChange={setStats}
+        group={group.id}
+        onGroupChange={setGroup}
         hideMobileLabels
       />
-      <ScoreboardTable stats={stats.stats} side={blue} />
-      <ScoreboardTable stats={stats.stats} side={orange} />
+      <ScoreboardTable stats={group.stats} side={blue} />
+      <ScoreboardTable stats={group.stats} side={orange} />
     </>
   )
 }

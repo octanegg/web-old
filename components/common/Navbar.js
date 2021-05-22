@@ -121,7 +121,7 @@ const Navbar = ({ auth }) => {
             </NavItem>
           )}
           <NavItem>
-            <Search width="full" />
+            <Search isAdmin={isAdmin(auth)} width="full" />
           </NavItem>
         </Flex>
       )}
@@ -141,7 +141,7 @@ const Navbar = ({ auth }) => {
               </Stack>
             </NavItem>
           ))}
-          <Search />
+          <Search isAdmin={isAdmin(auth)} />
         </Flex>
         <Flex>
           {isAdmin(auth) && (

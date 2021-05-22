@@ -40,30 +40,30 @@ export const formatTime = (time) => {
 
 export const formatPercentage = (value) => `${value}%`
 
-export const calculateStat = (record, stat, cluster) => {
+export const calculateStat = (record, stat, period) => {
   const { games, matches, stats } = record
 
   if (stat.id === 'played') {
-    return cluster === 'series' ? parseInt(matches.total, 10) : parseInt(games.total, 10)
+    return period === 'series' ? parseInt(matches.total, 10) : parseInt(games.total, 10)
   }
 
   if (stat.id === 'wins') {
-    return cluster === 'series'
+    return period === 'series'
       ? ((matches.wins / matches.total) * 100).toFixed(2)
       : ((games.wins / games.total) * 100).toFixed(2)
   }
 
   const value = stats[stat.id]
 
-  if (cluster === 'total') {
+  if (period === 'total') {
     return stat.onTotal ? stat.onTotal(value, games, matches) : value
   }
 
-  if (cluster === 'series') {
+  if (period === 'series') {
     return stat.onSeries ? stat.onSeries(value, games, matches) : (value / matches.total).toFixed(2)
   }
 
-  if (cluster === '5min' && stat.id !== 'rating') {
+  if (period === '5min' && stat.id !== 'rating') {
     return (
       (stat.onGames ? stat.onGames(value, games, matches) : value / games.total) *
       ((300 * games.total) / games.seconds)
@@ -73,8 +73,8 @@ export const calculateStat = (record, stat, cluster) => {
   return stat.onGames ? stat.onGames(value, games, matches) : (value / games.total).toFixed(2)
 }
 
-export const calculateFormattedStat = (record, stat, cluster) => {
-  const _value = calculateStat(record, stat, cluster)
+export const calculateFormattedStat = (record, stat, period) => {
+  const _value = calculateStat(record, stat, period)
   if (Number.isNaN(_value)) {
     return ''
   }
@@ -130,9 +130,9 @@ export const formatAggregateStatFromObj = (objs, stat) => {
     : formatStat(stat.isPercentage || stat.isTime ? value / objs.length : value, stat)
 }
 
-export const sortStats = (data, stat, order, cluster) =>
+export const sortStats = (data, stat, order, period) =>
   [...data].sort(
-    (a, b) => (order ? 1 : -1) * (calculateStat(a, stat, cluster) - calculateStat(b, stat, cluster))
+    (a, b) => (order ? 1 : -1) * (calculateStat(a, stat, period) - calculateStat(b, stat, period))
   )
 
 export default sortStats

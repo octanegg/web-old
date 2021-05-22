@@ -20,7 +20,7 @@ const {
   Stack,
 } = require('@chakra-ui/react')
 
-const Search = ({ width }) => {
+const Search = ({ isAdmin, width }) => {
   const [searchList, setSearchList] = useState([])
   const [input, setInput] = useState('')
   const [results, setResults] = useState([])
@@ -30,8 +30,8 @@ const Search = ({ width }) => {
     const fetchData = async () => {
       const [{ events }, { teams }, { players }] = await Promise.all([
         apiFetch('/events', ''),
-        apiFetch('/teams', buildQuery({ relevant: true }, [])),
-        apiFetch('/players', buildQuery({ relevant: true }, [])),
+        apiFetch('/teams', isAdmin ? '' : buildQuery({ relevant: true }, [])),
+        apiFetch('/players', isAdmin ? '' : buildQuery({ relevant: true }, [])),
       ])
 
       setSearchList(

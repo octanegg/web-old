@@ -59,25 +59,25 @@ export const baseStats = [
     stats: playerSpeed,
   },
   {
-    id: 'groundair',
+    id: 'ground-air',
     label: 'Ground / Air',
     icon: FaCloud,
     stats: playerGroundAir,
   },
   {
-    id: 'boost.count',
+    id: 'boost-count',
     label: 'Boost Count',
     icon: HiChartBar,
     stats: playerBoostCount,
   },
   {
-    id: 'boost.management',
+    id: 'boost-management',
     label: 'Boost Management',
     icon: BsPieChartFill,
     stats: playerBoostManagement,
   },
   {
-    id: 'boost.management.percentage',
+    id: 'boost-management-percentage',
     label: 'Boost Management %',
     icon: BsPieChartFill,
     stats: playerBoostManagementPercentage,
@@ -89,7 +89,7 @@ export const baseStats = [
     stats: playerPositioning,
   },
   {
-    id: 'positioning.percentage',
+    id: 'positioning-percentage',
     label: 'Positioning %',
     icon: FaMapMarkerAlt,
     stats: playerPositioningPercentage,
@@ -101,7 +101,7 @@ export const baseStats = [
     stats: playerBallProximity,
   },
   {
-    id: 'proximity.percentage',
+    id: 'proximity-percentage',
     label: 'Ball Proximity %',
     icon: MdTouchApp,
     stats: playerBallProximityPercentage,
@@ -169,13 +169,13 @@ export const teamStats = [
     stats: teamBoost,
   },
   {
-    id: 'boost.count',
+    id: 'boost-count',
     label: 'Boost Count',
     icon: LockIcon,
     stats: teamBoostCount,
   },
   {
-    id: 'boost.management',
+    id: 'boost-management',
     label: 'Boost Management',
     icon: LockIcon,
     stats: teamBoostManagement,

@@ -67,16 +67,18 @@ const MoreStats = ({ stats, onChange, isOpen, open, close }) => (
 
 export const StatsNavigation = ({
   groups,
-  selectedGroup,
+  group,
   onGroupChange,
-  selectedCluster,
-  onClusterChange,
+  period,
+  onPeriodChange,
   right,
   hideMobileLabels,
 }) => {
   const [isOpen, setIsOpen] = useState(false)
   const mainStats = groups.slice(0, MAX_STATS)
   const moreStats = groups.slice(MAX_STATS)
+
+  const _group = groups.find((g) => g.id === group)
 
   return (
     <Stack
@@ -99,8 +101,7 @@ export const StatsNavigation = ({
         {!hideMobileLabels && <Heading display={{ base: 'flex', lg: 'none' }}>Stats:</Heading>}
         {mainStats.map((statGroup, i) => {
           const { id, label, icon } = statGroup
-          const buttonType =
-            id === selectedGroup.id ? ButtonTypes.stat.selected : ButtonTypes.stat.default
+          const buttonType = id === group ? ButtonTypes.stat.selected : ButtonTypes.stat.default
           return (
             <Button
               key={i}
@@ -119,13 +120,11 @@ export const StatsNavigation = ({
             </Button>
           )
         })}
-        {!mainStats.includes(selectedGroup) && (
-          <Button
-            buttonType={ButtonTypes.stat.selected}
-            onClick={() => onGroupChange(selectedGroup)}>
+        {!mainStats.includes(_group) && (
+          <Button buttonType={ButtonTypes.stat.selected} onClick={() => onGroupChange(_group)}>
             <Stack direction="row" spacing={1} align="center">
-              <Icon as={selectedGroup.icon} boxSize={3} />
-              <Text>{selectedGroup.label}</Text>
+              <Icon as={_group.icon} boxSize={3} />
+              <Text>{_group.label}</Text>
             </Stack>
           </Button>
         )}
@@ -140,7 +139,7 @@ export const StatsNavigation = ({
         )}
       </Stack>
       {right}
-      {onClusterChange && (
+      {onPeriodChange && (
         <Stack
           direction="row"
           width={{ base: 'full', lg: 'auto' }}
@@ -150,45 +149,39 @@ export const StatsNavigation = ({
           shouldWrapChildren>
           {!hideMobileLabels && <Heading display={{ base: 'flex', lg: 'none' }}>Period:</Heading>}
           <Button
-            buttonType={
-              selectedCluster === 'total' ? ButtonTypes.stat.selected : ButtonTypes.stat.default
-            }
+            buttonType={period === 'total' ? ButtonTypes.stat.selected : ButtonTypes.stat.default}
             override={{ borderLeftRadius: 8, borderRightRadius: { base: 8, lg: 0 } }}
-            onClick={() => onClusterChange('total')}>
+            onClick={() => onPeriodChange('total')}>
             <Stack direction="row" spacing={1} align="center">
               <Text>Total</Text>
             </Stack>
           </Button>
           <Button
-            buttonType={
-              selectedCluster === '5min' ? ButtonTypes.stat.selected : ButtonTypes.stat.default
-            }
+            buttonType={period === '5min' ? ButtonTypes.stat.selected : ButtonTypes.stat.default}
             override={{
               borderLeftRadius: { base: 8, lg: 0 },
               borderRightRadius: { base: 8, lg: 0 },
             }}
-            onClick={() => onClusterChange('5min')}>
+            onClick={() => onPeriodChange('5min')}>
             <Stack direction="row" spacing={1} align="center">
               <Text>5-Min</Text>
             </Stack>
           </Button>
           <Button
-            buttonType={!selectedCluster ? ButtonTypes.stat.selected : ButtonTypes.stat.default}
+            buttonType={!period ? ButtonTypes.stat.selected : ButtonTypes.stat.default}
             override={{
               borderLeftRadius: { base: 8, lg: 0 },
               borderRightRadius: { base: 8, lg: 0 },
             }}
-            onClick={() => onClusterChange('')}>
+            onClick={() => onPeriodChange('')}>
             <Stack direction="row" spacing={1} align="center">
               <Text>Game</Text>
             </Stack>
           </Button>
           <Button
-            buttonType={
-              selectedCluster === 'series' ? ButtonTypes.stat.selected : ButtonTypes.stat.default
-            }
+            buttonType={period === 'series' ? ButtonTypes.stat.selected : ButtonTypes.stat.default}
             override={{ borderLeftRadius: { base: 8, lg: 0 }, borderRightRadius: 8 }}
-            onClick={() => onClusterChange('series')}>
+            onClick={() => onPeriodChange('series')}>
             <Stack direction="row" spacing={1} align="center">
               <Text>Series</Text>
             </Stack>
