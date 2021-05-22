@@ -114,6 +114,12 @@ export const PlayerForm = ({ data }) => {
           onChange={() => updatePlayer('coach', player.coach ? '' : true)}
         />
       </FormField>
+      <FormField label="Relevant">
+        <Switch
+          isChecked={player.relevant}
+          onChange={() => updatePlayer('relevant', player.relevant ? '' : true)}
+        />
+      </FormField>
       <FormField label="Accounts">
         <AccountsForm
           accounts={(player.accounts || []).concat({})}

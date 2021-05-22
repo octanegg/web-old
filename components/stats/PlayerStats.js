@@ -60,7 +60,7 @@ export const PlayerStats = ({ filter, groupBy, isSortable }) => {
         )
       )
     } else {
-      setStats(sortStats(stats, stat, order, cluster))
+      setStats(sortStats(stats, stat, newOrder, cluster))
     }
     setOrder(newOrder)
     setSort(stat.id)

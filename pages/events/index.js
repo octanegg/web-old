@@ -6,40 +6,52 @@ import { getServerSideAuth } from '@octane/util/auth'
 import { UpcomingEventsFilter } from '@octane/components/filters/EventFilters'
 import { Stack } from '@chakra-ui/react'
 import Meta from '@octane/components/common/Meta'
+import { buildQuery } from '@octane/util/routes'
 
-const EventsPage = ({ auth, filter }) => (
+const EventsPage = ({ auth, ongoing, upcoming, filter }) => (
   <Content auth={auth}>
     <Meta title="Rocket League Upcoming Events" />
     <Stack width="full" spacing={3}>
       <Navigation type="events" active="ongoing" />
       <UpcomingEventsFilter initialFilter={filter} />
-      {!filter.mode && !filter.tier && !filter.region && (
-        <Events
-          filter={{
-            date: moment().toISOString(),
-            sort: 'start_date:asc',
-          }}
-          isOngoing
-        />
+      {!filter.mode && !filter.tier && !filter.region && !filter.group && (
+        <Events events={ongoing} />
       )}
-      <Events filter={filter} />
+      <Events events={upcoming} groupBy="startDate" />
     </Stack>
   </Content>
 )
 
 export async function getServerSideProps({ req, query }) {
   const auth = getServerSideAuth(req)
+
+  const filter = {
+    mode: query.mode || '',
+    tier: query.tier || '',
+    region: query.region || '',
+    group: query.group || '',
+    after: moment().toISOString(),
+    sort: 'start_date:asc',
+  }
+
+  const ongoingFilter = {
+    date: moment().toISOString(),
+    sort: 'start_date:asc',
+  }
+
+  const [_ongoing, _upcoming] = await Promise.all([
+    fetch(`${process.env.API_URL}/events${buildQuery(ongoingFilter, [''])}`),
+    fetch(`${process.env.API_URL}/events${buildQuery(filter, [''])}`),
+  ])
+
+  const [ongoing, upcoming] = await Promise.all([_ongoing.json(), _upcoming.json()])
+
   return {
     props: {
       auth,
-      filter: {
-        mode: query.mode || '',
-        tier: query.tier || '',
-        region: query.region || '',
-        group: query.group || '',
-        after: moment().toISOString(),
-        sort: 'start_date:asc',
-      },
+      filter,
+      ongoing: ongoing.events,
+      upcoming: upcoming.events,
     },
   }
 }

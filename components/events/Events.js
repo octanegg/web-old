@@ -1,73 +1,55 @@
 import { Flex, Image, Text, Spacer, Stack } from '@chakra-ui/react'
 import { useEffect, useState } from 'react'
 import moment from 'moment'
-import Loading from '@octane/components/common/Loading'
 import { Link, Heading } from '@octane/components/common/Text'
 import { toDateString } from '@octane/util/dates'
 import { getRegion } from '@octane/util/regions'
-import apiFetch from '@octane/util/fetch'
-import { buildQuery } from '@octane/util/routes'
 import { formatPrizeUSD } from '@octane/util/prizes'
 import NextLink from 'next/link'
 
-export const EventsTable = ({ filter, sort, isOngoing }) => {
-  const [events, setEvents] = useState([])
+export const EventsTable = ({ events, groupBy }) => {
+  const [groups, setGroups] = useState([])
   const [labels, setLabels] = useState([])
-  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    const fetchEvents = async () => {
-      setEvents([])
-      setLoading(!isOngoing && true)
-
-      const data = await apiFetch('/events', buildQuery(filter, ['']))
-      if (!data.events) {
-        setLoading(false)
-        return
-      }
-      if (isOngoing) {
-        setLabels(['Ongoing'])
-        setEvents([data.events])
-        setLoading(false)
-        return
-      }
-
-      let day = moment(data.events[0][sort || 'startDate'])
-      const _labels = []
-      const _events = []
-
-      data.events.forEach((event, i) => {
-        const date = moment(event[sort || 'startDate'])
-        if (i === 0 || !date.isSame(day, 'month')) {
-          _labels.push(date.format('MMMM YYYY'))
-          _events.push([event])
-        } else {
-          _events[_events.length - 1].push(event)
-        }
-        day = date
-      })
-
-      setLabels(_labels)
-      setEvents(_events)
-      setLoading(false)
+    if (!events) {
+      return
     }
-    fetchEvents()
-  }, [filter])
+    if (!groupBy) {
+      setLabels(['Ongoing'])
+      setGroups([events])
+      return
+    }
 
-  return loading ? (
-    <Loading />
-  ) : (
-    events?.map((group, i) => (
-      <>
-        <Heading>{labels[i]}</Heading>
-        <Flex direction="column">
-          {group.map((event, j) => (
-            <EventRow key={j} event={event} />
-          ))}
-        </Flex>
-      </>
-    ))
-  )
+    let day = moment(events[0][groupBy])
+    const dates = []
+    const eventGroups = []
+
+    events.forEach((event, i) => {
+      const date = moment(event[groupBy])
+      if (i === 0 || !date.isSame(day, 'month')) {
+        dates.push(date.format('MMMM YYYY'))
+        eventGroups.push([event])
+      } else {
+        eventGroups[eventGroups.length - 1].push(event)
+      }
+      day = date
+    })
+
+    setLabels(dates)
+    setGroups(eventGroups)
+  }, [])
+
+  return groups?.map((group, i) => (
+    <>
+      <Heading>{labels[i]}</Heading>
+      <Flex direction="column">
+        {group.map((event, j) => (
+          <EventRow key={j} event={event} />
+        ))}
+      </Flex>
+    </>
+  ))
 }
 
 const EventRow = ({ event }) => {

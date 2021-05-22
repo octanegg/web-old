@@ -160,6 +160,19 @@ export const StatsNavigation = ({
             </Stack>
           </Button>
           <Button
+            buttonType={
+              selectedCluster === '5min' ? ButtonTypes.stat.selected : ButtonTypes.stat.default
+            }
+            override={{
+              borderLeftRadius: { base: 8, lg: 0 },
+              borderRightRadius: { base: 8, lg: 0 },
+            }}
+            onClick={() => onClusterChange('5min')}>
+            <Stack direction="row" spacing={1} align="center">
+              <Text>5-Min</Text>
+            </Stack>
+          </Button>
+          <Button
             buttonType={!selectedCluster ? ButtonTypes.stat.selected : ButtonTypes.stat.default}
             override={{
               borderLeftRadius: { base: 8, lg: 0 },

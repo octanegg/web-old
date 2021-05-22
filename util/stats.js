@@ -63,6 +63,13 @@ export const calculateStat = (record, stat, cluster) => {
     return stat.onSeries ? stat.onSeries(value, games, matches) : (value / matches.total).toFixed(2)
   }
 
+  if (cluster === '5min' && stat.id !== 'rating') {
+    return (
+      (stat.onGames ? stat.onGames(value, games, matches) : value / games.total) *
+      ((300 * games.total) / games.seconds)
+    ).toFixed(2)
+  }
+
   return stat.onGames ? stat.onGames(value, games, matches) : (value / games.total).toFixed(2)
 }
 

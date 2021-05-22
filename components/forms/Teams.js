@@ -5,7 +5,7 @@ import { apiCreate, apiUpdate } from '@octane/util/fetch'
 import { Select } from '@octane/components/common/Select'
 import { regions } from '@octane/util/regions'
 import { Button } from '@octane/components/common/Button'
-import { Flex } from '@chakra-ui/react'
+import { Flex, Switch } from '@chakra-ui/react'
 import { uploadTeamImage } from '@octane/util/s3'
 import { cleanObj } from '@octane/util/stats'
 import { useRouter } from 'next/router'
@@ -96,6 +96,12 @@ export const TeamForm = ({ data }) => {
             {fileName}
           </Button>
         </Flex>
+      </FormField>
+      <FormField label="Relevant">
+        <Switch
+          isChecked={team.relevant}
+          onChange={() => updateTeam('relevant', team.relevant ? '' : true)}
+        />
       </FormField>
     </Form>
   )

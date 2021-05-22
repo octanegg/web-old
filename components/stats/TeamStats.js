@@ -45,7 +45,7 @@ export const TeamStats = ({ filter, groupBy, isSortable }) => {
     if (stat.id === 'team.name') {
       setStats(sortObjLex(stats, stat, newOrder))
     } else {
-      setStats(sortStats(stats, stat, order, cluster))
+      setStats(sortStats(stats, stat, newOrder, cluster))
     }
     setOrder(newOrder)
     setSort(stat.id)
