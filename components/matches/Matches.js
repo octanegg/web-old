@@ -77,10 +77,11 @@ const Match = ({ match, team, player, highlightResult, isEven }) => {
 
   const leftTeam = (!team && !player) || isTeam || isPlayer ? blue : orange
   const rightTeam = (!team && !player) || isTeam || isPlayer ? orange : blue
-  const border = leftTeam?.winner ? 'win' : rightTeam?.winner ? 'loss' : ''
 
   const leftScore = leftTeam?.score || 0
   const rightScore = rightTeam?.score || 0
+
+  const border = leftScore > rightScore ? 'win' : rightScore > leftScore ? 'loss' : ''
 
   const hasStats = games?.length > 0
   const hasReplays = hasStats && games.filter((g) => g.ballchasing).length > 0
@@ -92,7 +93,7 @@ const Match = ({ match, team, player, highlightResult, isEven }) => {
         width="full"
         backgroundColor={isEven ? 'white' : 'secondary.25'}
         align="center"
-        shadow={highlightResult ? border : ''}
+        borderLeft={highlightResult ? border : ''}
         cursor="pointer"
         padding={1}
         paddingLeft={4}
@@ -129,11 +130,11 @@ const Match = ({ match, team, player, highlightResult, isEven }) => {
             {leftTeam?.team ? (
               <Link
                 href={`/teams/${leftTeam.team.team.slug}`}
-                fontWeight={leftTeam.winner ? 'bold' : 'regular'}>
+                fontWeight={team || player || leftScore > rightScore ? 'bold' : 'regular'}>
                 {leftTeam.team.team.name}
               </Link>
             ) : (
-              <Text fontSize="sm" color="secondary.700">
+              <Text fontSize="sm" fontStyle="italic" color="secondary.700">
                 TBD
               </Text>
             )}
@@ -145,11 +146,11 @@ const Match = ({ match, team, player, highlightResult, isEven }) => {
             {rightTeam?.team ? (
               <Link
                 href={`/teams/${rightTeam.team.team.slug}`}
-                fontWeight={rightTeam.winner ? 'bold' : 'regular'}>
+                fontWeight={!team && !player && rightScore > leftScore ? 'bold' : 'regular'}>
                 {rightTeam.team.team.name}
               </Link>
             ) : (
-              <Text fontSize="sm" color="secondary.700">
+              <Text fontSize="sm" fontStyle="italic" color="secondary.700">
                 TBD
               </Text>
             )}

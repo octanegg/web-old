@@ -61,7 +61,8 @@ export const Matches = ({ matches }) => {
                         align="center"
                         fontWeight={blueScore > orangeScore ? 'bold' : ''}>
                         {(blueScore || orangeScore) && (
-                          <Text
+                          <Flex
+                            width={2}
                             color={
                               blueScore > orangeScore
                                 ? 'win'
@@ -70,7 +71,7 @@ export const Matches = ({ matches }) => {
                                 : ''
                             }>
                             {blueScore}
-                          </Text>
+                          </Flex>
                         )}
                         <Image boxSize={5} src={blue?.team?.team.image} />
                         <Text
@@ -86,7 +87,8 @@ export const Matches = ({ matches }) => {
                         align="center"
                         fontWeight={orangeScore > blueScore ? 'bold' : ''}>
                         {(blueScore || orangeScore) && (
-                          <Text
+                          <Flex
+                            width={2}
                             color={
                               orangeScore > blueScore
                                 ? 'win'
@@ -95,7 +97,7 @@ export const Matches = ({ matches }) => {
                                 : ''
                             }>
                             {orangeScore}
-                          </Text>
+                          </Flex>
                         )}
                         <Image boxSize={5} src={orange?.team?.team.image} />
                         <Text

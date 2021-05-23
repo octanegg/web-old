@@ -48,7 +48,7 @@ const NavItem = ({ href, onClick, children }) => (
 )
 
 const NavImage = ({ src, href }) => (
-  <Flex cursor="pointer" paddingTop={{ base: 2, lg: 0 }} paddingBottom={{ base: 2, lg: 0 }}>
+  <Flex cursor="pointer">
     <NextLink passHref href={href}>
       <Link display="block" paddingLeft={4} paddingRight={4} _focus={{}}>
         <Image src={src} width={8} />
@@ -84,7 +84,7 @@ const Navbar = ({ auth }) => {
         align="center"
         justify="space-between"
         display={{ base: 'flex', lg: 'none' }}>
-        <NavImage href="/" src="/images/logo.png" />
+        <NavImage href="/" src="/images/logo.svg" />
         <HamburgerNav onClick={toggleMenu} />
       </Flex>
       {showMenu && (
@@ -132,7 +132,7 @@ const Navbar = ({ auth }) => {
         justify="space-between"
         display={{ base: 'none', lg: 'flex' }}>
         <Flex fontWeight="semi" align="center">
-          <NavImage href="/" src="/images/logo.png" />
+          <NavImage href="/" src="/images/logo.svg" />
           {NAV_ITEMS.map(({ href, label, icon }, i) => (
             <NavItem key={i} href={href}>
               <Stack direction="row" align="center">

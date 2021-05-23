@@ -40,6 +40,7 @@ const Team = ({ auth, team, filter, matches }) => {
           <Loading />
         ) : (
           <Matches
+            team={team.slug}
             matches={matches}
             pagination={{ page: filter.page, perPage: filter.perPage, onPaginate }}
           />

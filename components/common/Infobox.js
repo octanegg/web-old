@@ -32,8 +32,13 @@ export const Infobox = ({ title, image, hideImage, children }) => (
         {children}
       </Stack>
     </Flex>
-    <Flex height={40} width={40} display={{ base: 'none', md: 'flex' }}>
-      {!hideImage && <Image boxSize={40} src={image} />}
+    <Flex
+      height={40}
+      width={40}
+      align="center"
+      justify="flex-end"
+      display={{ base: 'none', md: 'flex' }}>
+      {!hideImage && <Image boxSize={32} src={image} />}
     </Flex>
   </Flex>
 )

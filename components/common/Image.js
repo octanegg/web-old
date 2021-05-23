@@ -9,10 +9,10 @@ export const Image = ({ src, boxSize, width, height, marginLeft, marginRight }) 
         marginRight={marginRight}
         justify="center">
         <ChakraImage
-          src="/images/logo.png"
+          src="/images/logo.svg"
           height={boxSize || height}
           filter="grayscale(100%)"
-          opacity={0.6}
+          opacity={0.4}
         />
       </Flex>
     )
