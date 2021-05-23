@@ -55,7 +55,7 @@ export const EventsTable = ({ events, groupBy }) => {
 const EventRow = ({ event }) => {
   const { _id, slug, region, tier, mode, prize, name, startDate, endDate, stages, image } = event
 
-  const _region = regions.find((r) => region.id === r.id)
+  const _region = regions.find((r) => region === r.id)
 
   return (
     <NextLink key={_id} passHref href={`/events/${slug}`}>

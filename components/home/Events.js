@@ -33,61 +33,60 @@ export const Events = ({ events }) => {
         divider={<StackDivider borderColor="secondary.200" />}
         overflowY={{ base: 'scroll', lg: 'auto' }}>
         {(toggle ? ongoing : upcoming).map(
-          ({ _id, slug, name, region, stages, startDate, endDate, image, tier, prize }) => (
-            <NextLink passHref href={`/events/${slug}`} key={_id}>
-              <Link _hover={{}} _focus={{}}>
-                <Stack
-                  fontSize="xs"
-                  cursor="pointer"
-                  borderRadius={8}
-                  _hover={{ backgroundColor: 'secondary.50' }}
-                  padding={2}>
-                  <Flex direction="column">
-                    <Text
-                      fontWeight="bold"
-                      whiteSpace="nowrap"
-                      overflow="hidden"
-                      textOverflow="ellipsis">
-                      {name}
-                    </Text>
-                    <Text fontSize="10px">
-                      {!toggle ? timeUntil(startDate) : toDateString(startDate, endDate)}
-                    </Text>
-                  </Flex>
-                  <Flex justify="space-around" align="center">
-                    <Flex width={10}>
-                      <Image src={image} />
+          ({ _id, slug, name, region, stages, startDate, endDate, image, tier, prize }) => {
+            const _region = regions.find((r) => region === r.id)
+            return (
+              <NextLink passHref href={`/events/${slug}`} key={_id}>
+                <Link _hover={{}} _focus={{}}>
+                  <Stack
+                    fontSize="xs"
+                    cursor="pointer"
+                    borderRadius={8}
+                    _hover={{ backgroundColor: 'secondary.50' }}
+                    padding={2}>
+                    <Flex direction="column">
+                      <Text
+                        fontWeight="bold"
+                        whiteSpace="nowrap"
+                        overflow="hidden"
+                        textOverflow="ellipsis">
+                        {name}
+                      </Text>
+                      <Text fontSize="10px">
+                        {!toggle ? timeUntil(startDate) : toDateString(startDate, endDate)}
+                      </Text>
                     </Flex>
-                    <SimpleGrid columns={2} spacing={2}>
-                      <Flex justify="center">
-                        <Tag size="sm">
-                          <Stack direction="row" spacing={1} paddingTop={0.5}>
-                            <Image
-                              width="16px"
-                              height="11px"
-                              src={regions.find((r) => region.id === r.id).image}
-                            />
-                            <Text fontSize="xs">{region}</Text>
-                          </Stack>
-                        </Tag>
+                    <Flex justify="space-around" align="center">
+                      <Flex width={10}>
+                        <Image src={image} />
                       </Flex>
-                      <Flex justify="center">
-                        <Tag size="sm">
-                          {`${stages.length} stage${stages.length > 1 ? 's' : ''}`}
-                        </Tag>
-                      </Flex>
-                      <Flex justify="center">
-                        <Tag size="sm">{tier.length > 1 ? tier : `${tier}-Tier`}</Tag>
-                      </Flex>
-                      <Flex justify="center">
-                        {prize && <Tag size="sm">{formatPrizeUSD(prize)}</Tag>}
-                      </Flex>
-                    </SimpleGrid>
-                  </Flex>
-                </Stack>
-              </Link>
-            </NextLink>
-          )
+                      <SimpleGrid columns={2} spacing={2}>
+                        <Flex justify="center">
+                          <Tag size="sm">
+                            <Stack direction="row" spacing={1} paddingTop={0.5}>
+                              {_region && <Image width="16px" height="11px" src={_region.image} />}
+                              <Text fontSize="xs">{region}</Text>
+                            </Stack>
+                          </Tag>
+                        </Flex>
+                        <Flex justify="center">
+                          <Tag size="sm">
+                            {`${stages.length} stage${stages.length > 1 ? 's' : ''}`}
+                          </Tag>
+                        </Flex>
+                        <Flex justify="center">
+                          <Tag size="sm">{tier.length > 1 ? tier : `${tier}-Tier`}</Tag>
+                        </Flex>
+                        <Flex justify="center">
+                          {prize && <Tag size="sm">{formatPrizeUSD(prize)}</Tag>}
+                        </Flex>
+                      </SimpleGrid>
+                    </Flex>
+                  </Stack>
+                </Link>
+              </NextLink>
+            )
+          }
         )}
       </Stack>
     </Flex>

@@ -26,42 +26,12 @@ const Search = ({ isAdmin, width }) => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const [_events, _teams, _players] = await Promise.all([
-        fetch(`${process.env.API_URL}/events`),
-        fetch(`${process.env.API_URL}/teams${isAdmin ? '' : '?relevant=true'}`),
-        fetch(`${process.env.API_URL}/players${isAdmin ? '' : '?relevant=true'}`),
-      ])
-
-      const [{ events }, { teams }, { players }] = await Promise.all([
-        _events.json(),
-        _teams.json(),
-        _players.json(),
-      ])
-
+      const _search = await fetch(
+        `${process.env.EXTERNAL_API_URL}/search${isAdmin ? '' : '?relevant=true'}`
+      )
+      const search = await _search.json()
       setSearchList(
-        []
-          .concat(
-            players.map(({ slug, tag, country }) => ({
-              type: 'player',
-              id: slug,
-              label: tag,
-              ...(country && getCountry(country) && { image: getCountry(country).image }),
-            })),
-            teams.map(({ slug, name, image }) => ({
-              type: 'team',
-              id: slug,
-              label: name,
-              ...(image && { image }),
-            })),
-            events.map(({ slug, name, groups, image }) => ({
-              type: 'event',
-              id: slug,
-              label: name,
-              groups,
-              ...(image && { image }),
-            }))
-          )
-          .sort((a, b) => a.label.toLowerCase().localeCompare(b.label.toLowerCase()))
+        search.searchList.sort((a, b) => a.label.toLowerCase().localeCompare(b.label.toLowerCase()))
       )
     }
     fetchData()
@@ -146,7 +116,14 @@ const Search = ({ isAdmin, width }) => {
                         marginRight={2}>
                         {type.toUpperCase()}
                       </Flex>
-                      <Flex minWidth={4}>{image && <Image height={4} src={image} />}</Flex>
+                      <Flex minWidth={4}>
+                        {image && (
+                          <Image
+                            height={4}
+                            src={type === 'player' ? getCountry(image).image : image}
+                          />
+                        )}
+                      </Flex>
                       <Flex fontSize="xs" fontWeight="semi" color="secondary.800" width="full">
                         {label}
                       </Flex>

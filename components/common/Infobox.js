@@ -40,7 +40,7 @@ export const Infobox = ({ title, image, children }) => (
 export const EventInfobox = ({ event }) => {
   const { name, startDate, endDate, region, tier, mode, prize, image } = event
 
-  const _region = regions.find((r) => region.id === r.id)
+  const _region = regions.find((r) => region === r.id)
 
   return (
     <Infobox title={name} image={image}>
