@@ -9,6 +9,8 @@ import Matches from '@octane/components/home/Matches'
 import { useRouter } from 'next/router'
 import { useAuthRedirect } from 'aws-cognito-next'
 import Meta from '@octane/components/common/Meta'
+import { tiers } from '@octane/util/constants'
+import { prizeUSD } from '@octane/util/prizes'
 
 const Home = ({ auth, articles, matches, events }) => {
   const router = useRouter()
@@ -74,7 +76,14 @@ export async function getServerSideProps({ req }) {
         upcoming: upcomingMatches.matches?.slice(0, 9) || [],
       },
       events: {
-        ongoing: ongoingEvents.events.slice(0, 9),
+        ongoing: ongoingEvents.events
+          .sort((a, b) => {
+            const aTier = tiers.findIndex((tier) => tier.id === a.tier)
+            const bTier = tiers.findIndex((tier) => tier.id === b.tier)
+
+            return aTier === bTier ? prizeUSD(b.prize) - prizeUSD(a.prize) : aTier - bTier
+          })
+          .slice(0, 9),
         upcoming: upcomingEvents.events.slice(0, 9),
       },
     },

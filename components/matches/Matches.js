@@ -1,59 +1,44 @@
 import { Badge, Flex, Image, Spacer, Stack, Text } from '@chakra-ui/react'
 import { useEffect, useState } from 'react'
 import moment from 'moment'
-import Loading from '@octane/components/common/Loading'
-import { apiFetch } from '@octane/util/fetch'
-import { buildQuery } from '@octane/util/routes'
 import { Heading, Link } from '@octane/components/common/Text'
 import Pagination from '@octane/components/common/Pagination'
 import NextLink from 'next/link'
 
-export const Matches = ({ filter, onPaginate }) => {
-  const [matches, setMatches] = useState([])
+export const Matches = ({ matches, team, player, pagination }) => {
+  const [groups, setGroups] = useState([])
   const [matchCount, setMatchCount] = useState(0)
   const [labels, setLabels] = useState([])
-  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    const fetchMatches = async () => {
-      setMatches([])
-      setLoading(true)
-
-      const data = await apiFetch('/matches', buildQuery(filter, ['']))
-      if (!data.matches) {
-        setLoading(false)
-        return
-      }
-
-      let day = moment(data.matches[0].date)
-      const _labels = []
-      const _matches = []
-
-      setMatchCount(data.matches.length)
-
-      data.matches.forEach((match, i) => {
-        const date = moment(match.date)
-        if (i === 0 || !date.isSame(day, 'day')) {
-          _labels.push(date.format('ddd, MMMM D YYYY'))
-          _matches.push([match])
-        } else {
-          _matches[_matches.length - 1].push(match)
-        }
-        day = date
-      })
-
-      setLabels(_labels)
-      setMatches(_matches)
-      setLoading(false)
+    if (!matches || matches.length === 0) {
+      return
     }
-    fetchMatches()
-  }, [filter])
 
-  return loading ? (
-    <Loading />
-  ) : (
+    let day = moment(matches[0].date)
+    const dates = []
+    const matchGroups = []
+
+    setMatchCount(matches.length)
+
+    matches.forEach((match, i) => {
+      const date = moment(match.date)
+      if (i === 0 || !date.isSame(day, 'day')) {
+        dates.push(date.format('ddd, MMMM D YYYY'))
+        matchGroups.push([match])
+      } else {
+        matchGroups[matchGroups.length - 1].push(match)
+      }
+      day = date
+    })
+
+    setLabels(dates)
+    setGroups(matchGroups)
+  }, [])
+
+  return (
     <>
-      {matches?.map((group, i) => (
+      {groups.map((group, i) => (
         <>
           <Heading>{labels[i]}</Heading>
           <Flex direction="column">
@@ -62,20 +47,20 @@ export const Matches = ({ filter, onPaginate }) => {
                 key={j}
                 isEven={j % 2 === 0}
                 match={match}
-                team={filter.team}
-                player={filter.player}
-                highlightResult={filter.player || filter.team}
+                team={team}
+                player={player}
+                highlightResult={player || team}
               />
             ))}
           </Flex>
         </>
       ))}
-      {onPaginate && (
+      {pagination && (
         <Flex justify="flex-end" width="full">
           <Pagination
-            page={parseInt(filter.page, 10)}
-            onChange={onPaginate}
-            isLast={matchCount < filter.perPage}
+            page={parseInt(pagination.page, 10)}
+            onChange={pagination.onPaginate}
+            isLast={matchCount < pagination.perPage}
           />
         </Flex>
       )}

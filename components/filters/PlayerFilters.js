@@ -3,18 +3,19 @@ import {
   Filter,
   FormatFilter,
   ModeFilter,
+  OpponentsFilter,
   PlayerStatsTypeFilter,
   RecordsStatsFilter,
   RecordsTypeFilter,
   RegionFilter,
-  TeamsOpponentsFilter,
+  TeamsFilter,
   TierFilter,
 } from '@octane/components/filters/Filter'
 import { buildQuery, route } from '@octane/util/routes'
 import { useRouter } from 'next/router'
 import { useState } from 'react'
 
-export const PlayerMatchesFilter = ({ player, initialFilter }) => {
+export const PlayerMatchesFilter = ({ player, teams, opponents, initialFilter }) => {
   const router = useRouter()
   const [filter, setFilter] = useState(initialFilter)
 
@@ -46,14 +47,17 @@ export const PlayerMatchesFilter = ({ player, initialFilter }) => {
       }}>
       <TierFilter active={filter.tier} onChange={(item) => updateFilter('tier', item)} />
       <ModeFilter active={filter.mode} onChange={(item) => updateFilter('mode', item)} />
-      <TeamsOpponentsFilter
-        player={player.slug}
-        team={filter.team}
-        opponent={filter.opponent}
-        onTeamChange={(item) => {
+      <TeamsFilter
+        teams={teams}
+        active={filter.team}
+        onChange={(item) => {
           updateFilter('team', item)
         }}
-        onOpponentChange={(item) => updateFilter('opponent', item)}
+      />
+      <OpponentsFilter
+        teams={opponents}
+        active={filter.opponent}
+        onChange={(item) => updateFilter('opponent', item)}
       />
     </Filter>
   )

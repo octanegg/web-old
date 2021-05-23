@@ -3,44 +3,29 @@ import getConfig from 'next/config'
 
 const { publicRuntimeConfig } = getConfig()
 
-export const apiFetch = async (path, query) => {
-  const res = await fetch(`${process.env.EXTERNAL_API_URL}${path}${query}`)
-  return res.json()
+const headers = {
+  'Content-Type': 'application/json',
+  'X-Api-Key': publicRuntimeConfig.API_KEY,
 }
 
-export const apiUpdate = async (path, data) => {
-  const res = await fetch(`${process.env.API_URL}${path}`, {
+export const apiUpdate = async (path, data) =>
+  fetch(`${process.env.API_URL}${path}`, {
     method: 'PUT',
-    headers: {
-      'Content-Type': 'application/json',
-      'X-Api-Key': publicRuntimeConfig.API_KEY,
-    },
+    headers,
     body: JSON.stringify(data),
   })
-  return res
-}
 
-export const apiCreate = async (path, data) => {
-  const res = await fetch(`${process.env.API_URL}${path}`, {
+export const apiCreate = async (path, data) =>
+  fetch(`${process.env.API_URL}${path}`, {
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'X-Api-Key': publicRuntimeConfig.API_KEY,
-    },
+    headers,
     body: JSON.stringify(data),
   })
-  return res
-}
 
-export const apiDelete = async (path) => {
-  const res = await fetch(`${process.env.API_URL}${path}`, {
+export const apiDelete = async (path) =>
+  fetch(`${process.env.API_URL}${path}`, {
     method: 'DELETE',
-    headers: {
-      'Content-Type': 'application/json',
-      'X-Api-Key': publicRuntimeConfig.API_KEY,
-    },
+    headers,
   })
-  return res
-}
 
-export default apiFetch
+export default publicRuntimeConfig

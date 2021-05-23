@@ -12,8 +12,10 @@ import Loading from '@octane/components/common/Loading'
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 import StatsNavigation from '@octane/components/stats/Navigation'
+import { useOctane } from '@octane/context/octane'
 
 const Stats = ({ auth, event, group, stats, filter }) => {
+  const { loadingSameRoute } = useOctane()
   const [period, setPeriod] = useState()
   const [nextGroup, setNextGroup] = useState()
   const [loading, setLoading] = useState(false)
@@ -53,7 +55,7 @@ const Stats = ({ auth, event, group, stats, filter }) => {
           }}
           onPeriodChange={setPeriod}
         />
-        {loading ? (
+        {loading || loadingSameRoute ? (
           <Loading />
         ) : (
           <PlayerStats

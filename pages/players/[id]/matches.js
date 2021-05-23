@@ -8,11 +8,14 @@ import { Stack } from '@chakra-ui/react'
 import { useRouter } from 'next/router'
 import { buildQuery, route } from '@octane/util/routes'
 import Meta from '@octane/components/common/Meta'
+import Loading from '@octane/components/common/Loading'
+import { useOctane } from '@octane/context/octane'
 
-const Player = ({ auth, player, filter }) => {
+const Player = ({ auth, player, teams, opponents, filter, matches }) => {
+  const { loadingSameRoute } = useOctane()
   const router = useRouter()
 
-  const handlePagination = (page) => {
+  const onPaginate = (page) => {
     route(
       router,
       `/players/${player.slug}/matches`,
@@ -32,8 +35,20 @@ const Player = ({ auth, player, filter }) => {
           isAdmin={isAdmin(auth)}
           hasDivider
         />
-        <PlayerMatchesFilter player={player} initialFilter={filter} />
-        <Matches filter={filter} onPaginate={handlePagination} />
+        <PlayerMatchesFilter
+          player={player}
+          initialFilter={filter}
+          teams={teams}
+          opponents={opponents}
+        />
+        {loadingSameRoute ? (
+          <Loading />
+        ) : (
+          <Matches
+            matches={matches}
+            pagination={{ page: filter.page, perPage: filter.perPage, onPaginate }}
+          />
+        )}
       </Stack>
     </Content>
   )
@@ -42,28 +57,58 @@ const Player = ({ auth, player, filter }) => {
 export async function getServerSideProps({ req, params, query }) {
   const auth = getServerSideAuth(req)
   const { id } = params
-  const res = await fetch(`${process.env.API_URL}/players/${id}`)
-  if (res.status !== 200) {
+
+  const filter = {
+    player: id,
+    tier: query.tier || '',
+    mode: query.mode || 3,
+    team: query.team || '',
+    opponent: query.opponent || '',
+    page: query.page || 1,
+    perPage: 50,
+    sort: 'date:desc',
+  }
+
+  const [_player, _matches, _teams, _opponents] = await Promise.all([
+    fetch(`${process.env.API_URL}/players/${id}`),
+    fetch(`${process.env.API_URL}/matches${buildQuery(filter, '')}`),
+    fetch(`${process.env.API_URL}/players/${id}/teams`),
+    fetch(`${process.env.API_URL}/players/${id}/opponents`),
+  ])
+  if (_player.status !== 200) {
     return {
       notFound: true,
     }
   }
 
-  const player = await res.json()
+  const [player, { matches }, teams, opponents] = await Promise.all([
+    _player.json(),
+    _matches.json(),
+    _teams.json(),
+    _opponents.json(),
+  ])
   return {
     props: {
       auth,
+      filter,
       player,
-      filter: {
-        player: id,
-        tier: query.tier || '',
-        mode: query.mode || 3,
-        team: query.team || '',
-        opponent: query.opponent || '',
-        page: query.page || 1,
-        perPage: 50,
-        sort: 'date:desc',
-      },
+      matches,
+      teams: teams.teams
+        .filter(({ slug }) => slug)
+        ?.map(({ slug, name, image }) => ({
+          id: slug,
+          label: name,
+          ...(image && { image }),
+        }))
+        .sort((a, b) => a.label.toLowerCase().localeCompare(b.label.toLowerCase()) || []),
+      opponents: opponents.teams
+        .filter(({ slug }) => slug)
+        ?.map(({ slug, name, image }) => ({
+          id: slug,
+          label: name,
+          ...(image && { image }),
+        }))
+        .sort((a, b) => a.label.toLowerCase().localeCompare(b.label.toLowerCase()) || []),
     },
   }
 }

@@ -6,6 +6,7 @@ import Amplify from '@aws-amplify/core'
 import Auth from '@aws-amplify/auth'
 import 'react-datepicker/dist/react-datepicker.css'
 import '@octane/styles/date-picker.css'
+import OctaneProvider from '@octane/context/octane'
 
 Amplify.configure({
   Auth: {
@@ -109,25 +110,27 @@ const theme = {
 }
 
 const App = ({ Component, pageProps }) => (
-  <ThemeProvider theme={theme}>
-    <CSSReset />
-    <Head>
-      <meta charSet="utf-8" />
-      <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <OctaneProvider>
+    <ThemeProvider theme={theme}>
+      <CSSReset />
+      <Head>
+        <meta charSet="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-      <title>Rocket League News & Coverage | Octane.gg</title>
+        <title>Rocket League News & Coverage | Octane.gg</title>
 
-      <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
-      <link rel="preconnect" href="https://fonts.gstatic.com" />
-      <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap"
-        rel="stylesheet"
-      />
-    </Head>
-    <Layout>
-      <Component {...pageProps} />
-    </Layout>
-  </ThemeProvider>
+        <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap"
+          rel="stylesheet"
+        />
+      </Head>
+      <Layout>
+        <Component {...pageProps} />
+      </Layout>
+    </ThemeProvider>
+  </OctaneProvider>
 )
 
 export default App

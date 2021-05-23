@@ -1,0 +1,13 @@
+.progress {
+  div[data-indeterminate] {
+    background-image: linear-gradient(
+      to right,
+      transparent 0%,
+      #30c97b 5%,
+      #30c97b 95%,
+      transparent 100%
+    );
+    animation-duration: 1.25s;
+    min-width: 25%;
+  }
+}

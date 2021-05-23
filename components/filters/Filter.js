@@ -15,11 +15,8 @@ import {
   years,
 } from '@octane/util/constants'
 import { getCountries } from '@octane/util/countries'
-import { useEffect, useState } from 'react'
-import { apiFetch } from '@octane/util/fetch'
 import { regions } from '@octane/util/regions'
 import { Divider, Flex, Stack, Text } from '@chakra-ui/react'
-import { buildQuery } from '@octane/util/routes'
 import { Button, ButtonTypes } from '@octane/components/common/Button'
 import { CheckIcon, CloseIcon } from '@chakra-ui/icons'
 import {
@@ -29,6 +26,7 @@ import {
   teamRecords,
 } from '@octane/config/records/records'
 import { getRecordStat } from '@octane/util/stats'
+import { useState } from 'react'
 
 export const Filter = ({ children, onApply, onReset }) => {
   const [showFilter, setShowFilter] = useState(false)
@@ -230,123 +228,10 @@ export const ReverseSweepsFilter = ({ reverseSweep, reverseSweepAttempt, onChang
   )
 }
 
-export const TeamsFilter = ({ player, active, onChange }) => {
-  const [teams, setTeams] = useState([])
+export const TeamsFilter = ({ teams, active, onChange }) => (
+  <DropdownCheckbox label="Teams" items={teams} active={active} onChange={onChange} showImage />
+)
 
-  useEffect(() => {
-    const fetchTeams = async () => {
-      const data = await apiFetch(`/stats/players/teams`, buildQuery({ player, mode: 3 }, ['']))
-
-      setTeams(
-        data.stats
-          ?.map((stat) => ({
-            id: stat.team._id,
-            label: stat.team.name,
-            image: stat.team.image,
-          }))
-          .sort((a, b) => a.label.toLowerCase().localeCompare(b.label.toLowerCase()) || [])
-      )
-    }
-
-    fetchTeams()
-  }, [player])
-
-  return (
-    <DropdownCheckbox label="Teams" items={teams} active={active} onChange={onChange} showImage />
-  )
-}
-
-export const OpponentsFilter = ({ player, team, active, onChange }) => {
-  const [teams, setTeams] = useState([])
-
-  useEffect(() => {
-    const fetchTeams = async () => {
-      const path = `/stats/${player ? 'players' : 'teams'}/opponents`
-      const query = { mode: 3, ...(player && { player }), ...(team && { team }) }
-      const data = await apiFetch(path, buildQuery(query, ['']))
-
-      setTeams(
-        data.stats
-          ?.map((stat) => ({
-            id: stat.opponents[0]._id,
-            label: stat.opponents[0].name,
-            image: stat.opponents[0].image,
-          }))
-          .sort((a, b) => a.label.toLowerCase().localeCompare(b.label.toLowerCase()) || [])
-      )
-    }
-
-    fetchTeams()
-  }, [player, team])
-
-  return (
-    <DropdownCheckbox
-      label="Opponents"
-      items={teams || []}
-      active={active}
-      onChange={onChange}
-      showImage
-    />
-  )
-}
-
-export const TeamsOpponentsFilter = ({
-  player,
-  team,
-  opponent,
-  onTeamChange,
-  onOpponentChange,
-}) => {
-  const [teams, setTeams] = useState([])
-  const [opponents, setOpponents] = useState([])
-
-  useEffect(() => {
-    const fetchTeams = async () => {
-      const [teamsData, opponentsData] = await Promise.all([
-        apiFetch(`/players/${player}/teams`, ''),
-        apiFetch(`/players/${player}/opponents`, buildQuery({ ...(team && { team }) }, [''])),
-      ])
-
-      setTeams(
-        teamsData.teams
-          ?.map(({ _id, name, image }) => ({
-            id: _id,
-            label: name,
-            image,
-          }))
-          .sort((a, b) => a.label.toLowerCase().localeCompare(b.label.toLowerCase()) || [])
-      )
-
-      setOpponents(
-        opponentsData.teams
-          ?.map(({ _id, name, image }) => ({
-            id: _id,
-            label: name,
-            image,
-          }))
-          .sort((a, b) => a.label.toLowerCase().localeCompare(b.label.toLowerCase()) || [])
-      )
-    }
-
-    fetchTeams()
-  }, [])
-
-  return (
-    <Stack direction="row" align="center">
-      <DropdownCheckbox
-        label="Teams"
-        items={teams}
-        active={team}
-        onChange={onTeamChange}
-        showImage
-      />
-      <DropdownCheckbox
-        label="Opponents"
-        items={opponents}
-        active={opponent}
-        onChange={onOpponentChange}
-        showImage
-      />
-    </Stack>
-  )
-}
+export const OpponentsFilter = ({ teams, active, onChange }) => (
+  <DropdownCheckbox label="Opponents" items={teams} active={active} onChange={onChange} showImage />
+)

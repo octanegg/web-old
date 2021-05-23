@@ -8,11 +8,14 @@ import { Stack } from '@chakra-ui/react'
 import { useRouter } from 'next/router'
 import { buildQuery, route } from '@octane/util/routes'
 import Meta from '@octane/components/common/Meta'
+import Loading from '@octane/components/common/Loading'
+import { useOctane } from '@octane/context/octane'
 
-const Team = ({ auth, team, filter }) => {
+const Team = ({ auth, team, filter, matches }) => {
+  const { loadingSameRoute } = useOctane()
   const router = useRouter()
 
-  const handlePagination = (page) => {
+  const onPaginate = (page) => {
     route(
       router,
       `/teams/${team.slug}/matches`,
@@ -33,7 +36,14 @@ const Team = ({ auth, team, filter }) => {
           hasDivider
         />
         <TeamMatchesFilter team={team} initialFilter={filter} />
-        <Matches filter={filter} onPaginate={handlePagination} />
+        {loadingSameRoute ? (
+          <Loading />
+        ) : (
+          <Matches
+            matches={matches}
+            pagination={{ page: filter.page, perPage: filter.perPage, onPaginate }}
+          />
+        )}
       </Stack>
     </Content>
   )
@@ -42,27 +52,34 @@ const Team = ({ auth, team, filter }) => {
 export async function getServerSideProps({ req, params, query }) {
   const auth = getServerSideAuth(req)
   const { id } = params
-  const res = await fetch(`${process.env.API_URL}/teams/${id}`)
-  if (res.status !== 200) {
+
+  const filter = {
+    team: id,
+    tier: query.tier || '',
+    mode: query.mode || 3,
+    opponent: query.opponent || '',
+    page: query.page || 1,
+    perPage: 50,
+    sort: 'date:desc',
+  }
+
+  const [_team, _matches] = await Promise.all([
+    fetch(`${process.env.API_URL}/teams/${id}`),
+    fetch(`${process.env.API_URL}/matches${buildQuery(filter, '')}`),
+  ])
+  if (_team.status !== 200) {
     return {
       notFound: true,
     }
   }
 
-  const team = await res.json()
+  const [team, { matches }] = await Promise.all([_team.json(), _matches.json()])
   return {
     props: {
       auth,
+      filter,
       team,
-      filter: {
-        team: id,
-        tier: query.tier || '',
-        mode: query.mode || 3,
-        opponent: query.opponent || '',
-        page: query.page || 1,
-        perPage: 50,
-        sort: 'date:desc',
-      },
+      matches,
     },
   }
 }

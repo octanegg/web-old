@@ -1,10 +1,8 @@
-import { apiFetch } from '@octane/util/fetch'
 import { useEffect, useState } from 'react'
 import NextLink from 'next/link'
 
 import { ImSearch } from 'react-icons/im'
 import { getCountry } from '@octane/util/countries'
-import { buildQuery } from '@octane/util/routes'
 
 const {
   Input,
@@ -28,10 +26,16 @@ const Search = ({ isAdmin, width }) => {
 
   useEffect(() => {
     const fetchData = async () => {
+      const [_events, _teams, _players] = await Promise.all([
+        fetch(`${process.env.API_URL}/events`),
+        fetch(`${process.env.API_URL}/teams${isAdmin ? '' : '?relevant=true'}`),
+        fetch(`${process.env.API_URL}/players${isAdmin ? '' : '?relevant=true'}`),
+      ])
+
       const [{ events }, { teams }, { players }] = await Promise.all([
-        apiFetch('/events', ''),
-        apiFetch('/teams', isAdmin ? '' : buildQuery({ relevant: true }, [])),
-        apiFetch('/players', isAdmin ? '' : buildQuery({ relevant: true }, [])),
+        _events.json(),
+        _teams.json(),
+        _players.json(),
       ])
 
       setSearchList(

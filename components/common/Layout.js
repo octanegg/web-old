@@ -1,10 +1,12 @@
+import styles from '@octane/styles/Progress.module.scss'
 import { useAuthFunctions } from 'aws-cognito-next'
+import { useOctane } from '@octane/context/octane'
+import { Box, Flex, Progress } from '@chakra-ui/react'
 import Navbar from './Navbar'
 import Footer from './Footer'
 
-const { Flex } = require('@chakra-ui/react')
-
 export const Content = ({ auth, children }) => {
+  const { loadingNewRoute } = useOctane()
   const { login } = useAuthFunctions()
   if (!auth) {
     login()
@@ -24,8 +26,10 @@ export const Content = ({ auth, children }) => {
           maxWidth="6xl"
           flexDirection="column"
           align="center"
-          paddingTop={2}
           paddingBottom={2}>
+          <Box width="full" height={2} className={styles.progress}>
+            {loadingNewRoute && <Progress size="xs" isIndeterminate variant="test" />}
+          </Box>
           {children}
         </Flex>
         <Footer />

@@ -42,6 +42,10 @@ export const tiers = [
     label: 'C-Tier',
   },
   {
+    id: 'D',
+    label: 'D-Tier',
+  },
+  {
     id: 'Monthly',
     label: 'Monthly',
   },
