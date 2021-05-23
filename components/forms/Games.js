@@ -16,7 +16,7 @@ export const GameForm = ({ data, match }) => {
 
   useEffect(() => {
     const fetchPlayers = async () => {
-      const _players = await fetch('/players')
+      const _players = await fetch(`${process.env.EXTERNAL_API_URL}/players`)
       const { players } = await _players.json()
       setPlayerList(players.sort((a, b) => a.tag.localeCompare(b.tag)))
     }

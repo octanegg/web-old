@@ -29,7 +29,7 @@ export const UpcomingEventsFilter = ({ initialFilter }) => {
 
   return (
     <Filter
-      onApply={() => route(router, '/events', buildQuery(filter, ['', 'sort']))}
+      onApply={() => route(router, '/events', buildQuery(filter, ['', 'sort', 'before', 'after']))}
       onReset={() => {
         setFilter({
           after: moment().toISOString(),
@@ -58,7 +58,9 @@ export const CompletedEventsFilter = ({ initialFilter }) => {
 
   return (
     <Filter
-      onApply={() => route(router, '/events/archive', buildQuery(filter, ['', 'sort']))}
+      onApply={() =>
+        route(router, '/events/archive', buildQuery(filter, ['', 'sort', 'before', 'after']))
+      }
       onReset={() => {
         setFilter({
           before: moment().toISOString(),

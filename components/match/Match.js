@@ -195,7 +195,7 @@ export const Infobox = ({ match, active }) => {
               {blue.team.team.name}
             </Link>
             <Image
-              width={{ base: 16, md: 20 }}
+              boxSize={{ base: 16, md: 20 }}
               marginLeft={4}
               marginRight={4}
               src={blue.team.team.image}
@@ -235,7 +235,7 @@ export const Infobox = ({ match, active }) => {
             width={{ base: 20, sm: 24, md: 80 }}
             direction={{ base: 'column', md: 'row' }}>
             <Image
-              width={{ base: 16, md: 20 }}
+              boxSize={{ base: 16, md: 20 }}
               marginLeft={4}
               marginRight={4}
               src={orange.team.team.image}

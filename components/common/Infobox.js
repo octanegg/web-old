@@ -6,7 +6,7 @@ import { LabeledField, Link } from '@octane/components/common/Text'
 import { regions } from '@octane/config/fields/regions'
 import Image from '@octane/components/common/Image'
 
-export const Infobox = ({ title, image, children }) => (
+export const Infobox = ({ title, image, hideImage, children }) => (
   <Flex direction="row" width="full" justify="space-between" paddingLeft={4} paddingRight={4}>
     <Flex direction="column" width={{ base: 'full', md: 'auto' }} marginTop={4}>
       <Flex
@@ -19,7 +19,7 @@ export const Infobox = ({ title, image, children }) => (
         {title}
       </Flex>
       <Flex justify="center" display={{ base: 'flex', md: 'none' }}>
-        <Image boxSize={20} src={image} />
+        {!hideImage && <Image boxSize={20} src={image} />}
       </Flex>
       <Stack
         direction="row"
@@ -33,7 +33,7 @@ export const Infobox = ({ title, image, children }) => (
       </Stack>
     </Flex>
     <Flex height={40} width={40} display={{ base: 'none', md: 'flex' }}>
-      <Image boxSize={40} src={image} />
+      {!hideImage && <Image boxSize={40} src={image} />}
     </Flex>
   </Flex>
 )
@@ -77,7 +77,7 @@ export const PlayerInfobox = ({ player }) => {
   const { tag, name, country, team } = player
 
   return (
-    <Infobox title={tag}>
+    <Infobox title={tag} hideImage>
       <LabeledField label="name" width="auto">
         {name || '-'}
       </LabeledField>

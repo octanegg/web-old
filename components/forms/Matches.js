@@ -17,9 +17,9 @@ export const MatchForm = ({ data, onUpdate, onRemove }) => {
 
   useEffect(() => {
     const fetchTeams = async () => {
-      const _teams = await fetch('/teams')
-      const { teams } = await _teams.json()
-      setTeams(teams.sort((a, b) => a.name.localeCompare(b.name)))
+      const _teams = await fetch(`${process.env.EXTERNAL_API_URL}/teams`)
+      const res = await _teams.json()
+      setTeams(res.teams.sort((a, b) => a.name.localeCompare(b.name)))
     }
     fetchTeams()
   }, [])

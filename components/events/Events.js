@@ -4,9 +4,10 @@ import moment from 'moment'
 import { Link, Heading } from '@octane/components/common/Text'
 import { toDateString } from '@octane/util/dates'
 import { regions } from '@octane/config/fields/regions'
-import { formatPrizeUSD } from '@octane/util/prizes'
+import { formatPrizeUSD, prizeUSD } from '@octane/util/prizes'
 import NextLink from 'next/link'
 import Image from '@octane/components/common/Image'
+import tiers from '@octane/config/fields/tiers'
 
 export const EventsTable = ({ events, groupBy }) => {
   const [groups, setGroups] = useState([])
@@ -18,7 +19,14 @@ export const EventsTable = ({ events, groupBy }) => {
     }
     if (!groupBy) {
       setLabels(['Ongoing'])
-      setGroups([events])
+      setGroups([
+        events.sort((a, b) => {
+          const aTier = tiers.findIndex((tier) => tier.id === a.tier)
+          const bTier = tiers.findIndex((tier) => tier.id === b.tier)
+
+          return aTier === bTier ? prizeUSD(b.prize) - prizeUSD(a.prize) : aTier - bTier
+        }),
+      ])
       return
     }
 

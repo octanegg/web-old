@@ -9,29 +9,20 @@ export const OctaneContext = createContext({
 })
 
 export const OctaneProvider = ({ children }) => {
-  const [currentRoute, setCurrentRoute] = useState(
-    Router.router ? Router.router.asPath.split('?')[0] : ''
-  )
   const [loadingSameRoute, setLoadingSameRoute] = useState(false)
   const [loadingNewRoute, setLoadingNewRoute] = useState(false)
 
   useEffect(() => {
-    Router.events.on('routeChangeStart', (url) => {
-      if (url?.split('?')[0] === currentRoute) {
-        setLoadingSameRoute(true)
-      } else {
-        setLoadingNewRoute(true)
-      }
+    Router.events.on('routeChangeStart', () => {
+      setLoadingNewRoute(true)
     })
-    Router.events.on('routeChangeComplete', (url) => {
+    Router.events.on('routeChangeComplete', () => {
       setLoadingSameRoute(false)
       setLoadingNewRoute(false)
-      setCurrentRoute(url ? url.split('?')[0] : '')
     })
-    Router.events.on('routeChangeError', (url) => {
+    Router.events.on('routeChangeError', () => {
       setLoadingSameRoute(false)
       setLoadingNewRoute(false)
-      setCurrentRoute(url ? url.split('?')[0] : '')
     })
   }, [])
 
@@ -40,6 +31,7 @@ export const OctaneProvider = ({ children }) => {
       value={{
         loadingNewRoute,
         loadingSameRoute,
+        setLoadingSameRoute,
       }}>
       {children}
     </OctaneContext.Provider>

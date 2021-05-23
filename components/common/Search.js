@@ -67,12 +67,6 @@ const Search = ({ isAdmin, width }) => {
             fontWeight="medium"
             _focus={{ outline: 'none' }}
             value={input}
-            onBlur={() => {
-              setIsInputting(false)
-              setTimeout(() => {
-                reset()
-              }, 100)
-            }}
             onFocus={() => setIsInputting(true)}
             onChange={(e) => setInput(e.target.value)}
           />

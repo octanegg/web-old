@@ -22,8 +22,10 @@ import tiers from '@octane/config/fields/tiers'
 import events from '@octane/config/fields/groups'
 import modes from '@octane/config/fields/modes'
 import formats from '@octane/config/fields/formats'
+import { useOctane } from '@octane/context/octane'
 
 export const Filter = ({ children, onApply, onReset }) => {
+  const { setLoadingSameRoute } = useOctane()
   const [showFilter, setShowFilter] = useState(false)
 
   return (
@@ -53,7 +55,12 @@ export const Filter = ({ children, onApply, onReset }) => {
         </Stack>
         <Stack width="full" direction="row" justify="flex-end" align="center" shouldWrapChildren>
           {onApply && (
-            <Button buttonType={ButtonTypes.submit} onClick={onApply}>
+            <Button
+              buttonType={ButtonTypes.submit}
+              onClick={() => {
+                onApply()
+                setLoadingSameRoute(true)
+              }}>
               <CheckIcon paddingRight={1} />
               <Text>Apply</Text>
             </Button>

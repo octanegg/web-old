@@ -72,7 +72,7 @@ export const InputSelect = ({ items, value, itemToString, itemToDisplay, onChang
 
   return (
     <Popover
-      placement="bottom"
+      placement="bottom-start"
       margin={0}
       isOpen={isOpen}
       onClose={close}
