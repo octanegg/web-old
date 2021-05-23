@@ -24,6 +24,7 @@ import { ChevronDownIcon } from '@chakra-ui/icons'
 
 import DatePicker from 'react-datepicker'
 import moment from 'moment'
+import { rocketLeagueYears } from '@octane/util/dates'
 import { Input } from './Input'
 import { Button } from './Button'
 
@@ -102,32 +103,36 @@ export const DropdownDate = ({ label, startDate, endDate, onChange }) => {
           </Button>
         </Stack>
         <Stack direction="row" justify="center">
-          {[2021, 2020, 2019, 2018].map((year) => (
-            <Button
-              key={year}
-              onClick={() =>
-                quickChange([
-                  moment(`${year}-01-01`, 'YYYY-MM-DD'),
-                  moment(`${year}-12-31`, 'YYYY-MM-DD'),
-                ])
-              }>
-              {year}
-            </Button>
-          ))}
+          {rocketLeagueYears()
+            .slice(0, 4)
+            .map((year) => (
+              <Button
+                key={year}
+                onClick={() =>
+                  quickChange([
+                    moment(`${year}-01-01`, 'YYYY-MM-DD'),
+                    moment(`${year}-12-31`, 'YYYY-MM-DD'),
+                  ])
+                }>
+                {year}
+              </Button>
+            ))}
         </Stack>
         <Stack direction="row" justify="center">
-          {[2017, 2016, 2015].map((year) => (
-            <Button
-              key={year}
-              onClick={() =>
-                quickChange([
-                  moment(`${year}-01-01`, 'YYYY-MM-DD'),
-                  moment(`${year}-12-31`, 'YYYY-MM-DD'),
-                ])
-              }>
-              {year}
-            </Button>
-          ))}
+          {rocketLeagueYears()
+            .slice(4, 8)
+            .map((year) => (
+              <Button
+                key={year}
+                onClick={() =>
+                  quickChange([
+                    moment(`${year}-01-01`, 'YYYY-MM-DD'),
+                    moment(`${year}-12-31`, 'YYYY-MM-DD'),
+                  ])
+                }>
+                {year}
+              </Button>
+            ))}
         </Stack>
       </Stack>
     </Dropdown>

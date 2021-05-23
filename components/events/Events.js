@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react'
 import moment from 'moment'
 import { Link, Heading } from '@octane/components/common/Text'
 import { toDateString } from '@octane/util/dates'
-import { getRegion } from '@octane/util/regions'
+import { regions } from '@octane/config/fields/regions'
 import { formatPrizeUSD } from '@octane/util/prizes'
 import NextLink from 'next/link'
 
@@ -55,7 +55,7 @@ export const EventsTable = ({ events, groupBy }) => {
 const EventRow = ({ event }) => {
   const { _id, slug, region, tier, mode, prize, name, startDate, endDate, stages, image } = event
 
-  const _region = getRegion(region)
+  const _region = regions.find((r) => region.id === r.id)
 
   return (
     <NextLink key={_id} passHref href={`/events/${slug}`}>

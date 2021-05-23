@@ -4,18 +4,8 @@ import DropdownList, {
   DropdownInput,
   DropdownNestedList,
 } from '@octane/components/common/Dropdown'
-import {
-  tiers,
-  events,
-  modes,
-  formats,
-  statCategories,
-  playerStatsTypes,
-  teamStatsTypes,
-  years,
-} from '@octane/util/constants'
-import { getCountries } from '@octane/util/countries'
-import { regions } from '@octane/util/regions'
+import { getCountries } from '@octane/config/fields/countries'
+import { regions } from '@octane/config/fields/regions'
 import { Divider, Flex, Stack, Text } from '@chakra-ui/react'
 import { Button, ButtonTypes } from '@octane/components/common/Button'
 import { CheckIcon, CloseIcon } from '@chakra-ui/icons'
@@ -27,6 +17,11 @@ import {
 } from '@octane/config/records/records'
 import { getRecordStat } from '@octane/util/stats'
 import { useState } from 'react'
+import { rocketLeagueYears } from '@octane/util/dates'
+import tiers from '@octane/config/fields/tiers'
+import events from '@octane/config/fields/groups'
+import modes from '@octane/config/fields/modes'
+import formats from '@octane/config/fields/formats'
 
 export const Filter = ({ children, onApply, onReset }) => {
   const [showFilter, setShowFilter] = useState(false)
@@ -107,7 +102,7 @@ export const FormatFilter = ({ active, onChange }) => (
 )
 
 export const YearFilter = ({ active, onChange }) => (
-  <DropdownList label="Years" items={years} active={active} onChange={onChange} />
+  <DropdownList label="Years" items={rocketLeagueYears()} active={active} onChange={onChange} />
 )
 
 export const NationalityFilter = ({ active, onChange }) => (
@@ -169,7 +164,7 @@ export const RecordsStatsFilter = ({ type, active, onChange }) => {
 export const StatsCategoryFilter = ({ active, onChange }) => (
   <DropdownList
     label={active[0].toUpperCase() + active.substring(1)}
-    items={statCategories}
+    items={['players', 'teams']}
     active={active}
     itemToLabel={(item) => item[0].toUpperCase() + item.substring(1)}
     onChange={onChange}
@@ -187,7 +182,7 @@ export const StageFilter = ({ stages, active, onChange }) => (
 export const PlayerStatsTypeFilter = ({ active, onChange }) => (
   <DropdownList
     label={active[0].toUpperCase() + active.substring(1)}
-    items={playerStatsTypes}
+    items={['teams', 'opponents', 'events']}
     active={active}
     itemToLabel={(item) => item[0].toUpperCase() + item.substring(1)}
     onChange={onChange}
@@ -210,7 +205,7 @@ export const TeamStatsTypeFilter = ({ active, onChange }) => (
   <DropdownList
     label={active[0].toUpperCase() + active.substring(1)}
     active={active}
-    items={teamStatsTypes}
+    items={['players', 'opponents', 'events']}
     itemToLabel={(item) => item[0].toUpperCase() + item.substring(1)}
     onChange={onChange}
   />

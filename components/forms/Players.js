@@ -1,8 +1,8 @@
 import { Input } from '@octane/components/common/Input'
 import { FormField, Form } from '@octane/components/forms/Forms'
 import { useEffect, useState } from 'react'
-import { getCountries } from '@octane/util/countries'
-import { apiCreate, apiUpdate } from '@octane/util/fetch'
+import { getCountries } from '@octane/config/fields/countries'
+import { apiCreate, apiUpdate } from '@octane/util/api'
 import { Select, TeamSelect } from '@octane/components/common/Select'
 import {
   Accordion,

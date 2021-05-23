@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import NextLink from 'next/link'
 
 import { ImSearch } from 'react-icons/im'
-import { getCountry } from '@octane/util/countries'
+import { getCountry } from '@octane/config/fields/countries'
 
 const {
   Input,

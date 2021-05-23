@@ -1,5 +1,5 @@
 import { Text, Image, Stack } from '@chakra-ui/react'
-import { getCountry } from '@octane/util/countries'
+import { getCountry } from '@octane/config/fields/countries'
 
 export const Flag = ({ country, justify, isLabeled }) => {
   const data = getCountry(country || 'int')

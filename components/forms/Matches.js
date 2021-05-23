@@ -1,7 +1,7 @@
 import { Input } from '@octane/components/common/Input'
 import { FormField } from '@octane/components/forms/Forms'
 import { useEffect, useState } from 'react'
-import { apiCreate, apiDelete, apiUpdate } from '@octane/util/fetch'
+import { apiCreate, apiDelete, apiUpdate } from '@octane/util/api'
 import { Select, TeamSelect } from '@octane/components/common/Select'
 import { Flex, FormControl, FormLabel, Spacer, Stack, Text } from '@chakra-ui/react'
 import { cleanObj } from '@octane/util/stats'

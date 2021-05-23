@@ -9,8 +9,8 @@ import Matches from '@octane/components/home/Matches'
 import { useRouter } from 'next/router'
 import { useAuthRedirect } from 'aws-cognito-next'
 import Meta from '@octane/components/common/Meta'
-import { tiers } from '@octane/util/constants'
 import { prizeUSD } from '@octane/util/prizes'
+import tiers from '@octane/config/fields/tiers'
 
 const Home = ({ auth, articles, matches, events }) => {
   const router = useRouter()
@@ -58,12 +58,20 @@ export async function getServerSideProps({ req }) {
     fetch(`${process.env.API_URL}/events?after=${moment().toISOString()}&sort=start_date:asc`),
     fetch(`${process.env.CONTENT_URL}/articles?_sort=published_at:desc&_limit=20`),
   ])
-  const articles = await resArticles.json()
-  const completedMatches = await resCompletedMatches.json()
-  const upcomingMatches = await resUpcomingMatches.json()
-  const ongoingEvents = await resOngoingEvents.json()
-  const upcomingEvents = await resUpcomingEvents.json()
 
+  const [
+    articles,
+    completedMatches,
+    upcomingMatches,
+    ongoingEvents,
+    upcomingEvents,
+  ] = await Promise.all([
+    resArticles.json(),
+    resCompletedMatches.json(),
+    resUpcomingMatches.json(),
+    resOngoingEvents.json(),
+    resUpcomingEvents.json(),
+  ])
   return {
     props: {
       auth,

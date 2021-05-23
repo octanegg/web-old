@@ -1,6 +1,6 @@
 import { Divider, Flex, Image, Text } from '@chakra-ui/react'
 import { toDateString } from '@octane/util/dates'
-import { getCountry } from '@octane/util/countries'
+import { getCountry } from '@octane/config/fields/countries'
 import { formatPrize } from '@octane/util/prizes'
 
 const TimelineItem = ({ item, width, isBottom }) => (

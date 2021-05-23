@@ -3,7 +3,7 @@ import { toDateYearString } from '@octane/util/dates'
 import { formatPrize } from '@octane/util/prizes'
 import { Flag } from '@octane/components/common/Flag'
 import { LabeledField, Link } from '@octane/components/common/Text'
-import { getRegion } from '@octane/util/regions'
+import { regions } from '@octane/config/fields/regions'
 
 export const Infobox = ({ title, image, children }) => (
   <Flex direction="row" width="full" justify="space-between" paddingLeft={4} paddingRight={4}>
@@ -40,7 +40,7 @@ export const Infobox = ({ title, image, children }) => (
 export const EventInfobox = ({ event }) => {
   const { name, startDate, endDate, region, tier, mode, prize, image } = event
 
-  const _region = getRegion(region)
+  const _region = regions.find((r) => region.id === r.id)
 
   return (
     <Infobox title={name} image={image}>

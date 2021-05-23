@@ -5,7 +5,7 @@ import { formatPrizeUSD } from '@octane/util/prizes'
 import { timeUntil, toDateString } from '@octane/util/dates'
 import { useState } from 'react'
 import { Button, ButtonTypes } from '@octane/components/common/Button'
-import { getRegion } from '@octane/util/regions'
+import { regions } from '@octane/config/fields/regions'
 
 export const Events = ({ events }) => {
   const { ongoing, upcoming } = events
@@ -62,7 +62,11 @@ export const Events = ({ events }) => {
                       <Flex justify="center">
                         <Tag size="sm">
                           <Stack direction="row" spacing={1} paddingTop={0.5}>
-                            <Image width="16px" height="11px" src={getRegion(region).image} />
+                            <Image
+                              width="16px"
+                              height="11px"
+                              src={regions.find((r) => region.id === r.id).image}
+                            />
                             <Text fontSize="xs">{region}</Text>
                           </Stack>
                         </Tag>

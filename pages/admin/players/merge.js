@@ -6,7 +6,7 @@ import { Button } from '@octane/components/common/Button'
 import { FormField } from '@octane/components/forms/Forms'
 import { PlayerSelect } from '@octane/components/common/Select'
 import { useState } from 'react'
-import { apiCreate } from '@octane/util/fetch'
+import { apiCreate } from '@octane/util/api'
 
 const Admin = ({ auth, players }) => {
   const [submitting, setSubmitting] = useState(false)

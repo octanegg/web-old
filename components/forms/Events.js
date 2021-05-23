@@ -1,9 +1,9 @@
 import { Input } from '@octane/components/common/Input'
 import { FormField, Form } from '@octane/components/forms/Forms'
 import { useEffect, useState } from 'react'
-import { apiCreate, apiUpdate, apiDelete } from '@octane/util/fetch'
+import { apiCreate, apiUpdate, apiDelete } from '@octane/util/api'
 import { Select } from '@octane/components/common/Select'
-import { regions } from '@octane/util/regions'
+import { regions } from '@octane/config/fields/regions'
 import { Button, ButtonTypes } from '@octane/components/common/Button'
 import {
   Accordion,
@@ -17,13 +17,14 @@ import {
   Switch,
   Text,
 } from '@chakra-ui/react'
-import { modes, tiers } from '@octane/util/constants'
 import DatePicker from 'react-datepicker'
 import { currencies } from '@octane/util/prizes'
 import { cleanObj } from '@octane/util/stats'
 import { useRouter } from 'next/router'
-import { getCountries } from '@octane/util/countries'
+import { getCountries } from '@octane/config/fields/countries'
 import { listEventImages } from '@octane/util/s3'
+import modes from '@octane/config/fields/modes'
+import tiers from '@octane/config/fields/tiers'
 
 export const EventForm = ({ data }) => {
   const [event, setEvent] = useState({

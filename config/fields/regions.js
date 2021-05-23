@@ -36,4 +36,4 @@ export const regions = [
   },
 ]
 
-export const getRegion = (regionId) => regions.find((region) => regionId === region.id)
+export default regions
