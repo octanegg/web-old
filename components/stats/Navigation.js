@@ -41,7 +41,7 @@ const MoreStats = ({ stats, onChange, isOpen, open, close }) => (
       shadow="0px 1px 2px rgba(128, 138, 157, 0.12), 0px 8px 32px rgba(128, 138, 157, 0.24)">
       <PopoverBody padding={0}>
         <List maxHeight={400} overflowY="scroll">
-          {stats.map(({ id, label }, i) => (
+          {stats.map(({ id, icon, label }, i) => (
             <ListItem
               key={i}
               padding={2}
@@ -56,7 +56,10 @@ const MoreStats = ({ stats, onChange, isOpen, open, close }) => (
                 onChange(stats.find((stat) => e.currentTarget.getAttribute('value') === stat.id))
                 close()
               }}>
-              {label}
+              <Stack direction="row" spacing={1} align="center">
+                <Icon as={icon} boxSize={3} />
+                <Text>{label}</Text>
+              </Stack>
             </ListItem>
           ))}
         </List>

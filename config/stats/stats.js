@@ -1,4 +1,3 @@
-import { LockIcon } from '@chakra-ui/icons'
 import winPercentage from '@octane/config/stats/common'
 import playerCore, {
   playerBallProximity,
@@ -26,12 +25,20 @@ import teamCore, {
   teamMovement,
   teamPositioning,
 } from '@octane/config/stats/teams'
-import { FaStar, FaRocket, FaRuler, FaRunning, FaCloud, FaMapMarkerAlt } from 'react-icons/fa'
+import {
+  FaStar,
+  FaRocket,
+  FaRuler,
+  FaRunning,
+  FaCloud,
+  FaMapMarkerAlt,
+  FaMinusCircle,
+} from 'react-icons/fa'
 import { IoIosSpeedometer } from 'react-icons/io'
-import { GiMineExplosion } from 'react-icons/gi'
+import { GiMineExplosion, GiSoccerBall } from 'react-icons/gi'
 import { HiChartBar } from 'react-icons/hi'
 import { BsPieChartFill } from 'react-icons/bs'
-import { MdTouchApp } from 'react-icons/md'
+import { MdTouchApp, MdPeople } from 'react-icons/md'
 
 export const baseStats = [
   {
@@ -112,7 +119,7 @@ export const gameAdvancedStats = [
   {
     id: 'core',
     label: 'Core',
-    icon: LockIcon,
+    icon: FaStar,
     stats: [...playerCore.slice(0, 6), ...playerDemolitions, ...playerCore.slice(6)],
   },
   ...baseStats,
@@ -122,7 +129,7 @@ export const gameBasicStats = [
   {
     id: 'core',
     label: 'Core',
-    icon: LockIcon,
+    icon: FaStar,
     stats: playerCore,
   },
 ]
@@ -147,61 +154,61 @@ export const teamStats = [
   {
     id: 'core',
     label: 'Core',
-    icon: LockIcon,
+    icon: FaStar,
     stats: [...winPercentage, ...teamCore],
   },
   {
     id: 'against',
     label: 'Against',
-    icon: LockIcon,
+    icon: MdPeople,
     stats: teamAgainst,
   },
   {
     id: 'differential',
     label: 'Differential',
-    icon: LockIcon,
+    icon: FaMinusCircle,
     stats: teamDifferential,
   },
   {
     id: 'boost',
     label: 'Boost',
-    icon: LockIcon,
+    icon: FaRocket,
     stats: teamBoost,
   },
   {
     id: 'boost-count',
     label: 'Boost Count',
-    icon: LockIcon,
+    icon: HiChartBar,
     stats: teamBoostCount,
   },
   {
     id: 'boost-management',
     label: 'Boost Management',
-    icon: LockIcon,
+    icon: BsPieChartFill,
     stats: teamBoostManagement,
   },
   {
     id: 'movement',
     label: 'Movement',
-    icon: LockIcon,
+    icon: FaRunning,
     stats: teamMovement,
   },
   {
     id: 'positioning',
     label: 'Positioning',
-    icon: LockIcon,
+    icon: FaMapMarkerAlt,
     stats: teamPositioning,
   },
   {
     id: 'ball',
     label: 'Ball',
-    icon: LockIcon,
+    icon: GiSoccerBall,
     stats: teamBall,
   },
   {
     id: 'demos',
     label: 'Demolitions',
-    icon: LockIcon,
+    icon: GiMineExplosion,
     stats: teamDemolitions,
   },
 ]
