@@ -37,7 +37,7 @@ export const Matches = ({ matches }) => {
             <NextLink passHref href={`/matches/${slug}`} key={_id}>
               <Link _hover={{}} _focus={{}}>
                 <Stack
-                  width={60}
+                  minWidth={60}
                   fontSize="xs"
                   cursor="pointer"
                   color="secondary.800"

@@ -1,5 +1,6 @@
 import { Flex, Stack, Text, SimpleGrid } from '@chakra-ui/react'
 import Flag from '@octane/components/common/Flag'
+import Image from '@octane/components/common/Image'
 import { Link } from '@octane/components/common/Text'
 
 const Player = ({ player }) => (

@@ -163,7 +163,9 @@ const StatsRow = ({ record, statGroup, sort, groupBy, period, isEven, showTeam }
       )}
       {showTeam && (
         <Cell>
-          <Image boxSize={6} src={team.image} />
+          <Flex justify="center">
+            <Image boxSize={6} src={team.image} />
+          </Flex>
         </Cell>
       )}
       {statGroup.stats.map((stat) => (

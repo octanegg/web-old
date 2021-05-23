@@ -1,7 +1,7 @@
 /* eslint-disable react/no-danger */
 /* eslint-disable camelcase */
 import { Content } from '@octane/components/common/Layout'
-import { Alert, AlertIcon, Flex, Image, Spacer, Stack, Text } from '@chakra-ui/react'
+import { Alert, AlertIcon, Flex, Image, Stack, Text } from '@chakra-ui/react'
 import { getServerSideAuth } from '@octane/util/auth'
 import { useEffect } from 'react'
 import { unescape } from 'lodash'
@@ -25,8 +25,9 @@ const News = ({ auth, article }) => {
     <Content auth={auth}>
       <Meta title={title} />
       <Stack
-        paddingLeft={8}
-        paddingRight={8}
+        align="center"
+        paddingLeft={{ base: 4, md: 8 }}
+        paddingRight={{ base: 4, md: 8 }}
         paddingTop={4}
         paddingBottom={4}
         color="secondary.800">
@@ -36,24 +37,27 @@ const News = ({ auth, article }) => {
             This article was imported from the old site, so formatting may be impacted
           </Alert>
         )}
-        <Text fontSize="4xl" fontWeight="bold" textTransform="uppercase">
+        <Text fontSize={{ base: '2xl', lg: '4xl' }} fontWeight="bold" textTransform="uppercase">
           {title}
         </Text>
-        <Flex direction="row">
-          {authors.map((author) => (
-            <Flex key={author.name} align="center">
-              <Image src="/images/twitter-dark.svg" width={4} marginRight={1} />
-              <Link fontSize="md" href={`https://twitter.com/${author.twitter}`}>
-                {author.name}
-              </Link>
-            </Flex>
-          ))}
-          <Spacer />
+        <Flex width="full" direction="row" justify="space-between">
+          <Flex>
+            {authors.map((author) => (
+              <Flex key={author.name} align="center">
+                <Image src="/images/twitter-dark.svg" width={4} marginRight={1} />
+                <Link fontSize="md" href={`https://twitter.com/${author.twitter}`}>
+                  {author.name}
+                </Link>
+              </Flex>
+            ))}
+          </Flex>
           <Text fontStyle="italic" fontSize="md">
             {new Date(published_at).toLocaleDateString()}
           </Text>
         </Flex>
-        <Image src={process.env.CONTENT_URL + image.url} />
+        <Flex width={{ base: 'full', md: '70%' }} padding={{ base: 0, md: 4 }}>
+          <Image src={image.url} />
+        </Flex>
         <div className={styles.article} dangerouslySetInnerHTML={{ __html: unescape(content) }} />
       </Stack>
     </Content>

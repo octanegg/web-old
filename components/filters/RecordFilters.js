@@ -34,7 +34,8 @@ export const RecordsFilter = ({ type, initialFilter }) => {
           stat: type === 'players' || type === 'teams' ? 'score' : 'scoreTotal',
         })
         route(router, `/records/${type}`, '')
-      }}>
+      }}
+      alwaysShowFilter>
       {(type === 'players' || type === 'teams') && (
         <RecordsTypeFilter active={filter.type} onChange={(item) => updateFilter('type', item)} />
       )}

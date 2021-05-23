@@ -24,22 +24,24 @@ import modes from '@octane/config/fields/modes'
 import formats from '@octane/config/fields/formats'
 import { useOctane } from '@octane/context/octane'
 
-export const Filter = ({ children, onApply, onReset }) => {
+export const Filter = ({ children, onApply, onReset, alwaysShowFilter }) => {
   const { setLoadingSameRoute } = useOctane()
   const [showFilter, setShowFilter] = useState(false)
 
   return (
     <Stack>
-      <Flex display={{ base: 'flex', lg: 'none' }} marginLeft={4}>
-        <Button
-          buttonType={showFilter ? ButtonTypes.stat.selected : ButtonTypes.stat.default}
-          override={{ _hover: {}, borderRadius: 8, width: 24 }}
-          onClick={() => setShowFilter(!showFilter)}>
-          {`${showFilter ? 'Hide' : 'Show'} Filters`}
-        </Button>
-      </Flex>
+      {!alwaysShowFilter && (
+        <Flex display={{ base: 'flex', lg: 'none' }} marginLeft={4}>
+          <Button
+            buttonType={showFilter ? ButtonTypes.stat.selected : ButtonTypes.stat.default}
+            override={{ _hover: {}, borderRadius: 8, width: 24 }}
+            onClick={() => setShowFilter(!showFilter)}>
+            {`${showFilter ? 'Hide' : 'Show'} Filters`}
+          </Button>
+        </Flex>
+      )}
       <Stack
-        display={{ base: showFilter ? 'flex' : 'none', lg: 'flex' }}
+        display={{ base: alwaysShowFilter || showFilter ? 'flex' : 'none', lg: 'flex' }}
         direction={{ base: 'column', lg: 'row' }}
         paddingLeft={2}
         paddingRight={2}

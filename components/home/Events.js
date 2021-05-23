@@ -40,6 +40,7 @@ export const Events = ({ events }) => {
               <NextLink passHref href={`/events/${slug}`} key={_id}>
                 <Link _hover={{}} _focus={{}}>
                   <Stack
+                    minWidth={60}
                     fontSize="xs"
                     cursor="pointer"
                     borderRadius={8}

@@ -58,4 +58,4 @@ export const timeSince = (date) => {
 }
 
 export const rocketLeagueYears = () =>
-  [...Array(new Date().getFullYear() - 2015).keys()].map((i) => new Date().getFullYear() - i)
+  [...Array(new Date().getFullYear() - 2014).keys()].map((i) => new Date().getFullYear() - i)

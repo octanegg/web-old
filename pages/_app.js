@@ -85,8 +85,6 @@ const theme = {
     main: '0 1px 3px -1px rgba(0, 0, 0, 0.4)',
     navbar: '0 -4px 1px -1px #2EC97B inset',
     focus: '#e0fdef 0px 0px 0px 4px',
-    win: 'inset 18px 0 20px -24px #25c175',
-    loss: 'inset 18px 0 20px -24px #de5454',
   },
   borders: {
     ...defaultTheme.borders,

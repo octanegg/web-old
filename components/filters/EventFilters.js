@@ -105,7 +105,8 @@ export const EventRecordsFilter = ({ event, type, initialFilter }) => {
           stat: type === 'players' || type === 'teams' ? 'score' : 'scoreTotal',
         })
         route(router, `/events/${event.slug}/records/${type}`, '')
-      }}>
+      }}
+      alwaysShowFilter>
       <RecordsCategoryFilter
         active={type}
         onChange={(item) => route(router, `/events/${event.slug}/records/${item}`, '')}

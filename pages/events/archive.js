@@ -28,7 +28,7 @@ export async function getServerSideProps({ req, query }) {
     region: query.region || '',
     group: query.group || '',
     before: query.before || moment().toISOString(),
-    after: query.after || '',
+    after: query.after || '2021-01-01',
     sort: 'end_date:desc',
   }
 

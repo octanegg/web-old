@@ -279,7 +279,7 @@ export const MatchNavigation = ({ baseHref, games, active, isAdmin }) => (
         label: 'Overview',
       },
       ...(games || []).map((_, i) => ({
-        id: i + 1,
+        id: `${i + 1}`,
         label: `Game ${i + 1}`,
         href: `/${i + 1}`,
       })),
