@@ -1,4 +1,4 @@
-import { Link, Flex, Image, Stack, Text, Tag, SimpleGrid, StackDivider } from '@chakra-ui/react'
+import { Link, Flex, Stack, Text, Tag, SimpleGrid, StackDivider } from '@chakra-ui/react'
 import NextLink from 'next/link'
 import { Heading } from '@octane/components/common/Text'
 import { formatPrizeUSD } from '@octane/util/prizes'
@@ -6,6 +6,7 @@ import { timeUntil, toDateString } from '@octane/util/dates'
 import { useState } from 'react'
 import { Button, ButtonTypes } from '@octane/components/common/Button'
 import { regions } from '@octane/config/fields/regions'
+import Image from '@octane/components/common/Image'
 
 export const Events = ({ events }) => {
   const { ongoing, upcoming } = events
@@ -57,14 +58,12 @@ export const Events = ({ events }) => {
                       </Text>
                     </Flex>
                     <Flex justify="space-around" align="center">
-                      <Flex width={10}>
-                        <Image src={image} />
-                      </Flex>
+                      <Image boxSize={10} src={image} />
                       <SimpleGrid columns={2} spacing={2}>
                         <Flex justify="center">
                           <Tag size="sm">
                             <Stack direction="row" spacing={1} paddingTop={0.5}>
-                              {_region && <Image width="16px" height="11px" src={_region.image} />}
+                              <Image width="16px" height="11px" src={_region.image} />
                               <Text fontSize="xs">{region}</Text>
                             </Stack>
                           </Tag>

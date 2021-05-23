@@ -1,7 +1,8 @@
-import { Divider, Flex, Image, Text } from '@chakra-ui/react'
+import { Divider, Flex, Text } from '@chakra-ui/react'
 import { toDateString } from '@octane/util/dates'
 import { getCountry } from '@octane/config/fields/countries'
 import { formatPrize } from '@octane/util/prizes'
+import Image from '@octane/components/common/Image'
 
 const TimelineItem = ({ item, width, isBottom }) => (
   <Flex

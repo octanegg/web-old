@@ -1,4 +1,4 @@
-import { Flex, Stack, Text, Image, SimpleGrid } from '@chakra-ui/react'
+import { Flex, Stack, Text, SimpleGrid } from '@chakra-ui/react'
 import Flag from '@octane/components/common/Flag'
 import { Link } from '@octane/components/common/Text'
 
@@ -41,7 +41,7 @@ export const Participants = ({ participants }) => (
                 fontWeight="semi">
                 {team.region}
               </Text>
-              {team.image && <Image width={6} src={team.image} />}
+              <Image boxSize={6} src={team.image} />
               <Link href={`/teams/${team.slug}`}>
                 <Text>{team.name}</Text>
               </Link>

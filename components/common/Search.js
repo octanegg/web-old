@@ -71,7 +71,7 @@ const Search = ({ isAdmin, width }) => {
               setIsInputting(false)
               setTimeout(() => {
                 reset()
-              }, 1000)
+              }, 100)
             }}
             onFocus={() => setIsInputting(true)}
             onChange={(e) => setInput(e.target.value)}
@@ -96,7 +96,7 @@ const Search = ({ isAdmin, width }) => {
           <PopoverBody>
             <List maxHeight={400} overflowY="scroll">
               {results.map(({ type, id, label, image }, i) => (
-                <ListItem key={i} onClick={reset}>
+                <ListItem key={i}>
                   <NextLink passHref href={`/${type}s/${id}`}>
                     <Stack
                       as="a"

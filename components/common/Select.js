@@ -1,6 +1,5 @@
 import {
   Flex,
-  Image,
   List,
   ListItem,
   Popover,
@@ -11,6 +10,7 @@ import {
   Stack,
   Text,
 } from '@chakra-ui/react'
+import Image from '@octane/components/common/Image'
 import Input from '@octane/components/common/Input'
 import { useEffect, useState } from 'react'
 
@@ -129,7 +129,7 @@ export const TeamSelect = ({ teams, active, onChange }) => (
     items={teams || []}
     itemToDisplay={(team) => (
       <Stack direction="row">
-        <Flex minWidth={6}>{team.image && <Image width={6} src={team.image} />}</Flex>
+        <Image boxSize={6} src={team.image} />
         <Text>{team.name}</Text>
       </Stack>
     )}

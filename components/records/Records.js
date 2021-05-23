@@ -1,9 +1,10 @@
-import { Flex, Image, Stack, Text } from '@chakra-ui/react'
+import { Flex, Stack, Text } from '@chakra-ui/react'
 import moment from 'moment'
 import LabeledText, { Link } from '@octane/components/common/Text'
 import { toMinuteSeconds } from '@octane/util/dates'
 import NextLink from 'next/link'
 import { formatStat } from '@octane/util/stats'
+import Image from '@octane/components/common/Image'
 
 export const RecordsRow = ({ record, rank, statType, isHighlighted }) => {
   const { game, team, opponent, winner, player, stat } = record
@@ -56,9 +57,7 @@ export const RecordsRow = ({ record, rank, statType, isHighlighted }) => {
             justify="center">
             {rank}
           </Flex>
-          <Flex minWidth={8} marginRight={2} marginLeft={2}>
-            {_team.image && <Image width={6} src={_team.image} />}
-          </Flex>
+          <Image boxSize={6} marginRight={2} marginLeft={2} src={_team.image} />
           <LabeledText
             justify="flex-start"
             label={
@@ -117,9 +116,7 @@ export const RecordsRow = ({ record, rank, statType, isHighlighted }) => {
             vs
           </Text>
           <Flex align="center">
-            <Flex minWidth={8} marginRight={2} marginLeft={2}>
-              {_opponent.image && <Image width={6} src={_opponent.image} />}
-            </Flex>
+            <Image boxSize={6} marginRight={2} marginLeft={2} src={_opponent.image} />
             <LabeledText
               justify="flex-start"
               label={
@@ -144,9 +141,7 @@ export const RecordsRow = ({ record, rank, statType, isHighlighted }) => {
           </Flex>
         </Flex>
         <Flex align="center" width={{ base: 12, lg: 'md' }}>
-          <Flex minWidth={8} marginRight={2} marginLeft={2}>
-            <Image height={6} src={event.image} />
-          </Flex>
+          <Image boxSize={6} marginRight={2} marginLeft={2} src={event.image} />
           <Flex display={{ base: 'none', lg: 'flex' }}>
             <LabeledText
               justify="flex-start"

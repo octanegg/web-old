@@ -1,4 +1,5 @@
-import { Text, Image, Stack } from '@chakra-ui/react'
+import { Text, Stack } from '@chakra-ui/react'
+import Image from '@octane/components/common/Image'
 import { getCountry } from '@octane/config/fields/countries'
 
 export const Flag = ({ country, justify, isLabeled }) => {
@@ -6,7 +7,7 @@ export const Flag = ({ country, justify, isLabeled }) => {
 
   return (
     <Stack justify={justify || 'center'} direction="row">
-      <Image width={5} src={data?.image} />
+      <Image boxSize={5} src={data?.image} />
       {isLabeled && <Text>{data?.label}</Text>}
     </Stack>
   )

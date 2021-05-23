@@ -1,5 +1,6 @@
 /* eslint-disable jsx-a11y/control-has-associated-label */
-import { Flex, Image, Stack, Text, Tooltip } from '@chakra-ui/react'
+import { Flex, Stack, Text, Tooltip } from '@chakra-ui/react'
+import Image from '@octane/components/common/Image'
 import Navigation from '@octane/components/common/Navigation'
 import { Link } from '@octane/components/common/Text'
 import { toDateYear, toMinuteSeconds, toTime, timeUntilFull } from '@octane/util/dates'
@@ -23,7 +24,9 @@ const SeriesOverviewHeader = ({ label, isActive, isLast }) => (
 
 const SeriesOverviewBlue = ({ team, games, isWinner, isActive }) => (
   <tr>
-    <td align="center">{team.team.image && <Image width={6} src={team.team.image} />}</td>
+    <td align="center">
+      <Image boxSize={6} src={team.team.image} />
+    </td>
     {games.map((game, i) => (
       <td key={i} align="center" style={{ padding: 0 }}>
         <Flex
@@ -63,7 +66,9 @@ const SeriesOverviewBlue = ({ team, games, isWinner, isActive }) => (
 
 const SeriesOverviewOrange = ({ team, games, isWinner, isActive }) => (
   <tr>
-    <td align="center">{team.team.image && <Image width={6} src={team.team.image} />}</td>
+    <td align="center">
+      <Image boxSize={6} src={team.team.image} />
+    </td>
     {games.map((game, i) => (
       <td key={i} align="center" style={{ padding: 0 }}>
         <Flex
@@ -156,7 +161,7 @@ export const Infobox = ({ match, active }) => {
       paddingRight={4}>
       <Flex width="full" justify="space-between">
         <Stack direction="row" align="center">
-          {event.image && <Image width={6} src={event.image} />}
+          <Image boxSize={6} src={event.image} />
           <Flex direction="column" width={{ base: 48, sm: 64, md: 'auto' }}>
             <Link href={`/events/${event.slug}`} wrap={{ base: 'wrap', md: 'nowrap' }}>
               {event.name}
@@ -189,9 +194,12 @@ export const Infobox = ({ match, active }) => {
               wrap="wrap">
               {blue.team.team.name}
             </Link>
-            <Flex width={{ base: 16, md: 20 }} marginLeft={4} marginRight={4}>
-              <Image width={{ base: 16, md: 20 }} src={blue.team.team.image} />
-            </Flex>
+            <Image
+              width={{ base: 16, md: 20 }}
+              marginLeft={4}
+              marginRight={4}
+              src={blue.team.team.image}
+            />
           </Flex>
         ) : (
           <Flex
@@ -226,9 +234,12 @@ export const Infobox = ({ match, active }) => {
             align="center"
             width={{ base: 20, sm: 24, md: 80 }}
             direction={{ base: 'column', md: 'row' }}>
-            <Flex width={{ base: 16, md: 20 }} marginLeft={4} marginRight={4}>
-              <Image width={{ base: 16, md: 20 }} src={orange.team.team.image} />
-            </Flex>
+            <Image
+              width={{ base: 16, md: 20 }}
+              marginLeft={4}
+              marginRight={4}
+              src={orange.team.team.image}
+            />
             <Link
               fontSize={{ base: 'md', md: 'xl' }}
               textAlign={{ base: 'center', md: 'start' }}

@@ -1,4 +1,4 @@
-import { Flex, Image, Stack, Text, Tooltip } from '@chakra-ui/react'
+import { Flex, Stack, Text, Tooltip } from '@chakra-ui/react'
 import { useEffect, useState } from 'react'
 import { Table, Header, HeaderItem, Body, Row, Cell } from '@octane/components/common/Table'
 import { ChevronDownIcon, ChevronUpIcon, UpDownIcon } from '@chakra-ui/icons'
@@ -6,6 +6,7 @@ import { sortObjLex, calculateFormattedStat, sortStats } from '@octane/util/stat
 import { Link } from '@octane/components/common/Text'
 import { Flag } from '@octane/components/common/Flag'
 import { toDateYearString } from '@octane/util/dates'
+import Image from '@octane/components/common/Image'
 
 export const PlayerStats = ({
   statGroup,
@@ -109,11 +110,7 @@ const StatsRow = ({ record, statGroup, sort, groupBy, period, isEven, showTeam }
       {groupBy === 'events' && (
         <Cell>
           <Flex align="center" justify="flex-start" fontSize="sm" paddingTop={1} paddingBottom={1}>
-            <Flex direction="column" minWidth={10} justify="center" align="center">
-              <Flex justify="center" align="center">
-                {event.image && <Image width={6} src={event.image} />}
-              </Flex>
-            </Flex>
+            <Image boxSize={6} marginLeft={2} marginRight={2} src={event.image} />
             <Flex direction="column" width={64}>
               <Link href={`/events/${event.slug}`} wrap="wrap">
                 {event.name}
@@ -125,7 +122,7 @@ const StatsRow = ({ record, statGroup, sort, groupBy, period, isEven, showTeam }
                 spacing={1}
                 color="secondary.800"
                 textTransform="uppercase">
-                {team.image && <Image width={4} src={team.image} />}
+                <Image boxSize={4} src={team.image} />
                 <Text>{toDateYearString(startDate, endDate)}</Text>
               </Stack>
             </Flex>
@@ -135,9 +132,7 @@ const StatsRow = ({ record, statGroup, sort, groupBy, period, isEven, showTeam }
       {groupBy === 'teams' && (
         <Cell width="12rem">
           <Stack direction="row" align="center" fontSize="sm" marginLeft={2}>
-            <Flex width={6} justify="center">
-              {team.image && <Image src={team.image} />}
-            </Flex>
+            <Image boxSize={6} src={team.image} />
             <Link href={`/teams/${team.slug}`}>{team.name}</Link>
           </Stack>
         </Cell>
@@ -145,9 +140,7 @@ const StatsRow = ({ record, statGroup, sort, groupBy, period, isEven, showTeam }
       {groupBy === 'opponents' && (
         <Cell width="12rem">
           <Stack direction="row" align="center" fontSize="sm" marginLeft={2}>
-            <Flex width={6} justify="center">
-              {opponent.image && <Image src={opponent.image} />}
-            </Flex>
+            <Image boxSize={6} src={opponent.image} />
             <Link href={`/teams/${opponent.slug}`}>{opponent.name}</Link>
           </Stack>
         </Cell>
@@ -170,7 +163,7 @@ const StatsRow = ({ record, statGroup, sort, groupBy, period, isEven, showTeam }
       )}
       {showTeam && (
         <Cell>
-          <Flex justify="center">{team.image && <Image width={6} src={team.image} />}</Flex>
+          <Image boxSize={6} src={team.image} />
         </Cell>
       )}
       {statGroup.stats.map((stat) => (

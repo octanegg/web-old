@@ -1,8 +1,9 @@
-import { Link, Flex, Image, Spacer, Stack, Text, StackDivider } from '@chakra-ui/react'
+import { Link, Flex, Spacer, Stack, Text, StackDivider } from '@chakra-ui/react'
 import { Button, ButtonTypes } from '@octane/components/common/Button'
 import { useState } from 'react'
 import NextLink from 'next/link'
 import { timeSince, timeUntil } from '@octane/util/dates'
+import Image from '@octane/components/common/Image'
 
 export const Matches = ({ matches }) => {
   const { completed, upcoming } = matches
@@ -71,15 +72,13 @@ export const Matches = ({ matches }) => {
                             {blueScore}
                           </Text>
                         )}
-                        <Flex width={5}>
-                          {blue?.team.team.image && <Image src={blue.team.team.image} />}
-                        </Flex>
+                        <Image boxSize={5} src={blue?.team?.team.image} />
                         <Text
                           width={32}
                           overflow="hidden"
                           textOverflow="ellipsis"
                           whiteSpace="nowrap">
-                          {blue?.team.team.name || 'TBD'}
+                          {blue?.team?.team.name || 'TBD'}
                         </Text>
                       </Stack>
                       <Stack
@@ -98,15 +97,13 @@ export const Matches = ({ matches }) => {
                             {orangeScore}
                           </Text>
                         )}
-                        <Flex width={5}>
-                          {orange?.team.team.image && <Image src={orange.team.team.image} />}
-                        </Flex>
+                        <Image boxSize={5} src={orange?.team?.team.image} />
                         <Text
                           width={32}
                           overflow="hidden"
                           textOverflow="ellipsis"
                           whiteSpace="nowrap">
-                          {orange?.team.team.name || 'TBD'}
+                          {orange?.team?.team.name || 'TBD'}
                         </Text>
                       </Stack>
                     </Stack>

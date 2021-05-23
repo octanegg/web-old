@@ -1,10 +1,11 @@
-import { Flex, Image, Stack, Text, Tooltip } from '@chakra-ui/react'
+import { Flex, Stack, Text, Tooltip } from '@chakra-ui/react'
 import { useEffect, useState } from 'react'
 import { Table, Header, HeaderItem, Body, Row, Cell } from '@octane/components/common/Table'
 import { ChevronDownIcon, ChevronUpIcon, UpDownIcon } from '@chakra-ui/icons'
 import { sortObjLex, calculateFormattedStat, sortStats } from '@octane/util/stats'
 import LabeledText, { Link } from '@octane/components/common/Text'
 import { toDateYearString } from '@octane/util/dates'
+import Image from '@octane/components/common/Image'
 
 export const TeamStats = ({ statGroup, stats, period, groupBy, noScroll, isSortable }) => {
   const [teams, setTeams] = useState([])
@@ -80,11 +81,7 @@ const StatsRow = ({ record, statGroup, sort, groupBy, period, isEven }) => {
       {groupBy === 'events' && (
         <Cell>
           <Flex align="center" justify="flex-start" fontSize="sm" paddingTop={1} paddingBottom={1}>
-            <Flex minWidth={10} justify="center">
-              <Flex minWidth={8} marginRight={2} marginLeft={2}>
-                {event.image && <Image height={6} src={event.image} />}
-              </Flex>
-            </Flex>
+            <Image boxSize={6} marginRight={2} marginLeft={2} src={event.image} />
             <LabeledText
               label={
                 <Text fontSize="10px" color="secondary.800" textTransform="uppercase" align="start">
@@ -99,9 +96,7 @@ const StatsRow = ({ record, statGroup, sort, groupBy, period, isEven }) => {
       {groupBy === 'opponents' && (
         <Cell width="16rem">
           <Stack direction="row" align="center" fontSize="sm" height={10} marginLeft={2}>
-            <Flex width={6} justify="center">
-              {opponent.image && <Image src={opponent.image} />}
-            </Flex>
+            <Image boxSize={6} src={opponent.image} />
             <Link href={`/teams/${opponent.slug}`}>{opponent.name}</Link>
           </Stack>
         </Cell>
@@ -115,9 +110,7 @@ const StatsRow = ({ record, statGroup, sort, groupBy, period, isEven }) => {
             backgroundColor={sort === 'team.name' && (isEven ? '#effef7' : 'primary.50')}
             height={10}
             paddingLeft={2}>
-            <Flex width={6} justify="center">
-              {team.image && <Image src={team.image} />}
-            </Flex>
+            <Image boxSize={6} src={team.image} />
             <Flex width="full">
               <Link href={`/teams/${team.slug}`}>{team.name}</Link>
             </Flex>

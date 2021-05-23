@@ -1,5 +1,5 @@
 /* eslint-disable jsx-a11y/control-has-associated-label */
-import { Flex, Image, Stack, Text } from '@chakra-ui/react'
+import { Flex, Stack, Text } from '@chakra-ui/react'
 import { Link } from '@octane/components/common/Text'
 import { toMinuteSeconds } from '@octane/util/dates'
 import styles from '@octane/styles/Table.module.scss'
@@ -10,6 +10,7 @@ import { useState } from 'react'
 import StatsNavigation from '@octane/components/stats/Navigation'
 import { gameBasicStats, gameAdvancedStats } from '@octane/config/stats/stats'
 import ButtonLink from '@octane/components/common/Button'
+import Image from '@octane/components/common/Image'
 
 export const ScoreboardGame = ({ blue, orange, map, duration, ballchasing, showReplayStats }) => {
   const statGroups = showReplayStats ? gameAdvancedStats : gameBasicStats
@@ -116,7 +117,7 @@ const ScoreboardTable = ({ stats, side, showMvp }) => (
         <tr>
           <td>
             <Stack paddingLeft={2} direction="row" align="center" width={48}>
-              {side.team.team.image && <Image width={6} src={side.team.team.image} />}
+              <Image boxSize={6} src={side.team.team.image} />
               <Link href={`/teams/${side.team.team.slug}`}>{side.team.team.name}</Link>
             </Stack>
           </td>

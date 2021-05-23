@@ -3,9 +3,10 @@ import { FormField } from '@octane/components/forms/Forms'
 import { useEffect, useState } from 'react'
 import { apiCreate, apiDelete, apiUpdate } from '@octane/util/api'
 import { PlayerSelect, Select } from '@octane/components/common/Select'
-import { Image, Spacer, Stack, Switch, Text } from '@chakra-ui/react'
+import { Spacer, Stack, Switch, Text } from '@chakra-ui/react'
 import { cleanObj } from '@octane/util/stats'
 import { Button, ButtonTypes } from '@octane/components/common/Button'
+import Image from '@octane/components/common/Image'
 
 export const GameForm = ({ data, match }) => {
   const [game, setGame] = useState(data)
@@ -186,7 +187,7 @@ export const GameForm = ({ data, match }) => {
       <FormField
         label={
           <Stack direction="row">
-            {match.blue?.team.team.image && <Image width={4} src={match.blue.team.team.image} />}
+            <Image boxSize={4} src={match?.blue?.team?.team.image} />
             <Text>{match.blue?.team.team.name || 'TBD'}</Text>
           </Stack>
         }>
@@ -209,9 +210,7 @@ export const GameForm = ({ data, match }) => {
       <FormField
         label={
           <Stack direction="row">
-            {match.orange?.team.team.image && (
-              <Image width={4} src={match.orange.team.team.image} />
-            )}
+            <Image boxSize={4} src={match?.orange?.team?.team.image} />
             <Text>{match.orange?.team.team.name || 'TBD'}</Text>
           </Stack>
         }>

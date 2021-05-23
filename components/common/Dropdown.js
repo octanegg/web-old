@@ -12,7 +12,6 @@ import {
   PopoverTrigger,
   Stack,
   Text,
-  Image,
   NumberInput,
   NumberInputField,
   NumberInputStepper,
@@ -25,6 +24,7 @@ import { ChevronDownIcon } from '@chakra-ui/icons'
 import DatePicker from 'react-datepicker'
 import moment from 'moment'
 import { rocketLeagueYears } from '@octane/util/dates'
+import Image from '@octane/components/common/Image'
 import { Input } from './Input'
 import { Button } from './Button'
 
@@ -359,11 +359,7 @@ const Checkboxes = ({ items, tier, isChecked, handleChange, showImage, isLast })
                 isReadOnly
               />
               <Stack direction="row" align="center">
-                {showImage && (
-                  <Flex width={5} justify="flex-end">
-                    {item.image && <Image src={item.image} />}
-                  </Flex>
-                )}
+                {showImage && <Image src={item.image} boxSize={5} />}
                 <Flex>{item.label || item.id}</Flex>
               </Stack>
             </Stack>

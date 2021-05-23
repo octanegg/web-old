@@ -1,4 +1,4 @@
-import { Flex, Image, Text, Spacer, Stack } from '@chakra-ui/react'
+import { Flex, Text, Spacer, Stack } from '@chakra-ui/react'
 import { useEffect, useState } from 'react'
 import moment from 'moment'
 import { Link, Heading } from '@octane/components/common/Text'
@@ -6,6 +6,7 @@ import { toDateString } from '@octane/util/dates'
 import { regions } from '@octane/config/fields/regions'
 import { formatPrizeUSD } from '@octane/util/prizes'
 import NextLink from 'next/link'
+import Image from '@octane/components/common/Image'
 
 export const EventsTable = ({ events, groupBy }) => {
   const [groups, setGroups] = useState([])
@@ -60,9 +61,7 @@ const EventRow = ({ event }) => {
   return (
     <NextLink key={_id} passHref href={`/events/${slug}`}>
       <Flex as="a" width="full" cursor="pointer" fontSize="sm" padding={2} align="center">
-        <Flex minWidth={8} marginRight={2} marginLeft={2}>
-          {image && <Image height={6} src={image} />}
-        </Flex>
+        <Image boxSize={6} src={image} marginLeft={2} marginRight={2} />
         <Flex align="center">
           <Flex direction="column">
             <Link
@@ -75,7 +74,7 @@ const EventRow = ({ event }) => {
               {name}
             </Link>
             <Stack direction="row" spacing={1} align="center" color="secondary.800">
-              <Image src={_region?.image} />
+              <Image height="11px" width="16px" src={_region?.image} />
               <Text fontWeight="regular" fontSize="xs">
                 {`${_region?.label} | ${toDateString(startDate, endDate)}`}
               </Text>

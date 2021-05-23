@@ -1,9 +1,10 @@
-import { Flex, Image, Stack, Text } from '@chakra-ui/react'
+import { Flex, Stack, Text } from '@chakra-ui/react'
 import { toDateYearString } from '@octane/util/dates'
 import { formatPrize } from '@octane/util/prizes'
 import { Flag } from '@octane/components/common/Flag'
 import { LabeledField, Link } from '@octane/components/common/Text'
 import { regions } from '@octane/config/fields/regions'
+import Image from '@octane/components/common/Image'
 
 export const Infobox = ({ title, image, children }) => (
   <Flex direction="row" width="full" justify="space-between" paddingLeft={4} paddingRight={4}>
@@ -18,7 +19,7 @@ export const Infobox = ({ title, image, children }) => (
         {title}
       </Flex>
       <Flex justify="center" display={{ base: 'flex', md: 'none' }}>
-        {image && <Image height={20} width={20} src={image} />}
+        <Image boxSize={20} src={image} />
       </Flex>
       <Stack
         direction="row"
@@ -32,7 +33,7 @@ export const Infobox = ({ title, image, children }) => (
       </Stack>
     </Flex>
     <Flex height={40} width={40} display={{ base: 'none', md: 'flex' }}>
-      {image && <Image height={40} width={40} src={image} />}
+      <Image boxSize={40} src={image} />
     </Flex>
   </Flex>
 )
@@ -86,7 +87,7 @@ export const PlayerInfobox = ({ player }) => {
       {team && (
         <LabeledField label="team" width="auto">
           <Stack direction="row">
-            {team.image && <Image width={5} src={team.image} />}
+            <Image boxSize={5} src={team.image} />
             <Link href={`/teams/${team.slug}`}>{team.name}</Link>
           </Stack>
         </LabeledField>

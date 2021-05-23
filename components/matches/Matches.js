@@ -1,9 +1,10 @@
-import { Badge, Flex, Image, Spacer, Stack, Text } from '@chakra-ui/react'
+import { Badge, Flex, Spacer, Stack, Text } from '@chakra-ui/react'
 import { useEffect, useState } from 'react'
 import moment from 'moment'
 import { Heading, Link } from '@octane/components/common/Text'
 import Pagination from '@octane/components/common/Pagination'
 import NextLink from 'next/link'
+import Image from '@octane/components/common/Image'
 
 export const Matches = ({ matches, team, player, pagination }) => {
   const [groups, setGroups] = useState([])
@@ -123,11 +124,9 @@ const Match = ({ match, team, player, highlightResult, isEven }) => {
         <Flex width={{ base: 40, sm: 72 }} direction="column">
           <Flex width={56} padding={1} align="center">
             <Flex minWidth={4} marginLeft={2} marginRight={2}>
-              {leftTeam?.team?.team?.image && (
-                <Image height={4} src={leftTeam?.team?.team?.image} />
-              )}
+              <Image src={leftTeam?.team?.team?.image} boxSize={4} />
             </Flex>
-            {leftTeam ? (
+            {leftTeam?.team ? (
               <Link
                 href={`/teams/${leftTeam.team.team.slug}`}
                 fontWeight={leftTeam.winner ? 'bold' : 'regular'}>
@@ -141,11 +140,9 @@ const Match = ({ match, team, player, highlightResult, isEven }) => {
           </Flex>
           <Flex width={56} padding={1} align="center">
             <Flex minWidth={4} marginLeft={2} marginRight={2}>
-              {rightTeam?.team?.team?.image && (
-                <Image height={4} src={rightTeam?.team?.team?.image} />
-              )}
+              <Image src={rightTeam?.team?.team?.image} boxSize={4} />
             </Flex>
-            {rightTeam ? (
+            {rightTeam?.team ? (
               <Link
                 href={`/teams/${rightTeam.team.team.slug}`}
                 fontWeight={rightTeam.winner ? 'bold' : 'regular'}>
@@ -179,9 +176,7 @@ const Match = ({ match, team, player, highlightResult, isEven }) => {
               <Text>{stage.name}</Text>
             </Flex>
           </Flex>
-          <Flex minWidth={8} marginLeft={4}>
-            {event.image && <Image height={6} src={event.image} />}
-          </Flex>
+          <Image boxSize={6} marginLeft={4} src={event.image} />
         </Flex>
       </Flex>
     </NextLink>
