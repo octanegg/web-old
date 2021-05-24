@@ -1,3 +1,3 @@
 module.exports = {
-  rules: [{ regex: '^((?!admin).)*$' }],
+  rules: [{ regex: '^((?!admin).)*$', ttl: 60 }],
 }
