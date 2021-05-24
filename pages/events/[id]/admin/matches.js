@@ -23,7 +23,7 @@ import Meta from '@octane/components/common/Meta'
 import Select from '@octane/components/common/Select'
 import formats from '@octane/config/formats/formats'
 
-const Admin = ({ auth, event, stages }) => {
+const Admin = ({ auth, event, stages, teams }) => {
   const [matches, setMatches] = useState(stages)
 
   const handleMatchUpdate = (stage, i, match) => {
@@ -137,8 +137,7 @@ const Admin = ({ auth, event, stages }) => {
                         data={match}
                         onRemove={(m) => handleMatchRemove(stage._id, i)}
                         onUpdate={(m) => handleMatchUpdate(stage._id, i, m)}
-                        event={event}
-                        stage={stage}
+                        teams={teams}
                       />
                     ))
                   ) : (
@@ -194,7 +193,7 @@ export async function getServerSideProps({ req, params }) {
   }
   const event = await resEvent.json()
 
-  const resMatches = await fetch(`${process.env.API_URL}/matches?event=${event._id}&`)
+  const resMatches = await fetch(`${process.env.API_URL}/matches?event=${event._id}`)
   if (resMatches.status !== 200) {
     return {
       notFound: true,
@@ -202,8 +201,11 @@ export async function getServerSideProps({ req, params }) {
   }
   const matches = await resMatches.json()
 
+  const _teams = await fetch(`${process.env.API_URL}/teams`)
+  const { teams } = await _teams.json()
+
   return {
-    props: { auth, event, stages: groupBy(matches.matches, 'stage._id') },
+    props: { auth, event, stages: groupBy(matches.matches, 'stage._id'), teams },
   }
 }
 

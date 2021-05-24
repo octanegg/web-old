@@ -15,7 +15,7 @@ import MatchForm from '@octane/components/forms/Matches'
 import { Infobox, MatchNavigation } from '@octane/components/match/Match'
 import { getServerSideAuth, isAdmin } from '@octane/util/auth'
 
-const Match = ({ auth, match, games }) => (
+const Match = ({ auth, match, games, teams, players }) => (
   <Content auth={auth}>
     <Meta
       title={`${match.blue?.team?.team.name || 'TBD'} vs ${
@@ -30,7 +30,7 @@ const Match = ({ auth, match, games }) => (
         active="admin"
         isAdmin={isAdmin(auth)}
       />
-      <MatchForm data={match} />
+      <MatchForm teams={teams} data={match} />
       <Accordion allowToggle>
         {games.map((game) => (
           <AccordionItem borderColor="secondary.200">
@@ -44,7 +44,7 @@ const Match = ({ auth, match, games }) => (
               <AccordionIcon />
             </AccordionButton>
             <AccordionPanel>
-              <GameForm data={game} match={match} />
+              <GameForm data={game} match={match} playerList={players} />
             </AccordionPanel>
           </AccordionItem>
         ))}
@@ -76,6 +76,7 @@ const Match = ({ auth, match, games }) => (
                 }),
               }}
               match={match}
+              playerList={players}
             />
           </AccordionPanel>
         </AccordionItem>
@@ -104,8 +105,14 @@ export async function getServerSideProps({ req, params }) {
   }
   const games = await resGames.json()
 
+  const _teams = await fetch(`${process.env.API_URL}/teams`)
+  const { teams } = await _teams.json()
+
+  const _players = await fetch(`${process.env.API_URL}/players`)
+  const { players } = await _players.json()
+
   return {
-    props: { auth, match, games: games.games || [] },
+    props: { auth, match, games: games.games || [], teams, players },
   }
 }
 

@@ -27,7 +27,7 @@ const Search = ({ isAdmin, width }) => {
   useEffect(() => {
     const fetchData = async () => {
       const _search = await fetch(
-        `${process.env.EXTERNAL_API_URL}/search${isAdmin ? '' : '?relevant=true'}`
+        `${process.env.SEARCH_API_URL}/search${isAdmin ? '' : '?relevant=true'}`
       )
       const search = await _search.json()
       setSearchList(

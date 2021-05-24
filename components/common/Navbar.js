@@ -5,13 +5,13 @@ import Search from '@octane/components/common/Search'
 import { useAuthFunctions } from 'aws-cognito-next'
 import { isAdmin } from '@octane/util/auth'
 import { MdSettings } from 'react-icons/md'
-import { FaTrophy, FaMedal, FaListUl } from 'react-icons/fa'
+import { FaTrophy, FaMedal, FaCalendar } from 'react-icons/fa'
 import { IoStatsChart, IoLogInOutline, IoLogOutOutline } from 'react-icons/io5'
 import { RiTeamFill } from 'react-icons/ri'
 
 const NAV_ITEMS = [
-  { href: '/matches', label: 'Matches', icon: <FaListUl /> },
-  { href: '/events', label: 'Events', icon: <FaTrophy /> },
+  { href: '/matches', label: 'Matches', icon: <FaTrophy /> },
+  { href: '/events', label: 'Events', icon: <FaCalendar /> },
   {
     href: '/stats/players?mode=3&minGames=50&group=rlcsxfall&group=rlcsxwinter&group=rlcsxspring',
     label: 'Stats',

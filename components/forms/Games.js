@@ -1,6 +1,6 @@
 import { Input } from '@octane/components/common/Input'
 import { FormField } from '@octane/components/forms/Forms'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { apiCreate, apiDelete, apiUpdate } from '@octane/util/api'
 import { PlayerSelect, Select } from '@octane/components/common/Select'
 import { Spacer, Stack, Switch, Text } from '@chakra-ui/react'
@@ -8,20 +8,10 @@ import { cleanObj } from '@octane/util/stats'
 import { Button, ButtonTypes } from '@octane/components/common/Button'
 import Image from '@octane/components/common/Image'
 
-export const GameForm = ({ data, match }) => {
+export const GameForm = ({ data, match, playerList }) => {
   const [game, setGame] = useState(data)
   const [flipBallchasing, setFlipBallchasing] = useState(false)
   const [submitting, setSubmitting] = useState(false)
-  const [playerList, setPlayerList] = useState([])
-
-  useEffect(() => {
-    const fetchPlayers = async () => {
-      const _players = await fetch(`${process.env.EXTERNAL_API_URL}/players`)
-      const { players } = await _players.json()
-      setPlayerList(players.sort((a, b) => a.tag.localeCompare(b.tag)))
-    }
-    fetchPlayers()
-  }, [])
 
   const updateGame = (key, value) => {
     const g = cleanObj({

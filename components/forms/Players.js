@@ -1,6 +1,6 @@
 import { Input } from '@octane/components/common/Input'
 import { FormField, Form } from '@octane/components/forms/Forms'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { getCountries } from '@octane/config/fields/countries'
 import { apiCreate, apiUpdate } from '@octane/util/api'
 import { Select, TeamSelect } from '@octane/components/common/Select'
@@ -20,19 +20,9 @@ import { cleanObj } from '@octane/util/stats'
 import { Button, ButtonTypes } from '@octane/components/common/Button'
 import { useRouter } from 'next/router'
 
-export const PlayerForm = ({ data }) => {
+export const PlayerForm = ({ data, teams }) => {
   const [player, setPlayer] = useState(data)
   const router = useRouter()
-  const [teams, setTeams] = useState([])
-
-  useEffect(() => {
-    const fetchTeams = async () => {
-      const _teams = await fetch(`${process.env.EXTERNAL_API_URL}/teams`)
-      const res = await _teams.json()
-      setTeams(res.teams.sort((a, b) => a.name.localeCompare(b.name)))
-    }
-    fetchTeams()
-  }, [])
 
   const updatePlayer = (key, value) => {
     setPlayer((prev) =>

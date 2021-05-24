@@ -55,10 +55,11 @@ export async function getServerSideProps({ req }) {
     }
   }
 
-  const players = await fetch('/players')
+  const _players = await fetch(`${process.env.API_URL}/players`)
+  const { players } = await _players.json()
 
   return {
-    props: { auth, players: players.players.sort((a, b) => a.tag.localeCompare(b.tag)) },
+    props: { auth, players: players.sort((a, b) => a.tag.localeCompare(b.tag)) },
   }
 }
 

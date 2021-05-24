@@ -1,6 +1,6 @@
 import { Input } from '@octane/components/common/Input'
 import { FormField } from '@octane/components/forms/Forms'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { apiCreate, apiDelete, apiUpdate } from '@octane/util/api'
 import { Select, TeamSelect } from '@octane/components/common/Select'
 import { Flex, FormControl, FormLabel, Spacer, Stack, Text } from '@chakra-ui/react'
@@ -9,20 +9,10 @@ import DatePicker from 'react-datepicker'
 import { Button, ButtonTypes } from '@octane/components/common/Button'
 import { useRouter } from 'next/router'
 
-export const MatchForm = ({ data, onUpdate, onRemove }) => {
+export const MatchForm = ({ data, teams, onUpdate, onRemove }) => {
   const [match, setMatch] = useState(data)
   const router = useRouter()
   const [submitting, setSubmitting] = useState(false)
-  const [teams, setTeams] = useState([])
-
-  useEffect(() => {
-    const fetchTeams = async () => {
-      const _teams = await fetch(`${process.env.EXTERNAL_API_URL}/teams`)
-      const res = await _teams.json()
-      setTeams(res.teams.sort((a, b) => a.name.localeCompare(b.name)))
-    }
-    fetchTeams()
-  }, [])
 
   const updateMatch = (key, value) => {
     const m = cleanObj({

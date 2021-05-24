@@ -9,7 +9,8 @@ module.exports = (phase) => {
         },
         env: {
           API_URL: 'http://localhost:8080',
-          EXTERNAL_API_URL: 'http://localhost:8080',
+          SEARCH_API_URL: 'http://localhost:8080',
+          ADMIN_API_URL: 'http://localhost:8080',
           CONTENT_URL: 'https://content.octane.gg',
           ASSETS_URL: 'https://griffon.octane.gg',
           IDP_DOMAIN: 'auth.octane.gg',
@@ -27,7 +28,8 @@ module.exports = (phase) => {
         },
         env: {
           API_URL: 'https://zsr-internal.octane.gg',
-          EXTERNAL_API_URL: 'https://zsr.octane.gg',
+          SEARCH_API_URL: 'https://zsr.octane.gg',
+          ADMIN_API_URL: 'https://zsr.octane.gg',
           CONTENT_URL: 'https://content.octane.gg',
           ASSETS_URL: 'https://griffon.octane.gg',
           IDP_DOMAIN: 'auth.octane.gg',

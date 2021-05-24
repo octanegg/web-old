@@ -9,21 +9,21 @@ const headers = {
 }
 
 export const apiUpdate = async (path, data) =>
-  fetch(`${process.env.API_URL}${path}`, {
+  fetch(`${process.env.ADMIN_API_URL}${path}`, {
     method: 'PUT',
     headers,
     body: JSON.stringify(data),
   })
 
 export const apiCreate = async (path, data) =>
-  fetch(`${process.env.API_URL}${path}`, {
+  fetch(`${process.env.ADMIN_API_URL}${path}`, {
     method: 'POST',
     headers,
     body: JSON.stringify(data),
   })
 
 export const apiDelete = async (path) =>
-  fetch(`${process.env.API_URL}${path}`, {
+  fetch(`${process.env.ADMIN_API_URL}${path}`, {
     method: 'DELETE',
     headers,
   })

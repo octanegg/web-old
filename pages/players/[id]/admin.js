@@ -6,7 +6,7 @@ import { Stack } from '@chakra-ui/react'
 import PlayerForm from '@octane/components/forms/Players'
 import Meta from '@octane/components/common/Meta'
 
-const Admin = ({ auth, player }) => (
+const Admin = ({ auth, player, teams }) => (
   <Content auth={auth}>
     <Meta title={`${player.tag}: Admin`} />
     <Stack width="full" spacing={3}>
@@ -18,7 +18,7 @@ const Admin = ({ auth, player }) => (
         isAdmin={isAdmin(auth)}
         hasDivider
       />
-      <PlayerForm data={player} />
+      <PlayerForm teams={teams} data={player} />
     </Stack>
   </Content>
 )
@@ -33,9 +33,12 @@ export async function getServerSideProps({ req, params }) {
     }
   }
 
+  const _teams = await fetch(`${process.env.API_URL}/teams`)
+  const { teams } = await _teams.json()
+
   const player = await res.json()
   return {
-    props: { auth, player },
+    props: { auth, player, teams },
   }
 }
 
