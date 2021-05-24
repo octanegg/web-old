@@ -17,7 +17,7 @@ const Match = ({ auth, match, game }) => (
       <MatchNavigation
         baseHref={`/matches/${match.slug}`}
         games={match.games}
-        active={game.number}
+        active={`${game.number}`}
         isAdmin={isAdmin(auth)}
       />
       <ScoreboardGame
