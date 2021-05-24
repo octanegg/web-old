@@ -2,7 +2,6 @@ import { Content } from '@octane/components/common/Layout'
 import Navigation from '@octane/components/common/Navigation'
 import { EventInfobox } from '@octane/components/common/Infobox'
 import TeamStats from '@octane/components/stats/TeamStats'
-import { getServerSideAuth, isAdmin } from '@octane/util/auth'
 import { EventStatsFilter } from '@octane/components/filters/EventFilters'
 import { Stack } from '@chakra-ui/react'
 import Meta from '@octane/components/common/Meta'
@@ -14,7 +13,7 @@ import StatsNavigation from '@octane/components/stats/Navigation'
 import Loading from '@octane/components/common/Loading'
 import { useOctane } from '@octane/context/octane'
 
-const Stats = ({ auth, event, group, stats, filter }) => {
+const Stats = ({ event, group, stats, filter }) => {
   const { loadingSameRoute } = useOctane()
   const [period, setPeriod] = useState()
   const [nextGroup, setNextGroup] = useState()
@@ -26,17 +25,11 @@ const Stats = ({ auth, event, group, stats, filter }) => {
   }, [stats])
 
   return (
-    <Content auth={auth}>
+    <Content>
       <Meta title={`${event.name}: Team Stats`} />
       <Stack width="full" spacing={3}>
         <EventInfobox event={event} />
-        <Navigation
-          type="event"
-          active="stats"
-          baseHref={`/events/${event.slug}`}
-          isAdmin={isAdmin(auth)}
-          hasDivider
-        />
+        <Navigation type="event" active="stats" baseHref={`/events/${event.slug}`} hasDivider />
         <EventStatsFilter event={event} type="teams" initialFilter={filter} />
         <StatsNavigation
           groups={teamStats}
@@ -73,7 +66,6 @@ const Stats = ({ auth, event, group, stats, filter }) => {
 }
 
 export async function getServerSideProps({ req, params, query }) {
-  const auth = getServerSideAuth(req)
   const { id, groupId } = params
 
   const filter = {
@@ -109,7 +101,6 @@ export async function getServerSideProps({ req, params, query }) {
 
   return {
     props: {
-      auth,
       filter,
       event,
       group: groupId,

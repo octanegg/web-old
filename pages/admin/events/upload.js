@@ -1,12 +1,12 @@
 import { Content } from '@octane/components/common/Layout'
-import { getServerSideAuth, isAdmin } from '@octane/util/auth'
 import { Flex, Spinner, Stack } from '@chakra-ui/react'
 import Navigation from '@octane/components/common/Navigation'
 import { useRef, useState } from 'react'
 import { uploadEventImage } from '@octane/util/s3'
 import { Button } from '@octane/components/common/Button'
+import { getServerSideAuth, isAdmin } from '@octane/util/auth'
 
-const Admin = ({ auth }) => {
+const Admin = () => {
   const fileInput = useRef()
   const [fileName, setFileName] = useState('')
   const [submitting, setSubmitting] = useState(false)
@@ -26,10 +26,10 @@ const Admin = ({ auth }) => {
   }
 
   return (
-    <Content auth={auth}>
+    <Content>
       <Stack width="full" spacing={3}>
-        <Navigation type="admin" active="events" isAdmin={isAdmin(auth)} />
-        <Navigation type="adminEvents" active="upload" isAdmin={isAdmin(auth)} hasDivider />
+        <Navigation type="admin" active="events" />
+        <Navigation type="adminEvents" active="upload" hasDivider />
         <Stack width="full" direction="column" paddingLeft={8}>
           <Flex width="full" direction="row">
             <input

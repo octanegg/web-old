@@ -3,7 +3,6 @@ import { Content } from '@octane/components/common/Layout'
 import Navigation from '@octane/components/common/Navigation'
 import PlayerMatchesFilter from '@octane/components/filters/PlayerFilters'
 import Matches from '@octane/components/matches/Matches'
-import { getServerSideAuth, isAdmin } from '@octane/util/auth'
 import { Stack } from '@chakra-ui/react'
 import { useRouter } from 'next/router'
 import { buildQuery, route } from '@octane/util/routes'
@@ -11,7 +10,7 @@ import Meta from '@octane/components/common/Meta'
 import Loading from '@octane/components/common/Loading'
 import { useOctane } from '@octane/context/octane'
 
-const Player = ({ auth, player, teams, opponents, filter, matches }) => {
+const Player = ({ player, teams, opponents, filter, matches }) => {
   const { loadingSameRoute } = useOctane()
   const router = useRouter()
 
@@ -24,7 +23,7 @@ const Player = ({ auth, player, teams, opponents, filter, matches }) => {
   }
 
   return (
-    <Content auth={auth}>
+    <Content>
       <Meta title={`${player.tag}: Rocket League Matches`} />
       <Stack width="full" spacing={3}>
         <PlayerInfobox player={player} />
@@ -32,7 +31,6 @@ const Player = ({ auth, player, teams, opponents, filter, matches }) => {
           type="player"
           active="matches"
           baseHref={`/players/${player.slug}`}
-          isAdmin={isAdmin(auth)}
           hasDivider
         />
         <PlayerMatchesFilter
@@ -56,7 +54,6 @@ const Player = ({ auth, player, teams, opponents, filter, matches }) => {
 }
 
 export async function getServerSideProps({ req, params, query }) {
-  const auth = getServerSideAuth(req)
   const { id } = params
 
   const filter = {
@@ -90,7 +87,6 @@ export async function getServerSideProps({ req, params, query }) {
   ])
   return {
     props: {
-      auth,
       filter,
       player,
       matches,

@@ -2,14 +2,13 @@
 /* eslint-disable camelcase */
 import { Content } from '@octane/components/common/Layout'
 import { Alert, AlertIcon, Flex, Image, Stack, Text } from '@chakra-ui/react'
-import { getServerSideAuth } from '@octane/util/auth'
 import { useEffect } from 'react'
 import { unescape } from 'lodash'
 import styles from '@octane/styles/Article.module.scss'
 import { Link } from '@octane/components/common/Text'
 import Meta from '@octane/components/common/Meta'
 
-const News = ({ auth, article }) => {
+const News = ({ article }) => {
   const { title, authors, image, content, published_at } = article
 
   const isOldArticle = new Date(2021, 4, 1) - new Date(published_at) > 0
@@ -22,7 +21,7 @@ const News = ({ auth, article }) => {
   }, [])
 
   return (
-    <Content auth={auth}>
+    <Content>
       <Meta title={title} />
       <Stack
         align="center"
@@ -65,7 +64,6 @@ const News = ({ auth, article }) => {
 }
 
 export async function getServerSideProps({ req, params }) {
-  const auth = getServerSideAuth(req)
   const { id } = params
   const res = await fetch(`${process.env.CONTENT_URL}/articles?slug=${id}`)
   if (res.status !== 200) {
@@ -82,7 +80,7 @@ export async function getServerSideProps({ req, params }) {
   }
 
   return {
-    props: { auth, article: articles[0] },
+    props: { article: articles[0] },
   }
 }
 

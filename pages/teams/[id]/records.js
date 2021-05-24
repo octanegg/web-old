@@ -1,7 +1,6 @@
 import { Content } from '@octane/components/common/Layout'
 import Navigation from '@octane/components/common/Navigation'
 import { TeamInfobox } from '@octane/components/common/Infobox'
-import { getServerSideAuth, isAdmin } from '@octane/util/auth'
 import { TeamRecordsFilter } from '@octane/components/filters/TeamFilters'
 import { Flex, Stack } from '@chakra-ui/react'
 import Meta from '@octane/components/common/Meta'
@@ -12,21 +11,15 @@ import RecordsRow from '@octane/components/records/Records'
 import { getRecordStat } from '@octane/util/stats'
 import { buildQuery } from '@octane/util/routes'
 
-const Team = ({ auth, team, filter, records }) => {
+const Team = ({ team, filter, records }) => {
   const { loadingSameRoute } = useOctane()
 
   return (
-    <Content auth={auth}>
+    <Content>
       <Meta title={`${team.name}: Rocket League Records`} />
       <Stack width="full" spacing={3}>
         <TeamInfobox team={team} />
-        <Navigation
-          type="team"
-          active="records"
-          baseHref={`/teams/${team.slug}`}
-          isAdmin={isAdmin(auth)}
-          hasDivider
-        />
+        <Navigation type="team" active="records" baseHref={`/teams/${team.slug}`} hasDivider />
         <TeamRecordsFilter team={team} initialFilter={filter} />
         {loadingSameRoute ? (
           <Loading />
@@ -49,7 +42,6 @@ const Team = ({ auth, team, filter, records }) => {
 }
 
 export async function getServerSideProps({ req, params, query }) {
-  const auth = getServerSideAuth(req)
   const { id } = params
 
   const filter = {
@@ -78,7 +70,6 @@ export async function getServerSideProps({ req, params, query }) {
 
   return {
     props: {
-      auth,
       team,
       filter,
       records,

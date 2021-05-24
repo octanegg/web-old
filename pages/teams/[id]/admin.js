@@ -1,23 +1,17 @@
 import { TeamInfobox } from '@octane/components/common/Infobox'
 import { Content } from '@octane/components/common/Layout'
 import Navigation from '@octane/components/common/Navigation'
-import { getServerSideAuth, isAdmin } from '@octane/util/auth'
 import { Stack } from '@chakra-ui/react'
 import TeamForm from '@octane/components/forms/Teams'
 import Meta from '@octane/components/common/Meta'
+import { getServerSideAuth, isAdmin } from '@octane/util/auth'
 
-const Admin = ({ auth, team }) => (
-  <Content auth={auth}>
+const Admin = ({ team }) => (
+  <Content>
     <Meta title={`${team.name}: Admin`} />
     <Stack width="full" spacing={3}>
       <TeamInfobox team={team} />
-      <Navigation
-        type="team"
-        active="admin"
-        baseHref={`/teams/${team.slug}`}
-        isAdmin={isAdmin(auth)}
-        hasDivider
-      />
+      <Navigation type="team" active="admin" baseHref={`/teams/${team.slug}`} hasDivider />
       <TeamForm data={team} />
     </Stack>
   </Content>
@@ -35,7 +29,7 @@ export async function getServerSideProps({ req, params }) {
 
   const team = await res.json()
   return {
-    props: { auth, team },
+    props: { team },
   }
 }
 

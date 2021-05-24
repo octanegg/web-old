@@ -1,28 +1,20 @@
 import { TeamInfobox } from '@octane/components/common/Infobox'
 import { Content } from '@octane/components/common/Layout'
 import Navigation from '@octane/components/common/Navigation'
-import { getServerSideAuth, isAdmin } from '@octane/util/auth'
 import { Stack } from '@chakra-ui/react'
 import Meta from '@octane/components/common/Meta'
 
-const Team = ({ auth, team }) => (
-  <Content auth={auth}>
+const Team = ({ team }) => (
+  <Content>
     <Meta title={`${team.name}: Rocket League Team Overview`} />
     <Stack width="full" spacing={3}>
       <TeamInfobox team={team} />
-      <Navigation
-        type="team"
-        active="overview"
-        baseHref={`/teams/${team.slug}`}
-        isAdmin={isAdmin(auth)}
-        hasDivider
-      />
+      <Navigation type="team" active="overview" baseHref={`/teams/${team.slug}`} hasDivider />
     </Stack>
   </Content>
 )
 
 export async function getServerSideProps({ req, params }) {
-  const auth = getServerSideAuth(req)
   const { id } = params
   const res = await fetch(`${process.env.API_URL}/teams/${id}`)
   if (res.status !== 200) {
@@ -33,7 +25,7 @@ export async function getServerSideProps({ req, params }) {
 
   const team = await res.json()
   return {
-    props: { auth, team },
+    props: { team },
   }
 }
 

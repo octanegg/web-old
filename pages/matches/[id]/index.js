@@ -3,11 +3,10 @@ import { WarningIcon } from '@chakra-ui/icons'
 import { Content } from '@octane/components/common/Layout'
 import { Infobox, MatchNavigation } from '@octane/components/match/Match'
 import { ScoreboardMatch } from '@octane/components/match/Scoreboard'
-import { getServerSideAuth, isAdmin } from '@octane/util/auth'
 import Meta from '@octane/components/common/Meta'
 
-const Match = ({ auth, match }) => (
-  <Content auth={auth}>
+const Match = ({ match }) => (
+  <Content>
     <Meta
       title={`${match.blue?.team?.team.name || 'TBD'} vs ${
         match.orange?.team?.team.name || 'TBD'
@@ -15,12 +14,7 @@ const Match = ({ auth, match }) => (
     />
     <Stack width="full" spacing={3}>
       <Infobox match={match} />
-      <MatchNavigation
-        active="overview"
-        baseHref={`/matches/${match.slug}`}
-        games={match.games}
-        isAdmin={isAdmin(auth)}
-      />
+      <MatchNavigation active="overview" baseHref={`/matches/${match.slug}`} games={match.games} />
       {match.games ? (
         <ScoreboardMatch
           blue={match.blue}
@@ -42,7 +36,6 @@ const Match = ({ auth, match }) => (
 )
 
 export async function getServerSideProps({ req, params }) {
-  const auth = getServerSideAuth(req)
   const { id } = params
   const res = await fetch(`${process.env.API_URL}/matches/${id}`)
   if (res.status !== 200) {
@@ -53,7 +46,7 @@ export async function getServerSideProps({ req, params }) {
 
   const match = await res.json()
   return {
-    props: { auth, match },
+    props: { match },
   }
 }
 

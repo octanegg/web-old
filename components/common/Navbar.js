@@ -89,7 +89,7 @@ const Navbar = ({ auth }) => {
       </Flex>
       {showMenu && (
         <Flex direction="column">
-          {NAV_ITEMS.map(({ href, label, icon }, i) => (
+          {(auth ? NAV_ITEMS : []).map(({ href, label, icon }, i) => (
             <NavItem key={i} href={href}>
               <Stack direction="row" align="center">
                 {icon}
@@ -120,9 +120,11 @@ const Navbar = ({ auth }) => {
               </Stack>
             </NavItem>
           )}
-          <NavItem>
-            <Search isAdmin={isAdmin(auth)} width="full" />
-          </NavItem>
+          {auth && (
+            <NavItem>
+              <Search isAdmin={isAdmin(auth)} width="full" />
+            </NavItem>
+          )}
         </Flex>
       )}
       <Flex
@@ -133,7 +135,7 @@ const Navbar = ({ auth }) => {
         display={{ base: 'none', lg: 'flex' }}>
         <Flex fontWeight="semi" align="center">
           <NavImage href="/" src="/images/logo.svg" />
-          {NAV_ITEMS.map(({ href, label, icon }, i) => (
+          {(auth ? NAV_ITEMS : []).map(({ href, label, icon }, i) => (
             <NavItem key={i} href={href}>
               <Stack direction="row" align="center">
                 {icon}
@@ -141,7 +143,7 @@ const Navbar = ({ auth }) => {
               </Stack>
             </NavItem>
           ))}
-          <Search isAdmin={isAdmin(auth)} />
+          {auth && <Search isAdmin={isAdmin(auth)} />}
         </Flex>
         <Flex>
           {isAdmin(auth) && (

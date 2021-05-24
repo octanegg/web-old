@@ -2,26 +2,19 @@ import { Content } from '@octane/components/common/Layout'
 import Navigation from '@octane/components/common/Navigation'
 import { EventInfobox } from '@octane/components/common/Infobox'
 import Matches from '@octane/components/matches/Matches'
-import { getServerSideAuth, isAdmin } from '@octane/util/auth'
 import { Stack } from '@chakra-ui/react'
 import Meta from '@octane/components/common/Meta'
 import Loading from '@octane/components/common/Loading'
 import { useOctane } from '@octane/context/octane'
 
-const Event = ({ auth, event, matches }) => {
+const Event = ({ event, matches }) => {
   const { loadingSameRoute } = useOctane()
   return (
-    <Content auth={auth}>
+    <Content>
       <Meta title={`${event.name}: Matches`} />
       <Stack width="full" spacing={3}>
         <EventInfobox event={event} />
-        <Navigation
-          type="event"
-          active="matches"
-          baseHref={`/events/${event.slug}`}
-          isAdmin={isAdmin(auth)}
-          hasDivider
-        />
+        <Navigation type="event" active="matches" baseHref={`/events/${event.slug}`} hasDivider />
         {loadingSameRoute ? <Loading /> : <Matches matches={matches} />}
       </Stack>
     </Content>
@@ -29,7 +22,6 @@ const Event = ({ auth, event, matches }) => {
 }
 
 export async function getServerSideProps({ req, params }) {
-  const auth = getServerSideAuth(req)
   const { id } = params
 
   const [_event, _matches] = await Promise.all([
@@ -45,7 +37,6 @@ export async function getServerSideProps({ req, params }) {
   const [event, { matches }] = await Promise.all([_event.json(), _matches.json()])
   return {
     props: {
-      auth,
       event,
       matches: matches.sort((a, b) =>
         new Date(b.date) === new Date(a.date)

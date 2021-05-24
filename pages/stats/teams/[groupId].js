@@ -1,7 +1,6 @@
 import { Content } from '@octane/components/common/Layout'
 import Navigation from '@octane/components/common/Navigation'
 import TeamStats from '@octane/components/stats/TeamStats'
-import { getServerSideAuth } from '@octane/util/auth'
 import { TeamStatsFilter } from '@octane/components/filters/StatFilters'
 import { Stack } from '@chakra-ui/react'
 import Meta from '@octane/components/common/Meta'
@@ -13,7 +12,7 @@ import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 import { useOctane } from '@octane/context/octane'
 
-const Stats = ({ auth, group, stats, filter }) => {
+const Stats = ({ group, stats, filter }) => {
   const { loadingSameRoute } = useOctane()
   const [period, setPeriod] = useState()
   const [nextGroup, setNextGroup] = useState()
@@ -25,7 +24,7 @@ const Stats = ({ auth, group, stats, filter }) => {
   }, [stats])
 
   return (
-    <Content auth={auth}>
+    <Content>
       <Meta title="Rocket League Team Stats" />
       <Stack width="full" spacing={3}>
         <Navigation type="stats" active="teams" filter={filter} />
@@ -59,7 +58,6 @@ const Stats = ({ auth, group, stats, filter }) => {
 }
 
 export async function getServerSideProps({ req, params, query }) {
-  const auth = getServerSideAuth(req)
   const { groupId } = params
 
   const filter = {
@@ -99,7 +97,6 @@ export async function getServerSideProps({ req, params, query }) {
 
   return {
     props: {
-      auth,
       filter,
       group: groupId,
       stats,

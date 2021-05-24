@@ -15,8 +15,8 @@ import MatchForm from '@octane/components/forms/Matches'
 import { Infobox, MatchNavigation } from '@octane/components/match/Match'
 import { getServerSideAuth, isAdmin } from '@octane/util/auth'
 
-const Match = ({ auth, match, games, teams, players }) => (
-  <Content auth={auth}>
+const Match = ({ match, games, teams, players }) => (
+  <Content>
     <Meta
       title={`${match.blue?.team?.team.name || 'TBD'} vs ${
         match.orange?.team?.team.name || 'TBD'
@@ -24,12 +24,7 @@ const Match = ({ auth, match, games, teams, players }) => (
     />
     <Stack width="full" spacing={3}>
       <Infobox match={match} />
-      <MatchNavigation
-        baseHref={`/matches/${match.slug}`}
-        games={match.games}
-        active="admin"
-        isAdmin={isAdmin(auth)}
-      />
+      <MatchNavigation baseHref={`/matches/${match.slug}`} games={match.games} active="admin" />
       <MatchForm teams={teams} data={match} />
       <Accordion allowToggle>
         {games.map((game) => (
@@ -112,7 +107,7 @@ export async function getServerSideProps({ req, params }) {
   const { players } = await _players.json()
 
   return {
-    props: { auth, match, games: games.games || [], teams, players },
+    props: { match, games: games.games || [], teams, players },
   }
 }
 

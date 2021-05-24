@@ -1,5 +1,6 @@
 import { Divider, Stack, Spacer, Flex } from '@chakra-ui/react'
 import Select from '@octane/components/common/Select'
+import { isAdmin, useAuth } from '@octane/util/auth'
 import { buildQuery, route } from '@octane/util/routes'
 import { useRouter } from 'next/router'
 import { ButtonLink } from './Button'
@@ -211,15 +212,16 @@ const navigation = {
   ],
 }
 
-const Navigation = ({ type, active, baseHref, filter, hasDivider, items, isAdmin }) => {
+const Navigation = ({ type, active, baseHref, filter, hasDivider, items }) => {
   const router = useRouter()
+  const auth = useAuth(null)
   const _items = items || navigation[type]
 
   return (
     <Stack paddingLeft={2} paddingRight={2} width="full" direction="row" align="center">
       <Stack direction="row" display={{ base: 'none', md: 'flex' }}>
         {_items
-          .filter((nav) => !nav.adminOnly || isAdmin)
+          .filter((nav) => !nav.adminOnly || isAdmin(auth))
           .map(({ id, href, label }) => (
             <ButtonLink
               key={id}
@@ -243,7 +245,7 @@ const Navigation = ({ type, active, baseHref, filter, hasDivider, items, isAdmin
             )
           }>
           {_items
-            .filter((nav) => !nav.adminOnly || isAdmin)
+            .filter((nav) => !nav.adminOnly || isAdmin(auth))
             .map(({ id, label }) => (
               <option key={id} value={id}>
                 {label}

@@ -1,7 +1,6 @@
 import { Content } from '@octane/components/common/Layout'
 import Navigation from '@octane/components/common/Navigation'
 import { PlayerInfobox } from '@octane/components/common/Infobox'
-import { getServerSideAuth, isAdmin } from '@octane/util/auth'
 import { PlayerRecordsFilter } from '@octane/components/filters/PlayerFilters'
 import { Flex, Stack } from '@chakra-ui/react'
 import Meta from '@octane/components/common/Meta'
@@ -12,11 +11,11 @@ import { getRecordStat } from '@octane/util/stats'
 import Loading from '@octane/components/common/Loading'
 import { useOctane } from '@octane/context/octane'
 
-const Player = ({ auth, player, filter, records }) => {
+const Player = ({ player, filter, records }) => {
   const { loadingSameRoute } = useOctane()
 
   return (
-    <Content auth={auth}>
+    <Content>
       <Meta title={`${player.tag}: Rocket League Records`} />
       <Stack width="full" spacing={3}>
         <PlayerInfobox player={player} />
@@ -24,7 +23,6 @@ const Player = ({ auth, player, filter, records }) => {
           type="player"
           active="records"
           baseHref={`/players/${player.slug}`}
-          isAdmin={isAdmin(auth)}
           hasDivider
         />
         <PlayerRecordsFilter player={player} initialFilter={filter} />
@@ -49,7 +47,6 @@ const Player = ({ auth, player, filter, records }) => {
 }
 
 export async function getServerSideProps({ req, params, query }) {
-  const auth = getServerSideAuth(req)
   const { id } = params
 
   const _player = await fetch(`${process.env.API_URL}/players/${id}`)
@@ -77,7 +74,6 @@ export async function getServerSideProps({ req, params, query }) {
   const { records } = await _records.json()
   return {
     props: {
-      auth,
       player,
       filter,
       records,

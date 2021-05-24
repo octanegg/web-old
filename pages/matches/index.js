@@ -2,7 +2,6 @@ import { Content } from '@octane/components/common/Layout'
 import moment from 'moment'
 import Matches from '@octane/components/matches/Matches'
 import Navigation from '@octane/components/common/Navigation'
-import { getServerSideAuth } from '@octane/util/auth'
 import UpcomingMatchesFilter from '@octane/components/filters/MatchFilters'
 import { Stack } from '@chakra-ui/react'
 import { useRouter } from 'next/router'
@@ -11,7 +10,7 @@ import Meta from '@octane/components/common/Meta'
 import Loading from '@octane/components/common/Loading'
 import { useOctane } from '@octane/context/octane'
 
-const MatchesPage = ({ auth, filter, matches }) => {
+const MatchesPage = ({ filter, matches }) => {
   const { loadingSameRoute } = useOctane()
   const router = useRouter()
 
@@ -20,7 +19,7 @@ const MatchesPage = ({ auth, filter, matches }) => {
   }
 
   return (
-    <Content auth={auth}>
+    <Content>
       <Meta title="Rocket League Upcoming Matches" />
       <Stack width="full" spacing={3}>
         <Navigation type="matches" active="ongoing" />
@@ -39,8 +38,6 @@ const MatchesPage = ({ auth, filter, matches }) => {
 }
 
 export async function getServerSideProps({ req, query }) {
-  const auth = getServerSideAuth(req)
-
   const filter = {
     mode: query.mode || 3,
     tier: query.tier || '',
@@ -56,7 +53,6 @@ export async function getServerSideProps({ req, query }) {
   const { matches } = await _matches.json()
   return {
     props: {
-      auth,
       filter,
       matches,
     },

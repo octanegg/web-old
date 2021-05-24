@@ -3,7 +3,6 @@ import { Content } from '@octane/components/common/Layout'
 import Navigation from '@octane/components/common/Navigation'
 import TeamMatchesFilter from '@octane/components/filters/TeamFilters'
 import Matches from '@octane/components/matches/Matches'
-import { getServerSideAuth, isAdmin } from '@octane/util/auth'
 import { Stack } from '@chakra-ui/react'
 import { useRouter } from 'next/router'
 import { buildQuery, route } from '@octane/util/routes'
@@ -11,7 +10,7 @@ import Meta from '@octane/components/common/Meta'
 import Loading from '@octane/components/common/Loading'
 import { useOctane } from '@octane/context/octane'
 
-const Team = ({ auth, team, filter, matches }) => {
+const Team = ({ team, filter, matches }) => {
   const { loadingSameRoute } = useOctane()
   const router = useRouter()
 
@@ -24,17 +23,11 @@ const Team = ({ auth, team, filter, matches }) => {
   }
 
   return (
-    <Content auth={auth}>
+    <Content>
       <Meta title={`${team.name}: Rocket League Matches`} />
       <Stack width="full" spacing={3}>
         <TeamInfobox team={team} />
-        <Navigation
-          type="team"
-          active="matches"
-          baseHref={`/teams/${team.slug}`}
-          isAdmin={isAdmin(auth)}
-          hasDivider
-        />
+        <Navigation type="team" active="matches" baseHref={`/teams/${team.slug}`} hasDivider />
         <TeamMatchesFilter team={team} initialFilter={filter} />
         {loadingSameRoute ? (
           <Loading />
@@ -51,7 +44,6 @@ const Team = ({ auth, team, filter, matches }) => {
 }
 
 export async function getServerSideProps({ req, params, query }) {
-  const auth = getServerSideAuth(req)
   const { id } = params
 
   const filter = {
@@ -77,7 +69,6 @@ export async function getServerSideProps({ req, params, query }) {
   const [team, { matches }] = await Promise.all([_team.json(), _matches.json()])
   return {
     props: {
-      auth,
       filter,
       team,
       matches,

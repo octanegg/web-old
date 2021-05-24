@@ -1,5 +1,4 @@
 import { Content } from '@octane/components/common/Layout'
-import { getServerSideAuth } from '@octane/util/auth'
 import moment from 'moment'
 import { Stack } from '@chakra-ui/react'
 import Events from '@octane/components/home/Events'
@@ -9,8 +8,8 @@ import Meta from '@octane/components/common/Meta'
 import { prizeUSD } from '@octane/util/prizes'
 import tiers from '@octane/config/fields/tiers'
 
-const Home = ({ auth, articles, matches, events }) => (
-  <Content auth={auth}>
+const Home = ({ articles, matches, events }) => (
+  <Content>
     <Meta />
     <Stack
       width="full"
@@ -26,7 +25,6 @@ const Home = ({ auth, articles, matches, events }) => (
 )
 
 export async function getServerSideProps({ req }) {
-  const auth = getServerSideAuth(req)
   const [
     resCompletedMatches,
     resUpcomingMatches,
@@ -65,7 +63,6 @@ export async function getServerSideProps({ req }) {
 
   return {
     props: {
-      auth,
       articles,
       matches: {
         completed:

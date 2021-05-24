@@ -2,7 +2,6 @@ import { PlayerInfobox } from '@octane/components/common/Infobox'
 import { Content } from '@octane/components/common/Layout'
 import Navigation from '@octane/components/common/Navigation'
 import PlayerStats from '@octane/components/stats/PlayerStats'
-import { getServerSideAuth, isAdmin } from '@octane/util/auth'
 import { PlayerStatsFilter } from '@octane/components/filters/PlayerFilters'
 import { Stack } from '@chakra-ui/react'
 import Meta from '@octane/components/common/Meta'
@@ -14,7 +13,7 @@ import StatsNavigation from '@octane/components/stats/Navigation'
 import Loading from '@octane/components/common/Loading'
 import { useOctane } from '@octane/context/octane'
 
-const Stats = ({ auth, player, group, stats, filter }) => {
+const Stats = ({ player, group, stats, filter }) => {
   const { loadingSameRoute } = useOctane()
   const [period, setPeriod] = useState()
   const [nextGroup, setNextGroup] = useState()
@@ -26,17 +25,11 @@ const Stats = ({ auth, player, group, stats, filter }) => {
   }, [stats])
 
   return (
-    <Content auth={auth}>
+    <Content>
       <Meta title={`${player.tag}: Rocket League Team Statistics`} />
       <Stack width="full" spacing={3}>
         <PlayerInfobox player={player} />
-        <Navigation
-          type="player"
-          active="stats"
-          baseHref={`/players/${player.slug}`}
-          isAdmin={isAdmin(auth)}
-          hasDivider
-        />
+        <Navigation type="player" active="stats" baseHref={`/players/${player.slug}`} hasDivider />
         <PlayerStatsFilter player={player} type="teams" initialFilter={filter} />
         <StatsNavigation
           groups={playerStats}
@@ -74,7 +67,6 @@ const Stats = ({ auth, player, group, stats, filter }) => {
 }
 
 export async function getServerSideProps({ req, params, query }) {
-  const auth = getServerSideAuth(req)
   const { id } = params
   const groupId = 'core'
 
@@ -115,7 +107,6 @@ export async function getServerSideProps({ req, params, query }) {
 
   return {
     props: {
-      auth,
       filter,
       player,
       group: groupId,

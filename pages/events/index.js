@@ -2,14 +2,13 @@ import { Content } from '@octane/components/common/Layout'
 import moment from 'moment'
 import Events from '@octane/components/events/Events'
 import Navigation from '@octane/components/common/Navigation'
-import { getServerSideAuth } from '@octane/util/auth'
 import { UpcomingEventsFilter } from '@octane/components/filters/EventFilters'
 import { Stack } from '@chakra-ui/react'
 import Meta from '@octane/components/common/Meta'
 import { buildQuery } from '@octane/util/routes'
 
-const EventsPage = ({ auth, ongoing, upcoming, filter }) => (
-  <Content auth={auth}>
+const EventsPage = ({ ongoing, upcoming, filter }) => (
+  <Content>
     <Meta title="Rocket League Upcoming Events" />
     <Stack width="full" spacing={3}>
       <Navigation type="events" active="ongoing" />
@@ -23,8 +22,6 @@ const EventsPage = ({ auth, ongoing, upcoming, filter }) => (
 )
 
 export async function getServerSideProps({ req, query }) {
-  const auth = getServerSideAuth(req)
-
   const filter = {
     mode: query.mode || '',
     tier: query.tier || '',
@@ -48,7 +45,6 @@ export async function getServerSideProps({ req, query }) {
 
   return {
     props: {
-      auth,
       filter,
       ongoing: ongoing.events,
       upcoming: upcoming.events,

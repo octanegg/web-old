@@ -1,5 +1,4 @@
 import { Content } from '@octane/components/common/Layout'
-import { getServerSideAuth, isAdmin } from '@octane/util/auth'
 import { Flex, Spinner, Stack } from '@chakra-ui/react'
 import Navigation from '@octane/components/common/Navigation'
 import { Button } from '@octane/components/common/Button'
@@ -7,8 +6,9 @@ import { FormField } from '@octane/components/forms/Forms'
 import { PlayerSelect } from '@octane/components/common/Select'
 import { useState } from 'react'
 import { apiCreate } from '@octane/util/api'
+import { getServerSideAuth, isAdmin } from '@octane/util/auth'
 
-const Admin = ({ auth, players }) => {
+const Admin = ({ players }) => {
   const [submitting, setSubmitting] = useState(false)
   const [keep, setKeep] = useState()
   const [remove, setRemove] = useState()
@@ -22,10 +22,10 @@ const Admin = ({ auth, players }) => {
   }
 
   return (
-    <Content auth={auth}>
+    <Content>
       <Stack width="full" spacing={3}>
-        <Navigation type="admin" active="players" isAdmin={isAdmin(auth)} />
-        <Navigation type="adminPlayers" active="merge" isAdmin={isAdmin(auth)} hasDivider />
+        <Navigation type="admin" active="players" />
+        <Navigation type="adminPlayers" active="merge" hasDivider />
         <Stack width="full" direction="row" paddingLeft={4}>
           <FormField label="Keep">
             <PlayerSelect players={players} active={keep} onChange={(p) => setKeep(p)} />
@@ -59,7 +59,7 @@ export async function getServerSideProps({ req }) {
   const { players } = await _players.json()
 
   return {
-    props: { auth, players: players.sort((a, b) => a.tag.localeCompare(b.tag)) },
+    props: { players: players.sort((a, b) => a.tag.localeCompare(b.tag)) },
   }
 }
 

@@ -1,7 +1,6 @@
 import { Content } from '@octane/components/common/Layout'
 import Navigation from '@octane/components/common/Navigation'
 import { EventInfobox } from '@octane/components/common/Infobox'
-import { getServerSideAuth, isAdmin } from '@octane/util/auth'
 import { EventRecordsFilter } from '@octane/components/filters/EventFilters'
 import { Flex, Stack } from '@chakra-ui/react'
 import Meta from '@octane/components/common/Meta'
@@ -12,21 +11,15 @@ import RecordsRow from '@octane/components/records/Records'
 import { getRecordStat } from '@octane/util/stats'
 import { buildQuery } from '@octane/util/routes'
 
-const Event = ({ auth, event, filter, records }) => {
+const Event = ({ event, filter, records }) => {
   const { loadingSameRoute } = useOctane()
 
   return (
-    <Content auth={auth}>
+    <Content>
       <Meta title={`${event.name}: Team Records`} />
       <Stack width="full" spacing={3}>
         <EventInfobox event={event} />
-        <Navigation
-          type="event"
-          active="records"
-          baseHref={`/events/${event.slug}`}
-          isAdmin={isAdmin(auth)}
-          hasDivider
-        />
+        <Navigation type="event" active="records" baseHref={`/events/${event.slug}`} hasDivider />
         <EventRecordsFilter event={event} type="teams" initialFilter={filter} />
         {loadingSameRoute ? (
           <Loading />
@@ -49,7 +42,6 @@ const Event = ({ auth, event, filter, records }) => {
 }
 
 export async function getServerSideProps({ req, params, query }) {
-  const auth = getServerSideAuth(req)
   const { id } = params
 
   const filter = {
@@ -72,7 +64,6 @@ export async function getServerSideProps({ req, params, query }) {
   const [event, { records }] = await Promise.all([_event.json(), _records.json()])
   return {
     props: {
-      auth,
       event,
       filter,
       records,

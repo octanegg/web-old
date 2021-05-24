@@ -1,23 +1,17 @@
 import { EventInfobox } from '@octane/components/common/Infobox'
 import { Content } from '@octane/components/common/Layout'
 import Navigation from '@octane/components/common/Navigation'
-import { getServerSideAuth, isAdmin } from '@octane/util/auth'
 import { Stack } from '@chakra-ui/react'
 import EventForm from '@octane/components/forms/Events'
 import Meta from '@octane/components/common/Meta'
+import { getServerSideAuth, isAdmin } from '@octane/util/auth'
 
-const Admin = ({ auth, event }) => (
-  <Content auth={auth}>
+const Admin = ({ event }) => (
+  <Content>
     <Meta title={`${event.name}: Admin`} />
     <Stack width="full" spacing={3}>
       <EventInfobox event={event} />
-      <Navigation
-        type="event"
-        active="admin"
-        baseHref={`/events/${event.slug}`}
-        isAdmin={isAdmin(auth)}
-        hasDivider
-      />
+      <Navigation type="event" active="admin" baseHref={`/events/${event.slug}`} hasDivider />
       <Navigation type="eventAdmin" active="event" baseHref={`/events/${event.slug}`} />
       <EventForm data={event} />
     </Stack>
@@ -36,7 +30,7 @@ export async function getServerSideProps({ req, params }) {
 
   const event = await res.json()
   return {
-    props: { auth, event },
+    props: { event },
   }
 }
 

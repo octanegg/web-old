@@ -2,7 +2,6 @@ import { TeamInfobox } from '@octane/components/common/Infobox'
 import { Content } from '@octane/components/common/Layout'
 import Navigation from '@octane/components/common/Navigation'
 import PlayerStats from '@octane/components/stats/PlayerStats'
-import { getServerSideAuth, isAdmin } from '@octane/util/auth'
 import { TeamStatsFilter } from '@octane/components/filters/TeamFilters'
 import { Stack } from '@chakra-ui/react'
 import Meta from '@octane/components/common/Meta'
@@ -14,7 +13,7 @@ import Loading from '@octane/components/common/Loading'
 import StatsNavigation from '@octane/components/stats/Navigation'
 import { useOctane } from '@octane/context/octane'
 
-const Stats = ({ auth, team, group, stats, filter }) => {
+const Stats = ({ team, group, stats, filter }) => {
   const { loadingSameRoute } = useOctane()
   const [period, setPeriod] = useState()
   const [nextGroup, setNextGroup] = useState()
@@ -26,17 +25,11 @@ const Stats = ({ auth, team, group, stats, filter }) => {
   }, [stats])
 
   return (
-    <Content auth={auth}>
+    <Content>
       <Meta title={`${team.name}: Rocket League Player Statistics`} />
       <Stack width="full" spacing={3}>
         <TeamInfobox team={team} />
-        <Navigation
-          type="team"
-          active="stats"
-          baseHref={`/teams/${team.slug}`}
-          isAdmin={isAdmin(auth)}
-          hasDivider
-        />
+        <Navigation type="team" active="stats" baseHref={`/teams/${team.slug}`} hasDivider />
         <TeamStatsFilter team={team} type="players" initialFilter={filter} />
         <StatsNavigation
           groups={playerStats}
@@ -69,7 +62,6 @@ const Stats = ({ auth, team, group, stats, filter }) => {
 }
 
 export async function getServerSideProps({ req, params, query }) {
-  const auth = getServerSideAuth(req)
   const { id } = params
   const groupId = 'core'
 
@@ -110,7 +102,6 @@ export async function getServerSideProps({ req, params, query }) {
 
   return {
     props: {
-      auth,
       filter,
       team,
       group: groupId,

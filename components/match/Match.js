@@ -269,7 +269,7 @@ export const Infobox = ({ match, active }) => {
   )
 }
 
-export const MatchNavigation = ({ baseHref, games, active, isAdmin }) => (
+export const MatchNavigation = ({ baseHref, games, active }) => (
   <Navigation
     active={active}
     baseHref={baseHref}
@@ -290,7 +290,6 @@ export const MatchNavigation = ({ baseHref, games, active, isAdmin }) => (
         adminOnly: true,
       },
     ]}
-    isAdmin={isAdmin}
     hasDivider
   />
 )

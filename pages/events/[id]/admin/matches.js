@@ -1,7 +1,6 @@
 import { EventInfobox } from '@octane/components/common/Infobox'
 import { Content } from '@octane/components/common/Layout'
 import Navigation from '@octane/components/common/Navigation'
-import { getServerSideAuth, isAdmin } from '@octane/util/auth'
 import {
   Accordion,
   AccordionButton,
@@ -22,8 +21,9 @@ import { cleanObj } from '@octane/util/stats'
 import Meta from '@octane/components/common/Meta'
 import Select from '@octane/components/common/Select'
 import formats from '@octane/config/formats/formats'
+import { getServerSideAuth, isAdmin } from '@octane/util/auth'
 
-const Admin = ({ auth, event, stages, teams }) => {
+const Admin = ({ event, stages, teams }) => {
   const [matches, setMatches] = useState(stages)
 
   const handleMatchUpdate = (stage, i, match) => {
@@ -104,17 +104,11 @@ const Admin = ({ auth, event, stages, teams }) => {
   }
 
   return (
-    <Content auth={auth}>
+    <Content>
       <Meta title={`${event.name}: Admin`} />
       <Stack width="full" spacing={3}>
         <EventInfobox event={event} />
-        <Navigation
-          type="event"
-          active="admin"
-          baseHref={`/events/${event.slug}`}
-          isAdmin={isAdmin(auth)}
-          hasDivider
-        />
+        <Navigation type="event" active="admin" baseHref={`/events/${event.slug}`} hasDivider />
         <Navigation type="eventAdmin" active="matches" baseHref={`/events/${event.slug}`} />
         <Accordion allowToggle>
           {event.stages.map((stage) => (
@@ -205,7 +199,7 @@ export async function getServerSideProps({ req, params }) {
   const { teams } = await _teams.json()
 
   return {
-    props: { auth, event, stages: groupBy(matches.matches, 'stage._id'), teams },
+    props: { event, stages: groupBy(matches.matches, 'stage._id'), teams },
   }
 }
 

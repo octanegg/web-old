@@ -2,14 +2,13 @@ import { Content } from '@octane/components/common/Layout'
 import moment from 'moment'
 import Events from '@octane/components/events/Events'
 import Navigation from '@octane/components/common/Navigation'
-import { getServerSideAuth } from '@octane/util/auth'
 import { CompletedEventsFilter } from '@octane/components/filters/EventFilters'
 import { Stack } from '@chakra-ui/react'
 import Meta from '@octane/components/common/Meta'
 import { buildQuery } from '@octane/util/routes'
 
-const EventsPage = ({ auth, filter, events }) => (
-  <Content auth={auth}>
+const EventsPage = ({ filter, events }) => (
+  <Content>
     <Meta title="Rocket League Completed Events" />
     <Stack width="full" spacing={3}>
       <Navigation type="events" active="completed" />
@@ -20,8 +19,6 @@ const EventsPage = ({ auth, filter, events }) => (
 )
 
 export async function getServerSideProps({ req, query }) {
-  const auth = getServerSideAuth(req)
-
   const filter = {
     mode: query.mode || '',
     tier: query.tier || '',
@@ -37,7 +34,6 @@ export async function getServerSideProps({ req, query }) {
 
   return {
     props: {
-      auth,
       filter,
       events,
     },

@@ -1,14 +1,14 @@
 import { Content } from '@octane/components/common/Layout'
-import { getServerSideAuth, isAdmin } from '@octane/util/auth'
 import { Stack } from '@chakra-ui/react'
 import Navigation from '@octane/components/common/Navigation'
 import PlayerForm from '@octane/components/forms/Players'
+import { getServerSideAuth, isAdmin } from '@octane/util/auth'
 
-const Admin = ({ auth, teams }) => (
-  <Content auth={auth}>
+const Admin = ({ teams }) => (
+  <Content>
     <Stack width="full" spacing={3}>
-      <Navigation type="admin" active="players" isAdmin={isAdmin(auth)} />
-      <Navigation type="adminPlayers" active="create" isAdmin={isAdmin(auth)} hasDivider />
+      <Navigation type="admin" active="players" />
+      <Navigation type="adminPlayers" active="create" hasDivider />
       <PlayerForm teams={teams} data={{}} />
     </Stack>
   </Content>
@@ -26,7 +26,7 @@ export async function getServerSideProps({ req }) {
   const { teams } = await _teams.json()
 
   return {
-    props: { auth, teams },
+    props: { teams },
   }
 }
 

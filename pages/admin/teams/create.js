@@ -1,14 +1,14 @@
 import { Content } from '@octane/components/common/Layout'
-import { getServerSideAuth, isAdmin } from '@octane/util/auth'
 import { Stack } from '@chakra-ui/react'
 import Navigation from '@octane/components/common/Navigation'
 import TeamForm from '@octane/components/forms/Teams'
+import { getServerSideAuth, isAdmin } from '@octane/util/auth'
 
-const Admin = ({ auth }) => (
-  <Content auth={auth}>
+const Admin = () => (
+  <Content>
     <Stack width="full" spacing={3}>
-      <Navigation type="admin" active="teams" isAdmin={isAdmin(auth)} />
-      <Navigation type="adminTeams" active="create" isAdmin={isAdmin(auth)} hasDivider />
+      <Navigation type="admin" active="teams" />
+      <Navigation type="adminTeams" active="create" hasDivider />
       <TeamForm data={{}} />
     </Stack>
   </Content>

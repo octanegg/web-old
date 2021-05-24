@@ -1,6 +1,5 @@
 import { Content } from '@octane/components/common/Layout'
 import Navigation from '@octane/components/common/Navigation'
-import { getServerSideAuth } from '@octane/util/auth'
 import RecordsFilter from '@octane/components/filters/RecordFilters'
 import { Flex, Stack } from '@chakra-ui/react'
 import Meta from '@octane/components/common/Meta'
@@ -11,11 +10,11 @@ import RecordsRow from '@octane/components/records/Records'
 import { getRecordStat } from '@octane/util/stats'
 import { buildQuery } from '@octane/util/routes'
 
-const Records = ({ auth, filter, records }) => {
+const Records = ({ filter, records }) => {
   const { loadingSameRoute } = useOctane()
 
   return (
-    <Content auth={auth}>
+    <Content>
       <Meta title="Rocket League Game Records" />
       <Stack width="full" spacing={3}>
         <Navigation type="records" active="games" />
@@ -41,8 +40,6 @@ const Records = ({ auth, filter, records }) => {
 }
 
 export async function getServerSideProps({ req, query }) {
-  const auth = getServerSideAuth(req)
-
   const filter = {
     mode: query.mode || 3,
     tier: query.tier || '',
@@ -60,7 +57,6 @@ export async function getServerSideProps({ req, query }) {
 
   return {
     props: {
-      auth,
       filter,
       records,
     },

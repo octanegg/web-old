@@ -1,12 +1,11 @@
 import { Content } from '@octane/components/common/Layout'
-import { getServerSideAuth } from '@octane/util/auth'
 import { Stack } from '@chakra-ui/react'
 import Participants from '@octane/components/events/Participants'
 import Meta from '@octane/components/common/Meta'
 import { Heading } from '@octane/components/common/Text'
 
-const Team = ({ auth, teams }) => (
-  <Content auth={auth}>
+const Team = ({ teams }) => (
+  <Content>
     <Meta title="Rocket League Active Teams" />
     <Stack width="full" spacing={8}>
       {teams.NA?.length > 0 && (
@@ -50,7 +49,6 @@ const Team = ({ auth, teams }) => (
 )
 
 export async function getServerSideProps({ req }) {
-  const auth = getServerSideAuth(req)
   const res = await fetch(`${process.env.API_URL}/teams/active`)
   if (res.status !== 200) {
     return {
@@ -61,7 +59,6 @@ export async function getServerSideProps({ req }) {
   const { teams } = await res.json()
   return {
     props: {
-      auth,
       teams: {
         NA: teams.filter((t) => t.team.region === 'NA'),
         EU: teams.filter((t) => t.team.region === 'EU'),
