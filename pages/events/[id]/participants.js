@@ -24,7 +24,7 @@ const Event = ({ event, participants, filter }) => (
   </Content>
 )
 
-export async function getServerSideProps({ req, params, query }) {
+export async function getServerSideProps({ params, query }) {
   const { id } = params
 
   const resEvents = await fetch(`${process.env.API_URL}/events/${id}`)
