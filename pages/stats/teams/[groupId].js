@@ -48,7 +48,6 @@ const Stats = ({ group, stats, filter }) => {
             statGroup={teamStats.find((g) => g.id === group)}
             stats={stats}
             period={period}
-            noScroll
             isSortable
           />
         )}
