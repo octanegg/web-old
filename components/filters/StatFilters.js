@@ -58,10 +58,7 @@ export const PlayerStatsFilter = ({ initialFilter }) => {
           }))
           .sort((a, b) => a.label.toLowerCase().localeCompare(b.label.toLowerCase()) || [])}
         active={filter.event}
-        onChange={(item) => {
-          updateFilter('event', item)
-          updateFilter('minGames', 0)
-        }}
+        onChange={(item) => updateFilter('event', item)}
       />
       <TierFilter active={filter.tier} onChange={(item) => updateFilter('tier', item)} />
       <RegionFilter active={filter.region} onChange={(item) => updateFilter('region', item)} />
@@ -135,10 +132,7 @@ export const TeamStatsFilter = ({ initialFilter }) => {
           }))
           .sort((a, b) => a.label.toLowerCase().localeCompare(b.label.toLowerCase()) || [])}
         active={filter.event}
-        onChange={(item) => {
-          updateFilter('event', item)
-          updateFilter('minGames', 0)
-        }}
+        onChange={(item) => updateFilter('event', item)}
       />
       <TierFilter active={filter.tier} onChange={(item) => updateFilter('tier', item)} />
       <RegionFilter active={filter.region} onChange={(item) => updateFilter('region', item)} />

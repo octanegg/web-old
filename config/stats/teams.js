@@ -1,4 +1,5 @@
 /* eslint-disable no-unused-vars */
+const noFormat = (v, games, matches) => v.toFixed(2)
 const averageOverGames = (v, games, matches) => (v / games.total).toFixed(2)
 const averageOverReplays = (v, games, matches) => (v / games.replays).toFixed(2)
 
@@ -45,9 +46,9 @@ export const teamCore = [
     description: 'Shooting Percentage',
     isNonReplay: true,
     isPercentage: true,
-    onTotal: averageOverGames,
-    onGames: averageOverGames,
-    onSeries: averageOverGames,
+    onTotal: noFormat,
+    onGames: noFormat,
+    onSeries: noFormat,
   },
 ]
 
@@ -94,9 +95,9 @@ export const teamAgainst = [
     description: 'Opponent Shooting Percentage',
     isNonReplay: true,
     isPercentage: true,
-    onTotal: averageOverGames,
-    onGames: averageOverGames,
-    onSeries: averageOverGames,
+    onTotal: noFormat,
+    onGames: noFormat,
+    onSeries: noFormat,
   },
 ]
 

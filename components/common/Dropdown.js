@@ -18,7 +18,7 @@ import {
   NumberIncrementStepper,
   NumberDecrementStepper,
 } from '@chakra-ui/react'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { ChevronDownIcon } from '@chakra-ui/icons'
 
 import DatePicker from 'react-datepicker'
@@ -61,15 +61,17 @@ export const DropdownDate = ({ label, startDate, endDate, onChange }) => {
       close={() => setIsOpen(false)}
       isActive={startDate || endDate}>
       <Stack direction="column" padding={2}>
-        <Text fontWeight="bold" fontSize="sm">
-          Dates
-        </Text>
         <Stack direction="row" paddingBottom={2} align="center" justify="center">
-          <Input value={start} onChange={(e) => setStart(e.target.value)} width={9 / 20} />
+          <Input
+            size="sm"
+            value={start}
+            onChange={(e) => setStart(e.target.value)}
+            width={9 / 20}
+          />
           <Text fontSize="sm" fontWeight="medium">
             to
           </Text>
-          <Input value={end} onChange={(e) => setEnd(e.target.value)} width={9 / 20} />
+          <Input size="sm" value={end} onChange={(e) => setEnd(e.target.value)} width={9 / 20} />
         </Stack>
         <Flex width="full" justify="center">
           <DatePicker
@@ -290,6 +292,8 @@ export const DropdownInput = ({ active, label, onChange }) => {
 
 export const DropdownCheckbox = ({ items, active, label, onChange, showImage, showFlag }) => {
   const [isOpen, setIsOpen] = useState(false)
+  const [checkboxes, setCheckboxes] = useState(items)
+  const [search, setSearch] = useState('')
 
   const _active = !active ? [] : Array.isArray(active) ? active : [active]
 
@@ -308,6 +312,16 @@ export const DropdownCheckbox = ({ items, active, label, onChange, showImage, sh
     }
   }
 
+  useEffect(() => {
+    setCheckboxes(
+      items.filter(
+        (item) =>
+          item.label.toLowerCase().includes(search.toLowerCase()) ||
+          item.id.includes(search.toLowerCase())
+      )
+    )
+  }, [search])
+
   return (
     <Dropdown
       label={label}
@@ -319,19 +333,15 @@ export const DropdownCheckbox = ({ items, active, label, onChange, showImage, sh
       isActive={active}>
       <List maxHeight={400} overflowY="scroll">
         <ListItem>
-          <Stack direction="row" padding={2}>
+          <Stack direction="row" padding={2} align="center">
+            <Input size="sm" value={search} onChange={(e) => setSearch(e.currentTarget.value)} />
             <Button buttonType={ButtonTypes.cancel} onClick={() => onChange([])}>
-              Deselect all
-            </Button>
-            <Button
-              buttonType={ButtonTypes.submit}
-              onClick={() => onChange(items.map((item) => item.id))}>
-              Select all
+              Clear
             </Button>
           </Stack>
         </ListItem>
         <Checkboxes
-          items={items}
+          items={checkboxes}
           tier={0}
           handleChange={handleChange}
           isChecked={isChecked}
@@ -362,7 +372,7 @@ const Checkboxes = ({ items, tier, isChecked, handleChange, showImage, showFlag,
           }}>
           <Stack direction="row" marginLeft={tier * 6}>
             <Checkbox
-              borderColor="secondary.400"
+              borderColor="secondary.300"
               colorScheme="whatsapp"
               size="sm"
               isChecked={isChecked(item)}

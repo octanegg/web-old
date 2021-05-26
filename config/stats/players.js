@@ -1,4 +1,5 @@
 /* eslint-disable no-unused-vars */
+const noFormat = (v, games, matches) => v.toFixed(2)
 const averageOverGames = (v, games, matches) => (v / games.total).toFixed(2)
 const averageOverGamesRound3 = (v, games, matches) => (v / games.total).toFixed(3)
 const averageOverReplays = (v, games, matches) => (v / games.replays).toFixed(2)
@@ -47,9 +48,9 @@ export const playerCore = [
     description: 'Shooting Percentage',
     isNonReplay: true,
     isPercentage: true,
-    onTotal: averageOverGames,
-    onGames: averageOverGames,
-    onSeries: averageOverGames,
+    onTotal: noFormat,
+    onGames: noFormat,
+    onSeries: noFormat,
   },
   {
     id: 'goalParticipation',
@@ -60,9 +61,9 @@ export const playerCore = [
     isNonReplay: true,
     isPercentage: true,
     hideAggregate: true,
-    onTotal: averageOverGames,
-    onGames: averageOverGames,
-    onSeries: averageOverGames,
+    onTotal: noFormat,
+    onGames: noFormat,
+    onSeries: noFormat,
   },
   {
     id: 'rating',
