@@ -78,7 +78,7 @@ const Search = ({ isAdmin, width }) => {
           </Flex>
         </Flex>
       </PopoverTrigger>
-      {results.length > 0 && results.length < 50 && (
+      {results.length > 0 && results.length < 100 && (
         <PopoverContent
           color="secondary.800"
           fontSize="sm"

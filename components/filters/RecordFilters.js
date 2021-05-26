@@ -31,6 +31,7 @@ export const RecordsFilter = ({ type, initialFilter }) => {
       onReset={() => {
         setFilter({
           mode: 3,
+          type,
           stat: type === 'players' || type === 'teams' ? 'score' : 'scoreTotal',
         })
         route(router, `/records/${type}`, '')

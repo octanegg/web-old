@@ -244,6 +244,7 @@ const StagesForm = ({ stages, onChange, onDelete }) => (
           i,
           cleanObj({
             ...stage,
+            _id: i,
             [key]: value,
           })
         )

@@ -288,7 +288,7 @@ export const DropdownInput = ({ active, label, onChange }) => {
   )
 }
 
-export const DropdownCheckbox = ({ items, active, label, onChange, showImage }) => {
+export const DropdownCheckbox = ({ items, active, label, onChange, showImage, showFlag }) => {
   const [isOpen, setIsOpen] = useState(false)
 
   const _active = !active ? [] : Array.isArray(active) ? active : [active]
@@ -324,13 +324,14 @@ export const DropdownCheckbox = ({ items, active, label, onChange, showImage }) 
           handleChange={handleChange}
           isChecked={isChecked}
           showImage={showImage}
+          showFlag={showFlag}
         />
       </List>
     </Dropdown>
   )
 }
 
-const Checkboxes = ({ items, tier, isChecked, handleChange, showImage, isLast }) => (
+const Checkboxes = ({ items, tier, isChecked, handleChange, showImage, showFlag, isLast }) => (
   <>
     {items?.map((item, i) => (
       <React.Fragment key={`${tier}-${i}`}>
@@ -357,6 +358,7 @@ const Checkboxes = ({ items, tier, isChecked, handleChange, showImage, isLast })
             />
             <Stack direction="row" align="center">
               {showImage && <Image src={item.image} boxSize={5} />}
+              {showFlag && <Image src={item.image} width="16px" height="11px" />}
               <Flex>{item.label || item.id}</Flex>
             </Stack>
           </Stack>

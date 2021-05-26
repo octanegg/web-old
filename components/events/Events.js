@@ -106,7 +106,7 @@ const EventRow = ({ event, isEven }) => {
             </Text>
           </Flex>
           <Flex direction="column" align="center" width={32} display={{ base: 'none', lg: 'flex' }}>
-            <Text fontWeight="bold">{stages.length}</Text>
+            <Text fontWeight="bold">{stages?.length || 0}</Text>
             <Text textTransform="uppercase" color="secondary.400" fontSize="10px">
               Stages
             </Text>

@@ -98,7 +98,7 @@ export const RegionFilter = ({ active, onChange, noInternational }) => (
     items={regions.filter((r) => !noInternational || r.id !== 'INT')}
     active={active}
     onChange={onChange}
-    showImage
+    showFlag
   />
 )
 

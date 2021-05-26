@@ -32,8 +32,8 @@ export const TeamStats = ({ statGroup, stats, period, groupBy, noScroll, isSorta
 
   return (
     <Flex
-      overflowX={{ base: noScroll ? 'auto' : 'scroll', lg: 'auto' }}
-      height={noScroll ? 'full' : '1000px'}>
+      overflowX={{ base: 'scroll', lg: noScroll ? 'auto' : 'scroll' }}
+      height={{ base: '550px', lg: noScroll ? 'full' : '1500px' }}>
       <Table>
         <Header>
           <HeaderItem align="left" onClick={isSortable && (() => updateSort({ id: 'team.name' }))}>
@@ -43,7 +43,7 @@ export const TeamStats = ({ statGroup, stats, period, groupBy, noScroll, isSorta
             </Flex>
           </HeaderItem>
           {statGroup.stats.map((stat) => (
-            <HeaderItem onClick={isSortable && (() => updateSort(stat))}>
+            <HeaderItem key={stat} onClick={isSortable && (() => updateSort(stat))}>
               <Tooltip hasArrow placement="top" label={stat.description}>
                 <Flex justify="center" align="center" minWidth="75px">
                   <Text marginRight={1}>{stat.label}</Text>
@@ -54,7 +54,7 @@ export const TeamStats = ({ statGroup, stats, period, groupBy, noScroll, isSorta
           ))}
         </Header>
         <Body>
-          {stats?.map((record, i) => (
+          {teams?.map((record, i) => (
             <StatsRow
               key={i}
               record={record}
