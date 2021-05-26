@@ -48,7 +48,7 @@ const Team = ({ teams }) => (
   </Content>
 )
 
-export async function getServerSideProps({ req }) {
+export async function getServerSideProps() {
   const res = await fetch(`${process.env.API_URL}/teams/active`)
   if (res.status !== 200) {
     return {

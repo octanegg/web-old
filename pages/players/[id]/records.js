@@ -46,7 +46,7 @@ const Player = ({ player, filter, records }) => {
   )
 }
 
-export async function getServerSideProps({ req, params, query }) {
+export async function getServerSideProps({ params, query }) {
   const { id } = params
 
   const _player = await fetch(`${process.env.API_URL}/players/${id}`)
@@ -62,6 +62,9 @@ export async function getServerSideProps({ req, params, query }) {
     mode: query.mode || 3,
     tier: query.tier || '',
     region: query.region || '',
+    event: query.event || '',
+    team: query.team || '',
+    opponent: query.opponent || '',
     before: query.before || '',
     after: query.after || '',
     type: query.type || 'game',

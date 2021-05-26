@@ -41,13 +41,16 @@ const Team = ({ team, filter, records }) => {
   )
 }
 
-export async function getServerSideProps({ req, params, query }) {
+export async function getServerSideProps({ params, query }) {
   const { id } = params
 
   const filter = {
     team: id,
     mode: query.mode || 3,
     tier: query.tier || '',
+    event: query.event || '',
+    player: query.player || '',
+    opponent: query.opponent || '',
     region: query.region || '',
     before: query.before || '',
     after: query.after || '',

@@ -34,7 +34,7 @@ const Home = ({ articles, matches, events }) => {
   )
 }
 
-export async function getServerSideProps({ req }) {
+export async function getServerSideProps() {
   const [
     resCompletedMatches,
     resUpcomingMatches,

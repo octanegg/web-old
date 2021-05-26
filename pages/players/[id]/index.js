@@ -14,7 +14,7 @@ const Player = ({ player }) => (
   </Content>
 )
 
-export async function getServerSideProps({ req, params }) {
+export async function getServerSideProps({ params }) {
   const { id } = params
   const res = await fetch(`${process.env.API_URL}/players/${id}`)
   if (res.status !== 200) {

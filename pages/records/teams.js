@@ -39,7 +39,7 @@ const Records = ({ filter, records }) => {
   )
 }
 
-export async function getServerSideProps({ req, query }) {
+export async function getServerSideProps({ query }) {
   const filter = {
     mode: query.mode || 3,
     tier: query.tier || '',

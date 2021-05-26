@@ -66,7 +66,7 @@ const Stats = ({ player, group, stats, filter }) => {
   )
 }
 
-export async function getServerSideProps({ req, params, query }) {
+export async function getServerSideProps({ params, query }) {
   const { id } = params
   const groupId = 'core'
 
@@ -74,6 +74,9 @@ export async function getServerSideProps({ req, params, query }) {
     player: id,
     mode: query.mode || 3,
     tier: query.tier || '',
+    event: query.event || '',
+    team: query.team || '',
+    opponent: query.opponent || '',
     before: query.before || '',
     after: query.after || '',
     bestOf: query.bestOf || '',

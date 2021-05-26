@@ -65,7 +65,7 @@ const Stats = ({ event, group, stats, filter }) => {
   )
 }
 
-export async function getServerSideProps({ req, params, query }) {
+export async function getServerSideProps({ params, query }) {
   const { id } = params
   const groupId = 'core'
 

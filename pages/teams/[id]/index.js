@@ -14,7 +14,7 @@ const Team = ({ team }) => (
   </Content>
 )
 
-export async function getServerSideProps({ req, params }) {
+export async function getServerSideProps({ params }) {
   const { id } = params
   const res = await fetch(`${process.env.API_URL}/teams/${id}`)
   if (res.status !== 200) {

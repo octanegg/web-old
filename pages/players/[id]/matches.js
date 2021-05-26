@@ -10,7 +10,7 @@ import Meta from '@octane/components/common/Meta'
 import Loading from '@octane/components/common/Loading'
 import { useOctane } from '@octane/context/octane'
 
-const Player = ({ player, teams, opponents, filter, matches }) => {
+const Player = ({ player, filter, matches }) => {
   const { loadingSameRoute } = useOctane()
   const router = useRouter()
 
@@ -33,12 +33,7 @@ const Player = ({ player, teams, opponents, filter, matches }) => {
           baseHref={`/players/${player.slug}`}
           hasDivider
         />
-        <PlayerMatchesFilter
-          player={player}
-          initialFilter={filter}
-          teams={teams}
-          opponents={opponents}
-        />
+        <PlayerMatchesFilter player={player} initialFilter={filter} />
         {loadingSameRoute ? (
           <Loading />
         ) : (
@@ -53,13 +48,14 @@ const Player = ({ player, teams, opponents, filter, matches }) => {
   )
 }
 
-export async function getServerSideProps({ req, params, query }) {
+export async function getServerSideProps({ params, query }) {
   const { id } = params
 
   const filter = {
     player: id,
     tier: query.tier || '',
     mode: query.mode || 3,
+    event: query.event || '',
     team: query.team || '',
     opponent: query.opponent || '',
     page: query.page || 1,
@@ -67,45 +63,24 @@ export async function getServerSideProps({ req, params, query }) {
     sort: 'date:desc',
   }
 
-  const [_player, _matches, _teams, _opponents] = await Promise.all([
+  const [_player, _matches] = await Promise.all([
     fetch(`${process.env.API_URL}/players/${id}`),
     fetch(`${process.env.API_URL}/matches${buildQuery(filter, '')}`),
-    fetch(`${process.env.API_URL}/players/${id}/teams`),
-    fetch(`${process.env.API_URL}/players/${id}/opponents`),
   ])
+
   if (_player.status !== 200) {
     return {
       notFound: true,
     }
   }
 
-  const [player, { matches }, teams, opponents] = await Promise.all([
-    _player.json(),
-    _matches.json(),
-    _teams.json(),
-    _opponents.json(),
-  ])
+  const [player, { matches }] = await Promise.all([_player.json(), _matches.json()])
+
   return {
     props: {
       filter,
       player,
       matches,
-      teams: teams.teams
-        .filter(({ slug }) => slug)
-        ?.map(({ slug, name, image }) => ({
-          id: slug,
-          label: name,
-          ...(image && { image }),
-        }))
-        .sort((a, b) => a.label.toLowerCase().localeCompare(b.label.toLowerCase()) || []),
-      opponents: opponents.teams
-        .filter(({ slug }) => slug)
-        ?.map(({ slug, name, image }) => ({
-          id: slug,
-          label: name,
-          ...(image && { image }),
-        }))
-        .sort((a, b) => a.label.toLowerCase().localeCompare(b.label.toLowerCase()) || []),
     },
   }
 }

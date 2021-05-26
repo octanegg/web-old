@@ -315,6 +315,7 @@ export const DropdownCheckbox = ({ items, active, label, onChange, showImage }) 
       setIsOpen={() => setIsOpen}
       open={() => setIsOpen(!isOpen)}
       close={() => setIsOpen(false)}
+      isDisabled={items.length === 0}
       isActive={active}>
       <List maxHeight={400} overflowY="scroll">
         <Checkboxes
@@ -331,55 +332,50 @@ export const DropdownCheckbox = ({ items, active, label, onChange, showImage }) 
 
 const Checkboxes = ({ items, tier, isChecked, handleChange, showImage, isLast }) => (
   <>
-    {items?.map((item, i) => {
-      const [hover, setHover] = useState(false)
-      return (
-        <React.Fragment key={`${tier}-${i}`}>
-          <ListItem
-            padding="0.375rem"
-            borderTopRadius={tier === 0 && i === 0 ? 6 : 0}
-            borderBottomRadius={!item.children && isLast && i === items.length - 1 ? 6 : 0}
-            fontSize="13px"
-            fontWeight="semi"
-            cursor="pointer"
-            value={item.id}
-            _hover={{ backgroundColor: 'secondary.25' }}
-            onMouseEnter={() => setHover(true)}
-            onMouseLeave={() => setHover(false)}
-            onClick={(e) => {
-              e.preventDefault()
-              handleChange(item)
-            }}>
-            <Stack direction="row" marginLeft={tier * 6}>
-              <Checkbox
-                borderColor={hover ? 'secondary.25' : ''}
-                colorScheme="whatsapp"
-                size="md"
-                isChecked={isChecked(item)}
-                isReadOnly
-              />
-              <Stack direction="row" align="center">
-                {showImage && <Image src={item.image} boxSize={5} />}
-                <Flex>{item.label || item.id}</Flex>
-              </Stack>
-            </Stack>
-          </ListItem>
-          {item.children && (
-            <Checkboxes
-              items={item.children}
-              tier={tier + 1}
-              handleChange={handleChange}
-              isChecked={isChecked}
-              isLast={i === items.length - 1}
+    {items?.map((item, i) => (
+      <React.Fragment key={`${tier}-${i}`}>
+        <ListItem
+          padding="0.375rem"
+          borderTopRadius={tier === 0 && i === 0 ? 6 : 0}
+          borderBottomRadius={!item.children && isLast && i === items.length - 1 ? 6 : 0}
+          fontSize="13px"
+          fontWeight="semi"
+          cursor="pointer"
+          value={item.id}
+          _hover={{ backgroundColor: 'secondary.25' }}
+          onClick={(e) => {
+            e.preventDefault()
+            handleChange(item)
+          }}>
+          <Stack direction="row" marginLeft={tier * 6}>
+            <Checkbox
+              borderColor="secondary.400"
+              colorScheme="whatsapp"
+              size="sm"
+              isChecked={isChecked(item)}
+              isReadOnly
             />
-          )}
-        </React.Fragment>
-      )
-    })}
+            <Stack direction="row" align="center">
+              {showImage && <Image src={item.image} boxSize={5} />}
+              <Flex>{item.label || item.id}</Flex>
+            </Stack>
+          </Stack>
+        </ListItem>
+        {item.children && (
+          <Checkboxes
+            items={item.children}
+            tier={tier + 1}
+            handleChange={handleChange}
+            isChecked={isChecked}
+            isLast={i === items.length - 1}
+          />
+        )}
+      </React.Fragment>
+    ))}
   </>
 )
 
-const Dropdown = ({ label, isOpen, open, close, footer, children, isActive }) => (
+const Dropdown = ({ label, isOpen, open, close, footer, children, isActive, isDisabled }) => (
   <Popover placement="bottom" isOpen={isOpen} onClose={close}>
     <PopoverTrigger>
       <ChakraButton
@@ -391,6 +387,7 @@ const Dropdown = ({ label, isOpen, open, close, footer, children, isActive }) =>
         color={isActive ? 'primary.600' : 'secondary.800'}
         backgroundColor={isActive ? 'primary.50' : 'secondary.50'}
         _focus={{ outline: 'none' }}
+        isDisabled={isDisabled}
         _hover={
           isActive ? { backgroundColor: 'primary.100' } : { backgroundColor: 'secondary.100' }
         }

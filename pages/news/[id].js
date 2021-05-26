@@ -63,7 +63,7 @@ const News = ({ article }) => {
   )
 }
 
-export async function getServerSideProps({ req, params }) {
+export async function getServerSideProps({ params }) {
   const { id } = params
   const res = await fetch(`${process.env.CONTENT_URL}/articles?slug=${id}`)
   if (res.status !== 200) {

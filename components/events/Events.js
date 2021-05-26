@@ -54,21 +54,29 @@ export const EventsTable = ({ events, groupBy }) => {
       <Heading>{labels[i]}</Heading>
       <Flex direction="column">
         {group.map((event, j) => (
-          <EventRow key={j} event={event} />
+          <EventRow key={j} event={event} isEven={j % 2 === 0} />
         ))}
       </Flex>
     </>
   ))
 }
 
-const EventRow = ({ event }) => {
+const EventRow = ({ event, isEven }) => {
   const { _id, slug, region, tier, mode, prize, name, startDate, endDate, stages, image } = event
 
   const _region = regions.find((r) => region === r.id)
 
   return (
     <NextLink key={_id} passHref href={`/events/${slug}`}>
-      <Flex as="a" width="full" cursor="pointer" fontSize="sm" padding={2} align="center">
+      <Flex
+        as="a"
+        width="full"
+        cursor="pointer"
+        fontSize="sm"
+        padding={2}
+        align="center"
+        backgroundColor={isEven ? '#fff' : 'secondary.25'}
+        _hover={{ backgroundColor: 'secondary.50' }}>
         <Image boxSize={6} src={image} marginLeft={2} marginRight={2} />
         <Flex align="center">
           <Flex direction="column">

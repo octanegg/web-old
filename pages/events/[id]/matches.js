@@ -21,7 +21,7 @@ const Event = ({ event, matches }) => {
   )
 }
 
-export async function getServerSideProps({ req, params }) {
+export async function getServerSideProps({ params }) {
   const { id } = params
 
   const [_event, _matches] = await Promise.all([

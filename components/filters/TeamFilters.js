@@ -1,22 +1,31 @@
 import {
   DateRangeFilter,
+  EventsFilter,
   Filter,
   FormatFilter,
   ModeFilter,
   OpponentsFilter,
+  PlayersFilter,
   RecordsStatsFilter,
   RecordsTypeFilter,
   RegionFilter,
   TeamStatsTypeFilter,
   TierFilter,
 } from '@octane/components/filters/Filter'
+import { getCountry } from '@octane/config/fields/countries'
 import { buildQuery, route } from '@octane/util/routes'
 import { useRouter } from 'next/router'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 export const TeamMatchesFilter = ({ team, initialFilter }) => {
   const router = useRouter()
   const [filter, setFilter] = useState(initialFilter)
+  const [search, setSearch] = useState({
+    events: [],
+    teams: [],
+    opponents: [],
+    players: [],
+  })
 
   const updateFilter = (key, value) => {
     setFilter((prev) => ({
@@ -24,6 +33,19 @@ export const TeamMatchesFilter = ({ team, initialFilter }) => {
       [key]: value === 'All' ? '' : value,
     }))
   }
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const data = await fetch(
+        `${process.env.SEARCH_API_URL}/search${buildQuery(
+          { ...filter, searchEvents: true, searchPlayers: true, searchOpponents: true },
+          ''
+        )}`
+      )
+      setSearch(await data.json())
+    }
+    fetchData()
+  }, [filter.event, filter.team, filter.opponent, filter.player])
 
   return (
     <Filter
@@ -46,8 +68,43 @@ export const TeamMatchesFilter = ({ team, initialFilter }) => {
       }}>
       <TierFilter active={filter.tier} onChange={(item) => updateFilter('tier', item)} />
       <ModeFilter active={filter.mode} onChange={(item) => updateFilter('mode', item)} />
+      <EventsFilter
+        events={search.events
+          .filter(({ slug }) => slug)
+          ?.map(({ slug, name, image }) => ({
+            id: slug,
+            label: name,
+            ...(image && { image }),
+          }))
+          .sort((a, b) => a.label.toLowerCase().localeCompare(b.label.toLowerCase()) || [])}
+        active={filter.event}
+        onChange={(item) => {
+          updateFilter('event', item)
+        }}
+      />
+      <PlayersFilter
+        players={search.players
+          .filter(({ slug }) => slug)
+          ?.map(({ slug, tag, country }) => ({
+            id: slug,
+            label: tag,
+            ...(getCountry(country) && { image: getCountry(country)?.image }),
+          }))
+          .sort((a, b) => a.label.toLowerCase().localeCompare(b.label.toLowerCase()) || [])}
+        active={filter.player}
+        onChange={(item) => {
+          updateFilter('player', item)
+        }}
+      />
       <OpponentsFilter
-        team={team._id}
+        teams={search.opponents
+          .filter(({ slug }) => slug)
+          ?.map(({ slug, name, image }) => ({
+            id: slug,
+            label: name,
+            ...(image && { image }),
+          }))
+          .sort((a, b) => a.label.toLowerCase().localeCompare(b.label.toLowerCase()) || [])}
         active={filter.opponent}
         onChange={(item) => updateFilter('opponent', item)}
       />
@@ -58,6 +115,12 @@ export const TeamMatchesFilter = ({ team, initialFilter }) => {
 export const TeamRecordsFilter = ({ team, initialFilter }) => {
   const router = useRouter()
   const [filter, setFilter] = useState(initialFilter)
+  const [search, setSearch] = useState({
+    events: [],
+    teams: [],
+    opponents: [],
+    players: [],
+  })
 
   const updateFilter = (key, value) => {
     setFilter((prev) => ({
@@ -65,6 +128,19 @@ export const TeamRecordsFilter = ({ team, initialFilter }) => {
       [key]: value === 'All' ? '' : value,
     }))
   }
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const data = await fetch(
+        `${process.env.SEARCH_API_URL}/search${buildQuery(
+          { ...filter, searchEvents: true, searchOpponents: true },
+          ''
+        )}`
+      )
+      setSearch(await data.json())
+    }
+    fetchData()
+  }, [filter.event, filter.team, filter.opponent, filter.player])
 
   return (
     <Filter
@@ -93,6 +169,32 @@ export const TeamRecordsFilter = ({ team, initialFilter }) => {
       <TierFilter active={filter.tier} onChange={(item) => updateFilter('tier', item)} />
       <RegionFilter active={filter.region} onChange={(item) => updateFilter('region', item)} />
       <ModeFilter active={filter.mode} onChange={(item) => updateFilter('mode', item)} />
+      <EventsFilter
+        events={search.events
+          .filter(({ slug }) => slug)
+          ?.map(({ slug, name, image }) => ({
+            id: slug,
+            label: name,
+            ...(image && { image }),
+          }))
+          .sort((a, b) => a.label.toLowerCase().localeCompare(b.label.toLowerCase()) || [])}
+        active={filter.event}
+        onChange={(item) => {
+          updateFilter('event', item)
+        }}
+      />
+      <OpponentsFilter
+        teams={search.opponents
+          .filter(({ slug }) => slug)
+          ?.map(({ slug, name, image }) => ({
+            id: slug,
+            label: name,
+            ...(image && { image }),
+          }))
+          .sort((a, b) => a.label.toLowerCase().localeCompare(b.label.toLowerCase()) || [])}
+        active={filter.opponent}
+        onChange={(item) => updateFilter('opponent', item)}
+      />
       <DateRangeFilter
         after={filter.after}
         before={filter.before}
@@ -109,6 +211,12 @@ export const TeamRecordsFilter = ({ team, initialFilter }) => {
 export const TeamStatsFilter = ({ team, type, initialFilter }) => {
   const router = useRouter()
   const [filter, setFilter] = useState(initialFilter)
+  const [search, setSearch] = useState({
+    events: [],
+    teams: [],
+    opponents: [],
+    players: [],
+  })
 
   const updateFilter = (key, value) => {
     setFilter((prev) => ({
@@ -116,6 +224,19 @@ export const TeamStatsFilter = ({ team, type, initialFilter }) => {
       [key]: value === 'All' ? '' : value,
     }))
   }
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const data = await fetch(
+        `${process.env.SEARCH_API_URL}/search${buildQuery(
+          { ...filter, searchEvents: true, searchOpponents: true },
+          ''
+        )}`
+      )
+      setSearch(await data.json())
+    }
+    fetchData()
+  }, [filter.event, filter.team, filter.opponent, filter.player])
 
   return (
     <Filter
@@ -138,6 +259,36 @@ export const TeamStatsFilter = ({ team, type, initialFilter }) => {
         active={type}
         onChange={(item) => route(router, `/teams/${team.slug}/stats/${item}`, '')}
       />
+      {type !== 'events' && (
+        <EventsFilter
+          events={search.events
+            .filter(({ slug }) => slug)
+            ?.map(({ slug, name, image }) => ({
+              id: slug,
+              label: name,
+              ...(image && { image }),
+            }))
+            .sort((a, b) => a.label.toLowerCase().localeCompare(b.label.toLowerCase()) || [])}
+          active={filter.event}
+          onChange={(item) => {
+            updateFilter('event', item)
+          }}
+        />
+      )}
+      {type !== 'opponents' && (
+        <OpponentsFilter
+          teams={search.opponents
+            .filter(({ slug }) => slug)
+            ?.map(({ slug, name, image }) => ({
+              id: slug,
+              label: name,
+              ...(image && { image }),
+            }))
+            .sort((a, b) => a.label.toLowerCase().localeCompare(b.label.toLowerCase()) || [])}
+          active={filter.opponent}
+          onChange={(item) => updateFilter('opponent', item)}
+        />
+      )}
       <TierFilter active={filter.tier} onChange={(item) => updateFilter('tier', item)} />
       <ModeFilter active={filter.mode} onChange={(item) => updateFilter('mode', item)} />
       <DateRangeFilter

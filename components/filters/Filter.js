@@ -19,7 +19,7 @@ import { getRecordStat } from '@octane/util/stats'
 import { useState } from 'react'
 import { rocketLeagueYears } from '@octane/util/dates'
 import tiers from '@octane/config/fields/tiers'
-import events from '@octane/config/fields/groups'
+import groups from '@octane/config/fields/groups'
 import modes from '@octane/config/fields/modes'
 import formats from '@octane/config/fields/formats'
 import { useOctane } from '@octane/context/octane'
@@ -89,7 +89,7 @@ export const TierFilter = ({ active, onChange }) => (
 )
 
 export const GroupFilter = ({ active, onChange }) => (
-  <DropdownCheckbox label="Events" items={events} active={active} onChange={onChange} />
+  <DropdownCheckbox label="Events" items={groups} active={active} onChange={onChange} />
 )
 
 export const RegionFilter = ({ active, onChange, noInternational }) => (
@@ -190,7 +190,7 @@ export const StageFilter = ({ stages, active, onChange }) => (
 
 export const PlayerStatsTypeFilter = ({ active, onChange }) => (
   <DropdownList
-    label={active[0].toUpperCase() + active.substring(1)}
+    label="Type"
     items={['teams', 'opponents', 'events']}
     active={active}
     itemToLabel={(item) => item[0].toUpperCase() + item.substring(1)}
@@ -212,7 +212,7 @@ export const QualifierFilter = ({ active, onChange }) => (
 
 export const TeamStatsTypeFilter = ({ active, onChange }) => (
   <DropdownList
-    label={active[0].toUpperCase() + active.substring(1)}
+    label="Type"
     active={active}
     items={['players', 'opponents', 'events']}
     itemToLabel={(item) => item[0].toUpperCase() + item.substring(1)}
@@ -232,10 +232,18 @@ export const ReverseSweepsFilter = ({ reverseSweep, reverseSweepAttempt, onChang
   )
 }
 
+export const EventsFilter = ({ events, active, onChange }) => (
+  <DropdownCheckbox label="Events" items={events} active={active} onChange={onChange} showImage />
+)
+
 export const TeamsFilter = ({ teams, active, onChange }) => (
   <DropdownCheckbox label="Teams" items={teams} active={active} onChange={onChange} showImage />
 )
 
 export const OpponentsFilter = ({ teams, active, onChange }) => (
   <DropdownCheckbox label="Opponents" items={teams} active={active} onChange={onChange} showImage />
+)
+
+export const PlayersFilter = ({ players, active, onChange }) => (
+  <DropdownCheckbox label="Players" items={players} active={active} onChange={onChange} showImage />
 )

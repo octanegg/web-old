@@ -41,7 +41,7 @@ const Event = ({ event, filter, records }) => {
   )
 }
 
-export async function getServerSideProps({ req, params, query }) {
+export async function getServerSideProps({ params, query }) {
   const { id } = params
 
   const filter = {

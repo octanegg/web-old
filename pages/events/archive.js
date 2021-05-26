@@ -18,7 +18,7 @@ const EventsPage = ({ filter, events }) => (
   </Content>
 )
 
-export async function getServerSideProps({ req, query }) {
+export async function getServerSideProps({ query }) {
   const filter = {
     mode: query.mode || '',
     tier: query.tier || '',

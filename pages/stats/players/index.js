@@ -56,7 +56,7 @@ const Stats = ({ group, stats, filter }) => {
   )
 }
 
-export async function getServerSideProps({ req, query }) {
+export async function getServerSideProps({ query }) {
   const group = 'core'
 
   const filter = {
@@ -72,6 +72,9 @@ export async function getServerSideProps({ req, query }) {
     before: query.before || '',
     after: query.after || '',
     cluster: query.cluster || '',
+    event: query.event || '',
+    team: query.team || '',
+    opponent: query.opponent || '',
   }
 
   const statGroup = playerStats.find((g) => g.id === group)

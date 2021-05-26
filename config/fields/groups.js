@@ -1,4 +1,4 @@
-export const events = [
+export const groups = [
   {
     id: 'rlcs',
     label: 'RLCS',
@@ -25,4 +25,4 @@ export const events = [
   },
 ]
 
-export default events
+export default groups

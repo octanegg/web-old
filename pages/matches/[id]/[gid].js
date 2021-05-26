@@ -30,7 +30,7 @@ const Match = ({ match, game }) => (
   </Content>
 )
 
-export async function getServerSideProps({ req, params }) {
+export async function getServerSideProps({ params }) {
   const { id, gid } = params
 
   const resMatch = await fetch(`${process.env.API_URL}/matches/${id}`)

@@ -35,7 +35,7 @@ const Match = ({ match }) => (
   </Content>
 )
 
-export async function getServerSideProps({ req, params }) {
+export async function getServerSideProps({ params }) {
   const { id } = params
   const res = await fetch(`${process.env.API_URL}/matches/${id}`)
   if (res.status !== 200) {

@@ -16,7 +16,7 @@ const Event = ({ event }) => (
   </Content>
 )
 
-export async function getServerSideProps({ req, params }) {
+export async function getServerSideProps({ params }) {
   const { id } = params
   const res = await fetch(`${process.env.API_URL}/events/${id}`)
   if (res.status !== 200) {
