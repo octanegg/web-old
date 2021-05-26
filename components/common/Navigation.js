@@ -222,11 +222,12 @@ const Navigation = ({ type, active, baseHref, filter, hasDivider, items }) => {
       <Stack direction="row" display={{ base: 'none', md: 'flex' }}>
         {_items
           .filter((nav) => !nav.adminOnly || isAdmin(auth))
-          .map(({ id, href, label }) => (
+          .map(({ id, href, label, isDisabled }) => (
             <ButtonLink
               key={id}
               href={`${baseHref || ''}${href || ''}${buildQuery(filter || {}, [''])}`}
-              isActive={active === id}>
+              isActive={active === id}
+              isDisabled={isDisabled}>
               {label}
             </ButtonLink>
           ))}
@@ -246,8 +247,8 @@ const Navigation = ({ type, active, baseHref, filter, hasDivider, items }) => {
           }>
           {_items
             .filter((nav) => !nav.adminOnly || isAdmin(auth))
-            .map(({ id, label }) => (
-              <option key={id} value={id}>
+            .map(({ id, label, isDisabled }) => (
+              <option key={id} value={id} disabled={isDisabled}>
                 {label}
               </option>
             ))}

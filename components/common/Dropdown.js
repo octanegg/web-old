@@ -26,7 +26,7 @@ import moment from 'moment'
 import { rocketLeagueYears } from '@octane/util/dates'
 import Image from '@octane/components/common/Image'
 import { Input } from './Input'
-import { Button } from './Button'
+import { Button, ButtonTypes } from './Button'
 
 export const DropdownDate = ({ label, startDate, endDate, onChange }) => {
   const [isOpen, setIsOpen] = useState(false)
@@ -318,6 +318,18 @@ export const DropdownCheckbox = ({ items, active, label, onChange, showImage, sh
       isDisabled={items.length === 0}
       isActive={active}>
       <List maxHeight={400} overflowY="scroll">
+        <ListItem>
+          <Stack direction="row" padding={2}>
+            <Button buttonType={ButtonTypes.cancel} onClick={() => onChange([])}>
+              Deselect all
+            </Button>
+            <Button
+              buttonType={ButtonTypes.submit}
+              onClick={() => onChange(items.map((item) => item.id))}>
+              Select all
+            </Button>
+          </Stack>
+        </ListItem>
         <Checkboxes
           items={items}
           tier={0}

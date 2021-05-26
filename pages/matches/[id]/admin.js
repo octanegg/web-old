@@ -28,7 +28,7 @@ const Match = ({ match, games, teams, players }) => (
       <MatchForm teams={teams} data={match} />
       <Accordion allowToggle>
         {games.map((game) => (
-          <AccordionItem borderColor="secondary.200">
+          <AccordionItem key={game.number} borderColor="secondary.200">
             <AccordionButton _focus={{ outline: 'none' }}>
               <Stack direction="row" align="center">
                 <Text fontSize="sm" color="secondary.800">
@@ -58,6 +58,7 @@ const Match = ({ match, games, teams, players }) => (
               data={{
                 number: games.length + 1,
                 ...(games.length > 0 && {
+                  number: games[games.length - 1].number + 1,
                   blue: {
                     players: games[games.length - 1].blue.players?.map(({ player }) => ({
                       player,

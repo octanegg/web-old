@@ -12,6 +12,9 @@ export const GameForm = ({ data, match, playerList }) => {
   const [game, setGame] = useState(data)
   const [flipBallchasing, setFlipBallchasing] = useState(false)
   const [submitting, setSubmitting] = useState(false)
+  const [bluePlayers, setBluePlayers] = useState(data?.blue?.players)
+  const [orangePlayers, setOrangePlayers] = useState(data?.orange?.players)
+  const [deleted, setDeleted] = useState([])
 
   const updateGame = (key, value) => {
     const g = cleanObj({
@@ -22,22 +25,31 @@ export const GameForm = ({ data, match, playerList }) => {
   }
 
   const updatePlayer = (side, i, player) => {
-    if (!game[side]) {
-      game[side] = {
-        players: [],
-      }
-    }
-    const { players } = game[side]
-    updateGame(side, {
-      ...game[side],
-      players: [].concat((players || []).slice(0, i), player, (players || []).slice(i + 1)),
-    })
+    const set = side === 'blue' ? setBluePlayers : setOrangePlayers
+    const players = side === 'blue' ? bluePlayers : orangePlayers
+    set([].concat((players || []).slice(0, i), player, (players || []).slice(i + 1)))
   }
 
   const handleDelete = async () => {
     const res = await apiDelete(`/games/${game._id}`)
     if (res.status === 200) {
       window.location.reload()
+    }
+  }
+
+  const handleSideChange = (side, player) => {
+    if (side === 'orange') {
+      setBluePlayers(bluePlayers.filter((p) => p.player._id !== player.player._id))
+      setDeleted(deleted.filter((p) => p.player._id !== player.player._id))
+      setOrangePlayers(orangePlayers.concat(player))
+    } else if (side === 'blue') {
+      setOrangePlayers(orangePlayers.filter((p) => p.player._id !== player.player._id))
+      setDeleted(deleted.filter((p) => p.player._id !== player.player._id))
+      setBluePlayers(bluePlayers.concat(player))
+    } else if (side === 'delete') {
+      setBluePlayers(bluePlayers.filter((p) => p.player._id !== player.player._id))
+      setOrangePlayers(orangePlayers.filter((p) => p.player._id !== player.player._id))
+      setDeleted(deleted.concat(player))
     }
   }
 
@@ -69,12 +81,12 @@ export const GameForm = ({ data, match, playerList }) => {
 
     if (game._id || !game.ballchasing) {
       payload.blue.players =
-        game.blue?.players?.map(({ player, stats }) => ({
+        bluePlayers?.map(({ player, stats }) => ({
           player,
           stats,
         })) || []
       payload.orange.players =
-        game.orange?.players?.map(({ player, stats }) => ({
+        orangePlayers?.map(({ player, stats }) => ({
           player,
           stats,
         })) || []
@@ -174,57 +186,128 @@ export const GameForm = ({ data, match, playerList }) => {
           </FormField>
         </Stack>
       )}
-      <FormField
-        label={
-          <Stack direction="row">
-            <Image boxSize={4} src={match?.blue?.team?.team.image} />
-            <Text>{match.blue?.team?.team.name || 'TBD'}</Text>
-          </Stack>
-        }>
-        {[...Array(match.event.mode).keys()].map((i) => (
-          <PlayerRow
-            key={i}
-            players={playerList}
-            player={
-              game?.blue?.players
-                ? game.blue.players[i]
-                : {
-                    stats: { core: { score: 0, goals: 0, assists: 0, saves: 0, shots: 0 } },
+      {game._id ? (
+        <>
+          <FormField
+            label={
+              <Stack direction="row">
+                <Image boxSize={4} src={match?.blue?.team?.team.image} />
+                <Text>{match.blue?.team?.team.name || 'TBD'}</Text>
+              </Stack>
+            }>
+            {bluePlayers.map((player, i) => (
+              <PlayerRow
+                key={player.player._id}
+                players={playerList}
+                player={player}
+                updatePlayer={(p) => updatePlayer('blue', i, p)}
+                handleSideChange={handleSideChange}
+                isBallchasing={game.ballchasing}
+                side="blue"
+              />
+            ))}
+          </FormField>
+          <FormField
+            label={
+              <Stack direction="row">
+                <Image boxSize={4} src={match?.orange?.team?.team.image} />
+                <Text>{match.orange?.team?.team.name || 'TBD'}</Text>
+              </Stack>
+            }>
+            {orangePlayers.map((player, i) => (
+              <PlayerRow
+                key={player.player._id}
+                players={playerList}
+                player={player}
+                updatePlayer={(p) => updatePlayer('orange', i, p)}
+                handleSideChange={handleSideChange}
+                isBallchasing={game.ballchasing}
+                side="orange"
+              />
+            ))}
+          </FormField>
+        </>
+      ) : (
+        !game.ballchasing && (
+          <>
+            <FormField
+              label={
+                <Stack direction="row">
+                  <Image boxSize={4} src={match?.blue?.team?.team.image} />
+                  <Text>{match.blue?.team?.team.name || 'TBD'}</Text>
+                </Stack>
+              }>
+              {[...Array(match.event.mode).keys()].map((i) => (
+                <PlayerRow
+                  key={i}
+                  players={playerList}
+                  player={
+                    bluePlayers
+                      ? bluePlayers[i]
+                      : {
+                          stats: { core: { score: 0, goals: 0, assists: 0, saves: 0, shots: 0 } },
+                        }
                   }
-            }
-            updatePlayer={(player) => updatePlayer('blue', i, player)}
-            isBallchasing={game.ballchasing}
-          />
-        ))}
-      </FormField>
-      <FormField
-        label={
-          <Stack direction="row">
-            <Image boxSize={4} src={match?.orange?.team?.team.image} />
-            <Text>{match.orange?.team?.team.name || 'TBD'}</Text>
-          </Stack>
-        }>
-        {[...Array(match.event.mode).keys()].map((i) => (
-          <PlayerRow
-            key={i}
-            players={playerList}
-            player={
-              game?.orange?.players
-                ? game.orange.players[i]
-                : {
-                    stats: { core: { score: 0, goals: 0, assists: 0, saves: 0, shots: 0 } },
+                  updatePlayer={(player) => updatePlayer('blue', i, player)}
+                  handleSideChange={handleSideChange}
+                  isBallchasing={game.ballchasing}
+                  side="blue"
+                />
+              ))}
+            </FormField>
+            <FormField
+              label={
+                <Stack direction="row">
+                  <Image boxSize={4} src={match?.orange?.team?.team.image} />
+                  <Text>{match.orange?.team?.team.name || 'TBD'}</Text>
+                </Stack>
+              }>
+              {[...Array(match.event.mode).keys()].map((i) => (
+                <PlayerRow
+                  key={i}
+                  players={playerList}
+                  player={
+                    orangePlayers
+                      ? orangePlayers[i]
+                      : {
+                          stats: { core: { score: 0, goals: 0, assists: 0, saves: 0, shots: 0 } },
+                        }
                   }
-            }
-            updatePlayer={(player) => updatePlayer('orange', i, player)}
-            isBallchasing={game.ballchasing}
-          />
-        ))}
-      </FormField>
+                  updatePlayer={(player) => updatePlayer('orange', i, player)}
+                  handleSideChange={handleSideChange}
+                  isBallchasing={game.ballchasing}
+                  side="orange"
+                />
+              ))}
+            </FormField>
+          </>
+        )
+      )}
+      {deleted?.length > 0 && (
+        <FormField label="Deleted">
+          {deleted.map((player) => (
+            <PlayerRow
+              key={player.player._id}
+              player={player}
+              handleSideChange={handleSideChange}
+              isBallchasing={game.ballchasing}
+              side="delete"
+            />
+          ))}
+        </FormField>
+      )}
     </Stack>
   )
 }
 
-export const PlayerRow = ({ players, player, updatePlayer, isBallchasing }) => (
+export const PlayerRow = ({
+  players,
+  player,
+  updatePlayer,
+  isBallchasing,
+  side,
+  handleSideChange,
+}) => (
   <Stack direction="row" spacing={4} paddingLeft={4}>
     <FormField label="Player">
       <PlayerSelect
@@ -233,9 +316,10 @@ export const PlayerRow = ({ players, player, updatePlayer, isBallchasing }) => (
         onChange={(p) => {
           updatePlayer({ ...player, player: p })
         }}
+        isDisabled={!updatePlayer}
       />
     </FormField>
-    {!isBallchasing &&
+    {!isBallchasing ? (
       ['Score', 'Goals', 'Assists', 'Saves', 'Shots'].map((stat) => (
         <FormField label={stat} key={stat}>
           <Input
@@ -255,9 +339,19 @@ export const PlayerRow = ({ players, player, updatePlayer, isBallchasing }) => (
                 },
               })
             }
+            isDisabled={!updatePlayer}
           />
         </FormField>
-      ))}
+      ))
+    ) : (
+      <FormField label="Side">
+        <Select value={side} onChange={(e) => handleSideChange(e.currentTarget.value, player)}>
+          <option value="blue">Blue</option>
+          <option value="orange">Orange</option>
+          <option value="delete">Delete</option>
+        </Select>
+      </FormField>
+    )}
   </Stack>
 )
 

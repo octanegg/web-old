@@ -27,7 +27,14 @@ export const Select = (props) => (
   />
 )
 
-export const InputSelect = ({ items, value, itemToString, itemToDisplay, onChange }) => {
+export const InputSelect = ({
+  items,
+  value,
+  itemToString,
+  itemToDisplay,
+  isDisabled,
+  onChange,
+}) => {
   const [isOpen, setIsOpen] = useState(false)
   const [input, setInput] = useState(value || '')
   const [options, setOptions] = useState([])
@@ -88,6 +95,7 @@ export const InputSelect = ({ items, value, itemToString, itemToDisplay, onChang
             onChange={(e) => handleInputChange(e.currentTarget.value)}
             onClick={open}
             onBlur={close}
+            isDisabled={isDisabled}
           />
         </Flex>
       </PopoverTrigger>
@@ -137,7 +145,7 @@ export const TeamSelect = ({ teams, active, onChange }) => (
   />
 )
 
-export const PlayerSelect = ({ players, active, onChange }) => (
+export const PlayerSelect = ({ players, active, isDisabled, onChange }) => (
   <InputSelect
     value={active?.tag || ''}
     items={players || []}
@@ -151,6 +159,7 @@ export const PlayerSelect = ({ players, active, onChange }) => (
       </Stack>
     )}
     onChange={onChange}
+    isDisabled={isDisabled}
   />
 )
 
