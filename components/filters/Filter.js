@@ -85,7 +85,7 @@ export const Filter = ({ children, onApply, onReset, alwaysShowFilter }) => {
 }
 
 export const TierFilter = ({ active, onChange }) => (
-  <DropdownCheckbox label="Tiers" items={tiers} active={active} onChange={onChange} />
+  <DropdownCheckbox label="Tiers" items={tiers} active={active} onChange={onChange} hideSearch />
 )
 
 export const GroupFilter = ({ active, onChange }) => (
@@ -99,15 +99,28 @@ export const RegionFilter = ({ active, onChange, noInternational }) => (
     active={active}
     onChange={onChange}
     showFlag
+    hideSearch
   />
 )
 
 export const ModeFilter = ({ active, onChange }) => (
-  <DropdownCheckbox label="Modes" items={modes} active={parseInt(active, 10)} onChange={onChange} />
+  <DropdownCheckbox
+    label="Modes"
+    items={modes}
+    active={parseInt(active, 10)}
+    onChange={onChange}
+    hideSearch
+  />
 )
 
 export const FormatFilter = ({ active, onChange }) => (
-  <DropdownCheckbox label="Formats" items={formats} active={active} onChange={onChange} />
+  <DropdownCheckbox
+    label="Formats"
+    items={formats}
+    active={active}
+    onChange={onChange}
+    hideSearch
+  />
 )
 
 export const YearFilter = ({ active, onChange }) => (

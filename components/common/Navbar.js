@@ -52,7 +52,7 @@ const NavImage = ({ src, href }) => (
   <Flex cursor="pointer">
     <NextLink passHref href={href}>
       <Link display="block" paddingLeft={4} paddingRight={4} _focus={{}}>
-        <Image src={src} width={8} />
+        <Image src={src} width={7} />
       </Link>
     </NextLink>
   </Flex>

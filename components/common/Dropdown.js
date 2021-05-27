@@ -290,37 +290,44 @@ export const DropdownInput = ({ active, label, onChange }) => {
   )
 }
 
-export const DropdownCheckbox = ({ items, active, label, onChange, showImage, showFlag }) => {
+export const DropdownCheckbox = ({
+  items,
+  active,
+  label,
+  onChange,
+  showImage,
+  showFlag,
+  hideSearch,
+}) => {
   const [isOpen, setIsOpen] = useState(false)
-  const [checkboxes, setCheckboxes] = useState(items)
+  const [checkboxes, setCheckboxes] = useState()
   const [search, setSearch] = useState('')
 
   const _active = !active ? [] : Array.isArray(active) ? active : [active]
 
-  const getItems = (item) => (item.children ? item.children.flatMap((i) => getItems(i)) : [item.id])
-  const isChecked = (item) =>
-    getItems(item).every((i) => (item.children && i === item.id) || _active?.includes(i))
-
   const handleChange = (item) => {
-    if (isChecked(item)) {
-      const remove = getItems(item)
-      onChange(_active?.filter((i) => !remove.includes(i)) || [])
+    if (_active?.includes(item.id)) {
+      onChange(_active?.filter((i) => i !== item.id))
     } else {
-      const ids = getItems(item)
-      const add = ids.length > 1 ? ids.filter((i) => i !== item.id) : ids
-      onChange(_active ? [...new Set(_active.concat(add))] : add)
+      onChange(_active ? [...new Set(_active.concat(item.id))] : item.id)
     }
   }
 
   useEffect(() => {
-    setCheckboxes(
-      items.filter(
-        (item) =>
-          item.label.toLowerCase().includes(search.toLowerCase()) ||
-          item.id.includes(search.toLowerCase())
+    if (search) {
+      setCheckboxes(
+        items.filter(
+          (item) =>
+            item.label.toLowerCase().includes(search.toLowerCase()) ||
+            item.id.includes(search.toLowerCase())
+        )
       )
-    )
+    }
   }, [search])
+
+  useEffect(() => {
+    setCheckboxes(items)
+  }, [items])
 
   return (
     <Dropdown
@@ -332,72 +339,49 @@ export const DropdownCheckbox = ({ items, active, label, onChange, showImage, sh
       isDisabled={items.length === 0}
       isActive={active}>
       <List maxHeight={400} overflowY="scroll">
-        <ListItem>
-          <Stack direction="row" padding={2} align="center">
-            <Input size="sm" value={search} onChange={(e) => setSearch(e.currentTarget.value)} />
-            <Button buttonType={ButtonTypes.cancel} onClick={() => onChange([])}>
-              Clear
-            </Button>
-          </Stack>
-        </ListItem>
-        <Checkboxes
-          items={checkboxes}
-          tier={0}
-          handleChange={handleChange}
-          isChecked={isChecked}
-          showImage={showImage}
-          showFlag={showFlag}
-        />
+        {!hideSearch && (
+          <ListItem>
+            <Stack direction="row" padding={2} align="center">
+              <Input size="sm" value={search} onChange={(e) => setSearch(e.currentTarget.value)} />
+              <Button buttonType={ButtonTypes.cancel} onClick={() => onChange([])}>
+                Clear
+              </Button>
+            </Stack>
+          </ListItem>
+        )}
+        {checkboxes?.map((item) => (
+          <ListItem
+            key={item.id}
+            padding="0.375rem"
+            fontSize="13px"
+            fontWeight="semi"
+            cursor="pointer"
+            value={item.id}
+            _hover={{ backgroundColor: 'secondary.25' }}
+            onClick={(e) => {
+              e.preventDefault()
+              handleChange(item)
+            }}>
+            <Stack direction="row">
+              <Checkbox
+                borderColor="secondary.300"
+                colorScheme="whatsapp"
+                size="sm"
+                isChecked={_active?.includes(item.id)}
+                isReadOnly
+              />
+              <Stack direction="row" align="center">
+                {showImage && <Image src={item.image} boxSize={5} />}
+                {showFlag && <Image src={item.image} width="16px" height="11px" />}
+                <Flex>{item.label || item.id}</Flex>
+              </Stack>
+            </Stack>
+          </ListItem>
+        ))}
       </List>
     </Dropdown>
   )
 }
-
-const Checkboxes = ({ items, tier, isChecked, handleChange, showImage, showFlag, isLast }) => (
-  <>
-    {items?.map((item, i) => (
-      <React.Fragment key={`${tier}-${i}`}>
-        <ListItem
-          padding="0.375rem"
-          borderTopRadius={tier === 0 && i === 0 ? 6 : 0}
-          borderBottomRadius={!item.children && isLast && i === items.length - 1 ? 6 : 0}
-          fontSize="13px"
-          fontWeight="semi"
-          cursor="pointer"
-          value={item.id}
-          _hover={{ backgroundColor: 'secondary.25' }}
-          onClick={(e) => {
-            e.preventDefault()
-            handleChange(item)
-          }}>
-          <Stack direction="row" marginLeft={tier * 6}>
-            <Checkbox
-              borderColor="secondary.300"
-              colorScheme="whatsapp"
-              size="sm"
-              isChecked={isChecked(item)}
-              isReadOnly
-            />
-            <Stack direction="row" align="center">
-              {showImage && <Image src={item.image} boxSize={5} />}
-              {showFlag && <Image src={item.image} width="16px" height="11px" />}
-              <Flex>{item.label || item.id}</Flex>
-            </Stack>
-          </Stack>
-        </ListItem>
-        {item.children && (
-          <Checkboxes
-            items={item.children}
-            tier={tier + 1}
-            handleChange={handleChange}
-            isChecked={isChecked}
-            isLast={i === items.length - 1}
-          />
-        )}
-      </React.Fragment>
-    ))}
-  </>
-)
 
 const Dropdown = ({ label, isOpen, open, close, footer, children, isActive, isDisabled }) => (
   <Popover placement="bottom" isOpen={isOpen} onClose={close}>
