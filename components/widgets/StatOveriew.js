@@ -1,7 +1,7 @@
 import { Stack, Stat, StatHelpText, StatLabel, StatNumber } from '@chakra-ui/react'
 
 export const StatOverviewWidget = ({ stats }) => (
-  <Stack direction="row" spacing={0} wrap="wrap" shouldWrapChildren>
+  <Stack direction="row" paddingLeft={2} spacing={0} wrap="wrap" shouldWrapChildren>
     {stats.map(({ label, stat, helper }) => (
       <Stat width={40} padding={2}>
         <StatLabel color="secondary.600">{label}</StatLabel>

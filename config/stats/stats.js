@@ -213,4 +213,24 @@ export const teamStats = [
   },
 ]
 
+export const getPlayerStat = (id) => {
+  for (let i = 0; i < playerStats.length; i += 1) {
+    const stat = playerStats[i].stats.find((s) => s.id === id)
+    if (stat) {
+      return stat
+    }
+  }
+  return null
+}
+
+export const getTeamStat = (id) => {
+  for (let i = 0; i < teamStats.length; i += 1) {
+    const stat = teamStats[i].stats.find((s) => s.id === id)
+    if (stat) {
+      return stat
+    }
+  }
+  return null
+}
+
 export default gameBasicStats

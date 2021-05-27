@@ -9,9 +9,9 @@ import {
   ListItem,
   List,
   Icon,
+  Flex,
 } from '@chakra-ui/react'
 import { Button, ButtonTypes } from '@octane/components/common/Button'
-import { Heading } from '@octane/components/common/Text'
 import { useState } from 'react'
 
 const MAX_STATS = 6
@@ -101,7 +101,16 @@ export const StatsNavigation = ({
         wrap="wrap"
         align="center"
         shouldWrapChildren>
-        {!hideMobileLabels && <Heading display={{ base: 'flex', lg: 'none' }}>Stats:</Heading>}
+        {!hideMobileLabels && (
+          <Flex
+            display={{ base: 'flex', lg: 'none' }}
+            textTransform="uppercase"
+            color="secondary.500"
+            fontSize="11px"
+            fontWeight="bold">
+            Stats:
+          </Flex>
+        )}
         {mainStats.map((statGroup, i) => {
           const { id, label, icon } = statGroup
           const buttonType = id === group ? ButtonTypes.stat.selected : ButtonTypes.stat.default
@@ -150,7 +159,16 @@ export const StatsNavigation = ({
           wrap="wrap"
           align="center"
           shouldWrapChildren>
-          {!hideMobileLabels && <Heading display={{ base: 'flex', lg: 'none' }}>Period:</Heading>}
+          {!hideMobileLabels && (
+            <Flex
+              display={{ base: 'flex', lg: 'none' }}
+              textTransform="uppercase"
+              color="secondary.500"
+              fontSize="11px"
+              fontWeight="bold">
+              Period:
+            </Flex>
+          )}
           <Button
             buttonType={period === 'total' ? ButtonTypes.stat.selected : ButtonTypes.stat.default}
             override={{ borderLeftRadius: 8, borderRightRadius: { base: 8, lg: 0 } }}

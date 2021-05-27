@@ -7,8 +7,9 @@ import MatchesWidget from '@octane/components/widgets/Matches'
 import { Heading } from '@octane/components/common/Text'
 import moment from 'moment'
 import RosterWidget from '@octane/components/widgets/Roster'
-import { calculateStat } from '@octane/util/stats'
+import { calculateFormattedStat } from '@octane/util/stats'
 import StatOverviewWidget from '@octane/components/widgets/StatOveriew'
+import { getPlayerStat } from '@octane/config/stats/stats'
 
 const Player = ({ player, teammates, upcoming, completed, recent }) => (
   <Content>
@@ -16,7 +17,7 @@ const Player = ({ player, teammates, upcoming, completed, recent }) => (
     <Stack width="full" spacing={3}>
       <PlayerInfobox player={player} />
       <Navigation type="player" active="overview" baseHref={`/players/${player.slug}`} hasDivider />
-      <Stack direction="row" paddingLeft={2} paddingRight={2}>
+      <Stack direction="row" paddingRight={2}>
         <Stack spacing={4} width="full">
           {recent && (
             <Flex direction="column">
@@ -26,16 +27,26 @@ const Player = ({ player, teammates, upcoming, completed, recent }) => (
                   {
                     label: 'Series',
                     stat: `${recent.matches.wins} - ${recent.matches.total - recent.matches.wins}`,
-                    helper: `${calculateStat(recent, { id: 'wins' }, '')}%`,
+                    helper: calculateFormattedStat(recent, getPlayerStat('wins'), ''),
                   },
                   {
                     label: 'Games',
                     stat: `${recent.games.wins} - ${recent.games.total - recent.games.wins}`,
-                    helper: `${calculateStat(recent, { id: 'wins' }, 'series')}%`,
+                    helper: calculateFormattedStat(recent, getPlayerStat('wins'), 'series'),
+                  },
+                  {
+                    label: 'Shooting',
+                    stat: calculateFormattedStat(recent, getPlayerStat('shootingPercentage'), ''),
+                    helper: `${calculateFormattedStat(recent, getPlayerStat('goals'), '')} goals`,
+                  },
+                  {
+                    label: 'Demos',
+                    stat: calculateFormattedStat(recent, getPlayerStat('inflicted'), ''),
+                    helper: `${calculateFormattedStat(recent, getPlayerStat('taken'), '')} taken`,
                   },
                   {
                     label: 'Rating',
-                    stat: calculateStat(recent, { id: 'rating' }, ''),
+                    stat: calculateFormattedStat(recent, getPlayerStat('rating'), ''),
                     helper: `${recent.games.total} games`,
                   },
                 ]}
@@ -80,7 +91,7 @@ export async function getServerSideProps({ params }) {
     fetch(
       `${process.env.API_URL}/stats/players?mode=3&player=${id}&after=${moment()
         .subtract(3, 'months')
-        .toISOString()}&stat=rating`
+        .toISOString()}&stat=rating&stat=goals&stat=taken&stat=inflicted&stat=shootingPercentage`
     ),
   ])
 

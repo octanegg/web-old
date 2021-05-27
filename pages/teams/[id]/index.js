@@ -8,7 +8,8 @@ import { Heading } from '@octane/components/common/Text'
 import moment from 'moment'
 import RosterWidget from '@octane/components/widgets/Roster'
 import StatOverviewWidget from '@octane/components/widgets/StatOveriew'
-import { calculateStat } from '@octane/util/stats'
+import { calculateFormattedStat, calculateStat } from '@octane/util/stats'
+import { getTeamStat } from '@octane/config/stats/stats'
 
 const Team = ({ team, players, upcoming, completed, recent }) => (
   <Content>
@@ -16,7 +17,7 @@ const Team = ({ team, players, upcoming, completed, recent }) => (
     <Stack width="full" spacing={3}>
       <TeamInfobox team={team} />
       <Navigation type="team" active="overview" baseHref={`/teams/${team.slug}`} hasDivider />
-      <Stack direction="row" paddingLeft={2} paddingRight={2}>
+      <Stack direction="row" paddingRight={2}>
         <Stack spacing={4} width="full">
           {recent && (
             <Flex direction="column">
@@ -26,12 +27,45 @@ const Team = ({ team, players, upcoming, completed, recent }) => (
                   {
                     label: 'Series',
                     stat: `${recent.matches.wins} - ${recent.matches.total - recent.matches.wins}`,
-                    helper: `${calculateStat(recent, { id: 'wins' }, '')}%`,
+                    helper: calculateFormattedStat(recent, getTeamStat('wins'), ''),
                   },
                   {
                     label: 'Games',
                     stat: `${recent.games.wins} - ${recent.games.total - recent.games.wins}`,
-                    helper: `${calculateStat(recent, { id: 'wins' }, 'series')}%`,
+                    helper: calculateFormattedStat(recent, getTeamStat('wins'), 'series'),
+                  },
+                  {
+                    label: 'Goals F/A',
+                    stat: `${calculateFormattedStat(
+                      recent,
+                      getTeamStat('goals'),
+                      'total'
+                    )} - ${calculateFormattedStat(recent, getTeamStat('goalsAgainst'), 'total')}`,
+                    helper: `${
+                      calculateStat(recent, getTeamStat('goals'), 'total') -
+                      calculateStat(recent, getTeamStat('goalsAgainst'), 'total')
+                    } differential`,
+                  },
+                  {
+                    label: 'Demos F/A',
+                    stat: `${calculateFormattedStat(
+                      recent,
+                      getTeamStat('inflicted'),
+                      'total'
+                    )} - ${calculateFormattedStat(recent, getTeamStat('taken'), 'total')}`,
+                    helper: `${
+                      calculateStat(recent, getTeamStat('inflicted'), 'total') -
+                      calculateStat(recent, getTeamStat('taken'), 'total')
+                    } differential`,
+                  },
+                  {
+                    label: 'Avg. Possession',
+                    stat: calculateFormattedStat(recent, getTeamStat('possessionTime'), ''),
+                    helper: `${calculateFormattedStat(
+                      recent,
+                      getTeamStat('timeInSide'),
+                      ''
+                    )} on side`,
                   },
                 ]}
               />
@@ -78,9 +112,9 @@ export async function getServerSideProps({ params }) {
       }/matches?team=${id}&before=${moment().toISOString()}&sort=date:desc&perPage=5&page=1`
     ),
     fetch(
-      `${process.env.API_URL}/stats/players?mode=3&team=${id}&after=${moment()
+      `${process.env.API_URL}/stats/teams?mode=3&team=${id}&after=${moment()
         .subtract(3, 'months')
-        .toISOString()}&stat=goals`
+        .toISOString()}&stat=goals&stat=goalsAgainst&stat=inflicted&stat=taken&stat=timeInSide&stat=possessionTime`
     ),
   ])
 

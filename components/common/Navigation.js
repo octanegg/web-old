@@ -195,7 +195,7 @@ const navigation = {
     },
     {
       id: 'stats',
-      href: '/stats/players',
+      href: '/stats/events',
       label: 'Stats',
     },
     {

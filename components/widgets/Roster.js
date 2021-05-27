@@ -6,7 +6,8 @@ import { getCountry } from '@octane/config/fields/countries'
 export const RosterWidget = ({ players }) => (
   <Stack
     direction="row"
-    spacing={{ base: 0, md: 4 }}
+    paddingLeft={2}
+    spacing={{ base: 0, md: 8 }}
     justify={{ base: 'center', md: 'flex-start' }}
     shouldWrapChildren
     wrap="wrap">
