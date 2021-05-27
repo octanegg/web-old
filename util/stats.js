@@ -41,6 +41,10 @@ export const formatTime = (time) => {
 export const formatPercentage = (value) => `${value}%`
 
 export const calculateStat = (record, stat, period) => {
+  if (!record) {
+    return 0
+  }
+
   const { games, matches, stats } = record
 
   if (stat.id === 'played') {

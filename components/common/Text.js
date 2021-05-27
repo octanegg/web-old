@@ -1,26 +1,22 @@
-import { Flex, Text, Link as ChakraLink, Divider } from '@chakra-ui/react'
+import { Flex, Text, Link as ChakraLink } from '@chakra-ui/react'
 import NextLink from 'next/link'
 
-export const Heading = (props) => {
-  const { hasDivider } = props
-  return (
-    <Flex
-      width={32}
-      align="center"
-      direction="row"
-      bgGradient="linear(to-r, primary.100, transparent)">
-      <Text
-        textTransform="uppercase"
-        color="secondary.500"
-        fontSize="11px"
-        fontWeight="bold"
-        paddingLeft={1}
-        {...props}
-      />
-      {hasDivider && <Divider marginLeft={2} marginRight={2} borderColor="secondary.300" />}
-    </Flex>
-  )
-}
+export const Heading = (props) => (
+  <Flex
+    width={32}
+    align="center"
+    direction="row"
+    bgGradient="linear(to-r, primary.100, transparent)">
+    <Text
+      textTransform="uppercase"
+      color="secondary.500"
+      fontSize="11px"
+      fontWeight="bold"
+      paddingLeft={1}
+      {...props}
+    />
+  </Flex>
+)
 
 export const Link = (props) => {
   const {
