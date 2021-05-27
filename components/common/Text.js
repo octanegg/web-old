@@ -4,14 +4,17 @@ import NextLink from 'next/link'
 export const Heading = (props) => {
   const { hasDivider } = props
   return (
-    <Flex width="full" align="center" direction="row">
+    <Flex
+      width={32}
+      align="center"
+      direction="row"
+      bgGradient="linear(to-r, primary.100, transparent)">
       <Text
         textTransform="uppercase"
         color="secondary.500"
-        fontSize="xs"
+        fontSize="11px"
         fontWeight="bold"
-        letterSpacing={0.5}
-        paddingLeft={2}
+        paddingLeft={1}
         {...props}
       />
       {hasDivider && <Divider marginLeft={2} marginRight={2} borderColor="secondary.300" />}
@@ -23,6 +26,7 @@ export const Link = (props) => {
   const {
     href,
     align,
+    color,
     fontSize,
     fontWeight,
     wrap,
@@ -36,7 +40,7 @@ export const Link = (props) => {
     ? {
         fontSize: fontSize || 'sm',
         fontWeight: fontWeight || 'bold',
-        color: 'secondary.800',
+        color: color || 'secondary.800',
         cursor: 'pointer',
         align: align || 'start',
         whiteSpace: wrap || 'nowrap',

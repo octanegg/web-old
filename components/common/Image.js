@@ -1,6 +1,6 @@
 import { Flex, Image as ChakraImage } from '@chakra-ui/react'
 
-export const Image = ({ src, boxSize, width, height, marginLeft, marginRight }) => {
+export const Image = ({ src, boxSize, defaultImage, width, height, marginLeft, marginRight }) => {
   if (!src) {
     return (
       <Flex
@@ -9,7 +9,7 @@ export const Image = ({ src, boxSize, width, height, marginLeft, marginRight }) 
         marginRight={marginRight}
         justify="center">
         <ChakraImage
-          src="/images/logo.svg"
+          src={defaultImage || '/images/logo.svg'}
           height={boxSize || height}
           filter="grayscale(100%)"
           opacity={0.4}

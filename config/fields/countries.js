@@ -79,6 +79,7 @@ export const countries = [
   { id: 'wl', label: 'Wales', image: `https://griffon.octane.gg/flags/014-wales.svg` },
 ]
 
-export const getCountry = (countryId) => countries.find((country) => countryId === country.id)
+export const getCountry = (countryId) =>
+  countries.find((country) => countryId === country.id) || countries[0]
 
 export const getCountries = () => countries.slice(1)
