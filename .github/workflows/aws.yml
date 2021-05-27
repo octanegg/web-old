@@ -55,3 +55,10 @@ jobs:
         service: octane-web
         cluster: octane
         wait-for-service-stability: true
+
+    - name: Discord notification
+      env:
+        DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+      uses: Ilshidur/action-discord@master
+      with:
+        args: ':star: Update to **{{EVENT_PAYLOAD.repository.full_name}}** - {{ EVENT_PAYLOAD.commits[0].message }}'
