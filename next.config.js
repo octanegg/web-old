@@ -19,6 +19,7 @@ module.exports = (phase) => {
           REDIRECT_SIGN_IN: 'http://localhost:3000/token',
           REDIRECT_SIGN_OUT: 'http://localhost:3000/',
           AUTH_COOKIE_DOMAIN: 'localhost',
+          GOOGLE_ANALYTICS: 'G-76KQWXWMBV',
         },
       }
     default:
@@ -38,6 +39,7 @@ module.exports = (phase) => {
           REDIRECT_SIGN_IN: 'https://beta.octane.gg/token',
           REDIRECT_SIGN_OUT: 'https://beta.octane.gg/',
           AUTH_COOKIE_DOMAIN: 'octane.gg',
+          GOOGLE_ANALYTICS: 'G-76KQWXWMBV',
         },
       }
   }
