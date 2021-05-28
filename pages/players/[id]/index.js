@@ -7,11 +7,13 @@ import MatchesWidget from '@octane/components/widgets/Matches'
 import { Heading } from '@octane/components/common/Text'
 import moment from 'moment'
 import RosterWidget from '@octane/components/widgets/Roster'
-import { calculateFormattedStat } from '@octane/util/stats'
+import { calculateFormattedStat, calculateStat } from '@octane/util/stats'
 import StatOverviewWidget from '@octane/components/widgets/StatOveriew'
 import { getPlayerStat } from '@octane/config/stats/stats'
+import ma from '@octane/util/ma'
+import { LineChart } from '@octane/components/charts/Line'
 
-const Player = ({ player, teammates, upcoming, completed, recent }) => (
+const Player = ({ player, teammates, upcoming, completed, recent, metrics }) => (
   <Content>
     <Meta title={`${player.tag}: Rocket League Player Overview`} />
     <Stack width="full" spacing={3}>
@@ -57,6 +59,13 @@ const Player = ({ player, teammates, upcoming, completed, recent }) => (
             <Heading>Teammates</Heading>
             <RosterWidget players={teammates} />
           </Flex>
+          {metrics?.length > 0 && (
+            <Flex direction="column">
+              <Heading>Rating History</Heading>
+              <LineChart data={metrics} keys={['rating']} />
+            </Flex>
+          )}
+          <Flex />
         </Stack>
         <Spacer />
         <Stack minWidth={60} spacing={4} display={{ base: 'none', xl: 'flex' }}>
@@ -81,7 +90,7 @@ const Player = ({ player, teammates, upcoming, completed, recent }) => (
 export async function getServerSideProps({ params }) {
   const { id } = params
 
-  const [_player, _completed, _recent] = await Promise.all([
+  const [_player, _completed, _recent, _metrics] = await Promise.all([
     fetch(`${process.env.API_URL}/players/${id}`),
     fetch(
       `${
@@ -93,6 +102,7 @@ export async function getServerSideProps({ params }) {
         .subtract(3, 'months')
         .toISOString()}&stat=rating&stat=goals&stat=taken&stat=inflicted&stat=shootingPercentage`
     ),
+    fetch(`${process.env.API_URL}/metrics/players?mode=3&qualifier=false&player=${id}&stat=rating`),
   ])
 
   if (_player.status !== 200) {
@@ -100,10 +110,11 @@ export async function getServerSideProps({ params }) {
       notFound: true,
     }
   }
-  const [player, completed, recent] = await Promise.all([
+  const [player, completed, recent, { metrics }] = await Promise.all([
     _player.json(),
     _completed.json(),
     _recent.json(),
+    _metrics.json(),
   ])
 
   let teammates = []
@@ -135,6 +146,16 @@ export async function getServerSideProps({ params }) {
       upcoming: upcoming.matches,
       completed: completed.matches,
       recent: recent.stats.length > 0 ? recent.stats[0] : null,
+      metrics: ma(
+        metrics
+          .sort((a, b) => new Date(a.date) - new Date(b.date))
+          .map((metric) => ({
+            date: moment(new Date(metric.date)).format('x'),
+            rating: calculateStat(metric, getPlayerStat('rating'), ''),
+          })),
+        'rating',
+        30
+      ),
     },
   }
 }
