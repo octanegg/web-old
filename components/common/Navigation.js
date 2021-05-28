@@ -60,11 +60,6 @@ const navigation = {
       label: 'Overview',
     },
     {
-      id: 'participants',
-      href: '/participants',
-      label: 'Participants',
-    },
-    {
       id: 'matches',
       href: '/matches',
       label: 'Matches',

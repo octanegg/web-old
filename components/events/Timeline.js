@@ -80,9 +80,9 @@ export const Timeline = ({ data }) => {
           timelineWidth: '3xl',
         }
       : {
-          itemWidth: 32,
-          separatorWidth: 24,
-          timelineWidth: '5xl',
+          itemWidth: 16,
+          separatorWidth: 12,
+          timelineWidth: '3xl',
         }
 
   return (

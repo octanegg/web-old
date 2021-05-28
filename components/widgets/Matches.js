@@ -4,11 +4,11 @@ import { timeSince, timeUntil } from '@octane/util/dates'
 import Image from '@octane/components/common/Image'
 import moment from 'moment'
 
-export const MatchesWidget = ({ matches, team, player }) => (
+export const MatchesWidget = ({ matches, team, player, preventScroll }) => (
   <Stack
-    direction={{ base: 'row', lg: 'column' }}
+    direction={{ base: preventScroll ? 'column' : 'row', lg: 'column' }}
     divider={<StackDivider borderColor="secondary.200" />}
-    overflowY={{ base: 'scroll', lg: 'auto' }}>
+    overflowY={{ base: preventScroll ? 'auto' : 'scroll', lg: 'auto' }}>
     {matches.map(({ _id, slug, event, date, blue, orange }) => {
       const isTeam = blue?.team?.team?.slug === team
       const isPlayer = blue?.players?.find((p) => p.player.slug === player)

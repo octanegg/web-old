@@ -67,7 +67,6 @@ const Player = ({ player, teammates, upcoming, completed, recent, metrics }) => 
               <LineChart data={metrics} keys={['rating']} />
             </Flex>
           )}
-          <Flex />
         </Stack>
         <Spacer />
         <Stack minWidth={60} spacing={4} display={{ base: 'none', xl: 'flex' }}>
