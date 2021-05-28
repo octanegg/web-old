@@ -13,6 +13,7 @@ export const countries = [
   { id: 'cl', label: 'Chile', image: `https://griffon.octane.gg/flags/131-chile.svg` },
   { id: 'cn', label: 'China', image: `https://griffon.octane.gg/flags/034-china.svg` },
   { id: 'co', label: 'Colombia', image: `https://griffon.octane.gg/flags/177-colombia.svg` },
+  { id: 'cr', label: 'Costa Rica', image: `https://griffon.octane.gg/flags/156-costa-rica.svg` },
   { id: 'hr', label: 'Croatia', image: `https://griffon.octane.gg/flags/164-croatia.svg` },
   {
     id: 'cz',

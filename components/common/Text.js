@@ -3,7 +3,7 @@ import NextLink from 'next/link'
 
 export const Heading = (props) => (
   <Flex
-    width={32}
+    width={40}
     align="center"
     direction="row"
     bgGradient="linear(to-r, primary.100, transparent)">
