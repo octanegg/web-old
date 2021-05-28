@@ -29,12 +29,12 @@ const Player = ({ player, teammates, upcoming, completed, recent, metrics }) => 
                   {
                     label: 'Series',
                     stat: `${recent.matches.wins} - ${recent.matches.total - recent.matches.wins}`,
-                    helper: calculateFormattedStat(recent, getPlayerStat('wins'), ''),
+                    helper: calculateFormattedStat(recent, getPlayerStat('wins'), 'series'),
                   },
                   {
                     label: 'Games',
                     stat: `${recent.games.wins} - ${recent.games.total - recent.games.wins}`,
-                    helper: calculateFormattedStat(recent, getPlayerStat('wins'), 'series'),
+                    helper: calculateFormattedStat(recent, getPlayerStat('wins'), ''),
                   },
                   {
                     label: 'Shooting',
@@ -55,10 +55,12 @@ const Player = ({ player, teammates, upcoming, completed, recent, metrics }) => 
               />
             </Flex>
           )}
-          <Flex direction="column">
-            <Heading>Teammates</Heading>
-            <RosterWidget players={teammates} />
-          </Flex>
+          {teammates?.length > 0 && (
+            <Flex direction="column">
+              <Heading>Teammates</Heading>
+              <RosterWidget players={teammates} />
+            </Flex>
+          )}
           {metrics?.length > 0 && (
             <Flex direction="column">
               <Heading>Rating History</Heading>
@@ -70,16 +72,16 @@ const Player = ({ player, teammates, upcoming, completed, recent, metrics }) => 
         <Spacer />
         <Stack minWidth={60} spacing={4} display={{ base: 'none', xl: 'flex' }}>
           {upcoming?.length > 0 && (
-            <Flex direction="column">
+            <Stack>
               <Heading>Upcoming</Heading>
               <MatchesWidget matches={upcoming} player={player.slug} />
-            </Flex>
+            </Stack>
           )}
           {completed?.length > 0 && (
-            <Flex direction="column">
+            <Stack>
               <Heading>Completed</Heading>
               <MatchesWidget matches={completed} player={player.slug} />
-            </Flex>
+            </Stack>
           )}
         </Stack>
       </Stack>

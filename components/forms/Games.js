@@ -10,7 +10,7 @@ import Image from '@octane/components/common/Image'
 
 export const GameForm = ({ data, match, playerList }) => {
   const [game, setGame] = useState(data)
-  const [flipBallchasing, setFlipBallchasing] = useState(false)
+  const [flipBallchasing, setFlipBallchasing] = useState(data?.flipBallchasing)
   const [submitting, setSubmitting] = useState(false)
   const [bluePlayers, setBluePlayers] = useState(data?.blue?.players)
   const [orangePlayers, setOrangePlayers] = useState(data?.orange?.players)
@@ -195,7 +195,7 @@ export const GameForm = ({ data, match, playerList }) => {
                 <Text>{match.blue?.team?.team.name || 'TBD'}</Text>
               </Stack>
             }>
-            {bluePlayers.map((player, i) => (
+            {bluePlayers?.map((player, i) => (
               <PlayerRow
                 key={player.player._id}
                 players={playerList}
@@ -214,7 +214,7 @@ export const GameForm = ({ data, match, playerList }) => {
                 <Text>{match.orange?.team?.team.name || 'TBD'}</Text>
               </Stack>
             }>
-            {orangePlayers.map((player, i) => (
+            {orangePlayers?.map((player, i) => (
               <PlayerRow
                 key={player.player._id}
                 players={playerList}

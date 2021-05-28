@@ -64,17 +64,22 @@ export const calculateStat = (record, stat, period) => {
   }
 
   if (period === 'series') {
-    return stat.onSeries ? stat.onSeries(value, games, matches) : (value / matches.total).toFixed(2)
+    return stat.onSeries
+      ? stat.onSeries(value, games, matches)
+      : (value / (stat.isNonReplay ? matches.total : matches.replays)).toFixed(2)
   }
 
   if (period === '5min' && stat.id !== 'rating') {
     return (
       (stat.onGames ? stat.onGames(value, games, matches) : value / games.total) *
-      ((300 * games.total) / games.seconds)
+      ((300 * (stat.isNonReplay ? games.total : games.replays)) /
+        (stat.isNonReplay ? games.seconds : games.replaySeconds))
     ).toFixed(2)
   }
 
-  return stat.onGames ? stat.onGames(value, games, matches) : (value / games.total).toFixed(2)
+  return stat.onGames
+    ? stat.onGames(value, games, matches)
+    : (value / (stat.isNonReplay ? games.total : games.replays)).toFixed(2)
 }
 
 export const calculateFormattedStat = (record, stat, period) => {

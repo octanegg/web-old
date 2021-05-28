@@ -29,12 +29,12 @@ const Team = ({ team, players, upcoming, completed, recent, metrics }) => (
                   {
                     label: 'Series',
                     stat: `${recent.matches.wins} - ${recent.matches.total - recent.matches.wins}`,
-                    helper: calculateFormattedStat(recent, getTeamStat('wins'), ''),
+                    helper: calculateFormattedStat(recent, getTeamStat('wins'), 'series'),
                   },
                   {
                     label: 'Games',
                     stat: `${recent.games.wins} - ${recent.games.total - recent.games.wins}`,
-                    helper: calculateFormattedStat(recent, getTeamStat('wins'), 'series'),
+                    helper: calculateFormattedStat(recent, getTeamStat('wins'), ''),
                   },
                   {
                     label: 'Goals F/A',
@@ -67,16 +67,18 @@ const Team = ({ team, players, upcoming, completed, recent, metrics }) => (
                       recent,
                       getTeamStat('timeInSide'),
                       ''
-                    )} on side`,
+                    )} ball on side`,
                   },
                 ]}
               />
             </Flex>
           )}
-          <Flex direction="column">
-            <Heading>Roster</Heading>
-            <RosterWidget players={players} />
-          </Flex>
+          {players?.length > 0 && (
+            <Flex direction="column">
+              <Heading>Roster</Heading>
+              <RosterWidget players={players} />
+            </Flex>
+          )}
           {metrics?.length > 0 && (
             <Flex direction="column">
               <Heading>Win % History</Heading>
@@ -87,16 +89,16 @@ const Team = ({ team, players, upcoming, completed, recent, metrics }) => (
         <Spacer />
         <Stack minWidth={60} spacing={4} display={{ base: 'none', xl: 'flex' }}>
           {upcoming.length > 0 && (
-            <Flex direction="column">
+            <Stack>
               <Heading>Upcoming</Heading>
               <MatchesWidget matches={upcoming} team={team.slug} />
-            </Flex>
+            </Stack>
           )}
           {completed.length > 0 && (
-            <Flex direction="column">
+            <Stack>
               <Heading>Completed</Heading>
               <MatchesWidget matches={completed} team={team.slug} />
-            </Flex>
+            </Stack>
           )}
         </Stack>
       </Stack>

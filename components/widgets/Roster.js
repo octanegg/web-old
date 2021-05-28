@@ -27,16 +27,9 @@ export const RosterWidget = ({ players }) => (
           <Link href={`/players/${slug}`} fontWeight="semi" fontSize="13px" color="secondary.700">
             {tag}
           </Link>
-          {substitute && (
-            <Text fontWeight="semi" fontSize="10px" color="secondary.500">
-              (S)
-            </Text>
-          )}
-          {coach && (
-            <Text fontWeight="semi" fontSize="10px" color="secondary.500">
-              (C)
-            </Text>
-          )}
+          <Text fontWeight="semi" fontSize="10px" color="secondary.500">
+            {coach && substitute ? '(C, S)' : coach ? '(C)' : substitute ? '(S)' : ''}
+          </Text>
         </Stack>
       </Stack>
     ))}

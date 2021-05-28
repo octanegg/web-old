@@ -60,8 +60,8 @@ export const ScoreboardGame = ({ blue, orange, map, duration, ballchasing, showR
           </Stack>
         }
       />
-      <ScoreboardTable stats={group.stats} side={blue} showMvp />
-      <ScoreboardTable stats={group.stats} side={orange} showMvp />
+      {blue?.players && <ScoreboardTable stats={group.stats} side={blue} showMvp />}
+      {orange?.players && <ScoreboardTable stats={group.stats} side={orange} showMvp />}
     </>
   )
 }
@@ -78,8 +78,8 @@ export const ScoreboardMatch = ({ blue, orange, showReplayStats }) => {
         onGroupChange={setGroup}
         hideMobileLabels
       />
-      <ScoreboardTable stats={group.stats} side={blue} />
-      <ScoreboardTable stats={group.stats} side={orange} />
+      {blue?.players && <ScoreboardTable stats={group.stats} side={blue} />}
+      {orange?.players && <ScoreboardTable stats={group.stats} side={orange} />}
     </>
   )
 }

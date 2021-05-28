@@ -89,7 +89,7 @@ export const EventInfobox = ({ event }) => {
 }
 
 export const PlayerInfobox = ({ player }) => {
-  const { tag, name, country, team } = player
+  const { tag, name, country, team, coach, substitute } = player
 
   return (
     <Flex
@@ -109,13 +109,24 @@ export const PlayerInfobox = ({ player }) => {
             {tag}
           </Heading>
           {team && (
-            <Link
-              href={`/teams/${team.slug}`}
-              fontWeight="medium"
-              fontSize="13px"
-              color="secondary.500">
-              {team.name}
-            </Link>
+            <Stack direction="row" spacing={1}>
+              <Link
+                href={`/teams/${team.slug}`}
+                fontWeight="medium"
+                fontSize="13px"
+                color="secondary.500">
+                {team.name}
+              </Link>
+              <Text fontWeight="medium" fontSize="13px" color="secondary.500">
+                {coach && substitute
+                  ? '(Coach, Substitute)'
+                  : coach
+                  ? '(Coach)'
+                  : substitute
+                  ? '(Substitute)'
+                  : ''}
+              </Text>
+            </Stack>
           )}
         </Stack>
       </Stack>
