@@ -12,6 +12,7 @@ export const Image = ({
   paddingRight,
   opacity,
   display,
+  _hover,
 }) => {
   if (!src) {
     return (
@@ -20,6 +21,7 @@ export const Image = ({
         marginLeft={marginLeft}
         marginRight={marginRight}
         display={display}
+        _hover={_hover}
         justify="center">
         <ChakraImage
           src={defaultImage || '/images/logo.svg'}
@@ -41,6 +43,7 @@ export const Image = ({
       paddingRight={paddingRight}
       opacity={opacity}
       display={display}
+      _hover={_hover}
       src={src}
     />
   )

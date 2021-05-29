@@ -73,13 +73,13 @@ const Player = ({ player, teammates, upcoming, completed, recent, metrics }) => 
           {upcoming?.length > 0 && (
             <Stack>
               <Heading>Upcoming</Heading>
-              <MatchesWidget matches={upcoming} player={player.slug} team={player.team.slug} />
+              <MatchesWidget matches={upcoming} player={player.slug} team={player.team?.slug} />
             </Stack>
           )}
           {completed?.length > 0 && (
             <Stack>
               <Heading>Recent</Heading>
-              <MatchesWidget matches={completed} player={player.slug} team={player.team.slug} />
+              <MatchesWidget matches={completed} player={player.slug} team={player.team?.slug} />
             </Stack>
           )}
         </Stack>

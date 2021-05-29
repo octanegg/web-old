@@ -109,14 +109,14 @@ export async function getServerSideProps({ params }) {
     fetch(
       `${
         process.env.API_URL
-      }/matches?event=${id}&after=${moment().toISOString()}&sort=date:desc&perPage=3&page=1`
+      }/matches?event=${id}&after=${moment().toISOString()}&sort=date:asc&perPage=3&page=1`
     ),
     fetch(
       `${
         process.env.API_URL
       }/matches?event=${id}&before=${moment().toISOString()}&sort=date:desc&perPage=6&page=1`
     ),
-    fetch(`${process.env.API_URL}/stats/players?event=${id}&stat=rating`),
+    fetch(`${process.env.API_URL}/stats/players?event=${id}&qualifier=false&stat=rating`),
     fetch(`${process.env.API_URL}/events/${id}/participants`),
   ])
   if (_event.status !== 200) {

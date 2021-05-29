@@ -1,11 +1,11 @@
-import { Flex, Stack, Text, Box } from '@chakra-ui/react'
+import { Flex, Stack, Text, Box, StackDivider } from '@chakra-ui/react'
 import Flag from '@octane/components/common/Flag'
 import Image from '@octane/components/common/Image'
 import { Link } from '@octane/components/common/Text'
 import { useState } from 'react'
 
 const Player = ({ player }) => (
-  <Stack paddingLeft={4} direction="row" align="center" spacing={1}>
+  <Stack height="full" padding={1} paddingLeft={2} direction="row" align="center" spacing={1}>
     <Flag country={player.country || 'int'} />
     <Link href={`/players/${player.slug}`} fontWeight="semi">
       <Stack direction="row" align="center" spacing={1}>
@@ -33,8 +33,8 @@ export const Participants = ({ participants }) => (
           backgroundColor="secondary.25"
           position="relative"
           margin={3}
-          width={40}
-          height={40}
+          width={44}
+          height={44}
           onMouseEnter={() => setShow(true)}
           onMouseLeave={() => setShow(false)}>
           <Stack
@@ -43,34 +43,42 @@ export const Participants = ({ participants }) => (
             align="center"
             justify="space-between"
             position="absolute"
-            padding={2}
             top={0}
             left={0}
             zIndex={0}>
             <Image
               src={team.image}
-              boxSize={28}
+              boxSize={32}
               opacity={0.1}
               display={{ base: 'flex', lg: 'none' }}
             />
             <Image
               src={team.image}
-              boxSize={28}
-              opacity={show ? 0.1 : ''}
+              boxSize={32}
+              opacity={show ? 0.05 : ''}
               display={{ base: 'none', lg: 'flex' }}
             />
-            <Link href={`/teams/${team.slug}`}>{team.name}</Link>
+            <Flex
+              height={8}
+              width="full"
+              align="center"
+              justify="center"
+              borderTop="1px solid #BECCE4">
+              <Link href={`/teams/${team.slug}`}>{team.name}</Link>
+            </Flex>
           </Stack>
-          <Flex
+          <Stack
+            spacing={0}
+            divider={<StackDivider borderColor="secondary.200" />}
             direction="column"
             justify="space-around"
-            width={32}
-            height={32}
+            width={44}
+            height={36}
             display={{ base: 'flex', lg: show ? 'flex' : 'none' }}>
             {players.slice(0, 5).map((player, i) => (
               <Player key={i} player={player} />
             ))}
-          </Flex>
+          </Stack>
         </Box>
       )
     })}

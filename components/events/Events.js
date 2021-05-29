@@ -14,7 +14,7 @@ export const EventsTable = ({ events, groupBy }) => {
   const [labels, setLabels] = useState([])
 
   useEffect(() => {
-    if (!events) {
+    if (!events || events.length === 0) {
       return
     }
     if (!groupBy) {
