@@ -20,7 +20,7 @@ const Team = ({ team, players, upcoming, completed, recent, metrics }) => (
       <TeamInfobox team={team} />
       <Navigation type="team" active="overview" baseHref={`/teams/${team.slug}`} hasDivider />
       <Stack direction="row" paddingRight={2}>
-        <Stack spacing={4} width="full">
+        <Stack spacing={8} width="full">
           {recent && (
             <Flex direction="column">
               <Heading>Last 3 months</Heading>
@@ -96,7 +96,7 @@ const Team = ({ team, players, upcoming, completed, recent, metrics }) => (
           )}
           {completed.length > 0 && (
             <Stack>
-              <Heading>Completed</Heading>
+              <Heading>Recent</Heading>
               <MatchesWidget matches={completed} team={team.slug} />
             </Stack>
           )}
@@ -114,12 +114,12 @@ export async function getServerSideProps({ params }) {
     fetch(
       `${
         process.env.API_URL
-      }/matches?team=${id}&after=${moment().toISOString()}&sort=date:desc&perPage=5&page=1`
+      }/matches?team=${id}&after=${moment().toISOString()}&sort=date:desc&perPage=3&page=1`
     ),
     fetch(
       `${
         process.env.API_URL
-      }/matches?team=${id}&before=${moment().toISOString()}&sort=date:desc&perPage=5&page=1`
+      }/matches?team=${id}&before=${moment().toISOString()}&sort=date:desc&perPage=6&page=1`
     ),
     fetch(
       `${process.env.API_URL}/stats/teams?mode=3&team=${id}&after=${moment()
@@ -153,7 +153,7 @@ export async function getServerSideProps({ params }) {
         players.filter((p) => p.coach && !p.substitute)
       ),
       upcoming: upcoming.matches,
-      completed: completed.matches,
+      completed: completed.matches.slice(0, 6 - upcoming.matches.length),
       recent: recent.stats.length > 0 ? recent.stats[0] : null,
       metrics: ma(
         metrics

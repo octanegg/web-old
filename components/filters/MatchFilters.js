@@ -1,7 +1,6 @@
 import {
   Filter,
   FormatFilter,
-  GroupFilter,
   ModeFilter,
   RegionFilter,
   ReverseSweepsFilter,
@@ -38,7 +37,6 @@ export const UpcomingMatchesFilter = ({ initialFilter }) => {
         })
         route(router, '/matches', '')
       }}>
-      <GroupFilter active={filter.group} onChange={(item) => updateFilter('group', item)} />
       <TierFilter active={filter.tier} onChange={(item) => updateFilter('tier', item)} />
       <RegionFilter active={filter.region} onChange={(item) => updateFilter('region', item)} />
       <ModeFilter active={filter.mode} onChange={(item) => updateFilter('mode', item)} />
@@ -76,7 +74,6 @@ export const CompletedMatchesFilter = ({ initialFilter }) => {
         })
         route(router, '/matches/archive', '')
       }}>
-      <GroupFilter active={filter.group} onChange={(item) => updateFilter('group', item)} />
       <TierFilter active={filter.tier} onChange={(item) => updateFilter('tier', item)} />
       <RegionFilter active={filter.region} onChange={(item) => updateFilter('region', item)} />
       <ModeFilter active={filter.mode} onChange={(item) => updateFilter('mode', item)} />

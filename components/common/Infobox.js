@@ -134,8 +134,8 @@ export const PlayerInfobox = ({ player }) => {
         <Image boxSize={32} defaultImage="/images/player.png" />
         <Stack direction="row" align="center" spacing={1}>
           <Image src={getCountry(country).image} boxSize={4} />
-          <Text fontWeight="medium" fontSize="13px" color="secondary.500">
-            {name}
+          <Text fontWeight="semi" fontSize="13px" color="secondary.700">
+            {name || tag}
           </Text>
         </Stack>
       </Stack>

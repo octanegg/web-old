@@ -6,7 +6,7 @@ export const ButtonTypes = {
     default: {
       color: 'secondary.600',
       variant: 'ghost',
-      fontWeight: 'bold',
+      fontWeight: 'semi',
       size: 'xs',
       fontSize: 'xs',
       paddingLeft: 4,
@@ -17,7 +17,7 @@ export const ButtonTypes = {
     selected: {
       backgroundColor: 'primary.50',
       color: 'primary.600',
-      fontWeight: 'bold',
+      fontWeight: 'semi',
       size: 'xs',
       fontSize: 'xs',
       paddingLeft: 4,
@@ -49,7 +49,7 @@ export const ButtonTypes = {
   default: {
     backgroundColor: 'secondary.50',
     color: 'secondary.700',
-    fontWeight: 'bold',
+    fontWeight: 'semi',
     height: 7,
     size: 'sm',
     fontSize: 'xs',
@@ -59,7 +59,7 @@ export const ButtonTypes = {
   cancel: {
     size: 'xs',
     fontSize: 'xs',
-    fontWeight: 'bold',
+    fontWeight: 'semi',
     color: 'tertiary.500',
     backgroundColor: 'tertiary.50',
     _focus: { outline: 'none' },
@@ -68,7 +68,7 @@ export const ButtonTypes = {
   submit: {
     size: 'xs',
     fontSize: 'xs',
-    fontWeight: 'bold',
+    fontWeight: 'semi',
     color: 'primary.600',
     backgroundColor: 'primary.50',
     _focus: { outline: 'none' },

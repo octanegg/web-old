@@ -53,7 +53,6 @@ const Event = ({ event, upcoming, completed, ratings, participants }) => (
                       {calculateFormattedStat(stat, getPlayerStat('rating'), '')}
                     </StatNumber>
                     <StatHelpText>
-                      {/* {`${calculateFormattedStat(stat, getPlayerStat('played'), '')} games`} */}
                       <Stack direction="row" spacing={1}>
                         <Image src={stat.teams[0].image} boxSize={4} />
                         <Link
@@ -70,13 +69,13 @@ const Event = ({ event, upcoming, completed, ratings, participants }) => (
               </Stack>
             </Flex>
           )}
-          {event.stages && (
+          {event.stages?.length > 0 && (
             <Stack display={{ base: 'none', xl: 'flex' }}>
               <Heading>Timeline</Heading>
               <Timeline data={event.stages} />
             </Stack>
           )}
-          {participants && (
+          {participants?.length > 0 && (
             <Stack>
               <Heading>Participants</Heading>
               <Participants participants={participants} />
@@ -93,7 +92,7 @@ const Event = ({ event, upcoming, completed, ratings, participants }) => (
           )}
           {completed?.length > 0 && (
             <Stack>
-              <Heading>Completed</Heading>
+              <Heading>Recent</Heading>
               <MatchesWidget matches={completed} preventScroll />
             </Stack>
           )}
@@ -110,12 +109,12 @@ export async function getServerSideProps({ params }) {
     fetch(
       `${
         process.env.API_URL
-      }/matches?event=${id}&after=${moment().toISOString()}&sort=date:desc&perPage=5&page=1`
+      }/matches?event=${id}&after=${moment().toISOString()}&sort=date:desc&perPage=3&page=1`
     ),
     fetch(
       `${
         process.env.API_URL
-      }/matches?event=${id}&before=${moment().toISOString()}&sort=date:desc&perPage=5&page=1`
+      }/matches?event=${id}&before=${moment().toISOString()}&sort=date:desc&perPage=6&page=1`
     ),
     fetch(`${process.env.API_URL}/stats/players?event=${id}&stat=rating`),
     fetch(`${process.env.API_URL}/events/${id}/participants`),
@@ -138,7 +137,7 @@ export async function getServerSideProps({ params }) {
       event,
       participants,
       upcoming: upcoming.matches,
-      completed: completed.matches,
+      completed: completed.matches.slice(0, 6 - upcoming.matches.length),
       ratings: sortStats(stats, getPlayerStat('rating'), false, '').slice(0, 5),
     },
   }

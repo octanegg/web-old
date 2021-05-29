@@ -152,16 +152,14 @@ export const DropdownList = ({ items, active, label, itemToLabel, itemToId, onCh
       open={() => setIsOpen(!isOpen)}
       close={() => setIsOpen(false)}
       isActive={active}>
-      <List maxHeight={400} overflowY="scroll">
+      <List maxHeight={400} overflowY="scroll" padding={2}>
         {items.map((item, i) => (
           <ListItem
             key={i}
-            padding={2}
-            borderTopRadius={i === 0 ? 6 : 0}
-            borderBottomRadius={i === items.length - 1 ? 6 : 0}
-            _hover={{ backgroundColor: 'secondary.25' }}
+            padding="0.375rem"
+            _hover={{ backgroundColor: 'secondary.25', borderRadius: 8 }}
             fontSize="13px"
-            fontWeight="semi"
+            fontWeight="medium"
             cursor="pointer"
             color="secondary.800"
             value={itemToId ? itemToId(item) : item}
@@ -338,7 +336,7 @@ export const DropdownCheckbox = ({
       close={() => setIsOpen(false)}
       isDisabled={items.length === 0}
       isActive={active}>
-      <List maxHeight={400} overflowY="scroll">
+      <List maxHeight={400} overflowY="scroll" padding={2}>
         {!hideSearch && (
           <ListItem>
             <Stack direction="row" padding={2} align="center">
@@ -354,10 +352,11 @@ export const DropdownCheckbox = ({
             key={item.id}
             padding="0.375rem"
             fontSize="13px"
-            fontWeight="semi"
+            fontWeight="medium"
+            color="secondary.800"
             cursor="pointer"
             value={item.id}
-            _hover={{ backgroundColor: 'secondary.25' }}
+            _hover={{ backgroundColor: 'secondary.25', borderRadius: 8 }}
             onClick={(e) => {
               e.preventDefault()
               handleChange(item)

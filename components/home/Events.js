@@ -1,6 +1,6 @@
-import { Link, Flex, Stack, Text, Tag, SimpleGrid, StackDivider } from '@chakra-ui/react'
+import { Flex, Stack, Text, Tag, SimpleGrid, StackDivider } from '@chakra-ui/react'
 import NextLink from 'next/link'
-import { Heading } from '@octane/components/common/Text'
+import { Heading, Link } from '@octane/components/common/Text'
 import { formatPrizeUSD } from '@octane/util/prizes'
 import { timeUntil, toDateString } from '@octane/util/dates'
 import { useState } from 'react'
@@ -14,7 +14,7 @@ export const Events = ({ events }) => {
 
   return (
     <Flex direction="column" minWidth={60}>
-      <Flex justify="space-around" marginBottom={1} display={{ base: 'none', lg: 'flex' }}>
+      <Flex justify="space-around" marginBottom={2} display={{ base: 'none', lg: 'flex' }}>
         <Button
           buttonType={toggle ? ButtonTypes.link.selected : ButtonTypes.link.default}
           isActive={toggle}
@@ -47,14 +47,10 @@ export const Events = ({ events }) => {
                     _hover={{ backgroundColor: 'secondary.50' }}
                     padding={2}>
                     <Flex direction="column">
-                      <Text
-                        fontWeight="bold"
-                        whiteSpace="nowrap"
-                        overflow="hidden"
-                        textOverflow="ellipsis">
+                      <Link fontSize="xs" href={`/events/${slug}`}>
                         {name}
-                      </Text>
-                      <Text fontSize="10px">
+                      </Link>
+                      <Text fontSize="xs" fontWeight="medium" color="secondary.500">
                         {!toggle ? timeUntil(startDate) : toDateString(startDate, endDate)}
                       </Text>
                     </Flex>

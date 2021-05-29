@@ -9,7 +9,7 @@ export const Matches = ({ matches }) => {
 
   return (
     <Flex direction="column" minWidth={60}>
-      <Flex justify="space-around" marginBottom={1} display={{ base: 'none', lg: 'flex' }}>
+      <Flex justify="space-around" marginBottom={2} display={{ base: 'none', lg: 'flex' }}>
         <Button
           buttonType={toggle ? ButtonTypes.link.selected : ButtonTypes.link.default}
           isActive={toggle}

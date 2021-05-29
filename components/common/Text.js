@@ -9,9 +9,9 @@ export const Heading = (props) => (
     bgGradient="linear(to-r, primary.100, transparent)">
     <Text
       textTransform="uppercase"
-      color="secondary.500"
+      color="secondary.600"
       fontSize="11px"
-      fontWeight="bold"
+      fontWeight="semi"
       paddingLeft={1}
       {...props}
     />
@@ -44,7 +44,7 @@ export const Link = (props) => {
         textOverflow: textOverflow || 'ellipsis',
         wordBreak: 'break-word',
         textAlign: textAlign || 'start',
-        zIndex: 10,
+        zIndex: 2,
         _hover: { color: 'primary.500' },
         _focus: { outline: 'none' },
       }

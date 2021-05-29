@@ -20,7 +20,7 @@ const Player = ({ player, teammates, upcoming, completed, recent, metrics }) => 
       <PlayerInfobox player={player} />
       <Navigation type="player" active="overview" baseHref={`/players/${player.slug}`} hasDivider />
       <Stack direction="row" paddingRight={2}>
-        <Stack spacing={4} width="full">
+        <Stack spacing={8} width="full">
           {recent && (
             <Flex direction="column">
               <Heading>Last 3 months</Heading>
@@ -73,13 +73,13 @@ const Player = ({ player, teammates, upcoming, completed, recent, metrics }) => 
           {upcoming?.length > 0 && (
             <Stack>
               <Heading>Upcoming</Heading>
-              <MatchesWidget matches={upcoming} player={player.slug} />
+              <MatchesWidget matches={upcoming} player={player.slug} team={player.team.slug} />
             </Stack>
           )}
           {completed?.length > 0 && (
             <Stack>
-              <Heading>Completed</Heading>
-              <MatchesWidget matches={completed} player={player.slug} />
+              <Heading>Recent</Heading>
+              <MatchesWidget matches={completed} player={player.slug} team={player.team.slug} />
             </Stack>
           )}
         </Stack>
@@ -96,7 +96,7 @@ export async function getServerSideProps({ params }) {
     fetch(
       `${
         process.env.API_URL
-      }/matches?player=${id}&before=${moment().toISOString()}&sort=date:desc&perPage=5&page=1`
+      }/matches?player=${id}&before=${moment().toISOString()}&sort=date:desc&perPage=6&page=1`
     ),
     fetch(
       `${process.env.API_URL}/stats/players?mode=3&player=${id}&after=${moment()
@@ -130,7 +130,7 @@ export async function getServerSideProps({ params }) {
     const _upcoming = await fetch(
       `${process.env.API_URL}/matches?team=${
         player.team._id
-      }&after=${moment().toISOString()}&sort=date:desc&perPage=5&page=1`
+      }&after=${moment().toISOString()}&sort=date:desc&perPage=3&page=1`
     )
     upcoming = await _upcoming.json()
   }
@@ -145,7 +145,7 @@ export async function getServerSideProps({ params }) {
         teammates.filter((p) => p.coach && !p.substitute)
       ),
       upcoming: upcoming.matches,
-      completed: completed.matches,
+      completed: completed.matches.slice(0, 6 - upcoming.matches.length),
       recent: recent.stats.length > 0 ? recent.stats[0] : null,
       metrics: ma(
         metrics

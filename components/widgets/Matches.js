@@ -1,8 +1,9 @@
-import { Link, Flex, Spacer, Stack, Text, StackDivider } from '@chakra-ui/react'
+import { Flex, Spacer, Stack, Text, StackDivider } from '@chakra-ui/react'
 import NextLink from 'next/link'
 import { timeSince, timeUntil } from '@octane/util/dates'
 import Image from '@octane/components/common/Image'
 import moment from 'moment'
+import { Link } from '@octane/components/common/Text'
 
 export const MatchesWidget = ({ matches, team, player, preventScroll }) => (
   <Stack
@@ -31,14 +32,10 @@ export const MatchesWidget = ({ matches, team, player, preventScroll }) => (
               _hover={{ backgroundColor: 'secondary.50' }}
               padding={2}>
               <Flex direction="column" fontSize="xs">
-                <Text
-                  fontWeight="bold"
-                  overflow="hidden"
-                  textOverflow="ellipsis"
-                  whiteSpace="nowrap">
+                <Link fontSize="xs" href={`/events/${event.slug}`}>
                   {event.name}
-                </Text>
-                <Text fontSize="10px">
+                </Link>
+                <Text fontSize="xs" fontWeight="medium" color="secondary.500">
                   {moment(date).isAfter(moment()) ? timeUntil(date) : timeSince(date)}
                 </Text>
               </Flex>
@@ -63,6 +60,7 @@ export const MatchesWidget = ({ matches, team, player, preventScroll }) => (
                     )}
                     <Image boxSize={5} src={leftTeam?.team?.team.image} />
                     <Text
+                      fontSize="xs"
                       width={32}
                       overflow="hidden"
                       textOverflow="ellipsis"
@@ -90,6 +88,7 @@ export const MatchesWidget = ({ matches, team, player, preventScroll }) => (
                     )}
                     <Image boxSize={5} src={rightTeam?.team?.team.image} />
                     <Text
+                      fontSize="xs"
                       width={32}
                       overflow="hidden"
                       textOverflow="ellipsis"
