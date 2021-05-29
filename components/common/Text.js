@@ -44,6 +44,7 @@ export const Link = (props) => {
         textOverflow: textOverflow || 'ellipsis',
         wordBreak: 'break-word',
         textAlign: textAlign || 'start',
+        zIndex: 10,
         _hover: { color: 'primary.500' },
         _focus: { outline: 'none' },
       }

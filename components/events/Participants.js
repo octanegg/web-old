@@ -1,63 +1,80 @@
-import { Flex, Stack, Text, SimpleGrid } from '@chakra-ui/react'
+import { Flex, Stack, Text, Box } from '@chakra-ui/react'
 import Flag from '@octane/components/common/Flag'
 import Image from '@octane/components/common/Image'
 import { Link } from '@octane/components/common/Text'
+import { useState } from 'react'
 
 const Player = ({ player }) => (
   <Stack paddingLeft={4} direction="row" align="center" spacing={1}>
     <Flag country={player.country || 'int'} />
-    <Link href={`/players/${player.slug}`} fontWeight="medium">
+    <Link href={`/players/${player.slug}`} fontWeight="semi">
       <Stack direction="row" align="center" spacing={1}>
         <Text>{player.tag}</Text>
-        {player.substitute && (
-          <Text fontSize="11px" color="secondary.500" fontWeight="semi">
-            (S)
-          </Text>
-        )}
-        {player.coach && (
-          <Text fontSize="11px" color="secondary.500" fontWeight="semi">
-            (C)
-          </Text>
-        )}
+        <Text fontSize="11px" color="secondary.500" fontWeight="semi">
+          {player.coach && player.substitute
+            ? '(C, S)'
+            : player.coach
+            ? '(C)'
+            : player.substitute
+            ? '(S)'
+            : ''}
+        </Text>
       </Stack>
     </Link>
   </Stack>
 )
 
 export const Participants = ({ participants }) => (
-  <Flex width="full" justify="center" align="center" paddingLeft={8} paddingRight={8}>
-    <SimpleGrid width="full" columns={{ base: 1, sm: 2, md: 3, lg: 4 }} spacingY={8}>
-      {participants?.map(({ team, players }, j) => {
-        const playerSetOne = players.slice(0, 5)
-        const playerSetTwo = players.slice(5)
-
-        return (
-          <Stack key={j} width="full">
-            <Stack direction="row" align="center" spacing={1}>
-              <Image boxSize={6} src={team.image} />
-              <Link href={`/teams/${team.slug}`}>
-                <Text>{team.name}</Text>
-              </Link>
-            </Stack>
-            <Flex paddingLeft={3}>
-              <Stack borderLeft="2px solid #94e8be">
-                {playerSetOne.map((player, i) => (
-                  <Player key={i} player={player} />
-                ))}
-              </Stack>
-              {playerSetTwo.length > 0 && (
-                <Stack>
-                  {playerSetTwo.map((player, i) => (
-                    <Player key={i} player={player} />
-                  ))}
-                </Stack>
-              )}
-            </Flex>
+  <Stack direction="row" spacing={0} padding={2} wrap="wrap" shouldWrapChildren>
+    {participants?.map(({ team, players }) => {
+      const [show, setShow] = useState(false)
+      return (
+        <Box
+          backgroundColor="secondary.25"
+          position="relative"
+          margin={3}
+          width={40}
+          height={40}
+          onMouseEnter={() => setShow(true)}
+          onMouseLeave={() => setShow(false)}>
+          <Stack
+            width="full"
+            height="full"
+            align="center"
+            justify="space-between"
+            position="absolute"
+            padding={2}
+            top={0}
+            left={0}
+            zIndex={0}>
+            <Image
+              src={team.image}
+              boxSize={28}
+              opacity={0.1}
+              display={{ base: 'flex', lg: 'none' }}
+            />
+            <Image
+              src={team.image}
+              boxSize={28}
+              opacity={show ? 0.1 : ''}
+              display={{ base: 'none', lg: 'flex' }}
+            />
+            <Link href={`/teams/${team.slug}`}>{team.name}</Link>
           </Stack>
-        )
-      })}
-    </SimpleGrid>
-  </Flex>
+          <Flex
+            direction="column"
+            justify="space-around"
+            width={32}
+            height={32}
+            display={{ base: 'flex', lg: show ? 'flex' : 'none' }}>
+            {players.slice(0, 5).map((player, i) => (
+              <Player key={i} player={player} />
+            ))}
+          </Flex>
+        </Box>
+      )
+    })}
+  </Stack>
 )
 
 export default Participants

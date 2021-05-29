@@ -10,6 +10,8 @@ export const Image = ({
   marginRight,
   paddingLeft,
   paddingRight,
+  opacity,
+  display,
 }) => {
   if (!src) {
     return (
@@ -17,12 +19,13 @@ export const Image = ({
         width={boxSize || width}
         marginLeft={marginLeft}
         marginRight={marginRight}
+        display={display}
         justify="center">
         <ChakraImage
           src={defaultImage || '/images/logo.svg'}
           height={boxSize || height}
           filter="grayscale(100%)"
-          opacity={0.4}
+          opacity={opacity || 0.4}
         />
       </Flex>
     )
@@ -36,6 +39,8 @@ export const Image = ({
       marginRight={marginRight}
       paddingLeft={paddingLeft}
       paddingRight={paddingRight}
+      opacity={opacity}
+      display={display}
       src={src}
     />
   )
