@@ -92,13 +92,13 @@ const EventRow = ({ event, isEven }) => {
             <Stack direction="row" spacing={1} align="center" color="secondary.800">
               <Image height="11px" width="16px" src={_region?.image} />
               <Text fontWeight="regular" fontSize="xs">
-                {`${_region?.label} | ${toDateString(startDate, endDate)}`}
+                {`${_region?.label} - ${toDateString(startDate, endDate)}`}
               </Text>
             </Stack>
           </Flex>
         </Flex>
         <Spacer />
-        <Stack direction="row">
+        <Stack direction="row" color="secondary.800">
           <Flex direction="column" align="center" width={32} display={{ base: 'none', lg: 'flex' }}>
             <Text fontWeight="bold">{`${mode}v${mode}`}</Text>
             <Text textTransform="uppercase" color="secondary.400" fontSize="10px">

@@ -50,6 +50,7 @@ export async function getServerSideProps({ query }) {
     stat: query.stat || 'scoreTotal',
     bestOf: query.bestOf || '',
     qualifier: query.qualifier || '',
+    overtime: query.overtime || '',
   }
 
   const _records = await fetch(`${process.env.API_URL}/records/series${buildQuery(filter, [''])}`)

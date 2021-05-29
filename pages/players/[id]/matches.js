@@ -58,6 +58,8 @@ export async function getServerSideProps({ params, query }) {
     event: query.event || '',
     team: query.team || '',
     opponent: query.opponent || '',
+    qualifier: query.qualifier || '',
+    overtime: query.overtime || '',
     page: query.page || 1,
     perPage: 50,
     sort: 'date:desc',

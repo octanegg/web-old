@@ -67,6 +67,7 @@ export async function getServerSideProps({ params, query }) {
     minGames: query.minGames || '',
     bestOf: query.bestOf || '',
     qualifier: query.qualifier || '',
+    overtime: query.overtime || '',
     before: query.before || '',
     after: query.after || '',
     cluster: query.cluster || '',

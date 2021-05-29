@@ -6,6 +6,7 @@ import {
   MinGamesFilter,
   ModeFilter,
   NationalityFilter,
+  OvertimeFilter,
   QualifierFilter,
   RegionFilter,
   TierFilter,
@@ -84,6 +85,10 @@ export const PlayerStatsFilter = ({ initialFilter }) => {
         active={filter.qualifier}
         onChange={(item) => updateFilter('qualifier', item)}
       />
+      <OvertimeFilter
+        active={filter.overtime}
+        onChange={(item) => updateFilter('overtime', item)}
+      />
     </Filter>
   )
 }
@@ -153,6 +158,10 @@ export const TeamStatsFilter = ({ initialFilter }) => {
       <QualifierFilter
         active={filter.qualifier}
         onChange={(item) => updateFilter('qualifier', item)}
+      />
+      <OvertimeFilter
+        active={filter.overtime}
+        onChange={(item) => updateFilter('overtime', item)}
       />
     </Filter>
   )

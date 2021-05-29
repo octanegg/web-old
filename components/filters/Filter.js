@@ -223,6 +223,18 @@ export const QualifierFilter = ({ active, onChange }) => (
   />
 )
 
+export const OvertimeFilter = ({ active, onChange }) => (
+  <DropdownList
+    label="Overtimes"
+    items={['Incl. Overtimes', 'Only Overtimes', 'No Overtimes']}
+    active={active}
+    itemToId={(result) =>
+      result === 'Only Overtimes' ? 'true' : result === 'No Overtimes' ? 'false' : ''
+    }
+    onChange={onChange}
+  />
+)
+
 export const TeamStatsTypeFilter = ({ active, onChange }) => (
   <DropdownList
     label="Type"

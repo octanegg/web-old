@@ -5,6 +5,7 @@ import { toMinuteSeconds } from '@octane/util/dates'
 import NextLink from 'next/link'
 import { formatStat } from '@octane/util/stats'
 import Image from '@octane/components/common/Image'
+import regions from '@octane/config/fields/regions'
 
 export const RecordsRow = ({ record, rank, statType }) => {
   const { game, team, opponent, winner, player, stat } = record
@@ -12,6 +13,9 @@ export const RecordsRow = ({ record, rank, statType }) => {
   const date = game ? game.date : record.date
   const duration = game ? game.duration : record.duration
   const { event, stage } = match
+
+  const _region =
+    regions.find((r) => r.id === stage.region) || regions.find((r) => r.id === event.region)
 
   const _team =
     team ||
@@ -39,6 +43,7 @@ export const RecordsRow = ({ record, rank, statType }) => {
         paddingLeft={2}
         paddingRight={2}
         align="center"
+        _hover={{ backgroundColor: 'secondary.50' }}
         cursor="pointer">
         <Flex align="center" width={{ base: 80, sm: 56 }}>
           <Flex
@@ -57,8 +62,8 @@ export const RecordsRow = ({ record, rank, statType }) => {
               player ? (
                 <>
                   <Text
+                    color="secondary.700"
                     fontWeight="regular"
-                    fontStyle="italic"
                     fontSize="xs"
                     align="start"
                     display={{ base: 'none', sm: 'flex' }}
@@ -66,8 +71,8 @@ export const RecordsRow = ({ record, rank, statType }) => {
                     {_team.name}
                   </Text>
                   <Text
+                    color="secondary.700"
                     fontWeight="regular"
-                    fontStyle="italic"
                     fontSize="xs"
                     align="start"
                     display={{ base: 'flex', sm: 'none' }}
@@ -77,8 +82,8 @@ export const RecordsRow = ({ record, rank, statType }) => {
                 </>
               ) : (
                 <Text
+                  color="secondary.700"
                   fontWeight="regular"
-                  fontStyle="italic"
                   fontSize="xs"
                   align="start"
                   display={{ base: 'flex', sm: 'none' }}
@@ -113,7 +118,11 @@ export const RecordsRow = ({ record, rank, statType }) => {
             <LabeledText
               justify="flex-start"
               label={
-                <Stack direction="row" spacing={1} display={{ base: 'none', md: 'flex' }}>
+                <Stack
+                  color="secondary.700"
+                  direction="row"
+                  spacing={1}
+                  display={{ base: 'none', md: 'flex' }}>
                   {_winner ? (
                     <Text fontWeight="bold" fontSize="xs" color="win">
                       {!game && !duration ? 'Win' : 'W'}
@@ -129,7 +138,9 @@ export const RecordsRow = ({ record, rank, statType }) => {
                   )}
                 </Stack>
               }>
-              <Link href={`/teams/${_opponent.slug}`}>{_opponent.name}</Link>
+              <Link fontWeight="semi" href={`/teams/${_opponent.slug}`}>
+                {_opponent.name}
+              </Link>
             </LabeledText>
           </Flex>
         </Flex>
@@ -140,19 +151,28 @@ export const RecordsRow = ({ record, rank, statType }) => {
               justify="flex-start"
               label={
                 <Stack direction="row" align="center" spacing={1}>
-                  <Text fontWeight="regular" fontSize="xs" align="start" color="secondary.800">
-                    {stage.name}
+                  <Image src={_region.image} width="16px" height="11px" />
+                  <Text fontWeight="regular" fontSize="xs" align="start" color="secondary.700">
+                    {_region.label}
                   </Text>
-                  <Text fontWeight="regular" fontSize="xs" align="start" color="secondary.800">
+                  <Text fontWeight="regular" fontSize="xs" align="start" color="secondary.700">
                     -
                   </Text>
-                  <Text fontWeight="regular" fontSize="xs" align="start" color="secondary.800">
+                  <Text fontWeight="regular" fontSize="xs" align="start" color="secondary.700">
+                    {stage.name}
+                  </Text>
+                  <Text fontWeight="regular" fontSize="xs" align="start" color="secondary.700">
+                    -
+                  </Text>
+                  <Text fontWeight="regular" fontSize="xs" align="start" color="secondary.700">
                     {momentDate.format('MMM Do, YYYY')}
                   </Text>
                 </Stack>
               }>
               <Flex>
-                <Link href={`/events/${event.slug}`}>{event.name}</Link>
+                <Link fontWeight="semi" href={`/events/${event.slug}`}>
+                  {event.name}
+                </Link>
               </Flex>
             </LabeledText>
           </Flex>
@@ -160,6 +180,7 @@ export const RecordsRow = ({ record, rank, statType }) => {
         </Flex>
         <Flex />
         <Flex
+          color="secondary.800"
           direction="column"
           fontSize="sm"
           fontWeight="bold"

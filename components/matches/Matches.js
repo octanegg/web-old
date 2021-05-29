@@ -187,7 +187,7 @@ const Match = ({ match, team, player, highlightResult, isEven }) => {
               <Text>{stage.name}</Text>
               <Text>-</Text>
               <Image src={_region.image} width="16px" height="11px" />
-              <Text>{_region.id}</Text>
+              <Text>{_region.label}</Text>
             </Stack>
           </Flex>
           <Image boxSize={6} marginLeft={4} src={event.image} />

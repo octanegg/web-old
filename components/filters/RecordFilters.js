@@ -4,6 +4,7 @@ import {
   FormatFilter,
   GroupFilter,
   ModeFilter,
+  OvertimeFilter,
   QualifierFilter,
   RecordsStatsFilter,
   RecordsTypeFilter,
@@ -61,6 +62,10 @@ export const RecordsFilter = ({ type, initialFilter }) => {
       <QualifierFilter
         active={filter.qualifier}
         onChange={(item) => updateFilter('qualifier', item)}
+      />
+      <OvertimeFilter
+        active={filter.overtime}
+        onChange={(item) => updateFilter('overtime', item)}
       />
     </Filter>
   )

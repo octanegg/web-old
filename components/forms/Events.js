@@ -80,14 +80,10 @@ export const EventForm = ({ data }) => {
   }
 
   const updatePrize = (amount, currency) => {
-    if (amount) {
-      updateEvent('prize', {
-        amount,
-        currency: currency || 'USD',
-      })
-    } else {
-      updateEvent('prize')
-    }
+    updateEvent('prize', {
+      amount: amount || 0,
+      currency: currency || 'USD',
+    })
   }
 
   return (

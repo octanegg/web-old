@@ -5,7 +5,9 @@ import {
   FormatFilter,
   ModeFilter,
   OpponentsFilter,
+  OvertimeFilter,
   PlayersFilter,
+  QualifierFilter,
   RecordsStatsFilter,
   RecordsTypeFilter,
   RegionFilter,
@@ -204,6 +206,14 @@ export const TeamRecordsFilter = ({ team, initialFilter }) => {
         }}
       />
       <FormatFilter active={filter.bestOf} onChange={(item) => updateFilter('bestOf', item)} />
+      <QualifierFilter
+        active={filter.qualifier}
+        onChange={(item) => updateFilter('qualifier', item)}
+      />
+      <OvertimeFilter
+        active={filter.overtime}
+        onChange={(item) => updateFilter('overtime', item)}
+      />
     </Filter>
   )
 }
@@ -300,6 +310,14 @@ export const TeamStatsFilter = ({ team, type, initialFilter }) => {
         }}
       />
       <FormatFilter active={filter.bestOf} onChange={(item) => updateFilter('bestOf', item)} />
+      <QualifierFilter
+        active={filter.qualifier}
+        onChange={(item) => updateFilter('qualifier', item)}
+      />
+      <OvertimeFilter
+        active={filter.overtime}
+        onChange={(item) => updateFilter('overtime', item)}
+      />
     </Filter>
   )
 }
