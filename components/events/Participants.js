@@ -4,9 +4,9 @@ import Image from '@octane/components/common/Image'
 import { Link } from '@octane/components/common/Text'
 
 const Player = ({ player }) => (
-  <Stack paddingLeft={4} direction="row" align="center">
+  <Stack paddingLeft={4} direction="row" align="center" spacing={1}>
     <Flag country={player.country || 'int'} />
-    <Link href={`/players/${player.slug}`}>
+    <Link href={`/players/${player.slug}`} fontWeight="medium">
       <Stack direction="row" align="center" spacing={1}>
         <Text>{player.tag}</Text>
         {player.substitute && (
@@ -33,15 +33,7 @@ export const Participants = ({ participants }) => (
 
         return (
           <Stack key={j} width="full">
-            <Stack direction="row" align="center">
-              <Text
-                width={6}
-                align="center"
-                fontSize="11px"
-                color="secondary.500"
-                fontWeight="semi">
-                {team.region}
-              </Text>
+            <Stack direction="row" align="center" spacing={1}>
               <Image boxSize={6} src={team.image} />
               <Link href={`/teams/${team.slug}`}>
                 <Text>{team.name}</Text>

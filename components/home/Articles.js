@@ -52,7 +52,7 @@ const ArticleGroup = ({ group, articles }) => (
             marginLeft={2}
             marginRight={2}>
             <Stack direction="row" width="full">
-              <Text minWidth={12} fontSize="xs" fontWeight="semi" color="secondary.600" align="end">
+              <Text minWidth={12} fontSize="xs" fontWeight="semi" color="secondary.500" align="end">
                 {moment(published_at).format('MMM D')}
               </Text>
               <Text
@@ -66,8 +66,8 @@ const ArticleGroup = ({ group, articles }) => (
             <Text
               align="end"
               fontSize="xs"
-              fontWeight="semi"
-              color="secondary.600"
+              fontWeight="medium"
+              color="secondary.500"
               display={{ base: 'none', xl: 'flex' }}>
               {authors.map((a) => a.name).join(',')}
             </Text>

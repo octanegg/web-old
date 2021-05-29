@@ -1,4 +1,4 @@
-import { Flex, Stack, Text } from '@chakra-ui/react'
+import { Badge, Flex, Spacer, Stack, Text } from '@chakra-ui/react'
 import moment from 'moment'
 import LabeledText, { Link } from '@octane/components/common/Text'
 import { toMinuteSeconds } from '@octane/util/dates'
@@ -6,7 +6,7 @@ import NextLink from 'next/link'
 import { formatStat } from '@octane/util/stats'
 import Image from '@octane/components/common/Image'
 
-export const RecordsRow = ({ record, rank, statType, isHighlighted }) => {
+export const RecordsRow = ({ record, rank, statType }) => {
   const { game, team, opponent, winner, player, stat } = record
   const match = game ? game.match : record.match
   const date = game ? game.date : record.date
@@ -22,16 +22,9 @@ export const RecordsRow = ({ record, rank, statType, isHighlighted }) => {
   const _winner = winner || true
 
   const momentDate = moment(date)
+  const isToday = momentDate.isAfter(moment().subtract(1, 'day'))
   const isLastWeek = momentDate.isAfter(moment().subtract(7, 'day'))
   const isLastMonth = momentDate.isAfter(moment().subtract(30, 'day'))
-  const backgroundColor =
-    isHighlighted && isLastWeek
-      ? 'primary.50'
-      : isHighlighted && isLastMonth
-      ? 'primary.25'
-      : rank % 2 === 0
-      ? 'secondary.25'
-      : ''
 
   return (
     <NextLink passHref href={`/matches/${match.slug}${game ? `/${game.number}` : ''}`}>
@@ -39,7 +32,7 @@ export const RecordsRow = ({ record, rank, statType, isHighlighted }) => {
         as="a"
         direction="row"
         width="full"
-        backgroundColor={backgroundColor}
+        backgroundColor={rank % 2 === 0 ? 'secondary.25' : '#fcfdff'}
         justify="space-between"
         paddingTop={{ base: 2, sm: 0 }}
         paddingBottom={{ base: 2, sm: 0 }}
@@ -112,7 +105,7 @@ export const RecordsRow = ({ record, rank, statType, isHighlighted }) => {
           width={64}
           display={{ base: 'none', sm: 'flex' }}
           paddingLeft={{ base: 2, md: 0 }}>
-          <Text fontSize="xs" width={4}>
+          <Text fontSize="xs" width={6}>
             vs
           </Text>
           <Flex align="center">
@@ -163,9 +156,20 @@ export const RecordsRow = ({ record, rank, statType, isHighlighted }) => {
               </Flex>
             </LabeledText>
           </Flex>
+          <Spacer />
         </Flex>
-        <Flex fontSize="sm" fontWeight="bold" justify="center" width={16}>
+        <Flex />
+        <Flex
+          direction="column"
+          fontSize="sm"
+          fontWeight="bold"
+          justify="center"
+          align="center"
+          width={24}>
           {stat ? formatStat(stat, statType) : '-'}
+          {isToday && <Badge colorScheme="green">Today</Badge>}
+          {isLastWeek && !isToday && <Badge colorScheme="green">This Week</Badge>}
+          {isLastMonth && !isLastWeek && !isToday && <Badge colorScheme="green">This Month</Badge>}
         </Flex>
       </Flex>
     </NextLink>

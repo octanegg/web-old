@@ -75,7 +75,7 @@ const EventRow = ({ event, isEven }) => {
         fontSize="sm"
         padding={2}
         align="center"
-        backgroundColor={isEven ? '#fff' : 'secondary.25'}
+        backgroundColor={isEven ? '#fcfdff' : 'secondary.25'}
         _hover={{ backgroundColor: 'secondary.50' }}>
         <Image boxSize={6} src={image} marginLeft={2} marginRight={2} />
         <Flex align="center">

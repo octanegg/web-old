@@ -16,9 +16,6 @@ const Footer = () => (
     backgroundColor="secondary.800">
     <FooterIcon icon="twitter" href="http://twitter.com/octane_gg" />
     <FooterIcon icon="discord" href="http://discord.gg/gxHfxWq" />
-    <FooterIcon icon="twitch" href="https://www.twitch.tv/octanegg" />
-    <FooterIcon icon="facebook" href="https://t.co/OVFoXPjaIO?amp=1" />
-    <FooterIcon icon="youtube" href="https://www.youtube.com/channel/UC5zqB1onki6tt0gtExFP97A" />
   </Flex>
 )
 

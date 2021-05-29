@@ -157,8 +157,9 @@ export const Infobox = ({ match, active }) => {
       width="full"
       justify="center"
       align="center"
-      paddingLeft={4}
-      paddingRight={4}>
+      paddingTop={2}
+      paddingLeft={6}
+      paddingRight={6}>
       <Flex width="full" justify="space-between">
         <Stack direction="row" align="center">
           <Image boxSize={6} src={event.image} />

@@ -52,7 +52,7 @@ export async function getServerSideProps({ query }) {
     bestOf: query.bestOf || '',
     reverseSweep: query.reverseSweep || '',
     reverseSweepAttempt: query.reverseSweepAttempt || '',
-    perPage: 50,
+    perPage: 25,
     sort: 'date:desc',
   }
 

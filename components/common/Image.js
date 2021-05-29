@@ -1,6 +1,16 @@
 import { Flex, Image as ChakraImage } from '@chakra-ui/react'
 
-export const Image = ({ src, boxSize, defaultImage, width, height, marginLeft, marginRight }) => {
+export const Image = ({
+  src,
+  boxSize,
+  defaultImage,
+  width,
+  height,
+  marginLeft,
+  marginRight,
+  paddingLeft,
+  paddingRight,
+}) => {
   if (!src) {
     return (
       <Flex
@@ -24,6 +34,8 @@ export const Image = ({ src, boxSize, defaultImage, width, height, marginLeft, m
       width={boxSize || width}
       marginLeft={marginLeft}
       marginRight={marginRight}
+      paddingLeft={paddingLeft}
+      paddingRight={paddingRight}
       src={src}
     />
   )

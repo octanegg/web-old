@@ -45,7 +45,7 @@ export async function getServerSideProps({ query }) {
     group: query.group || '',
     after: moment().toISOString(),
     page: query.page || 1,
-    perPage: 50,
+    perPage: 25,
     sort: 'date:asc',
   }
 

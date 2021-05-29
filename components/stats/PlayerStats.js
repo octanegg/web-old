@@ -56,7 +56,7 @@ export const PlayerStats = ({
       <Table>
         <Header>
           <HeaderItem align="left" onClick={isSortable && (() => updateSort({ id: 'player.tag' }))}>
-            <Flex align="center" minWidth="125px">
+            <Flex align="center" paddingLeft={4} minWidth="125px">
               <Text marginRight={1}>{groupBy || 'Player'}</Text>
               <SortIcon field="player.tag" />
             </Flex>
@@ -110,7 +110,7 @@ const StatsRow = ({ record, statGroup, sort, groupBy, period, isEven, showTeam }
       {groupBy === 'events' && (
         <Cell>
           <Flex align="center" justify="flex-start" fontSize="sm" paddingTop={1} paddingBottom={1}>
-            <Image boxSize={6} marginLeft={2} marginRight={2} src={event.image} />
+            <Image boxSize={6} marginLeft={4} marginRight={2} src={event.image} />
             <Flex direction="column" width={64}>
               <Link href={`/events/${event.slug}`} wrap="wrap">
                 {event.name}
@@ -131,7 +131,7 @@ const StatsRow = ({ record, statGroup, sort, groupBy, period, isEven, showTeam }
       )}
       {groupBy === 'teams' && (
         <Cell width="12rem">
-          <Stack direction="row" align="center" fontSize="sm" marginLeft={2}>
+          <Stack direction="row" align="center" fontSize="sm" marginLeft={4}>
             <Image boxSize={6} src={team.image} />
             <Link href={`/teams/${team.slug}`}>{team.name}</Link>
           </Stack>
@@ -139,7 +139,7 @@ const StatsRow = ({ record, statGroup, sort, groupBy, period, isEven, showTeam }
       )}
       {groupBy === 'opponents' && (
         <Cell width="12rem">
-          <Stack direction="row" align="center" fontSize="sm" marginLeft={2}>
+          <Stack direction="row" align="center" fontSize="sm" marginLeft={4}>
             <Image boxSize={6} src={opponent.image} />
             <Link href={`/teams/${opponent.slug}`}>{opponent.name}</Link>
           </Stack>
@@ -148,7 +148,7 @@ const StatsRow = ({ record, statGroup, sort, groupBy, period, isEven, showTeam }
       {!groupBy && (
         <Cell width="12rem">
           <Stack
-            paddingLeft={2}
+            paddingLeft={4}
             direction="row"
             fontSize="sm"
             align="center"

@@ -20,6 +20,7 @@ import sortStats, { calculateFormattedStat } from '@octane/util/stats'
 import { getPlayerStat } from '@octane/config/stats/stats'
 import { RiMedalFill } from 'react-icons/ri'
 import Participants from '@octane/components/events/Participants'
+import Image from '@octane/components/common/Image'
 
 const MEDAL_COLORS = ['#C9B037', '#B4B4B4', '#AD8A56']
 
@@ -51,8 +52,18 @@ const Event = ({ event, upcoming, completed, ratings, participants }) => (
                     <StatNumber fontWeight="semi" color="secondary.700">
                       {calculateFormattedStat(stat, getPlayerStat('rating'), '')}
                     </StatNumber>
-                    <StatHelpText color="secondary.600" fontSize="sm">
-                      {`${calculateFormattedStat(stat, getPlayerStat('played'), '')} games`}
+                    <StatHelpText>
+                      {/* {`${calculateFormattedStat(stat, getPlayerStat('played'), '')} games`} */}
+                      <Stack direction="row" spacing={1}>
+                        <Image src={stat.teams[0].image} boxSize={4} />
+                        <Link
+                          href={`/teams/${stat.teams[0].slug}`}
+                          color="secondary.600"
+                          fontSize="sm"
+                          fontWeight="medium">
+                          {stat.teams[0].name}
+                        </Link>
+                      </Stack>
                     </StatHelpText>
                   </Stat>
                 ))}

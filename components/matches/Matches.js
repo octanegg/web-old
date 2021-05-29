@@ -5,6 +5,7 @@ import { Heading, Link } from '@octane/components/common/Text'
 import Pagination from '@octane/components/common/Pagination'
 import NextLink from 'next/link'
 import Image from '@octane/components/common/Image'
+import regions from '@octane/config/fields/regions'
 
 export const Matches = ({ matches, team, player, pagination }) => {
   const [groups, setGroups] = useState([])
@@ -72,6 +73,9 @@ export const Matches = ({ matches, team, player, pagination }) => {
 const Match = ({ match, team, player, highlightResult, isEven }) => {
   const { slug, blue, orange, event, stage, date, games } = match
 
+  const _region =
+    regions.find((r) => r.id === stage.region) || regions.find((r) => r.id === event.region)
+
   const isTeam = blue?.team?.team?.slug === team
   const isPlayer = blue?.players?.find((p) => p.player.slug === player)
 
@@ -91,13 +95,13 @@ const Match = ({ match, team, player, highlightResult, isEven }) => {
       <Flex
         as="a"
         width="full"
-        backgroundColor={isEven ? 'white' : 'secondary.25'}
+        backgroundColor={isEven ? '#fcfdff' : 'secondary.25'}
         align="center"
         borderLeft={highlightResult ? border : ''}
         cursor="pointer"
         padding={1}
-        paddingLeft={4}
-        paddingRight={4}
+        paddingLeft={6}
+        paddingRight={6}
         _hover={{ backgroundColor: 'secondary.50' }}>
         <Flex width={24} fontSize="xs" color="secondary.700">
           {moment(date).format('h:mm A')}
@@ -173,9 +177,18 @@ const Match = ({ match, team, player, highlightResult, isEven }) => {
             width={72}
             display={{ base: 'none', md: 'flex' }}>
             <Link href={`/events/${event.slug}`}>{event.name}</Link>
-            <Flex fontWeight="regular" fontSize="xs" align="center" color="secondary.800">
+            <Stack
+              direction="row"
+              spacing={1}
+              align="center"
+              fontWeight="regular"
+              fontSize="xs"
+              color="secondary.800">
               <Text>{stage.name}</Text>
-            </Flex>
+              <Text>-</Text>
+              <Image src={_region.image} width="16px" height="11px" />
+              <Text>{_region.id}</Text>
+            </Stack>
           </Flex>
           <Image boxSize={6} marginLeft={4} src={event.image} />
         </Flex>

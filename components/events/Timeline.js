@@ -1,4 +1,4 @@
-import { Divider, Flex, Text } from '@chakra-ui/react'
+import { Divider, Flex, Stack, Text } from '@chakra-ui/react'
 import { toDateString } from '@octane/util/dates'
 import { getCountry } from '@octane/config/fields/countries'
 import { formatPrize } from '@octane/util/prizes'
@@ -19,25 +19,22 @@ const TimelineItem = ({ item, width, isBottom }) => (
             <Divider orientation="vertical" borderColor="primary.600" variant="dashed" />
           </Flex>
         )}
-        <Text>{item.name}</Text>
-        {item.location ? (
-          <Flex direction="row" align="center">
-            <Image marginRight={1} width={4} src={getCountry(item.location.country).image} />
-            <Text fontSize="xs" color="secondary.700">
-              {item.location.city}
-            </Text>
-          </Flex>
-        ) : (
-          <Text fontSize="xs" color="secondary.700" fontStyle="italic">
-            Online
-          </Text>
-        )}
-        <Text fontSize="xs" color="secondary.700" fontStyle={item.prize ? '' : 'italic'}>
-          {item.prize ? formatPrize(item.prize) : 'No prize'}
-        </Text>
+        <Text fontWeight="semi">{item.name}</Text>
         <Text fontSize="xs" color="secondary.500">
           {toDateString(item.startDate, item.endDate)}
         </Text>
+        <Stack direction="row" spacing={1} fontSize="xs" color="secondary.500">
+          {item.location ? (
+            <Flex direction="row" align="center">
+              <Image marginRight={1} width={4} src={getCountry(item.location.country).image} />
+              <Text>{item.location.city}</Text>
+            </Flex>
+          ) : (
+            <Text>Online</Text>
+          )}
+          <Text>-</Text>
+          <Text>{item.prize ? formatPrize(item.prize) : 'No prize'}</Text>
+        </Stack>
         {!isBottom && (
           <Flex height={8}>
             <Divider orientation="vertical" borderColor="primary.600" variant="dashed" />
@@ -92,7 +89,13 @@ export const Timeline = ({ data }) => {
           <TimelineItem key={i} item={item} width={item ? itemWidth : separatorWidth} />
         ))}
       </Flex>
-      <Divider width={timelineWidth} borderColor="primary.500" borderWidth={3} borderRadius={8} />
+      <Divider
+        width={timelineWidth}
+        borderColor="primary.500"
+        backgroundColor="primary.500"
+        borderWidth={3}
+        borderRadius={8}
+      />
       <Flex width={timelineWidth} justify="space-between">
         {bottom.map((item, i) => (
           <TimelineItem key={i} item={item} width={item ? itemWidth : separatorWidth} isBottom />

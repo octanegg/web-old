@@ -85,49 +85,52 @@ export const ScoreboardMatch = ({ blue, orange, showReplayStats }) => {
 }
 
 const ScoreboardTable = ({ stats, side, showMvp }) => (
-  <Flex overflowX={{ base: 'scroll', lg: 'auto' }}>
-    <table className={styles.scoreboard}>
-      <thead>
-        <tr>
-          <th style={{ textAlign: 'left', paddingLeft: '5px' }}>Player</th>
-          {stats.map((stat) => (
-            <th key={stat}>{stat.label}</th>
-          ))}
-        </tr>
-      </thead>
-      <tbody>
-        {side.players
-          .sort((a, b) => b.stats.core.score - a.stats.core.score)
-          .map((player, i) => (
-            <tr key={i}>
-              <td>
-                <Stack paddingLeft={2} direction="row" align="center">
-                  <Flag country={player.player.country || 'int'} />
-                  <Link href={`/players/${player.player.slug}`}>
-                    <Text>{player.player.tag}</Text>
-                  </Link>
-                  {showMvp && player.stats.core.mvp && <StarIcon fontSize="xs" />}
-                </Stack>
-              </td>
-              {stats.map((stat) => (
-                <td>{formatStatFromObj(player, stat)}</td>
-              ))}
-            </tr>
-          ))}
-        <tr>
-          <td>
-            <Stack paddingLeft={2} direction="row" align="center" width={48}>
-              <Image boxSize={6} src={side.team.team.image} />
-              <Link href={`/teams/${side.team.team.slug}`}>{side.team.team.name}</Link>
-            </Stack>
-          </td>
-          {stats.map((stat) => (
-            <td key={stat}>{formatAggregateStatFromObj(side.players, stat)}</td>
-          ))}
-        </tr>
-      </tbody>
-    </table>
-  </Flex>
+  <>
+    <Stack paddingTop={2} paddingLeft={2} direction="row" align="center" width={48}>
+      <Image boxSize={6} src={side.team.team.image} />
+      <Link href={`/teams/${side.team.team.slug}`}>{side.team.team.name}</Link>
+    </Stack>
+    <Flex overflowX={{ base: 'scroll', lg: 'auto' }}>
+      <table className={styles.scoreboard}>
+        <thead>
+          <tr>
+            <th style={{ textAlign: 'left', paddingLeft: '5px' }}>Player</th>
+            {stats.map((stat) => (
+              <th key={stat}>{stat.label}</th>
+            ))}
+          </tr>
+        </thead>
+        <tbody>
+          {side.players
+            .sort((a, b) => b.stats.core.score - a.stats.core.score)
+            .map((player, i) => (
+              <tr key={i}>
+                <td>
+                  <Stack paddingLeft={2} direction="row" align="center">
+                    <Flag country={player.player.country || 'int'} />
+                    <Link href={`/players/${player.player.slug}`}>
+                      <Text>{player.player.tag}</Text>
+                    </Link>
+                    {showMvp && player.stats.core.mvp && <StarIcon fontSize="xs" />}
+                  </Stack>
+                </td>
+                {stats.map((stat) => (
+                  <td>{formatStatFromObj(player, stat)}</td>
+                ))}
+              </tr>
+            ))}
+          <tr>
+            <td>
+              <Flex paddingLeft={2}>Total</Flex>
+            </td>
+            {stats.map((stat) => (
+              <td key={stat}>{formatAggregateStatFromObj(side.players, stat)}</td>
+            ))}
+          </tr>
+        </tbody>
+      </table>
+    </Flex>
+  </>
 )
 
 export default ScoreboardGame
