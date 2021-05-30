@@ -20,12 +20,14 @@ export const EventsTable = ({ events, groupBy }) => {
     if (!groupBy) {
       setLabels(['Ongoing'])
       setGroups([
-        events.sort((a, b) => {
-          const aTier = tiers.findIndex((tier) => tier.id === a.tier)
-          const bTier = tiers.findIndex((tier) => tier.id === b.tier)
+        events
+          .sort((a, b) => {
+            const aTier = tiers.findIndex((tier) => tier.id === a.tier)
+            const bTier = tiers.findIndex((tier) => tier.id === b.tier)
 
-          return aTier === bTier ? prizeUSD(b.prize) - prizeUSD(a.prize) : aTier - bTier
-        }),
+            return aTier === bTier ? prizeUSD(b.prize) - prizeUSD(a.prize) : aTier - bTier
+          })
+          .map((event, i) => ({ ...event, color: i % 2 === 0 })),
       ])
       return
     }
@@ -34,14 +36,17 @@ export const EventsTable = ({ events, groupBy }) => {
     const dates = []
     const eventGroups = []
 
+    let color = false
+
     events.forEach((event, i) => {
       const date = moment(event[groupBy])
       if (i === 0 || !date.isSame(day, 'month')) {
         dates.push(date.format('MMMM YYYY'))
-        eventGroups.push([event])
+        eventGroups.push([{ ...event, color }])
       } else {
-        eventGroups[eventGroups.length - 1].push(event)
+        eventGroups[eventGroups.length - 1].push({ ...event, color })
       }
+      color = !color
       day = date
     })
 
@@ -54,15 +59,28 @@ export const EventsTable = ({ events, groupBy }) => {
       <Heading>{labels[i]}</Heading>
       <Flex direction="column">
         {group.map((event, j) => (
-          <EventRow key={j} event={event} isEven={j % 2 === 0} />
+          <EventRow key={j} event={event} />
         ))}
       </Flex>
     </>
   ))
 }
 
-const EventRow = ({ event, isEven }) => {
-  const { _id, slug, region, tier, mode, prize, name, startDate, endDate, stages, image } = event
+const EventRow = ({ event }) => {
+  const {
+    _id,
+    slug,
+    region,
+    tier,
+    mode,
+    prize,
+    name,
+    startDate,
+    endDate,
+    stages,
+    image,
+    color,
+  } = event
 
   const _region = regions.find((r) => region === r.id)
 
@@ -75,7 +93,7 @@ const EventRow = ({ event, isEven }) => {
         fontSize="sm"
         padding={2}
         align="center"
-        backgroundColor={isEven ? '#fcfdff' : 'secondary.25'}
+        backgroundColor={color ? '#fafcff' : 'secondary.25'}
         _hover={{ backgroundColor: 'secondary.50' }}>
         <Image boxSize={6} src={image} marginLeft={2} marginRight={2} />
         <Flex align="center">

@@ -3,7 +3,6 @@ import { Flex, Stack, Text } from '@chakra-ui/react'
 import { Link } from '@octane/components/common/Text'
 import { toMinuteSeconds } from '@octane/util/dates'
 import styles from '@octane/styles/Table.module.scss'
-import Flag from '@octane/components/common/Flag'
 import { StarIcon } from '@chakra-ui/icons'
 import { formatStatFromObj, formatAggregateStatFromObj } from '@octane/util/stats'
 import { useState } from 'react'
@@ -11,6 +10,7 @@ import StatsNavigation from '@octane/components/stats/Navigation'
 import { gameBasicStats, gameAdvancedStats } from '@octane/config/stats/stats'
 import ButtonLink from '@octane/components/common/Button'
 import Image from '@octane/components/common/Image'
+import Country from '@octane/components/common/Country'
 
 export const ScoreboardGame = ({ blue, orange, map, duration, ballchasing, showReplayStats }) => {
   const statGroups = showReplayStats ? gameAdvancedStats : gameBasicStats
@@ -107,7 +107,7 @@ const ScoreboardTable = ({ stats, side, showMvp }) => (
               <tr key={i}>
                 <td>
                   <Stack paddingLeft={2} direction="row" align="center">
-                    <Flag country={player.player.country || 'int'} />
+                    <Country country={player.player.country} />
                     <Link href={`/players/${player.player.slug}`}>
                       <Text>{player.player.tag}</Text>
                     </Link>

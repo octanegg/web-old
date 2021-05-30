@@ -110,6 +110,14 @@ export const PlayerMatchesFilter = ({ player, initialFilter }) => {
         active={filter.opponent}
         onChange={(item) => updateFilter('opponent', item)}
       />
+      <DateRangeFilter
+        after={filter.after}
+        before={filter.before}
+        onChange={([after, before]) => {
+          updateFilter('after', after)
+          updateFilter('before', before)
+        }}
+      />
     </Filter>
   )
 }

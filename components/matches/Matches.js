@@ -21,16 +21,19 @@ export const Matches = ({ matches, team, player, pagination }) => {
     const dates = []
     const matchGroups = []
 
+    let color = false
+
     setMatchCount(matches.length)
 
     matches.forEach((match, i) => {
       const date = moment(match.date)
       if (i === 0 || !date.isSame(day, 'day')) {
         dates.push(date.format('ddd, MMMM D YYYY'))
-        matchGroups.push([match])
+        matchGroups.push([{ ...match, color }])
       } else {
-        matchGroups[matchGroups.length - 1].push(match)
+        matchGroups[matchGroups.length - 1].push({ ...match, color })
       }
+      color = !color
       day = date
     })
 
@@ -47,7 +50,6 @@ export const Matches = ({ matches, team, player, pagination }) => {
             {group.map((match, j) => (
               <Match
                 key={j}
-                isEven={j % 2 === 0}
                 match={match}
                 team={team}
                 player={player}
@@ -70,8 +72,8 @@ export const Matches = ({ matches, team, player, pagination }) => {
   )
 }
 
-const Match = ({ match, team, player, highlightResult, isEven }) => {
-  const { slug, blue, orange, event, stage, date, games } = match
+const Match = ({ match, team, player, highlightResult }) => {
+  const { slug, blue, orange, event, stage, date, games, color } = match
 
   const _region =
     regions.find((r) => r.id === stage.region) || regions.find((r) => r.id === event.region)
@@ -95,7 +97,7 @@ const Match = ({ match, team, player, highlightResult, isEven }) => {
       <Flex
         as="a"
         width="full"
-        backgroundColor={isEven ? '#fcfdff' : 'secondary.25'}
+        backgroundColor={color ? '#fafcff' : 'secondary.25'}
         align="center"
         borderLeft={highlightResult ? border : ''}
         cursor="pointer"
@@ -167,7 +169,7 @@ const Match = ({ match, team, player, highlightResult, isEven }) => {
           width={80}
           display={{ base: 'none', lg: 'flex' }}>
           {hasStats && <Badge colorScheme="green">Stats</Badge>}
-          {hasReplays && <Badge colorScheme="purple">Replays</Badge>}
+          {hasReplays && <Badge colorScheme="blue">Replays</Badge>}
         </Stack>
         <Spacer />
         <Flex align="center" justify="flex-end" width={{ base: 32, md: 80 }}>

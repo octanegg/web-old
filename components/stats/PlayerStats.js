@@ -4,9 +4,9 @@ import { Table, Header, HeaderItem, Body, Row, Cell } from '@octane/components/c
 import { ChevronDownIcon, ChevronUpIcon, UpDownIcon } from '@chakra-ui/icons'
 import { sortObjLex, calculateFormattedStat, sortStats } from '@octane/util/stats'
 import { Link } from '@octane/components/common/Text'
-import { Flag } from '@octane/components/common/Flag'
 import { toDateYearString } from '@octane/util/dates'
 import Image from '@octane/components/common/Image'
+import Country from '@octane/components/common/Country'
 
 export const PlayerStats = ({
   statGroup,
@@ -172,7 +172,7 @@ const StatsRow = ({ record, statGroup, sort, groupBy, period, isEven, showTeam }
             align="center"
             backgroundColor={sort === 'player.tag' && (isEven ? '#effef7' : 'primary.50')}
             height={10}>
-            <Flag country={player.country || 'int'} />
+            <Country country={player.country} />
             <Flex>
               <Link href={`/players/${player.slug}`}>{player.tag}</Link>
             </Flex>

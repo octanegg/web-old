@@ -1,12 +1,12 @@
 import { Flex, Stack, Text, Box, StackDivider, Switch } from '@chakra-ui/react'
+import Country from '@octane/components/common/Country'
 import Image from '@octane/components/common/Image'
 import { Link } from '@octane/components/common/Text'
-import { getCountry } from '@octane/config/fields/countries'
 import { useState } from 'react'
 
 const Player = ({ player }) => (
   <Stack height="full" padding={0} paddingLeft={2} direction="row" align="center" spacing={1}>
-    <Image src={getCountry(player.country).image} boxSize={4} />
+    <Country country={player.country} boxSize={4} />
     <Link href={`/players/${player.slug}`} fontWeight="semi">
       <Stack direction="row" align="center" spacing={1}>
         <Text>{player.tag}</Text>

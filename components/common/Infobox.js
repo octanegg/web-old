@@ -4,7 +4,7 @@ import { formatPrize } from '@octane/util/prizes'
 import { Link } from '@octane/components/common/Text'
 import { regions } from '@octane/config/fields/regions'
 import Image from '@octane/components/common/Image'
-import { getCountry } from '@octane/config/fields/countries'
+import Country from '@octane/components/common/Country'
 
 export const EventInfobox = ({ event }) => {
   const { name, startDate, endDate, region, tier, mode, prize, image } = event
@@ -133,7 +133,7 @@ export const PlayerInfobox = ({ player }) => {
       <Stack direction="column" spacing={0} align="center">
         <Image boxSize={32} defaultImage="/images/player.png" />
         <Stack direction="row" align="center" spacing={1}>
-          <Image src={getCountry(country).image} boxSize={4} />
+          <Country country={country} boxSize={4} />
           <Text fontWeight="semi" fontSize="13px" color="secondary.700">
             {name || tag}
           </Text>

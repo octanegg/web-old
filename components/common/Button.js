@@ -17,7 +17,7 @@ export const ButtonTypes = {
     selected: {
       backgroundColor: 'primary.50',
       color: 'primary.600',
-      fontWeight: 'semi',
+      fontWeight: 'bold',
       size: 'xs',
       fontSize: 'xs',
       paddingLeft: 4,

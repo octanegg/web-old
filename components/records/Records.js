@@ -36,7 +36,7 @@ export const RecordsRow = ({ record, rank, statType }) => {
         as="a"
         direction="row"
         width="full"
-        backgroundColor={rank % 2 === 0 ? 'secondary.25' : '#fcfdff'}
+        backgroundColor={rank % 2 === 0 ? '#fafcff' : 'secondary.25'}
         justify="space-between"
         paddingTop={{ base: 2, sm: 0 }}
         paddingBottom={{ base: 2, sm: 0 }}

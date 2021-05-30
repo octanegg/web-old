@@ -1,7 +1,7 @@
 import { Stack, Text } from '@chakra-ui/react'
+import Country from '@octane/components/common/Country'
 import Image from '@octane/components/common/Image'
 import { Link } from '@octane/components/common/Text'
-import { getCountry } from '@octane/config/fields/countries'
 
 export const RosterWidget = ({ players }) => (
   <Stack
@@ -23,7 +23,7 @@ export const RosterWidget = ({ players }) => (
           <Image boxSize={{ base: 20, md: 32 }} defaultImage="/images/player.png" />
         </Link>
         <Stack direction="row" align="center" spacing={1}>
-          <Image src={getCountry(country).image} boxSize={4} />
+          <Country country={country} boxSize={4} />
           <Link href={`/players/${slug}`} fontWeight="semi" fontSize="13px" color="secondary.700">
             {tag}
           </Link>

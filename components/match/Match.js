@@ -35,7 +35,7 @@ export const Infobox = ({ match, active }) => {
           </Flex>
         </Stack>
         <Flex direction="column" align="flex-end" textAlign="end">
-          <Text fontWeight="bold" fontSize="sm">
+          <Text fontWeight="bold" fontSize="sm" color="secondary.800">
             {toDateYear(date)}
           </Text>
           <Text fontSize="10px" fontWeight="semi" color="secondary.400" textTransform="uppercase">
@@ -137,6 +137,63 @@ export const MatchOverview = ({ match, blue, orange, games, winner, active }) =>
       <Image src={blue.team.team.image} boxSize={6} />
       <Image src={orange.team.team.image} boxSize={6} />
     </Stack>
+    {games?.map((game, i) => (
+      <Link href={`/matches/${match.slug}/${i + 1}`}>
+        <Tooltip
+          hasArrow
+          placement="top"
+          label={`${toMinuteSeconds(game.duration - 300)} OT`}
+          isDisabled={game.duration === 300}>
+          <Stack
+            key={game._id}
+            backgroundColor={active === i + 1 ? 'primary.50' : ''}
+            borderRadius={16}
+            cursor="pointer"
+            _hover={{ backgroundColor: 'primary.50' }}
+            padding={2}>
+            <Flex
+              fontWeight="medium"
+              fontSize="xs"
+              color="secondary.500"
+              justify="center"
+              align="center">
+              {`G${i + 1}${game.duration > 300 ? "'" : ''}`}
+            </Flex>
+            <Flex
+              height={6}
+              fontSize="sm"
+              align="center"
+              justify="center"
+              color={
+                !game.blue && !game.orange
+                  ? ''
+                  : !game.orange || game.blue > game.orange
+                  ? 'win'
+                  : 'loss'
+              }
+              fontWeight={!game.orange || game.blue > game.orange ? 'bold' : 'regular'}>
+              {game.blue || (game.orange === 0 ? '-' : 0)}
+            </Flex>
+            <Flex
+              height={6}
+              fontSize="sm"
+              align="center"
+              justify="center"
+              color={
+                !game.orange && !game.blue
+                  ? ''
+                  : !game.blue || game.orange > game.blue
+                  ? 'win'
+                  : 'loss'
+              }
+              fontWeight={!game.blue || game.orange > game.blue ? 'bold' : 'regular'}>
+              {game.orange || (game.blue === 0 ? '-' : 0)}
+            </Flex>
+          </Stack>
+        </Tooltip>
+      </Link>
+    ))}
+    <Divider orientation="vertical" color="secondary.500" />
     <Link href={`/matches/${match.slug}`}>
       <Stack
         backgroundColor={!active ? 'primary.50' : ''}
@@ -172,66 +229,6 @@ export const MatchOverview = ({ match, blue, orange, games, winner, active }) =>
         </Flex>
       </Stack>
     </Link>
-    <Divider orientation="vertical" color="secondary.500" />
-    {games?.map((game, i) => (
-      <Link href={`/matches/${match.slug}/${i + 1}`}>
-        <Stack
-          key={game._id}
-          backgroundColor={active === i + 1 ? 'primary.50' : ''}
-          borderRadius={16}
-          cursor="pointer"
-          _hover={{ backgroundColor: 'primary.50' }}
-          padding={2}>
-          <Flex
-            fontWeight="medium"
-            fontSize="xs"
-            color="secondary.500"
-            justify="center"
-            align="center">
-            {game.duration > 300 ? (
-              <Tooltip
-                hasArrow
-                placement="top"
-                label={`${toMinuteSeconds(game.duration - 300)} OT`}>
-                {`G${i + 1}'`}
-              </Tooltip>
-            ) : (
-              `G${i + 1}`
-            )}
-          </Flex>
-          <Flex
-            height={6}
-            fontSize="sm"
-            align="center"
-            justify="center"
-            color={
-              !game.blue && !game.orange
-                ? ''
-                : !game.orange || game.blue > game.orange
-                ? 'win'
-                : 'loss'
-            }
-            fontWeight={!game.orange || game.blue > game.orange ? 'bold' : 'regular'}>
-            {game.blue || (game.orange === 0 ? '-' : 0)}
-          </Flex>
-          <Flex
-            height={6}
-            fontSize="sm"
-            align="center"
-            justify="center"
-            color={
-              !game.orange && !game.blue
-                ? ''
-                : !game.blue || game.orange > game.blue
-                ? 'win'
-                : 'loss'
-            }
-            fontWeight={!game.blue || game.orange > game.blue ? 'bold' : 'regular'}>
-            {game.orange || (game.blue === 0 ? '-' : 0)}
-          </Flex>
-        </Stack>
-      </Link>
-    ))}
   </Stack>
 )
 

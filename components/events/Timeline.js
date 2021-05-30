@@ -1,8 +1,7 @@
 import { Divider, Flex, Stack, Text } from '@chakra-ui/react'
 import { toDateString } from '@octane/util/dates'
-import { getCountry } from '@octane/config/fields/countries'
 import { formatPrize } from '@octane/util/prizes'
-import Image from '@octane/components/common/Image'
+import Country from '@octane/components/common/Country'
 
 const TimelineItem = ({ item, width, isBottom }) => (
   <Flex
@@ -25,10 +24,10 @@ const TimelineItem = ({ item, width, isBottom }) => (
         </Text>
         <Stack direction="row" spacing={1} fontSize="xs" color="secondary.500">
           {item.location ? (
-            <Flex direction="row" align="center">
-              <Image marginRight={1} width={4} src={getCountry(item.location.country).image} />
+            <Stack spacing={1} direction="row" align="center">
+              <Country country={item.location.country} boxSize={4} />
               <Text>{item.location.city}</Text>
-            </Flex>
+            </Stack>
           ) : (
             <Text>Online</Text>
           )}

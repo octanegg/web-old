@@ -54,7 +54,10 @@ export const timeSince = (date) => {
   if (minutes < 60 * 24) {
     return `${Math.floor(minutes / 60)}h ago`
   }
-  return moment(date).format('MMM D')
+  if (moment().year() === moment(date).year()) {
+    return moment(date).format('MMM D')
+  }
+  return moment(date).format('MMM D, YYYY')
 }
 
 export const rocketLeagueYears = () =>

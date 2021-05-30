@@ -6,12 +6,13 @@ export const Heading = (props) => (
     width={40}
     align="center"
     direction="row"
-    bgGradient="linear(to-r, primary.100, transparent)">
+    bgGradient="linear(to-r, primary.100, primary.50, transparent)">
     <Text
       textTransform="uppercase"
       color="secondary.500"
-      fontSize="xs"
-      fontWeight="bold"
+      fontSize="11px"
+      fontWeight="semi"
+      padding={0.25}
       paddingLeft={1}
       {...props}
     />
