@@ -3,11 +3,11 @@ import { useEffect, useState } from 'react'
 import { Table, Header, HeaderItem, Body, Row, Cell } from '@octane/components/common/Table'
 import { ChevronDownIcon, ChevronUpIcon, UpDownIcon } from '@chakra-ui/icons'
 import { sortObjLex, calculateFormattedStat, sortStats } from '@octane/util/stats'
-import LabeledText, { Link } from '@octane/components/common/Text'
+import { Link } from '@octane/components/common/Text'
 import { toDateYearString } from '@octane/util/dates'
 import Image from '@octane/components/common/Image'
 
-export const TeamStats = ({ statGroup, stats, period, groupBy, noScroll, isSortable }) => {
+export const TeamStats = ({ statGroup, stats, total, period, groupBy, noScroll, isSortable }) => {
   const [teams, setTeams] = useState([])
   const [sort, setSort] = useState('')
   const [order, setOrder] = useState(false)
@@ -65,6 +65,15 @@ export const TeamStats = ({ statGroup, stats, period, groupBy, noScroll, isSorta
               isEven={i % 2 === 0}
             />
           ))}
+          {total && (
+            <StatsRow
+              record={total}
+              statGroup={statGroup}
+              sort={sort}
+              period={period}
+              groupBy="total"
+            />
+          )}
         </Body>
       </Table>
     </Flex>
@@ -77,19 +86,19 @@ const StatsRow = ({ record, statGroup, sort, groupBy, period, isEven }) => {
   const opponent = opponents[0]
 
   return (
-    <Row>
+    <Row className={groupBy === 'total' ? 'total' : ''}>
       {groupBy === 'events' && (
         <Cell>
           <Flex align="center" justify="flex-start" fontSize="sm" paddingTop={1} paddingBottom={1}>
             <Image boxSize={6} marginRight={2} marginLeft={2} src={event.image} />
-            <LabeledText
-              label={
-                <Text fontSize="10px" color="secondary.800" textTransform="uppercase" align="start">
-                  {toDateYearString(startDate, endDate)}
-                </Text>
-              }>
-              <Link href={`/events/${event.slug}`}>{event.name}</Link>
-            </LabeledText>
+            <Flex direction="column" width="sm">
+              <Link href={`/events/${event.slug}`} wrap="wrap" fontSize="sm">
+                {event.name}
+              </Link>
+              <Text textAlign="start" fontSize="xs" fontWeight="regular" color="secondary.600">
+                {toDateYearString(startDate, endDate)}
+              </Text>
+            </Flex>
           </Flex>
         </Cell>
       )}
@@ -99,6 +108,13 @@ const StatsRow = ({ record, statGroup, sort, groupBy, period, isEven }) => {
             <Image boxSize={6} src={opponent.image} />
             <Link href={`/teams/${opponent.slug}`}>{opponent.name}</Link>
           </Stack>
+        </Cell>
+      )}
+      {groupBy === 'total' && (
+        <Cell width="12rem">
+          <Flex fontWeight="bold" fontSize="sm" marginLeft={4}>
+            Total
+          </Flex>
         </Cell>
       )}
       {!groupBy && (

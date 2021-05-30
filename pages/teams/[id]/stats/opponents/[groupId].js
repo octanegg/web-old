@@ -13,7 +13,7 @@ import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 import { useOctane } from '@octane/context/octane'
 
-const Stats = ({ team, group, stats, filter }) => {
+const Stats = ({ team, group, stats, total, filter }) => {
   const { loadingSameRoute } = useOctane()
   const [period, setPeriod] = useState()
   const [nextGroup, setNextGroup] = useState()
@@ -56,6 +56,7 @@ const Stats = ({ team, group, stats, filter }) => {
             key={group}
             statGroup={teamStats.find((g) => g.id === group)}
             stats={stats}
+            total={total}
             period={period}
             groupBy="opponents"
             noScroll
@@ -83,6 +84,7 @@ export async function getServerSideProps({ params, query }) {
     after: query.after || '',
     bestOf: query.bestOf || '',
     cluster: query.cluster || '',
+    minGames: query.minGames || '',
     sort: 'date:desc',
   }
 
@@ -93,10 +95,16 @@ export async function getServerSideProps({ params, query }) {
     }
   }
 
-  const [_team, _stats] = await Promise.all([
+  const [_team, _stats, _total] = await Promise.all([
     fetch(`${process.env.API_URL}/teams/${id}`),
     fetch(
       `${process.env.API_URL}/stats/teams/opponents${buildQuery(
+        { ...filter, stat: statGroup.stats.map((stat) => stat.id) },
+        ['']
+      )}`
+    ),
+    fetch(
+      `${process.env.API_URL}/stats/teams${buildQuery(
         { ...filter, stat: statGroup.stats.map((stat) => stat.id) },
         ['']
       )}`
@@ -109,7 +117,7 @@ export async function getServerSideProps({ params, query }) {
     }
   }
 
-  const [team, { stats }] = await Promise.all([_team.json(), _stats.json()])
+  const [team, { stats }, total] = await Promise.all([_team.json(), _stats.json(), _total.json()])
 
   return {
     props: {
@@ -117,6 +125,7 @@ export async function getServerSideProps({ params, query }) {
       team,
       group: groupId,
       stats,
+      total: total.stats?.length > 0 ? total.stats[0] : null,
     },
   }
 }

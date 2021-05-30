@@ -13,7 +13,7 @@ import StatsNavigation from '@octane/components/stats/Navigation'
 import Loading from '@octane/components/common/Loading'
 import { useOctane } from '@octane/context/octane'
 
-const Stats = ({ player, group, stats, filter }) => {
+const Stats = ({ player, group, stats, total, filter }) => {
   const { loadingSameRoute } = useOctane()
   const [period, setPeriod] = useState()
   const [nextGroup, setNextGroup] = useState()
@@ -55,6 +55,7 @@ const Stats = ({ player, group, stats, filter }) => {
             key={group}
             statGroup={playerStats.find((g) => g.id === group)}
             stats={stats}
+            total={total}
             period={period}
             groupBy="opponents"
             noScroll
@@ -82,6 +83,7 @@ export async function getServerSideProps({ params, query }) {
     after: query.after || '',
     bestOf: query.bestOf || '',
     cluster: query.cluster || '',
+    minGames: query.minGames || '',
   }
 
   const statGroup = playerStats.find((g) => g.id === groupId)
@@ -91,10 +93,16 @@ export async function getServerSideProps({ params, query }) {
     }
   }
 
-  const [_player, _stats] = await Promise.all([
+  const [_player, _stats, _total] = await Promise.all([
     fetch(`${process.env.API_URL}/players/${id}`),
     fetch(
       `${process.env.API_URL}/stats/players/opponents${buildQuery(
+        { ...filter, stat: statGroup.stats.map((stat) => stat.id) },
+        ['']
+      )}`
+    ),
+    fetch(
+      `${process.env.API_URL}/stats/players${buildQuery(
         { ...filter, stat: statGroup.stats.map((stat) => stat.id) },
         ['']
       )}`
@@ -107,7 +115,11 @@ export async function getServerSideProps({ params, query }) {
     }
   }
 
-  const [player, { stats }] = await Promise.all([_player.json(), _stats.json()])
+  const [player, { stats }, total] = await Promise.all([
+    _player.json(),
+    _stats.json(),
+    _total.json(),
+  ])
 
   return {
     props: {
@@ -115,6 +127,7 @@ export async function getServerSideProps({ params, query }) {
       player,
       group: groupId,
       stats,
+      total: total.stats?.length > 0 ? total.stats[0] : null,
     },
   }
 }

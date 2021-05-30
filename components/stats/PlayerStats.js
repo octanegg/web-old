@@ -11,6 +11,7 @@ import Image from '@octane/components/common/Image'
 export const PlayerStats = ({
   statGroup,
   stats,
+  total,
   groupBy,
   period,
   noScroll,
@@ -93,6 +94,16 @@ export const PlayerStats = ({
               showTeam={showTeam}
             />
           ))}
+          {total && (
+            <StatsRow
+              record={total}
+              statGroup={statGroup}
+              sort={sort}
+              period={period}
+              groupBy="total"
+              showTeam={showTeam}
+            />
+          )}
         </Body>
       </Table>
     </Flex>
@@ -106,22 +117,22 @@ const StatsRow = ({ record, statGroup, sort, groupBy, period, isEven, showTeam }
   const opponent = opponents[0]
 
   return (
-    <Row>
+    <Row className={groupBy === 'total' ? 'total' : ''}>
       {groupBy === 'events' && (
         <Cell>
           <Flex align="center" justify="flex-start" fontSize="sm" paddingTop={1} paddingBottom={1}>
-            <Image boxSize={6} marginLeft={4} marginRight={2} src={event.image} />
-            <Flex direction="column" width={64}>
-              <Link href={`/events/${event.slug}`} wrap="wrap">
+            <Image boxSize={6} marginLeft={2} marginRight={2} src={event.image} />
+            <Flex direction="column" width={72}>
+              <Link href={`/events/${event.slug}`} wrap="wrap" fontSize="13px">
                 {event.name}
               </Link>
               <Stack
                 direction="row"
                 align="center"
-                fontSize="10px"
                 spacing={1}
-                color="secondary.800"
-                textTransform="uppercase">
+                fontSize="xs"
+                fontWeight="regular"
+                color="secondary.600">
                 <Image boxSize={4} src={team.image} />
                 <Text>{toDateYearString(startDate, endDate)}</Text>
               </Stack>
@@ -143,6 +154,13 @@ const StatsRow = ({ record, statGroup, sort, groupBy, period, isEven, showTeam }
             <Image boxSize={6} src={opponent.image} />
             <Link href={`/teams/${opponent.slug}`}>{opponent.name}</Link>
           </Stack>
+        </Cell>
+      )}
+      {groupBy === 'total' && (
+        <Cell width="12rem">
+          <Flex fontWeight="bold" fontSize="sm" marginLeft={4}>
+            Total
+          </Flex>
         </Cell>
       )}
       {!groupBy && (

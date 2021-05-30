@@ -3,6 +3,7 @@ import {
   EventsFilter,
   Filter,
   FormatFilter,
+  MinGamesFilter,
   ModeFilter,
   OpponentsFilter,
   OvertimeFilter,
@@ -344,6 +345,10 @@ export const PlayerStatsFilter = ({ player, type, events, initialFilter }) => {
           updateFilter('after', after)
           updateFilter('before', before)
         }}
+      />
+      <MinGamesFilter
+        active={filter.minGames}
+        onChange={(item) => updateFilter('minGames', item)}
       />
       <FormatFilter active={filter.bestOf} onChange={(item) => updateFilter('bestOf', item)} />
       <QualifierFilter
