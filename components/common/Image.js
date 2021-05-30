@@ -20,8 +20,9 @@ export const Image = ({
         width={boxSize || width}
         marginLeft={marginLeft}
         marginRight={marginRight}
-        display={display}
+        display={display || 'flex'}
         _hover={_hover}
+        align="center"
         justify="center">
         <ChakraImage
           src={defaultImage || '/images/logo.svg'}

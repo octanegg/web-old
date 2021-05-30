@@ -1,149 +1,10 @@
 /* eslint-disable jsx-a11y/control-has-associated-label */
-import { Flex, Stack, Text, Tooltip } from '@chakra-ui/react'
+import { Divider, Flex, Stack, Text, Tooltip } from '@chakra-ui/react'
 import Image from '@octane/components/common/Image'
 import Navigation from '@octane/components/common/Navigation'
 import { Link } from '@octane/components/common/Text'
 import { toDateYear, toMinuteSeconds, toTime, timeUntilFull } from '@octane/util/dates'
 import moment from 'moment'
-
-const SeriesOverviewHeader = ({ label, isActive, isLast }) => (
-  <Flex
-    height={7}
-    align="center"
-    paddingLeft={isLast ? 2 : 0}
-    paddingRight={isLast ? 2 : 0}
-    fontWeight="medium"
-    fontSize="xs"
-    color="secondary.500"
-    justify="center"
-    backgroundColor={isActive && 'primary.50'}
-    borderRadius="15px 15px 0px 0px">
-    {label}
-  </Flex>
-)
-
-const SeriesOverviewBlue = ({ team, games, isWinner, isActive }) => (
-  <tr>
-    <td align="center">
-      <Image boxSize={6} src={team.team.image} />
-    </td>
-    {games.map((game, i) => (
-      <td key={i} align="center" style={{ padding: 0 }}>
-        <Flex
-          height={7}
-          fontSize="sm"
-          align="center"
-          justify="center"
-          color={
-            !game.blue && !game.orange
-              ? ''
-              : !game.orange || game.blue > game.orange
-              ? 'win'
-              : 'loss'
-          }
-          fontWeight={!game.orange || game.blue > game.orange ? 'bold' : 'regular'}
-          backgroundColor={isActive === i + 1 && 'primary.50'}>
-          {game.blue || (game.orange === 0 ? '-' : 0)}
-        </Flex>
-      </td>
-    ))}
-    <td align="center" style={{ borderLeft: '1px solid #728098', padding: 0 }}>
-      <Flex
-        height={7}
-        fontSize="sm"
-        paddingLeft={2}
-        paddingRight={2}
-        align="center"
-        justify="center"
-        color={isWinner ? 'win' : 'loss'}
-        fontWeight={isWinner ? 'bold' : 'regular'}
-        backgroundColor={!isActive && 'primary.50'}>
-        {games.map((game) => game.blue || 0).reduce((a, b) => a + b, 0)}
-      </Flex>
-    </td>
-  </tr>
-)
-
-const SeriesOverviewOrange = ({ team, games, isWinner, isActive }) => (
-  <tr>
-    <td align="center">
-      <Image boxSize={6} src={team.team.image} />
-    </td>
-    {games.map((game, i) => (
-      <td key={i} align="center" style={{ padding: 0 }}>
-        <Flex
-          height={7}
-          fontSize="sm"
-          align="center"
-          justify="center"
-          color={
-            !game.blue && !game.orange ? '' : !game.blue || game.orange > game.blue ? 'win' : 'loss'
-          }
-          fontWeight={!game.blue || game.orange > game.blue ? 'bold' : 'regular'}
-          backgroundColor={isActive === i + 1 && 'primary.50'}
-          borderRadius="0px 0px 15px 15px">
-          {game.orange || (game.blue === 0 ? '-' : 0)}
-        </Flex>
-      </td>
-    ))}
-    <td align="center" style={{ borderLeft: '1px solid #728098', padding: 0 }}>
-      <Flex
-        height={7}
-        fontSize="sm"
-        paddingLeft={2}
-        paddingRight={2}
-        align="center"
-        justify="center"
-        color={isWinner ? 'win' : 'loss'}
-        fontWeight={isWinner ? 'bold' : 'regular'}
-        backgroundColor={!isActive && 'primary.50'}
-        borderRadius="0px 0px 15px 15px">
-        {games.map((game) => game.orange || 0).reduce((a, b) => a + b, 0)}
-      </Flex>
-    </td>
-  </tr>
-)
-
-const SeriesOverview = ({ blue, orange, games, isBlueWinner, isActive }) => (
-  <table>
-    <thead>
-      <tr>
-        <th align="center" style={{ width: 32 }} />
-        {games.map(({ duration }, i) => (
-          <th key={i} align="center" style={{ width: 32, padding: 0 }}>
-            <SeriesOverviewHeader
-              label={
-                duration > 300 ? (
-                  <Tooltip hasArrow placement="top" label={`${toMinuteSeconds(duration - 300)} OT`}>
-                    {`G${i + 1}'`}
-                  </Tooltip>
-                ) : (
-                  `G${i + 1}`
-                )
-              }
-              isActive={isActive === i + 1}
-            />
-          </th>
-        ))}
-        <SeriesOverviewHeader label="T" isActive={!isActive} isLast />
-      </tr>
-    </thead>
-    <tbody>
-      <SeriesOverviewBlue
-        team={blue.team}
-        games={games}
-        isWinner={isBlueWinner}
-        isActive={isActive}
-      />
-      <SeriesOverviewOrange
-        team={orange.team}
-        games={games}
-        isWinner={!isBlueWinner}
-        isActive={isActive}
-      />
-    </tbody>
-  </table>
-)
 
 export const Infobox = ({ match, active }) => {
   const { blue, orange, date, event, stage, games } = match
@@ -158,6 +19,7 @@ export const Infobox = ({ match, active }) => {
       justify="center"
       align="center"
       paddingTop={2}
+      paddingBottom={4}
       paddingLeft={6}
       paddingRight={6}>
       <Flex width="full" justify="space-between">
@@ -256,19 +118,122 @@ export const Infobox = ({ match, active }) => {
         )}
       </Stack>
       {games && (
-        <Flex paddingBottom={4} display={{ base: 'none', lg: 'flex' }}>
-          <SeriesOverview
-            blue={blue}
-            orange={orange}
-            games={games}
-            isActive={active}
-            isBlueWinner={blue.winner}
-          />
-        </Flex>
+        <MatchOverview
+          match={match}
+          blue={blue}
+          orange={orange}
+          games={games}
+          winner={blue.winner ? 'blue' : orange.winner ? 'orange' : ''}
+          active={active}
+        />
       )}
     </Stack>
   )
 }
+
+export const MatchOverview = ({ match, blue, orange, games, winner, active }) => (
+  <Stack direction="row" spacing={2} height={24} display={{ base: 'none', lg: 'flex' }}>
+    <Stack justify="flex-end" padding={2}>
+      <Image src={blue.team.team.image} boxSize={6} />
+      <Image src={orange.team.team.image} boxSize={6} />
+    </Stack>
+    <Link href={`/matches/${match.slug}`}>
+      <Stack
+        backgroundColor={!active ? 'primary.50' : ''}
+        borderRadius={16}
+        cursor="pointer"
+        padding={2}
+        _hover={{ backgroundColor: 'primary.50' }}>
+        <Flex
+          fontWeight="medium"
+          fontSize="xs"
+          color="secondary.500"
+          justify="center"
+          align="center">
+          T
+        </Flex>
+        <Flex
+          height={6}
+          fontSize="sm"
+          align="center"
+          justify="center"
+          color={!winner ? '' : winner === 'blue' ? 'win' : 'loss'}
+          fontWeight={winner === 'blue' ? 'bold' : 'regular'}>
+          {games.map((game) => game.blue || 0).reduce((a, b) => a + b, 0)}
+        </Flex>
+        <Flex
+          height={6}
+          fontSize="sm"
+          align="center"
+          justify="center"
+          color={!winner ? '' : winner === 'orange' ? 'win' : 'loss'}
+          fontWeight={winner === 'orange' ? 'bold' : 'regular'}>
+          {games.map((game) => game.orange || 0).reduce((a, b) => a + b, 0)}
+        </Flex>
+      </Stack>
+    </Link>
+    <Divider orientation="vertical" color="secondary.500" />
+    {games?.map((game, i) => (
+      <Link href={`/matches/${match.slug}/${i + 1}`}>
+        <Stack
+          key={game._id}
+          backgroundColor={active === i + 1 ? 'primary.50' : ''}
+          borderRadius={16}
+          cursor="pointer"
+          _hover={{ backgroundColor: 'primary.50' }}
+          padding={2}>
+          <Flex
+            fontWeight="medium"
+            fontSize="xs"
+            color="secondary.500"
+            justify="center"
+            align="center">
+            {game.duration > 300 ? (
+              <Tooltip
+                hasArrow
+                placement="top"
+                label={`${toMinuteSeconds(game.duration - 300)} OT`}>
+                {`G${i + 1}'`}
+              </Tooltip>
+            ) : (
+              `G${i + 1}`
+            )}
+          </Flex>
+          <Flex
+            height={6}
+            fontSize="sm"
+            align="center"
+            justify="center"
+            color={
+              !game.blue && !game.orange
+                ? ''
+                : !game.orange || game.blue > game.orange
+                ? 'win'
+                : 'loss'
+            }
+            fontWeight={!game.orange || game.blue > game.orange ? 'bold' : 'regular'}>
+            {game.blue || (game.orange === 0 ? '-' : 0)}
+          </Flex>
+          <Flex
+            height={6}
+            fontSize="sm"
+            align="center"
+            justify="center"
+            color={
+              !game.orange && !game.blue
+                ? ''
+                : !game.blue || game.orange > game.blue
+                ? 'win'
+                : 'loss'
+            }
+            fontWeight={!game.blue || game.orange > game.blue ? 'bold' : 'regular'}>
+            {game.orange || (game.blue === 0 ? '-' : 0)}
+          </Flex>
+        </Stack>
+      </Link>
+    ))}
+  </Stack>
+)
 
 export const MatchNavigation = ({ baseHref, games, active }) => (
   <Navigation
