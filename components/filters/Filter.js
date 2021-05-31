@@ -25,6 +25,7 @@ import formats from '@octane/config/fields/formats'
 import { useOctane } from '@octane/context/octane'
 import Image from '@octane/components/common/Image'
 import groups from '@octane/config/fields/groups'
+import Input from '@octane/components/common/Input'
 
 export const Filter = ({ children, onApply, onReset, alwaysShowFilter }) => {
   const { setLoadingSameRoute } = useOctane()
@@ -277,7 +278,14 @@ export const PlayersFilter = ({ players, active, onChange }) => (
 export const EventsFilter = ({ events, active, onEventChange, onGroupChange }) => {
   const [isOpen, setIsOpen] = useState(false)
   const [_groups, setGroups] = useState([])
-  const [_active, setActive] = useState(active)
+  const [_active, setActive] = useState({ groups: [], events: [] })
+  const [search, setSearch] = useState('')
+
+  const reset = () => {
+    onGroupChange([])
+    onEventChange([])
+    setActive({ groups: [], events: [] })
+  }
 
   const handleChange = (group, event) => {
     const newActive = _active
@@ -297,6 +305,8 @@ export const EventsFilter = ({ events, active, onEventChange, onGroupChange }) =
       newActive.events = newActive.events.filter((e) => group.events.includes(e))
     } else {
       newActive.groups.push(group.id)
+      console.log(group)
+      console.log([...new Set(newActive.events.concat(group.events.map((e) => e.id)))])
       newActive.events = [...new Set(newActive.events.concat(group.events.map((e) => e.id)))]
     }
 
@@ -313,14 +323,47 @@ export const EventsFilter = ({ events, active, onEventChange, onGroupChange }) =
   }
 
   useEffect(() => {
-    setGroups([
-      ...groups.map((group) => ({
-        ...group,
-        events: events.filter((event) => event.groups && event.groups.includes(group.id)),
-      })),
-      { id: 'other', label: 'Other Events', events: events.filter((event) => !event.groups) },
-    ])
+    if (!search) {
+      setGroups(
+        groups.map((group) => ({
+          ...group,
+          events: events.filter((event) => event.groups && event.groups.includes(group.id)),
+        }))
+      )
+    }
+
+    const activeEvents = active.events
+    active.groups.forEach((g) => {
+      events
+        .filter((event) => event.groups && event.groups.includes(g))
+        .forEach((e) => activeEvents.push(e.id))
+    })
+
+    setActive({
+      events: activeEvents,
+      groups: active.groups,
+    })
   }, [events])
+
+  useEffect(() => {
+    if (search.length >= 3) {
+      const _events = events.filter((e) => e.label.toLowerCase().includes(search.toLowerCase()))
+      setGroups([
+        ...groups.map((group) => ({
+          ...group,
+          events: _events.filter((event) => event.groups && event.groups.includes(group.id)),
+        })),
+        { id: 'other', label: 'Other Events', events: _events.filter((event) => !event.groups) },
+      ])
+    } else {
+      setGroups(
+        groups.map((group) => ({
+          ...group,
+          events: events.filter((event) => event.groups && event.groups.includes(group.id)),
+        }))
+      )
+    }
+  }, [search])
 
   return (
     <Dropdown
@@ -332,7 +375,15 @@ export const EventsFilter = ({ events, active, onEventChange, onGroupChange }) =
       isDisabled={events.length === 0}
       isActive={active?.events || active?.groups}>
       <List maxHeight={400} overflowY="scroll" padding={2}>
-        {_groups?.map((group) => (
+        <ListItem>
+          <Stack direction="row" padding={2} align="center">
+            <Input size="sm" value={search} onChange={(e) => setSearch(e.currentTarget.value)} />
+            <Button buttonType={ButtonTypes.cancel} onClick={reset}>
+              Clear
+            </Button>
+          </Stack>
+        </ListItem>
+        {_groups.map((group) => (
           <>
             {group.events?.length > 0 && (
               <ListItem
@@ -340,17 +391,21 @@ export const EventsFilter = ({ events, active, onEventChange, onGroupChange }) =
                 cursor="pointer"
                 _hover={{ backgroundColor: 'secondary.25', borderRadius: 8 }}
                 onClick={(e) => {
-                  e.preventDefault()
-                  handleChange(group)
+                  if (group.id !== 'other') {
+                    e.preventDefault()
+                    handleChange(group)
+                  }
                 }}>
                 <Stack direction="row" align="center">
-                  <Checkbox
-                    borderColor="secondary.300"
-                    colorScheme="whatsapp"
-                    size="sm"
-                    isChecked={_active.groups?.includes(group.id)}
-                    isReadOnly
-                  />
+                  {group.id !== 'other' && (
+                    <Checkbox
+                      borderColor="secondary.300"
+                      colorScheme="whatsapp"
+                      size="sm"
+                      isChecked={_active.groups?.includes(group.id)}
+                      isReadOnly
+                    />
+                  )}
                   <Text
                     fontSize="xs"
                     fontWeight="bold"
@@ -362,7 +417,7 @@ export const EventsFilter = ({ events, active, onEventChange, onGroupChange }) =
                 </Stack>
               </ListItem>
             )}
-            {group.events?.map((item) => (
+            {group.events.map((item) => (
               <ListItem
                 key={item.id}
                 padding="0.375rem"

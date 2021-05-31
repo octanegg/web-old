@@ -321,6 +321,8 @@ export const DropdownCheckbox = ({
             item.id.includes(search.toLowerCase())
         )
       )
+    } else {
+      setCheckboxes(items)
     }
   }, [search])
 

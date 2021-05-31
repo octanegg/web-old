@@ -59,7 +59,7 @@ export const PlayerStats = ({
   return (
     <Flex
       overflowX={{ base: 'scroll', lg: noScroll ? 'auto' : 'scroll' }}
-      height={{ base: '550px', lg: noScroll ? 'full' : '1500px' }}>
+      maxHeight={{ base: '550px', lg: noScroll ? 'full' : '1500px' }}>
       <Table>
         <Header>
           <HeaderItem align="left" onClick={isSortable && (() => updateSort({ id: 'player.tag' }))}>

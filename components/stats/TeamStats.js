@@ -39,7 +39,7 @@ export const TeamStats = ({ statGroup, stats, total, period, groupBy, noScroll, 
   return (
     <Flex
       overflowX={{ base: 'scroll', lg: noScroll ? 'auto' : 'scroll' }}
-      height={{ base: '550px', lg: noScroll ? 'full' : '1500px' }}>
+      maxHeight={{ base: '550px', lg: noScroll ? 'full' : '1500px' }}>
       <Table>
         <Header>
           <HeaderItem align="left" onClick={isSortable && (() => updateSort({ id: 'team.name' }))}>
