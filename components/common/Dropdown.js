@@ -157,7 +157,8 @@ export const DropdownList = ({ items, active, label, itemToLabel, itemToId, onCh
           <ListItem
             key={i}
             padding="0.375rem"
-            _hover={{ backgroundColor: 'secondary.25', borderRadius: 8 }}
+            borderRadius={8}
+            _hover={{ backgroundColor: 'secondary.25' }}
             fontSize="13px"
             fontWeight="medium"
             cursor="pointer"

@@ -19,7 +19,6 @@ import { getRecordStat } from '@octane/util/stats'
 import { useState } from 'react'
 import { rocketLeagueYears } from '@octane/util/dates'
 import tiers from '@octane/config/fields/tiers'
-import groups from '@octane/config/fields/groups'
 import modes from '@octane/config/fields/modes'
 import formats from '@octane/config/fields/formats'
 import { useOctane } from '@octane/context/octane'
@@ -88,10 +87,6 @@ export const TierFilter = ({ active, onChange }) => (
   <DropdownCheckbox label="Tiers" items={tiers} active={active} onChange={onChange} hideSearch />
 )
 
-export const GroupFilter = ({ active, onChange }) => (
-  <DropdownCheckbox label="Events" items={groups} active={active} onChange={onChange} />
-)
-
 export const RegionFilter = ({ active, onChange, noInternational }) => (
   <DropdownCheckbox
     label="Regions"
@@ -123,8 +118,15 @@ export const FormatFilter = ({ active, onChange }) => (
   />
 )
 
-export const YearFilter = ({ active, onChange }) => (
-  <DropdownList label="Years" items={rocketLeagueYears()} active={active} onChange={onChange} />
+export const YearFilter = ({ active, onChange, startYear }) => (
+  <DropdownList
+    label="Years"
+    items={
+      startYear ? rocketLeagueYears().filter((year) => year >= startYear) : rocketLeagueYears()
+    }
+    active={parseInt(active, 10)}
+    onChange={onChange}
+  />
 )
 
 export const NationalityFilter = ({ active, onChange }) => (

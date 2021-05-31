@@ -1,8 +1,8 @@
 import {
   DateRangeFilter,
+  EventsFilter,
   Filter,
   FormatFilter,
-  GroupFilter,
   ModeFilter,
   OvertimeFilter,
   QualifierFilter,
@@ -13,11 +13,14 @@ import {
 } from '@octane/components/filters/Filter'
 import { buildQuery, route } from '@octane/util/routes'
 import { useRouter } from 'next/router'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 export const RecordsFilter = ({ type, initialFilter }) => {
   const router = useRouter()
   const [filter, setFilter] = useState(initialFilter)
+  const [search, setSearch] = useState({
+    events: [],
+  })
 
   const updateFilter = (key, value) => {
     setFilter((prev) => ({
@@ -25,6 +28,16 @@ export const RecordsFilter = ({ type, initialFilter }) => {
       [key]: value === 'All' ? '' : value,
     }))
   }
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const data = await fetch(
+        `${process.env.SEARCH_API_URL}/search${buildQuery({ ...filter, searchEvents: true }, '')}`
+      )
+      setSearch(await data.json())
+    }
+    fetchData()
+  }, [])
 
   return (
     <Filter
@@ -46,7 +59,20 @@ export const RecordsFilter = ({ type, initialFilter }) => {
         onChange={(item) => updateFilter('stat', item)}
         type={type}
       />
-      <GroupFilter active={filter.group} onChange={(item) => updateFilter('group', item)} />
+      <EventsFilter
+        events={search.events
+          .filter(({ slug }) => slug)
+          ?.map(({ slug, name, image }) => ({
+            id: slug,
+            label: name,
+            ...(image && { image }),
+          }))
+          .sort((a, b) => a.label.toLowerCase().localeCompare(b.label.toLowerCase()) || [])}
+        active={filter.event}
+        onChange={(item) => {
+          updateFilter('event', item)
+        }}
+      />
       <TierFilter active={filter.tier} onChange={(item) => updateFilter('tier', item)} />
       <RegionFilter active={filter.region} onChange={(item) => updateFilter('region', item)} />
       <ModeFilter active={filter.mode} onChange={(item) => updateFilter('mode', item)} />

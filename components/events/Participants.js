@@ -6,7 +6,7 @@ import { useState } from 'react'
 
 const Player = ({ player }) => (
   <Stack height="full" padding={0} paddingLeft={2} direction="row" align="center" spacing={1}>
-    <Country country={player.country} boxSize={4} />
+    <Country country={player.country} boxSize={4} disableTooltip />
     <Link href={`/players/${player.slug}`} fontWeight="semi">
       <Stack direction="row" align="center" spacing={1}>
         <Text>{player.tag}</Text>

@@ -31,7 +31,7 @@ export const Events = ({ events }) => {
       <Heading display={{ base: 'flex', lg: 'none' }}>Ongoing Events</Heading>
       <Stack
         direction={{ base: 'row', lg: 'column' }}
-        divider={<StackDivider borderColor="secondary.200" />}
+        divider={<StackDivider borderColor="secondary.100" />}
         overflowY={{ base: 'scroll', lg: 'auto' }}>
         {(toggle ? ongoing : upcoming).map(
           ({ _id, slug, name, region, stages, startDate, endDate, image, tier, prize }) => {

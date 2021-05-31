@@ -8,7 +8,7 @@ import { Link } from '@octane/components/common/Text'
 export const MatchesWidget = ({ matches, team, player, preventScroll }) => (
   <Stack
     direction={{ base: preventScroll ? 'column' : 'row', lg: 'column' }}
-    divider={<StackDivider borderColor="secondary.200" />}
+    divider={<StackDivider borderColor="secondary.100" />}
     overflowY={{ base: preventScroll ? 'auto' : 'scroll', lg: 'auto' }}>
     {matches.map(({ _id, slug, event, date, blue, orange }) => {
       const isTeam = blue?.team?.team?.slug === team

@@ -6,11 +6,12 @@ import { useAuthFunctions } from 'aws-cognito-next'
 import { isAdmin } from '@octane/util/auth'
 import { MdSettings } from 'react-icons/md'
 import { FaTrophy, FaMedal, FaCalendar } from 'react-icons/fa'
-import { IoStatsChart, IoLogInOutline, IoLogOutOutline } from 'react-icons/io5'
+import { IoStatsChart, IoLogInOutline, IoLogOutOutline, IoNewspaper } from 'react-icons/io5'
 import { RiTeamFill } from 'react-icons/ri'
 import { useRouter } from 'next/router'
 
 const NAV_ITEMS = [
+  { href: '/news', label: 'News', icon: <IoNewspaper /> },
   { href: '/matches', label: 'Matches', icon: <FaTrophy /> },
   { href: '/events', label: 'Events', icon: <FaCalendar /> },
   {

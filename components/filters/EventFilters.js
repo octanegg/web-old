@@ -1,6 +1,5 @@
 import {
   Filter,
-  GroupFilter,
   ModeFilter,
   RecordsCategoryFilter,
   RecordsStatsFilter,
@@ -37,7 +36,6 @@ export const UpcomingEventsFilter = ({ initialFilter }) => {
         })
         route(router, '/events', '')
       }}>
-      <GroupFilter active={filter.group} onChange={(item) => updateFilter('group', item)} />
       <TierFilter active={filter.tier} onChange={(item) => updateFilter('tier', item)} />
       <RegionFilter active={filter.region} onChange={(item) => updateFilter('region', item)} />
       <ModeFilter active={filter.mode} onChange={(item) => updateFilter('mode', item)} />
@@ -68,7 +66,6 @@ export const CompletedEventsFilter = ({ initialFilter }) => {
         })
         route(router, '/events/archive', '')
       }}>
-      <GroupFilter active={filter.group} onChange={(item) => updateFilter('group', item)} />
       <TierFilter active={filter.tier} onChange={(item) => updateFilter('tier', item)} />
       <RegionFilter active={filter.region} onChange={(item) => updateFilter('region', item)} />
       <ModeFilter active={filter.mode} onChange={(item) => updateFilter('mode', item)} />

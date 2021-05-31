@@ -44,6 +44,7 @@ export async function getServerSideProps({ query }) {
     mode: query.mode || 3,
     tier: query.tier || '',
     region: query.region || '',
+    event: query.event || '',
     before: query.before || '',
     after: query.after || '',
     group: query.group || '',

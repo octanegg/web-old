@@ -9,8 +9,9 @@ export const Heading = (props) => (
     bgGradient="linear(to-r, primary.100, primary.50, transparent)">
     <Text
       textTransform="uppercase"
-      color="secondary.500"
+      color="primary.700"
       fontSize="11px"
+      textShadow="1px 1px 2px rgb(28 28 28 / 10%)"
       fontWeight="semi"
       padding={0.25}
       paddingLeft={1}
