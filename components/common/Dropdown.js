@@ -383,7 +383,16 @@ export const DropdownCheckbox = ({
   )
 }
 
-const Dropdown = ({ label, isOpen, open, close, footer, children, isActive, isDisabled }) => (
+export const Dropdown = ({
+  label,
+  isOpen,
+  open,
+  close,
+  footer,
+  children,
+  isActive,
+  isDisabled,
+}) => (
   <Popover placement="bottom" isOpen={isOpen} onClose={close}>
     <PopoverTrigger>
       <ChakraButton

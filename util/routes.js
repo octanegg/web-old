@@ -7,6 +7,7 @@ export const buildQuery = (filter, exclusions) => {
     .filter(([k, v]) => !exclusions.includes(k) && v !== '' && v !== [])
     .map(([k, v]) => (Array.isArray(v) ? v.map((w) => `${k}=${w}`).join('&') : `${k}=${v}`))
     .join('&')
+    .replace('&&', '&')
 
   return query ? `?${query}` : ''
 }

@@ -55,6 +55,7 @@ export async function getServerSideProps({ params, query }) {
     player: id,
     tier: query.tier || '',
     mode: query.mode || 3,
+    group: query.group || '',
     event: query.event || '',
     team: query.team || '',
     opponent: query.opponent || '',

@@ -73,16 +73,19 @@ export const PlayerMatchesFilter = ({ player, initialFilter }) => {
       <EventsFilter
         events={search.events
           .filter(({ slug }) => slug)
-          ?.map(({ slug, name, image }) => ({
+          ?.map(({ slug, name, image, groups }) => ({
             id: slug,
             label: name,
+            ...(groups && { groups }),
             ...(image && { image }),
           }))
           .sort((a, b) => a.label.toLowerCase().localeCompare(b.label.toLowerCase()) || [])}
-        active={filter.event}
-        onChange={(item) => {
-          updateFilter('event', item)
+        active={{
+          events: !filter.event ? [] : Array.isArray(filter.event) ? filter.event : [filter.event],
+          groups: !filter.group ? [] : Array.isArray(filter.group) ? filter.group : [filter.group],
         }}
+        onEventChange={(item) => updateFilter('event', item)}
+        onGroupChange={(item) => updateFilter('group', item)}
       />
       <TeamsFilter
         teams={search.teams
@@ -182,16 +185,19 @@ export const PlayerRecordsFilter = ({ player, initialFilter }) => {
       <EventsFilter
         events={search.events
           .filter(({ slug }) => slug)
-          ?.map(({ slug, name, image }) => ({
+          ?.map(({ slug, name, image, groups }) => ({
             id: slug,
             label: name,
             ...(image && { image }),
+            ...(groups && { groups }),
           }))
           .sort((a, b) => a.label.toLowerCase().localeCompare(b.label.toLowerCase()) || [])}
-        active={filter.event}
-        onChange={(item) => {
-          updateFilter('event', item)
+        active={{
+          events: !filter.event ? [] : Array.isArray(filter.event) ? filter.event : [filter.event],
+          groups: !filter.group ? [] : Array.isArray(filter.group) ? filter.group : [filter.group],
         }}
+        onEventChange={(item) => updateFilter('event', item)}
+        onGroupChange={(item) => updateFilter('group', item)}
       />
       <TeamsFilter
         teams={search.teams
@@ -294,8 +300,9 @@ export const PlayerStatsFilter = ({ player, type, events, initialFilter }) => {
       {events && (
         <EventsFilter
           events={events}
-          active={filter.event}
-          onChange={(item) => updateFilter('event', item)}
+          active={{ events: filter.event, groups: filter.group }}
+          onEventChange={(item) => updateFilter('event', item)}
+          onGroupChange={(item) => updateFilter('group', item)}
         />
       )}
       <TierFilter active={filter.tier} onChange={(item) => updateFilter('tier', item)} />
@@ -304,16 +311,16 @@ export const PlayerStatsFilter = ({ player, type, events, initialFilter }) => {
         <EventsFilter
           events={search.events
             .filter(({ slug }) => slug)
-            ?.map(({ slug, name, image }) => ({
+            ?.map(({ slug, name, image, groups }) => ({
               id: slug,
               label: name,
               ...(image && { image }),
+              ...(groups && { groups }),
             }))
             .sort((a, b) => a.label.toLowerCase().localeCompare(b.label.toLowerCase()) || [])}
-          active={filter.event}
-          onChange={(item) => {
-            updateFilter('event', item)
-          }}
+          active={{ events: filter.event, groups: filter.group }}
+          onEventChange={(item) => updateFilter('event', item)}
+          onGroupChange={(item) => updateFilter('group', item)}
         />
       )}
       {type !== 'teams' && (

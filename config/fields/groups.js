@@ -1,27 +1,27 @@
 export const groups = [
   {
-    id: 'rlcs',
-    label: 'RLCS',
-    children: [
-      {
-        id: 'rlcs19',
-        label: 'RLCS Seasons 1-9',
-        children: [
-          { id: 'rlcs19lp', label: 'Regionals' },
-          { id: 'rlcs19worlds', label: 'Worlds' },
-        ],
-      },
-      {
-        id: 'rlcsx',
-        label: 'RLCS X',
-        children: [
-          { id: 'rlcsxfall', label: 'Fall' },
-          { id: 'rlcsxwinter', label: 'Winter' },
-          { id: 'rlcsxspring', label: 'Spring' },
-          { id: 'grid', label: 'The Grid' },
-        ],
-      },
-    ],
+    id: 'rlcsxchampionships',
+    label: 'RLCS X Championship',
+  },
+  {
+    id: 'rlcsxspring',
+    label: 'RLCS X Spring',
+  },
+  {
+    id: 'rlcsxwinter',
+    label: 'RLCS X Winter',
+  },
+  {
+    id: 'rlcsxfall',
+    label: 'RLCS X Fall',
+  },
+  {
+    id: 'grid',
+    label: 'RLCS X The Grid',
+  },
+  {
+    id: 'rlcs19',
+    label: 'RLCS S1-S9',
   },
 ]
 

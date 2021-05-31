@@ -16,8 +16,7 @@ const NAV_ITEMS = [
   { href: '/events', label: 'Events', icon: <FaCalendar /> },
   {
     href: '/stats/players',
-    query:
-      '?mode=3&event=3a3b-rlcs-x-fall-europe-major&event=3171-rlcs-x-fall-europe-regional-1&event=e208-rlcs-x-fall-europe-regional-2&event=e214-rlcs-x-fall-europe-regional-3&event=3a3a-rlcs-x-fall-north-america-major&event=3172-rlcs-x-fall-north-america-regional-1&event=e207-rlcs-x-fall-north-america-regional-2&event=e215-rlcs-x-fall-north-america-regional-3&event=3a3d-rlcs-x-fall-oceania-major&event=e1f1-rlcs-x-fall-oceania-regional-1&event=e209-rlcs-x-fall-oceania-regional-2&event=e217-rlcs-x-fall-oceania-regional-3&event=3a3c-rlcs-x-fall-south-america-major&event=e200-rlcs-x-fall-south-america-regional-1&event=e21a-rlcs-x-fall-south-america-regional-2&event=3490-rlcs-x-spring-europe-major&event=afec-rlcs-x-spring-europe-regional-1&event=a1df-rlcs-x-spring-europe-regional-2&event=66d0-rlcs-x-spring-europe-regional-3&event=5851-rlcs-x-spring-north-america-major&event=a83e-rlcs-x-spring-north-america-regional-1&event=0091-rlcs-x-spring-north-america-regional-2&event=7c36-rlcs-x-spring-north-america-regional-3&event=584f-rlcs-x-spring-oceania-major&event=a1d8-rlcs-x-spring-oceania-regional-2&event=5850-rlcs-x-spring-south-america-major&event=afed-rlcs-x-spring-oceania-regional-1&event=66d1-rlcs-x-spring-oceania-regional-3&event=7c37-rlcs-x-spring-south-america-regional-2&event=b77b-rlcs-x-spring-south-america-regional-1&event=b858-rlcs-x-winter-europe-major&event=5e62-rlcs-x-winter-europe-regional-1&event=2d80-rlcs-x-winter-europe-regional-2&event=8a27-rlcs-x-winter-europe-regional-3&event=b859-rlcs-x-winter-north-america-major&event=5e63-rlcs-x-winter-north-america-regional-1&event=2d88-rlcs-x-winter-north-america-regional-2&event=7a3d-rlcs-x-winter-north-america-regional-3&event=b856-rlcs-x-winter-oceania-major&event=5e61-rlcs-x-winter-oceania-regional-1&event=8a2e-rlcs-x-winter-oceania-regional-2&event=2778-rlcs-x-winter-oceania-regional-3&event=b857-rlcs-x-winter-south-america-major&event=8a23-rlcs-x-winter-south-america-regional-1&event=53d1-rlcs-x-winter-south-america-regional-2&minGames=50',
+    query: '?mode=3&minGames=50&group=rlcsxspring&group=rlcsxwinter&group=rlcsxfall&group=grid',
     label: 'Stats',
     icon: <IoStatsChart />,
   },
@@ -34,13 +33,19 @@ const NavItem = ({ href, query, onClick, isActive, children }) => (
     borderBottomColor="secondary.700"
     transition="box-shadow 0.1s ease-out"
     cursor="pointer"
-    marginLeft={1}
-    marginRight={1}
+    marginLeft={0.5}
+    marginRight={0.5}
     boxShadow={isActive ? 'navbar' : ''}
     _hover={{ boxShadow: 'navbar' }}>
     {href ? (
       <NextLink passHref href={`${href}${query || ''}`}>
-        <Link display="block" padding={4} textDecoration="none !important" _focus={{}}>
+        <Link
+          display="block"
+          padding={4}
+          paddingLeft={3}
+          paddingRight={3}
+          textDecoration="none !important"
+          _focus={{}}>
           {children}
         </Link>
       </NextLink>

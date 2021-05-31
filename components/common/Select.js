@@ -92,6 +92,7 @@ export const InputSelect = ({
             width={64}
             borderRadius={4}
             value={input}
+            shadow={value ? '' : 'focus'}
             onChange={(e) => handleInputChange(e.currentTarget.value)}
             onClick={open}
             onBlur={close}

@@ -6,6 +6,7 @@ import { sortObjLex, calculateFormattedStat, sortStats } from '@octane/util/stat
 import { Link } from '@octane/components/common/Text'
 import { toDateYearString } from '@octane/util/dates'
 import Image from '@octane/components/common/Image'
+import { getTeamStat } from '@octane/config/stats/stats'
 
 export const TeamStats = ({ statGroup, stats, total, period, groupBy, noScroll, isSortable }) => {
   const [teams, setTeams] = useState([])
@@ -13,7 +14,12 @@ export const TeamStats = ({ statGroup, stats, total, period, groupBy, noScroll, 
   const [order, setOrder] = useState(false)
 
   useEffect(() => {
-    setTeams(groupBy ? stats.sort((a, b) => new Date(b.endDate) - new Date(a.endDate)) : stats)
+    setTeams(
+      groupBy
+        ? stats.sort((a, b) => new Date(b.endDate) - new Date(a.endDate))
+        : sortStats(stats, getTeamStat('wins'), false, '')
+    )
+    setSort('wins')
   }, [])
 
   const updateSort = (stat) => {

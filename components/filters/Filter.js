@@ -1,4 +1,5 @@
 import DropdownList, {
+  Dropdown,
   DropdownCheckbox,
   DropdownDate,
   DropdownInput,
@@ -6,7 +7,7 @@ import DropdownList, {
 } from '@octane/components/common/Dropdown'
 import { getCountries } from '@octane/config/fields/countries'
 import { regions } from '@octane/config/fields/regions'
-import { Divider, Flex, Stack, Text } from '@chakra-ui/react'
+import { Checkbox, Divider, Flex, List, ListItem, Stack, Text } from '@chakra-ui/react'
 import { Button, ButtonTypes } from '@octane/components/common/Button'
 import { CheckIcon, CloseIcon } from '@chakra-ui/icons'
 import {
@@ -16,12 +17,14 @@ import {
   teamRecords,
 } from '@octane/config/records/records'
 import { getRecordStat } from '@octane/util/stats'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { rocketLeagueYears } from '@octane/util/dates'
 import tiers from '@octane/config/fields/tiers'
 import modes from '@octane/config/fields/modes'
 import formats from '@octane/config/fields/formats'
 import { useOctane } from '@octane/context/octane'
+import Image from '@octane/components/common/Image'
+import groups from '@octane/config/fields/groups'
 
 export const Filter = ({ children, onApply, onReset, alwaysShowFilter }) => {
   const { setLoadingSameRoute } = useOctane()
@@ -259,10 +262,6 @@ export const ReverseSweepsFilter = ({ reverseSweep, reverseSweepAttempt, onChang
   )
 }
 
-export const EventsFilter = ({ events, active, onChange }) => (
-  <DropdownCheckbox label="Events" items={events} active={active} onChange={onChange} showImage />
-)
-
 export const TeamsFilter = ({ teams, active, onChange }) => (
   <DropdownCheckbox label="Teams" items={teams} active={active} onChange={onChange} showImage />
 )
@@ -274,3 +273,128 @@ export const OpponentsFilter = ({ teams, active, onChange }) => (
 export const PlayersFilter = ({ players, active, onChange }) => (
   <DropdownCheckbox label="Players" items={players} active={active} onChange={onChange} showImage />
 )
+
+export const EventsFilter = ({ events, active, onEventChange, onGroupChange }) => {
+  const [isOpen, setIsOpen] = useState(false)
+  const [_groups, setGroups] = useState([])
+  const [_active, setActive] = useState(active)
+
+  const handleChange = (group, event) => {
+    const newActive = _active
+
+    if (event) {
+      if (newActive.events.includes(event.id)) {
+        newActive.events = newActive.events.filter((e) => e !== event.id)
+        newActive.groups = newActive.groups.filter((g) => g !== group.id)
+      } else {
+        newActive.events.push(event.id)
+        if (group.events.every((e) => newActive.events.includes(e.id))) {
+          newActive.groups.push(group.id)
+        }
+      }
+    } else if (newActive.groups.includes(group.id)) {
+      newActive.groups = newActive.groups.filter((g) => g !== group.id)
+      newActive.events = newActive.events.filter((e) => group.events.includes(e))
+    } else {
+      newActive.groups.push(group.id)
+      newActive.events = [...new Set(newActive.events.concat(group.events.map((e) => e.id)))]
+    }
+
+    onGroupChange(newActive.groups)
+    onEventChange(
+      newActive.events.filter(
+        (e) =>
+          !newActive.groups.some((g) =>
+            _groups.find((g1) => g1.id === g).events.find((e1) => e1.id === e)
+          )
+      )
+    )
+    setActive(newActive)
+  }
+
+  useEffect(() => {
+    setGroups([
+      ...groups.map((group) => ({
+        ...group,
+        events: events.filter((event) => event.groups && event.groups.includes(group.id)),
+      })),
+      { id: 'other', label: 'Other Events', events: events.filter((event) => !event.groups) },
+    ])
+  }, [events])
+
+  return (
+    <Dropdown
+      label="Events"
+      isOpen={isOpen}
+      setIsOpen={() => setIsOpen}
+      open={() => setIsOpen(!isOpen)}
+      close={() => setIsOpen(false)}
+      isDisabled={events.length === 0}
+      isActive={active?.events || active?.groups}>
+      <List maxHeight={400} overflowY="scroll" padding={2}>
+        {_groups?.map((group) => (
+          <>
+            {group.events?.length > 0 && (
+              <ListItem
+                padding="0.375rem"
+                cursor="pointer"
+                _hover={{ backgroundColor: 'secondary.25', borderRadius: 8 }}
+                onClick={(e) => {
+                  e.preventDefault()
+                  handleChange(group)
+                }}>
+                <Stack direction="row" align="center">
+                  <Checkbox
+                    borderColor="secondary.300"
+                    colorScheme="whatsapp"
+                    size="sm"
+                    isChecked={_active.groups?.includes(group.id)}
+                    isReadOnly
+                  />
+                  <Text
+                    fontSize="xs"
+                    fontWeight="bold"
+                    textTransform="uppercase"
+                    color="secondary.700"
+                    width="full">
+                    {group.label}
+                  </Text>
+                </Stack>
+              </ListItem>
+            )}
+            {group.events?.map((item) => (
+              <ListItem
+                key={item.id}
+                padding="0.375rem"
+                paddingLeft={8}
+                fontSize="13px"
+                fontWeight="medium"
+                color="secondary.800"
+                cursor="pointer"
+                value={item.id}
+                _hover={{ backgroundColor: 'secondary.25', borderRadius: 8 }}
+                onClick={(e) => {
+                  e.preventDefault()
+                  handleChange(group, item)
+                }}>
+                <Stack direction="row">
+                  <Checkbox
+                    borderColor="secondary.300"
+                    colorScheme="whatsapp"
+                    size="sm"
+                    isChecked={_active.events?.includes(item.id)}
+                    isReadOnly
+                  />
+                  <Stack direction="row" align="center">
+                    {item.image && <Image src={item.image} boxSize={5} />}
+                    <Flex>{item.label || item.id}</Flex>
+                  </Stack>
+                </Stack>
+              </ListItem>
+            ))}
+          </>
+        ))}
+      </List>
+    </Dropdown>
+  )
+}

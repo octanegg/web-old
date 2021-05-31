@@ -7,6 +7,7 @@ import { Link } from '@octane/components/common/Text'
 import { toDateYearString } from '@octane/util/dates'
 import Image from '@octane/components/common/Image'
 import Country from '@octane/components/common/Country'
+import { getPlayerStat } from '@octane/config/stats/stats'
 
 export const PlayerStats = ({
   statGroup,
@@ -23,7 +24,12 @@ export const PlayerStats = ({
   const [order, setOrder] = useState(false)
 
   useEffect(() => {
-    setPlayers(groupBy ? stats.sort((a, b) => new Date(b.endDate) - new Date(a.endDate)) : stats)
+    setPlayers(
+      groupBy
+        ? stats.sort((a, b) => new Date(b.endDate) - new Date(a.endDate))
+        : sortStats(stats, getPlayerStat('rating'), false, '')
+    )
+    setSort('rating')
   }, [])
 
   const updateSort = (stat) => {
@@ -182,7 +188,9 @@ const StatsRow = ({ record, statGroup, sort, groupBy, period, isEven, showTeam }
       {showTeam && (
         <Cell>
           <Flex justify="center">
-            <Image boxSize={6} src={team.image} />
+            <Link href={`/teams/${team.slug}`}>
+              <Image boxSize={6} src={team.image} />
+            </Link>
           </Flex>
         </Cell>
       )}
