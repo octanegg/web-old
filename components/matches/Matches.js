@@ -6,6 +6,7 @@ import Pagination from '@octane/components/common/Pagination'
 import NextLink from 'next/link'
 import Image from '@octane/components/common/Image'
 import regions from '@octane/config/fields/regions'
+import { timeUntilFull } from '@octane/util/dates'
 
 export const Matches = ({ matches, team, player, pagination }) => {
   const [groups, setGroups] = useState([])
@@ -168,6 +169,12 @@ const Match = ({ match, team, player, highlightResult }) => {
           align="center"
           width={80}
           display={{ base: 'none', lg: 'flex' }}>
+          {moment(date).isBefore(moment()) && leftScore === 0 && rightScore === 0 && (
+            <Badge colorScheme="yellow">Awaiting Result</Badge>
+          )}
+          {moment(date).isAfter(moment()) && (
+            <Badge colorScheme="green">{timeUntilFull(date)}</Badge>
+          )}
           {hasStats && <Badge colorScheme="green">Stats</Badge>}
           {hasReplays && <Badge colorScheme="blue">Replays</Badge>}
         </Stack>
@@ -178,7 +185,9 @@ const Match = ({ match, team, player, highlightResult }) => {
             direction="column"
             width={72}
             display={{ base: 'none', md: 'flex' }}>
-            <Link href={`/events/${event.slug}`}>{event.name}</Link>
+            <Link href={`/events/${event.slug}`} width={80}>
+              {event.name}
+            </Link>
             <Stack
               direction="row"
               spacing={1}

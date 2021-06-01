@@ -6,20 +6,26 @@ import { UpcomingEventsFilter } from '@octane/components/filters/EventFilters'
 import { Stack } from '@chakra-ui/react'
 import Meta from '@octane/components/common/Meta'
 import { buildQuery } from '@octane/util/routes'
+import { useOctane } from '@octane/context/octane'
+import Loading from '@octane/components/common/Loading'
 
-const EventsPage = ({ ongoing, upcoming, filter }) => (
-  <Content>
-    <Meta title="Rocket League Upcoming Events" />
-    <Stack width="full" spacing={3}>
-      <Navigation type="events" active="ongoing" />
-      <UpcomingEventsFilter initialFilter={filter} />
-      {!filter.mode && !filter.tier && !filter.region && !filter.group && (
-        <Events events={ongoing} />
-      )}
-      <Events events={upcoming} groupBy="startDate" />
-    </Stack>
-  </Content>
-)
+const EventsPage = ({ ongoing, upcoming, filter }) => {
+  const { loadingSameRoute } = useOctane()
+
+  return (
+    <Content>
+      <Meta title="Rocket League Upcoming Events" />
+      <Stack width="full" spacing={3}>
+        <Navigation type="events" active="ongoing" />
+        <UpcomingEventsFilter initialFilter={filter} />
+        {!filter.mode && !filter.tier && !filter.region && !filter.group && (
+          <Events events={ongoing} />
+        )}
+        {loadingSameRoute ? <Loading /> : <Events events={upcoming} groupBy="startDate" />}
+      </Stack>
+    </Content>
+  )
+}
 
 export async function getServerSideProps({ query }) {
   const filter = {

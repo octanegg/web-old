@@ -90,7 +90,7 @@ const ScoreboardTable = ({ stats, side, showMvp }) => (
       <Image boxSize={6} src={side.team.team.image} />
       <Link href={`/teams/${side.team.team.slug}`}>{side.team.team.name}</Link>
     </Stack>
-    <Flex overflowX={{ base: 'scroll', lg: 'auto' }}>
+    <Flex overflowX={{ base: 'scroll', lg: 'none' }}>
       <table className={styles.scoreboard}>
         <thead>
           <tr>

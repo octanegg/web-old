@@ -31,6 +31,7 @@ export const Link = (props) => {
     overflow,
     textOverflow,
     textAlign,
+    width,
     noStyle,
     children,
   } = props
@@ -47,6 +48,7 @@ export const Link = (props) => {
         wordBreak: 'break-word',
         textAlign: textAlign || 'start',
         zIndex: 2,
+        width: width || 'auto',
         _hover: { color: 'primary.500' },
         _focus: { outline: 'none' },
       }

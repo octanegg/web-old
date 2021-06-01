@@ -305,8 +305,6 @@ export const EventsFilter = ({ events, active, onEventChange, onGroupChange }) =
       newActive.events = newActive.events.filter((e) => group.events.includes(e))
     } else {
       newActive.groups.push(group.id)
-      console.log(group)
-      console.log([...new Set(newActive.events.concat(group.events.map((e) => e.id)))])
       newActive.events = [...new Set(newActive.events.concat(group.events.map((e) => e.id)))]
     }
 

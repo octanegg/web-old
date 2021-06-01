@@ -148,3 +148,7 @@
 .react-datepicker__triangle {
   display: none;
 }
+
+.chakra-image__placeholder {
+  height: 0 !important;
+}

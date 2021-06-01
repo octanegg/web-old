@@ -18,7 +18,7 @@ const MatchesPage = ({ filter, matches }) => {
     route(
       router,
       '/matches/archive',
-      buildQuery({ ...filter, page }, ['', 'before', 'sort', 'perPage'])
+      buildQuery({ ...filter, page }, ['', 'tbd', 'before', 'sort', 'perPage'])
     )
   }
 
@@ -53,6 +53,7 @@ export async function getServerSideProps({ query }) {
     reverseSweep: query.reverseSweep || '',
     reverseSweepAttempt: query.reverseSweepAttempt || '',
     perPage: 25,
+    tbd: 'false',
     sort: 'date:desc',
   }
 

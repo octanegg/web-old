@@ -6,8 +6,10 @@ import { Stack } from '@chakra-ui/react'
 import Meta from '@octane/components/common/Meta'
 import Loading from '@octane/components/common/Loading'
 import { useOctane } from '@octane/context/octane'
+import { EventMatchesFilter } from '@octane/components/filters/EventFilters'
+import { buildQuery } from '@octane/util/routes'
 
-const Event = ({ event, matches }) => {
+const Event = ({ event, filter, matches }) => {
   const { loadingSameRoute } = useOctane()
   return (
     <Content>
@@ -15,18 +17,24 @@ const Event = ({ event, matches }) => {
       <Stack width="full" spacing={3}>
         <EventInfobox event={event} />
         <Navigation type="event" active="matches" baseHref={`/events/${event.slug}`} hasDivider />
+        <EventMatchesFilter initialFilter={filter} event={event} />
         {loadingSameRoute ? <Loading /> : <Matches matches={matches} />}
       </Stack>
     </Content>
   )
 }
 
-export async function getServerSideProps({ params }) {
+export async function getServerSideProps({ params, query }) {
   const { id } = params
+
+  const filter = {
+    event: id,
+    stage: query.stage || '',
+  }
 
   const [_event, _matches] = await Promise.all([
     fetch(`${process.env.API_URL}/events/${id}`),
-    fetch(`${process.env.API_URL}/events/${id}/matches`),
+    fetch(`${process.env.API_URL}/events/${id}/matches${buildQuery(filter, [''])}`),
   ])
   if (_event.status !== 200) {
     return {
@@ -38,6 +46,7 @@ export async function getServerSideProps({ params }) {
   return {
     props: {
       event,
+      filter,
       matches: matches.sort((a, b) =>
         new Date(b.date) === new Date(a.date)
           ? b.number - a.number

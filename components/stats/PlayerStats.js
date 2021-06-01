@@ -46,6 +46,26 @@ export const PlayerStats = ({
             })
         )
       )
+    } else if (stat.id === 'opponent.name') {
+      setPlayers(
+        [...players].sort(
+          (a, b) =>
+            (order ? 1 : -1) *
+            b.opponents[0].name.localeCompare(a.opponents[0].name, {
+              sensitivity: 'base',
+            })
+        )
+      )
+    } else if (stat.id === 'event.name') {
+      setPlayers(
+        [...players].sort(
+          (a, b) =>
+            (order ? 1 : -1) *
+            b.events[0].name.localeCompare(a.events[0].name, {
+              sensitivity: 'base',
+            })
+        )
+      )
     } else {
       setPlayers(sortStats(players, stat, newOrder, period))
     }
@@ -58,16 +78,51 @@ export const PlayerStats = ({
 
   return (
     <Flex
+      direction="column"
       overflowX={{ base: 'scroll', lg: noScroll ? 'auto' : 'scroll' }}
       maxHeight={{ base: '550px', lg: noScroll ? 'full' : '1500px' }}>
       <Table>
         <Header>
-          <HeaderItem align="left" onClick={isSortable && (() => updateSort({ id: 'player.tag' }))}>
-            <Flex align="center" paddingLeft={4} minWidth="125px">
-              <Text marginRight={1}>{groupBy || 'Player'}</Text>
-              <SortIcon field="player.tag" />
-            </Flex>
-          </HeaderItem>
+          {groupBy === 'events' && (
+            <HeaderItem
+              align="left"
+              onClick={isSortable && (() => updateSort({ id: 'event.name' }))}>
+              <Flex align="center" paddingLeft={4} minWidth="125px">
+                <Text marginRight={1}>Events</Text>
+                <SortIcon field="event.name" />
+              </Flex>
+            </HeaderItem>
+          )}
+          {groupBy === 'teams' && (
+            <HeaderItem
+              align="left"
+              onClick={isSortable && (() => updateSort({ id: 'team.name' }))}>
+              <Flex align="center" paddingLeft={4} minWidth="125px">
+                <Text marginRight={1}>Teams</Text>
+                <SortIcon field="team.name" />
+              </Flex>
+            </HeaderItem>
+          )}
+          {groupBy === 'opponents' && (
+            <HeaderItem
+              align="left"
+              onClick={isSortable && (() => updateSort({ id: 'opponent.name' }))}>
+              <Flex align="center" paddingLeft={4} minWidth="125px">
+                <Text marginRight={1}>Opponents</Text>
+                <SortIcon field="opponent.name" />
+              </Flex>
+            </HeaderItem>
+          )}
+          {!groupBy && (
+            <HeaderItem
+              align="left"
+              onClick={isSortable && (() => updateSort({ id: 'player.tag' }))}>
+              <Flex align="center" paddingLeft={4} minWidth="125px">
+                <Text marginRight={1}>Player</Text>
+                <SortIcon field="player.tag" />
+              </Flex>
+            </HeaderItem>
+          )}
           {showTeam && (
             <HeaderItem onClick={isSortable && (() => updateSort({ id: 'team.name' }))}>
               <Flex align="center" justify="center" minWidth="75px">
@@ -87,31 +142,38 @@ export const PlayerStats = ({
             </HeaderItem>
           ))}
         </Header>
-        <Body>
-          {players?.map((record, i) => (
-            <StatsRow
-              key={i}
-              record={record}
-              statGroup={statGroup}
-              sort={sort}
-              period={period}
-              groupBy={groupBy}
-              isEven={i % 2 === 0}
-              showTeam={showTeam}
-            />
-          ))}
-          {total && (
-            <StatsRow
-              record={total}
-              statGroup={statGroup}
-              sort={sort}
-              period={period}
-              groupBy="total"
-              showTeam={showTeam}
-            />
-          )}
-        </Body>
+        {players.length > 0 && (
+          <Body>
+            {players?.map((record, i) => (
+              <StatsRow
+                key={i}
+                record={record}
+                statGroup={statGroup}
+                sort={sort}
+                period={period}
+                groupBy={groupBy}
+                isEven={i % 2 === 0}
+                showTeam={showTeam}
+              />
+            ))}
+            {total && (
+              <StatsRow
+                record={total}
+                statGroup={statGroup}
+                sort={sort}
+                period={period}
+                groupBy="total"
+                showTeam={showTeam}
+              />
+            )}
+          </Body>
+        )}
       </Table>
+      {(!players || players.length === 0) && (
+        <Flex>
+          <Image src="/images/empty.svg" />
+        </Flex>
+      )}
     </Flex>
   )
 }
@@ -125,7 +187,7 @@ const StatsRow = ({ record, statGroup, sort, groupBy, period, isEven, showTeam }
   return (
     <Row className={groupBy === 'total' ? 'total' : ''}>
       {groupBy === 'events' && (
-        <Cell>
+        <Cell backgroundColor={sort === 'event.name' && (isEven ? '#effef7' : '#e0fdef')}>
           <Flex align="center" justify="flex-start" fontSize="sm" paddingTop={1} paddingBottom={1}>
             <Image boxSize={6} marginLeft={2} marginRight={2} src={event.image} />
             <Flex direction="column" width={72}>
@@ -147,7 +209,9 @@ const StatsRow = ({ record, statGroup, sort, groupBy, period, isEven, showTeam }
         </Cell>
       )}
       {groupBy === 'teams' && (
-        <Cell width="12rem">
+        <Cell
+          width="12rem"
+          backgroundColor={sort === 'team.name' && (isEven ? '#effef7' : '#e0fdef')}>
           <Stack direction="row" align="center" fontSize="sm" marginLeft={4}>
             <Image boxSize={6} src={team.image} />
             <Link href={`/teams/${team.slug}`}>{team.name}</Link>
@@ -155,7 +219,9 @@ const StatsRow = ({ record, statGroup, sort, groupBy, period, isEven, showTeam }
         </Cell>
       )}
       {groupBy === 'opponents' && (
-        <Cell width="12rem">
+        <Cell
+          width="12rem"
+          backgroundColor={sort === 'opponent.name' && (isEven ? '#effef7' : '#e0fdef')}>
           <Stack direction="row" align="center" fontSize="sm" marginLeft={4}>
             <Image boxSize={6} src={opponent.image} />
             <Link href={`/teams/${opponent.slug}`}>{opponent.name}</Link>
@@ -170,14 +236,10 @@ const StatsRow = ({ record, statGroup, sort, groupBy, period, isEven, showTeam }
         </Cell>
       )}
       {!groupBy && (
-        <Cell width="12rem">
-          <Stack
-            paddingLeft={4}
-            direction="row"
-            fontSize="sm"
-            align="center"
-            backgroundColor={sort === 'player.tag' && (isEven ? '#effef7' : 'primary.50')}
-            height={10}>
+        <Cell
+          width="12rem"
+          backgroundColor={sort === 'player.tag' && (isEven ? '#effef7' : '#e0fdef')}>
+          <Stack paddingLeft={4} direction="row" fontSize="sm" align="center">
             <Country country={player.country} />
             <Flex>
               <Link href={`/players/${player.slug}`}>{player.tag}</Link>
@@ -186,7 +248,7 @@ const StatsRow = ({ record, statGroup, sort, groupBy, period, isEven, showTeam }
         </Cell>
       )}
       {showTeam && (
-        <Cell>
+        <Cell backgroundColor={sort === 'team.name' && (isEven ? '#effef7' : '#e0fdef')}>
           <Flex justify="center">
             <Link href={`/teams/${team.slug}`}>
               <Image boxSize={6} src={team.image} />
@@ -195,14 +257,12 @@ const StatsRow = ({ record, statGroup, sort, groupBy, period, isEven, showTeam }
         </Cell>
       )}
       {statGroup.stats.map((stat) => (
-        <Cell>
+        <Cell backgroundColor={sort === stat.id && (isEven ? '#effef7' : '#e0fdef')}>
           <Flex
             width="full"
             padding={2}
             fontSize="sm"
-            fontWeight={sort === stat.id && 'bold'}
-            backgroundColor={sort === stat.id && (isEven ? '#effef7' : 'primary.50')}
-            height={10}
+            fontWeight={sort === stat.id && 'semi'}
             align="center"
             justify="center">
             {calculateFormattedStat(record, stat, period)}

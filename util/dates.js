@@ -43,7 +43,20 @@ export const timeUntilFull = (date) => {
   if (minutes < 60 * 24) {
     return `in ${Math.floor(minutes / 60)} hour${Math.floor(minutes / 60) > 1 ? 's' : ''}`
   }
-  return `in ${Math.floor(minutes / 60 / 24)} day${Math.floor(minutes / 60 / 24) > 1 ? 's' : ''}`
+
+  if (minutes < 60 * 24 * 7) {
+    return `in ${Math.floor(minutes / 60 / 24)} day${Math.floor(minutes / 60 / 24) > 1 ? 's' : ''}`
+  }
+
+  if (minutes < 60 * 24 * 7 * 4) {
+    return `in ${Math.floor(minutes / 60 / 24 / 7)} week${
+      Math.floor(minutes / 60 / 24 / 7) > 1 ? 's' : ''
+    }`
+  }
+
+  return `in ${Math.floor(minutes / 60 / 24 / 7 / 4)} month${
+    Math.floor(minutes / 60 / 24 / 7 / 4) > 1 ? 's' : ''
+  }`
 }
 
 export const timeSince = (date) => {
@@ -54,6 +67,11 @@ export const timeSince = (date) => {
   if (minutes < 60 * 24) {
     return `${Math.floor(minutes / 60)}h ago`
   }
+
+  if (minutes < 60 * 24 * 7) {
+    return `${Math.floor(minutes / 60 / 7)}d ago`
+  }
+
   if (moment().year() === moment(date).year()) {
     return moment(date).format('MMM D')
   }

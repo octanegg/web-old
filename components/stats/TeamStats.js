@@ -26,6 +26,26 @@ export const TeamStats = ({ statGroup, stats, total, period, groupBy, noScroll, 
     const newOrder = sort === stat.id ? !order : false
     if (stat.id === 'team.name') {
       setTeams(sortObjLex(teams, stat, newOrder))
+    } else if (stat.id === 'opponent.name') {
+      setTeams(
+        [...teams].sort(
+          (a, b) =>
+            (order ? 1 : -1) *
+            b.opponents[0].name.localeCompare(a.opponents[0].name, {
+              sensitivity: 'base',
+            })
+        )
+      )
+    } else if (stat.id === 'event.name') {
+      setTeams(
+        [...teams].sort(
+          (a, b) =>
+            (order ? 1 : -1) *
+            b.events[0].name.localeCompare(a.events[0].name, {
+              sensitivity: 'base',
+            })
+        )
+      )
     } else {
       setTeams(sortStats(teams, stat, newOrder, period))
     }
@@ -42,12 +62,36 @@ export const TeamStats = ({ statGroup, stats, total, period, groupBy, noScroll, 
       maxHeight={{ base: '550px', lg: noScroll ? 'full' : '1500px' }}>
       <Table>
         <Header>
-          <HeaderItem align="left" onClick={isSortable && (() => updateSort({ id: 'team.name' }))}>
-            <Flex align="center" minWidth="125px">
-              <Text marginRight={1}>{groupBy || 'Team'}</Text>
-              <SortIcon field="team.name" />
-            </Flex>
-          </HeaderItem>
+          {groupBy === 'events' && (
+            <HeaderItem
+              align="left"
+              onClick={isSortable && (() => updateSort({ id: 'event.name' }))}>
+              <Flex align="center" minWidth="125px">
+                <Text marginRight={1}>Events</Text>
+                <SortIcon field="event.name" />
+              </Flex>
+            </HeaderItem>
+          )}
+          {groupBy === 'opponents' && (
+            <HeaderItem
+              align="left"
+              onClick={isSortable && (() => updateSort({ id: 'opponent.name' }))}>
+              <Flex align="center" minWidth="125px">
+                <Text marginRight={1}>Opponents</Text>
+                <SortIcon field="opponent.name" />
+              </Flex>
+            </HeaderItem>
+          )}
+          {!groupBy && (
+            <HeaderItem
+              align="left"
+              onClick={isSortable && (() => updateSort({ id: 'team.name' }))}>
+              <Flex align="center" minWidth="125px">
+                <Text marginRight={1}>Teams</Text>
+                <SortIcon field="team.name" />
+              </Flex>
+            </HeaderItem>
+          )}
           {statGroup.stats.map((stat) => (
             <HeaderItem key={stat} onClick={isSortable && (() => updateSort(stat))}>
               <Tooltip hasArrow placement="top" label={stat.description}>
@@ -94,7 +138,7 @@ const StatsRow = ({ record, statGroup, sort, groupBy, period, isEven }) => {
   return (
     <Row className={groupBy === 'total' ? 'total' : ''}>
       {groupBy === 'events' && (
-        <Cell>
+        <Cell backgroundColor={sort === 'event.name' && (isEven ? '#effef7' : '#e0fdef')}>
           <Flex align="center" justify="flex-start" fontSize="sm" paddingTop={1} paddingBottom={1}>
             <Image boxSize={6} marginRight={2} marginLeft={2} src={event.image} />
             <Flex direction="column" width="sm">
@@ -109,7 +153,9 @@ const StatsRow = ({ record, statGroup, sort, groupBy, period, isEven }) => {
         </Cell>
       )}
       {groupBy === 'opponents' && (
-        <Cell width="16rem">
+        <Cell
+          width="16rem"
+          backgroundColor={sort === 'opponent.name' && (isEven ? '#effef7' : '#e0fdef')}>
           <Stack direction="row" align="center" fontSize="sm" height={10} marginLeft={2}>
             <Image boxSize={6} src={opponent.image} />
             <Link href={`/teams/${opponent.slug}`}>{opponent.name}</Link>
@@ -124,14 +170,10 @@ const StatsRow = ({ record, statGroup, sort, groupBy, period, isEven }) => {
         </Cell>
       )}
       {!groupBy && (
-        <Cell width="16rem">
-          <Stack
-            direction="row"
-            align="center"
-            fontSize="sm"
-            backgroundColor={sort === 'team.name' && (isEven ? '#effef7' : 'primary.50')}
-            height={10}
-            paddingLeft={2}>
+        <Cell
+          width="16rem"
+          backgroundColor={sort === 'team.name' && (isEven ? '#effef7' : '#e0fdef')}>
+          <Stack direction="row" align="center" fontSize="sm" paddingLeft={2}>
             <Image boxSize={6} src={team.image} />
             <Flex width="full">
               <Link href={`/teams/${team.slug}`}>{team.name}</Link>
@@ -140,14 +182,12 @@ const StatsRow = ({ record, statGroup, sort, groupBy, period, isEven }) => {
         </Cell>
       )}
       {statGroup.stats.map((stat) => (
-        <Cell>
+        <Cell backgroundColor={sort === stat.id && (isEven ? '#effef7' : '#e0fdef')}>
           <Flex
             width="full"
             padding={2}
             fontSize="sm"
-            fontWeight={sort === stat.id && 'bold'}
-            backgroundColor={sort === stat.id && (isEven ? '#effef7' : 'primary.50')}
-            height={10}
+            fontWeight={sort === stat.id && 'semi'}
             align="center"
             justify="center">
             {calculateFormattedStat(record, stat, period)}

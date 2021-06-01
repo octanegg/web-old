@@ -71,11 +71,47 @@ export const CompletedEventsFilter = ({ initialFilter }) => {
       <ModeFilter active={filter.mode} onChange={(item) => updateFilter('mode', item)} />
       <YearFilter
         active={filter.after && parseInt(moment(filter.after).format('YYYY'), 10)}
-        onChange={(year) => {
-          updateFilter('after', `${year}-01-01`)
-          updateFilter('before', `${year}-12-31`)
-        }}
+        onChange={(year) => updateFilter('year', year)}
       />
+    </Filter>
+  )
+}
+
+export const EventMatchesFilter = ({ event, initialFilter }) => {
+  const router = useRouter()
+  const [filter, setFilter] = useState(initialFilter)
+
+  const updateFilter = (key, value) => {
+    setFilter((prev) => ({
+      ...prev,
+      [key]: value === 'All' ? '' : value,
+    }))
+  }
+
+  return (
+    <Filter
+      onApply={() => route(router, `/events/${event.slug}/matches`, buildQuery(filter, ['event']))}
+      onReset={() => {
+        setFilter({
+          event: event.slug,
+        })
+        route(router, `/events/${event.slug}/matches`, '')
+      }}
+      alwaysShowFilter>
+      {event.stages && (
+        <StageFilter
+          stages={event.stages.map((stage) => ({
+            id: stage._id,
+            label: stage.name,
+          }))}
+          active={
+            Array.isArray(filter.stage)
+              ? filter.stage.map((i) => parseInt(i, 10))
+              : parseInt(filter.stage, 10)
+          }
+          onChange={(item) => updateFilter('stage', item)}
+        />
+      )}
     </Filter>
   )
 }

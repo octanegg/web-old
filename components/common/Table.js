@@ -27,6 +27,10 @@ export const Body = ({ children }) => <tbody>{children}</tbody>
 
 export const Row = ({ children, className }) => <tr className={styles[className]}>{children}</tr>
 
-export const Cell = ({ width, children }) => <td style={{ ...(width && { width }) }}>{children}</td>
+export const Cell = ({ width, backgroundColor, children }) => (
+  <td style={{ ...(width && { width }), ...(backgroundColor && { backgroundColor }) }}>
+    {children}
+  </td>
+)
 
 export default Table
