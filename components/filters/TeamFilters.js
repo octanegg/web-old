@@ -295,7 +295,18 @@ export const TeamStatsFilter = ({ team, type, initialFilter }) => {
               ...(groups && { groups }),
             }))
             .sort((a, b) => a.label.toLowerCase().localeCompare(b.label.toLowerCase()) || [])}
-          active={{ events: filter.event, groups: filter.group }}
+          active={{
+            events: !filter.event
+              ? []
+              : Array.isArray(filter.event)
+              ? filter.event
+              : [filter.event],
+            groups: !filter.group
+              ? []
+              : Array.isArray(filter.group)
+              ? filter.group
+              : [filter.group],
+          }}
           onEventChange={(item) => updateFilter('event', item)}
           onGroupChange={(item) => updateFilter('group', item)}
         />

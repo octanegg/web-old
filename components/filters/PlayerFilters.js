@@ -300,7 +300,18 @@ export const PlayerStatsFilter = ({ player, type, events, initialFilter }) => {
       {events && (
         <EventsFilter
           events={events}
-          active={{ events: filter.event, groups: filter.group }}
+          active={{
+            events: !filter.event
+              ? []
+              : Array.isArray(filter.event)
+              ? filter.event
+              : [filter.event],
+            groups: !filter.group
+              ? []
+              : Array.isArray(filter.group)
+              ? filter.group
+              : [filter.group],
+          }}
           onEventChange={(item) => updateFilter('event', item)}
           onGroupChange={(item) => updateFilter('group', item)}
         />
@@ -318,7 +329,18 @@ export const PlayerStatsFilter = ({ player, type, events, initialFilter }) => {
               ...(groups && { groups }),
             }))
             .sort((a, b) => a.label.toLowerCase().localeCompare(b.label.toLowerCase()) || [])}
-          active={{ events: filter.event, groups: filter.group }}
+          active={{
+            events: !filter.event
+              ? []
+              : Array.isArray(filter.event)
+              ? filter.event
+              : [filter.event],
+            groups: !filter.group
+              ? []
+              : Array.isArray(filter.group)
+              ? filter.group
+              : [filter.group],
+          }}
           onEventChange={(item) => updateFilter('event', item)}
           onGroupChange={(item) => updateFilter('group', item)}
         />

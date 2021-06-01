@@ -49,17 +49,33 @@ export const rates = {
   PLN: 3.6989034545,
 }
 
-export const prizeUSD = ({ amount, currency }) =>
-  currency === 'USD' ? amount : amount / rates[currency]
+export const prizeUSD = (prize) => {
+  if (!prize) {
+    return 0
+  }
 
-export const formatPrize = ({ amount, currency }) => {
+  const { amount, currency } = prize
+  return currency === 'USD' ? amount : amount / rates[currency]
+}
+export const formatPrize = (prize) => {
+  if (!prize) {
+    return ''
+  }
+
+  const { amount, currency } = prize
   const _currency = currencies.find((c) => c.id === currency)
   return `${_currency?.prefix || ''}${parseFloat(amount.toFixed(0)).toLocaleString()}${
     _currency?.suffix || ''
   }`
 }
 
-export const formatPrizeUSD = ({ amount, currency }) =>
-  formatPrize({ amount: prizeUSD({ amount, currency }), currency: 'USD' })
+export const formatPrizeUSD = (prize) => {
+  if (!prize) {
+    return ''
+  }
+
+  const { amount, currency } = prize
+  return formatPrize({ amount: prizeUSD({ amount, currency }), currency: 'USD' })
+}
 
 export default formatPrize
