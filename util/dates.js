@@ -8,9 +8,9 @@ export const toDate = (date) => moment(date).format('MMM Do')
 
 export const toDateYear = (date) => moment(date).format('MMM Do, YYYY')
 
-export const toTime = (date) => moment(date).format('h:mm A')
+export const toTime = (date) => moment(date).format('HH:mm')
 
-export const toDateYearTime = (date) => moment(date).format('MMM Do, YYYY h:mm A')
+export const toDateYearTime = (date) => moment(date).format('MMM Do, YYYY HH:mm')
 
 export const toDateString = (startDate, endDate) =>
   moment(startDate).isSame(moment(endDate), 'day')

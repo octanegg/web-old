@@ -35,7 +35,7 @@ const Search = ({ isAdmin, width }) => {
       )
     }
     fetchData()
-  }, [])
+  }, [isAdmin])
 
   useEffect(() => {
     setResults(

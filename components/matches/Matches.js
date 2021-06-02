@@ -112,8 +112,8 @@ const Match = ({ match, team, player, highlightResult }) => {
           backgroundColor: 'secondary.50',
           bgGradient: 'linear(to-r, primary.25, secondary.50)',
         }}>
-        <Flex width={24} fontSize="xs" color="secondary.700">
-          {moment(date).format('h:mm A')}
+        <Flex width={20} fontSize="xs" color="secondary.700">
+          {moment(date).format('HH:mm')}
         </Flex>
         <Flex direction="column" width={4} align="center">
           <Text

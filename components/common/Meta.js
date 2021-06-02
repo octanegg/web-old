@@ -5,7 +5,7 @@ export const Meta = ({ title, description, url, image }) => {
   const _description =
     description ||
     'The home of Rocket League esports - featuring news, event overviews, match schedules and results, in-depth statistics and analytics, and much more!'
-  const _image = image || 'https://beta.octane.gg/images/logo.svg'
+  const _image = image || 'https://www.octane.gg/images/logo.svg'
 
   return (
     <Head>
