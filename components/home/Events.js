@@ -1,4 +1,12 @@
-import { Flex, Stack, Text, Tag, SimpleGrid, StackDivider } from '@chakra-ui/react'
+import {
+  Flex,
+  Stack,
+  Text,
+  Tag,
+  SimpleGrid,
+  StackDivider,
+  Link as ChakraLink,
+} from '@chakra-ui/react'
 import NextLink from 'next/link'
 import { Heading, Link } from '@octane/components/common/Text'
 import { formatPrizeUSD } from '@octane/util/prizes'
@@ -31,16 +39,23 @@ export const Events = ({ events }) => {
       <Heading display={{ base: 'flex', lg: 'none' }}>Ongoing Events</Heading>
       <Stack
         direction={{ base: 'row', lg: 'column' }}
-        divider={<StackDivider borderColor="secondary.100" />}
+        divider={
+          <StackDivider
+            borderColor="secondary.100"
+            color="secondary.100"
+            backgroundColor="secondary.100"
+          />
+        }
         overflowY={{ base: 'scroll', lg: 'auto' }}>
         {(toggle ? ongoing : upcoming).map(
           ({ _id, slug, name, region, stages, startDate, endDate, image, tier, prize }) => {
             const _region = regions.find((r) => region === r.id)
             return (
               <NextLink passHref href={`/events/${slug}`} key={_id}>
-                <Link _hover={{}} _focus={{}}>
+                <ChakraLink _hover={{}} _focus={{}}>
                   <Stack
                     minWidth={60}
+                    width={60}
                     fontSize="xs"
                     cursor="pointer"
                     borderRadius={8}
@@ -82,7 +97,7 @@ export const Events = ({ events }) => {
                       </SimpleGrid>
                     </Flex>
                   </Stack>
-                </Link>
+                </ChakraLink>
               </NextLink>
             )
           }

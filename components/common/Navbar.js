@@ -2,11 +2,10 @@ import React, { useState } from 'react'
 import { Flex, Image, Link, Stack, Text } from '@chakra-ui/react'
 import NextLink from 'next/link'
 import Search from '@octane/components/common/Search'
-import { useAuthFunctions } from 'aws-cognito-next'
 import { isAdmin } from '@octane/util/auth'
 import { MdSettings } from 'react-icons/md'
 import { FaTrophy, FaMedal, FaCalendar } from 'react-icons/fa'
-import { IoStatsChart, IoLogInOutline, IoLogOutOutline, IoNewspaper } from 'react-icons/io5'
+import { IoStatsChart, IoNewspaper } from 'react-icons/io5'
 import { RiTeamFill } from 'react-icons/ri'
 import { useRouter } from 'next/router'
 
@@ -79,7 +78,6 @@ const HamburgerNav = ({ onClick }) => (
 const Navbar = ({ auth }) => {
   const [showMenu, setShowMenu] = useState(false)
   const toggleMenu = () => setShowMenu(!showMenu)
-  const { login, logout } = useAuthFunctions()
   const router = useRouter()
 
   return (
@@ -100,7 +98,7 @@ const Navbar = ({ auth }) => {
       </Flex>
       {showMenu && (
         <Flex direction="column">
-          {(auth ? NAV_ITEMS : []).map(({ href, label, icon }, i) => (
+          {NAV_ITEMS.map(({ href, label, icon }, i) => (
             <NavItem key={i} href={href}>
               <Stack direction="row" align="center">
                 {icon}
@@ -116,7 +114,7 @@ const Navbar = ({ auth }) => {
               </Stack>
             </NavItem>
           )}
-          {auth ? (
+          {/* {auth ? (
             <NavItem onClick={() => logout()}>
               <Stack direction="row" align="center">
                 <IoLogOutOutline />
@@ -130,12 +128,10 @@ const Navbar = ({ auth }) => {
                 <Text>Login</Text>
               </Stack>
             </NavItem>
-          )}
-          {auth && (
-            <NavItem>
-              <Search isAdmin={isAdmin(auth)} width="full" />
-            </NavItem>
-          )}
+          )} */}
+          <NavItem>
+            <Search isAdmin={isAdmin(auth)} width="full" />
+          </NavItem>
         </Flex>
       )}
       <Flex
@@ -146,7 +142,7 @@ const Navbar = ({ auth }) => {
         display={{ base: 'none', lg: 'flex' }}>
         <Flex fontWeight="semi" align="center">
           <NavImage href="/" src="/images/logo.svg" />
-          {(auth ? NAV_ITEMS : []).map(({ href, query, label, icon }, i) => (
+          {NAV_ITEMS.map(({ href, query, label, icon }, i) => (
             <NavItem key={i} href={href} query={query} isActive={router.pathname.startsWith(href)}>
               <Stack direction="row" align="center">
                 {icon}
@@ -154,9 +150,6 @@ const Navbar = ({ auth }) => {
               </Stack>
             </NavItem>
           ))}
-          {auth && <Search isAdmin={isAdmin(auth)} />}
-        </Flex>
-        <Flex>
           {isAdmin(auth) && (
             <NavItem href="/admin/events/create" isActive={router.pathname.startsWith('/admin')}>
               <Stack direction="row" align="center">
@@ -165,7 +158,12 @@ const Navbar = ({ auth }) => {
               </Stack>
             </NavItem>
           )}
-          {auth ? (
+        </Flex>
+        <Flex>
+          <Flex paddingLeft={2} paddingRight={2}>
+            <Search isAdmin={isAdmin(auth)} />
+          </Flex>
+          {/* {auth ? (
             <NavItem onClick={() => logout()}>
               <Stack direction="row" align="center">
                 <IoLogOutOutline />
@@ -179,7 +177,7 @@ const Navbar = ({ auth }) => {
                 <Text>Login</Text>
               </Stack>
             </NavItem>
-          )}
+          )} */}
         </Flex>
       </Flex>
     </Flex>

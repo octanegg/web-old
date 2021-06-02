@@ -66,7 +66,7 @@ const navigation = {
     },
     {
       id: 'stats',
-      href: '/stats/players?qualifier=false',
+      href: '/stats/players',
       label: 'Stats',
     },
     {
@@ -207,7 +207,7 @@ const navigation = {
   ],
 }
 
-const Navigation = ({ type, active, baseHref, filter, hasDivider, items }) => {
+const Navigation = ({ type, active, baseHref, filter, ignoreFilter, hasDivider, items }) => {
   const router = useRouter()
   const auth = useAuth(null)
   const _items = items || navigation[type]
@@ -220,7 +220,9 @@ const Navigation = ({ type, active, baseHref, filter, hasDivider, items }) => {
           .map(({ id, href, label, isDisabled }) => (
             <ButtonLink
               key={id}
-              href={`${baseHref || ''}${href || ''}${buildQuery(filter || {}, [''])}`}
+              href={`${baseHref || ''}${href || ''}${
+                ignoreFilter?.includes(id) ? '' : buildQuery(filter || {}, [''])
+              }`}
               isActive={active === id}
               isDisabled={isDisabled}>
               {label}

@@ -49,8 +49,7 @@ export const Filter = ({ children, onApply, onReset, alwaysShowFilter }) => {
         direction={{ base: 'column', lg: 'row' }}
         paddingRight={2}
         width="full"
-        justify="space-between"
-        align="flex-end">
+        justify="space-between">
         <Stack>
           <Heading>Filters</Heading>
           <Stack
@@ -63,7 +62,7 @@ export const Filter = ({ children, onApply, onReset, alwaysShowFilter }) => {
             {children}
           </Stack>
         </Stack>
-        <Stack width="full" direction="row" justify="flex-end" align="center" shouldWrapChildren>
+        <Stack width="full" direction="row" justify="flex-end" align="flex-end" shouldWrapChildren>
           {onApply && (
             <Button
               buttonType={ButtonTypes.submit}

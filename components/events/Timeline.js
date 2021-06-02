@@ -90,7 +90,7 @@ export const Timeline = ({ data }) => {
       </Flex>
       <Flex
         height={1.5}
-        bgGradient="linear(to-r, primary.200, secondary.200)"
+        bgGradient="linear(to-r, primary.300, secondary.200)"
         borderRadius={8}
         width={timelineWidth}
       />

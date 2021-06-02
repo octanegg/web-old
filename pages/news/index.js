@@ -118,11 +118,11 @@ const News = ({ articles, groups, dates, filter }) => (
 
 export async function getServerSideProps({ query }) {
   const filter = {
-    year: query.year || 2021,
+    year: query.year || '',
   }
 
   const res = await fetch(
-    `${process.env.CONTENT_URL}/articles?_sort=published_at:desc&_limit=10000`
+    `${process.env.CONTENT_URL}/articles?_sort=published_at:desc&_limit=${filter.year ? 1000 : 30}`
   )
   if (res.status !== 200) {
     return {
@@ -131,11 +131,13 @@ export async function getServerSideProps({ query }) {
   }
 
   const articles = await res.json()
-  const _articles = articles.filter(
-    ({ published_at }) =>
-      moment(published_at).isAfter(moment(new Date(`${filter.year}-01-01`))) &&
-      moment(published_at).isBefore(moment(new Date(`${filter.year}-12-31`)))
-  )
+  const _articles = filter.year
+    ? articles.filter(
+        ({ published_at }) =>
+          moment(published_at).isAfter(moment(new Date(`${filter.year}-01-01`))) &&
+          moment(published_at).isBefore(moment(new Date(`${filter.year}-12-31`)))
+      )
+    : articles
 
   let day = moment(_articles[0].published_at)
   const dates = []

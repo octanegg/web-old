@@ -29,7 +29,14 @@ const Event = ({ event, upcoming, completed, ratings, participants }) => (
     <Meta title={`${event.name}: Overview`} />
     <Stack width="full" spacing={3}>
       <EventInfobox event={event} />
-      <Navigation type="event" active="overview" baseHref={`/events/${event.slug}`} hasDivider />
+      <Navigation
+        type="event"
+        active="overview"
+        baseHref={`/events/${event.slug}`}
+        filter={{ ...(event.tier !== 'Qualifier' && { qualifier: false }) }}
+        ignoreFilter={['matches', 'records', 'admin']}
+        hasDivider
+      />
       <Stack direction="row" paddingRight={2}>
         <Stack spacing={4} width="full">
           {ratings?.length > 0 && (
@@ -58,7 +65,7 @@ const Event = ({ event, upcoming, completed, ratings, participants }) => (
                         <Link
                           href={`/teams/${stat.teams[0].slug}`}
                           color="secondary.600"
-                          fontSize="sm"
+                          fontSize="13px"
                           fontWeight="medium">
                           {stat.teams[0].name}
                         </Link>

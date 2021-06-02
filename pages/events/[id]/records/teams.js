@@ -19,7 +19,14 @@ const Event = ({ event, filter, records }) => {
       <Meta title={`${event.name}: Team Records`} />
       <Stack width="full" spacing={3}>
         <EventInfobox event={event} />
-        <Navigation type="event" active="records" baseHref={`/events/${event.slug}`} hasDivider />
+        <Navigation
+          type="event"
+          active="records"
+          filter={{ ...(event.tier !== 'Qualifier' && { qualifier: false }) }}
+          ignoreFilter={['matches', 'records', 'admin']}
+          baseHref={`/events/${event.slug}`}
+          hasDivider
+        />
         <EventRecordsFilter event={event} type="teams" initialFilter={filter} />
         {loadingSameRoute ? (
           <Loading />

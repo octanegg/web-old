@@ -55,13 +55,13 @@ const Search = ({ isAdmin, width }) => {
   return (
     <Popover placement="bottom" isOpen={results.length > 0} autoFocus={false} onClose={reset}>
       <PopoverTrigger>
-        <Flex paddingLeft={5} paddingRight={5} align="center">
+        <Flex align="center">
           <Input
             tabIndex="-1"
             border="none"
             backgroundColor="secondary.700"
             height={8}
-            width={width || 40}
+            width={width || 48}
             color="whitesmoke"
             fontSize="sm"
             fontWeight="medium"

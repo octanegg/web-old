@@ -26,7 +26,7 @@ export const Content = ({ children }) => {
         <Box width="full" height={2} className={styles.progress}>
           {loadingNewRoute && <Progress size="xs" isIndeterminate variant="test" />}
         </Box>
-        {auth && <>{children}</>}
+        {children}
       </Flex>
       <Footer />
     </>

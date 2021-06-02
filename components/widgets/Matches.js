@@ -1,4 +1,4 @@
-import { Flex, Spacer, Stack, Text, StackDivider } from '@chakra-ui/react'
+import { Flex, Spacer, Stack, Text, StackDivider, Link as ChakraLink } from '@chakra-ui/react'
 import NextLink from 'next/link'
 import { timeSince, timeUntil } from '@octane/util/dates'
 import Image from '@octane/components/common/Image'
@@ -8,7 +8,13 @@ import { Link } from '@octane/components/common/Text'
 export const MatchesWidget = ({ matches, team, player, preventScroll }) => (
   <Stack
     direction={{ base: preventScroll ? 'column' : 'row', lg: 'column' }}
-    divider={<StackDivider borderColor="secondary.100" />}
+    divider={
+      <StackDivider
+        borderColor="secondary.100"
+        color="secondary.100"
+        backgroundColor="secondary.100"
+      />
+    }
     overflowY={{ base: preventScroll ? 'auto' : 'scroll', lg: 'auto' }}>
     {matches.map(({ _id, slug, event, date, blue, orange }) => {
       const isTeam = blue?.team?.team?.slug === team
@@ -22,9 +28,10 @@ export const MatchesWidget = ({ matches, team, player, preventScroll }) => (
 
       return (
         <NextLink passHref href={`/matches/${slug}`} key={_id}>
-          <Link _hover={{}} _focus={{}}>
+          <ChakraLink _hover={{}} _focus={{}}>
             <Stack
               minWidth={60}
+              width={60}
               fontSize="xs"
               cursor="pointer"
               color="secondary.800"
@@ -115,7 +122,7 @@ export const MatchesWidget = ({ matches, team, player, preventScroll }) => (
                 </Flex>
               </Stack>
             </Stack>
-          </Link>
+          </ChakraLink>
         </NextLink>
       )
     })}

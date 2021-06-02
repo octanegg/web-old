@@ -29,7 +29,14 @@ const Stats = ({ event, group, stats, filter }) => {
       <Meta title={`${event.name}: Team Stats`} />
       <Stack width="full" spacing={3}>
         <EventInfobox event={event} />
-        <Navigation type="event" active="stats" baseHref={`/events/${event.slug}`} hasDivider />
+        <Navigation
+          type="event"
+          active="stats"
+          filter={{ ...(event.tier !== 'Qualifier' && { qualifier: false }) }}
+          ignoreFilter={['matches', 'records', 'admin']}
+          baseHref={`/events/${event.slug}`}
+          hasDivider
+        />
         <EventStatsFilter event={event} type="teams" initialFilter={filter} />
         <StatsNavigation
           groups={teamStats}
