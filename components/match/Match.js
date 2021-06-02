@@ -52,17 +52,18 @@ export const Infobox = ({ match, active }) => {
             direction={{ base: 'column-reverse', md: 'row' }}>
             <Link
               fontSize={{ base: 'md', md: 'xl' }}
-              textAlign={{ base: 'center', md: 'start' }}
+              textAlign={{ base: 'center', md: 'end' }}
               href={`/teams/${blue?.team?.team.slug}`}
               wrap="wrap">
               {blue?.team?.team.name}
             </Link>
-            <Image
-              boxSize={{ base: 16, md: 20 }}
+            <Flex
+              width={{ base: 16, md: 20 }}
+              height={{ base: 16, md: 20 }}
               marginLeft={4}
-              marginRight={4}
-              src={blue?.team?.team.image}
-            />
+              marginRight={4}>
+              <Image boxSize={{ base: 16, md: 20 }} src={blue?.team?.team.image} />
+            </Flex>
           </Flex>
         ) : (
           <Flex
@@ -97,12 +98,13 @@ export const Infobox = ({ match, active }) => {
             align="center"
             width={{ base: 20, sm: 24, md: 80 }}
             direction={{ base: 'column', md: 'row' }}>
-            <Image
-              boxSize={{ base: 16, md: 20 }}
+            <Flex
+              width={{ base: 16, md: 20 }}
+              height={{ base: 16, md: 20 }}
               marginLeft={4}
-              marginRight={4}
-              src={orange?.team?.team.image}
-            />
+              marginRight={4}>
+              <Image boxSize={{ base: 16, md: 20 }} src={orange?.team?.team.image} />
+            </Flex>
             <Link
               fontSize={{ base: 'md', md: 'xl' }}
               textAlign={{ base: 'center', md: 'start' }}

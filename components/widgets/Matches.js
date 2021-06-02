@@ -97,7 +97,9 @@ export const MatchesWidget = ({ matches, team, player, preventScroll }) => (
                       <Link
                         href={`/teams/${rightTeam.team.team.slug}`}
                         fontSize="xs"
-                        fontWeight={team || player || rightScore > leftScore ? 'bold' : 'regular'}>
+                        fontWeight={
+                          !team && !player && rightScore > leftScore ? 'bold' : 'regular'
+                        }>
                         {rightTeam?.team?.team.name}
                       </Link>
                     ) : (

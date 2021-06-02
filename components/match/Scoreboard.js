@@ -65,7 +65,7 @@ export const ScoreboardGame = ({ blue, orange, map, duration, ballchasing, showR
   )
 }
 
-export const ScoreboardMatch = ({ blue, orange, showReplayStats }) => {
+export const ScoreboardMatch = ({ blue, orange, games, showReplayStats }) => {
   const statGroups = showReplayStats ? gameAdvancedStats : gameBasicStats
   const [group, setGroup] = useState(statGroups[0])
 
@@ -77,19 +77,21 @@ export const ScoreboardMatch = ({ blue, orange, showReplayStats }) => {
         onGroupChange={setGroup}
         hideMobileLabels
       />
-      {blue?.players && <ScoreboardTable stats={group.stats} side={blue} />}
-      {orange?.players && <ScoreboardTable stats={group.stats} side={orange} />}
+      {blue?.players && <ScoreboardTable stats={group.stats} side={blue} games={games?.length} />}
+      {orange?.players && (
+        <ScoreboardTable stats={group.stats} side={orange} games={games?.length} />
+      )}
     </>
   )
 }
 
-const ScoreboardTable = ({ stats, side, showMvp }) => (
+const ScoreboardTable = ({ stats, side, games, showMvp }) => (
   <Stack>
     <Stack paddingTop={2} paddingLeft={2} direction="row" align="center" width={48}>
       <Image boxSize={6} src={side.team.team.image} />
       <Link href={`/teams/${side.team.team.slug}`}>{side.team.team.name}</Link>
     </Stack>
-    <Flex overflowX={{ base: 'scroll', lg: 'none' }}>
+    <Flex overflowX={{ base: 'scroll', md: 'none' }}>
       <table className={styles.scoreboard}>
         <thead>
           <tr>
@@ -114,7 +116,7 @@ const ScoreboardTable = ({ stats, side, showMvp }) => (
                   </Stack>
                 </td>
                 {stats.map((stat) => (
-                  <td>{formatStatFromObj(player, stat)}</td>
+                  <td>{formatStatFromObj(player, stat, games)}</td>
                 ))}
               </tr>
             ))}
@@ -123,7 +125,7 @@ const ScoreboardTable = ({ stats, side, showMvp }) => (
               <Flex paddingLeft={2}>Total</Flex>
             </td>
             {stats.map((stat) => (
-              <td key={stat}>{formatAggregateStatFromObj(side.players, stat)}</td>
+              <td key={stat}>{formatAggregateStatFromObj(side.players, stat, games)}</td>
             ))}
           </tr>
         </tbody>

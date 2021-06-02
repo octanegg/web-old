@@ -74,9 +74,11 @@ const News = ({ articles, groups, dates, filter }) => (
             <NextLink passHref href={`/news/${article.slug}`} key={article._id}>
               <Link _hover={{}} _focus={{}}>
                 <Box position="relative" color="primary.300" _hover={{ color: 'primary.100' }}>
-                  <Image
-                    src={`https://octane-content.s3.amazonaws.com/${article.image.hash}${article.image.ext}`}
-                  />
+                  <Flex minHeight={48}>
+                    <Image
+                      src={`https://octane-content.s3.amazonaws.com/${article.image.hash}${article.image.ext}`}
+                    />
+                  </Flex>
                   <Box
                     width="full"
                     height="full"

@@ -402,7 +402,7 @@ export const Dropdown = ({
         borderRadius={8}
         bgGradient={
           isActive
-            ? 'linear(to-bl, primary.50, secondary.100)'
+            ? 'linear(to-tr, primary.50, primary.100)'
             : 'linear(to-tr, primary.50, secondary.100)'
         }
         size="xs"
@@ -413,9 +413,7 @@ export const Dropdown = ({
         isDisabled={isDisabled}
         _hover={{
           color: 'secondary.700',
-          bgGradient: isActive
-            ? 'linear(to-tr, primary.50, secondary.100)'
-            : 'linear(to-bl, primary.50, secondary.100)',
+          bgGradient: 'linear(to-bl, primary.50, secondary.100)',
         }}
         onClick={open}>
         {label}

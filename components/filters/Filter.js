@@ -76,7 +76,12 @@ export const Filter = ({ children, onApply, onReset, alwaysShowFilter }) => {
             </Button>
           )}
           {onReset && (
-            <Button buttonType={ButtonTypes.cancel} onClick={onReset}>
+            <Button
+              buttonType={ButtonTypes.cancel}
+              onClick={() => {
+                onReset()
+                setLoadingSameRoute(true)
+              }}>
               <CloseIcon paddingRight={1} />
               <Text>Reset</Text>
             </Button>

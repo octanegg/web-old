@@ -66,7 +66,7 @@ const navigation = {
     },
     {
       id: 'stats',
-      href: '/stats/players',
+      href: '/stats/players?qualifier=false',
       label: 'Stats',
     },
     {

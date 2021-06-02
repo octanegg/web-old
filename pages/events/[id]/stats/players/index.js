@@ -73,6 +73,10 @@ export async function getServerSideProps({ params, query }) {
   const filter = {
     event: id,
     stage: query.stage || '',
+    minGames: query.minGames || '',
+    bestOf: query.bestOf || '',
+    overtime: query.overtime || '',
+    qualifier: query.qualifier || '',
     cluster: query.cluster || '',
   }
 

@@ -102,14 +102,16 @@ export const formatStat = (value, stat) => {
 
   const _value = stat.isPercentage
     ? value.toFixed(2)
-    : !Number.isInteger(value)
+    : stat.id === 'rating'
     ? value.toFixed(3)
+    : !Number.isInteger(value)
+    ? value.toFixed(2)
     : value
 
   return stat.isTime ? formatTime(value) : `${_value}${stat.isPercentage ? '%' : ''}`
 }
 
-export const formatStatFromObj = (obj, stat) => {
+export const formatStatFromObj = (obj, stat, games) => {
   if (!stat.field) {
     return ''
   }
@@ -119,10 +121,24 @@ export const formatStatFromObj = (obj, stat) => {
     value = getFieldFromObj(obj, stat.alternate)
   }
 
+  if (
+    [
+      'bpm',
+      'bcpm',
+      'avgSpeed',
+      'avgDistanceToBall',
+      'avgDistanceToBallPossession',
+      'avgDistanceToBallNoPossession',
+      'avgDistanceToMates',
+    ].includes(stat.id)
+  ) {
+    value /= games || 1
+  }
+
   return formatStat(value || 0, stat)
 }
 
-export const formatAggregateStatFromObj = (objs, stat) => {
+export const formatAggregateStatFromObj = (objs, stat, games) => {
   if (!stat.id) {
     return ''
   }
@@ -133,7 +149,22 @@ export const formatAggregateStatFromObj = (objs, stat) => {
     return formatStat(shots > 0 ? (goals / shots) * 100 : 0, stat)
   }
 
-  const value = objs.reduce((v, cur) => v + getFieldFromObj(cur, stat.field), 0)
+  let value = objs.reduce((v, cur) => v + getFieldFromObj(cur, stat.field), 0)
+
+  if (
+    [
+      'bpm',
+      'bcpm',
+      'avgSpeed',
+      'avgDistanceToBall',
+      'avgDistanceToBallPossession',
+      'avgDistanceToBallNoPossession',
+      'avgDistanceToMates',
+    ].includes(stat.id)
+  ) {
+    value /= games || 1
+  }
+
   return stat.hideAggregate
     ? ''
     : formatStat(stat.isPercentage || stat.isTime ? value / objs.length : value, stat)

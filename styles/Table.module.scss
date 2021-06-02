@@ -29,37 +29,33 @@
       &:hover {
         font-weight: bold !important;
         background-image: linear-gradient(to right, #e5fff4, #e4f2ff);
-        &:not(:last-of-type) {
-          &:nth-child(even) {
-            td {
-              padding: 0;
-            }
+        &:nth-child(even) {
+          td {
+            padding: 0;
           }
-          &:nth-child(odd) {
-            td {
-              padding: 0;
-            }
+        }
+        &:nth-child(odd) {
+          td {
+            padding: 0;
           }
         }
       }
 
       &:not(:hover) {
-        &:not(:last-of-type) {
-          &:nth-child(even) {
-            td {
-              padding: 0;
+        &:nth-child(even) {
+          td {
+            padding: 0;
 
-              &:not(.selected) {
-                background-color: #f1f8ff;
-              }
+            &:not(.selected) {
+              background-color: #f1f8ff;
             }
           }
-          &:nth-child(odd) {
-            td {
-              padding: 0;
-              &:not(.selected) {
-                background-color: #fff;
-              }
+        }
+        &:nth-child(odd) {
+          td {
+            padding: 0;
+            &:not(.selected) {
+              background-color: #fff;
             }
           }
         }

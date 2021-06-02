@@ -20,6 +20,7 @@ const Match = ({ match }) => (
           blue={match.blue}
           orange={match.orange}
           showReplayStats={match.blue.players?.some((player) => player.stats.boost)}
+          games={match.games}
         />
       ) : match.blue?.score || match.orange?.score ? (
         <Flex width="full" direction="column" justify="center" align="center">

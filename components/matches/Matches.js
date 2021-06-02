@@ -137,17 +137,15 @@ const Match = ({ match, team, player, highlightResult }) => {
         </Flex>
         <Flex width={{ base: 40, sm: 72 }} direction="column">
           <Flex width={56} padding={1} align="center">
+            <Flex minWidth={4} marginLeft={2} marginRight={2}>
+              <Image src={leftTeam?.team?.team?.image} boxSize={4} />
+            </Flex>
             {leftTeam?.team ? (
-              <>
-                <Flex minWidth={4} marginLeft={2} marginRight={2}>
-                  <Image src={leftTeam?.team?.team?.image} boxSize={4} />
-                </Flex>
-                <Link
-                  href={`/teams/${leftTeam.team.team.slug}`}
-                  fontWeight={team || player || leftScore > rightScore ? 'bold' : 'regular'}>
-                  {leftTeam.team.team.name}
-                </Link>
-              </>
+              <Link
+                href={`/teams/${leftTeam.team.team.slug}`}
+                fontWeight={team || player || leftScore > rightScore ? 'bold' : 'regular'}>
+                {leftTeam.team.team.name}
+              </Link>
             ) : (
               <Text fontSize="sm" fontStyle="italic" color="secondary.700">
                 TBD
@@ -155,17 +153,15 @@ const Match = ({ match, team, player, highlightResult }) => {
             )}
           </Flex>
           <Flex width={56} padding={1} align="center">
+            <Flex minWidth={4} marginLeft={2} marginRight={2}>
+              <Image src={rightTeam?.team?.team?.image} boxSize={4} />
+            </Flex>
             {rightTeam?.team ? (
-              <>
-                <Flex minWidth={4} marginLeft={2} marginRight={2}>
-                  <Image src={rightTeam?.team?.team?.image} boxSize={4} />
-                </Flex>
-                <Link
-                  href={`/teams/${rightTeam.team.team.slug}`}
-                  fontWeight={!team && !player && rightScore > leftScore ? 'bold' : 'regular'}>
-                  {rightTeam.team.team.name}
-                </Link>
-              </>
+              <Link
+                href={`/teams/${rightTeam.team.team.slug}`}
+                fontWeight={!team && !player && rightScore > leftScore ? 'bold' : 'regular'}>
+                {rightTeam.team.team.name}
+              </Link>
             ) : (
               <Text fontSize="sm" fontStyle="italic" color="secondary.700">
                 TBD

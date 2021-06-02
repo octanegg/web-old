@@ -53,7 +53,7 @@ export const ButtonTypes = {
     selected: {
       color: 'secondary.700',
       backgroundColor: 'primary.50',
-      bgGradient: 'linear(to-tr, primary.50, secondary.100)',
+      bgGradient: 'linear(to-tr, primary.50, primary.100)',
       fontWeight: 'bold',
       size: 'xs',
       borderRadius: 8,

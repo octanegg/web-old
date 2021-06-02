@@ -1,6 +1,10 @@
 import {
   Filter,
+  FormatFilter,
+  MinGamesFilter,
   ModeFilter,
+  OvertimeFilter,
+  QualifierFilter,
   RecordsCategoryFilter,
   RecordsStatsFilter,
   RecordsTypeFilter,
@@ -210,6 +214,19 @@ export const EventStatsFilter = ({ event, type, initialFilter }) => {
           onChange={(item) => updateFilter('stage', item)}
         />
       )}
+      <MinGamesFilter
+        active={filter.minGames}
+        onChange={(item) => updateFilter('minGames', item)}
+      />
+      <FormatFilter active={filter.bestOf} onChange={(item) => updateFilter('bestOf', item)} />
+      <QualifierFilter
+        active={filter.qualifier}
+        onChange={(item) => updateFilter('qualifier', item)}
+      />
+      <OvertimeFilter
+        active={filter.overtime}
+        onChange={(item) => updateFilter('overtime', item)}
+      />
     </Filter>
   )
 }

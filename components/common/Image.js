@@ -25,9 +25,10 @@ export const Image = ({
         align="center"
         justify="center">
         <ChakraImage
-          src={defaultImage || '/images/default.png'}
+          src={defaultImage || '/images/logo.svg'}
+          filter={!defaultImage ? 'grayscale(100%)' : ''}
           height={boxSize || height}
-          opacity={opacity}
+          opacity={opacity || defaultImage ? opacity : 0.4}
         />
       </Flex>
     )
