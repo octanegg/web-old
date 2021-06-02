@@ -10,6 +10,7 @@ export const MatchesWidget = ({ matches, team, player, preventScroll }) => (
     direction={{ base: preventScroll ? 'column' : 'row', lg: 'column' }}
     divider={
       <StackDivider
+        display="flex"
         borderColor="secondary.100"
         color="secondary.100"
         backgroundColor="secondary.100"
@@ -117,8 +118,8 @@ export const MatchesWidget = ({ matches, team, player, preventScroll }) => (
                   </Stack>
                 </Stack>
                 <Spacer />
-                <Flex width={10}>
-                  <Image src={event.image} />
+                <Flex width={10} height={10}>
+                  <Image boxSize={10} src={event.image} />
                 </Flex>
               </Stack>
             </Stack>

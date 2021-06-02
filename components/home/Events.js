@@ -41,6 +41,7 @@ export const Events = ({ events }) => {
         direction={{ base: 'row', lg: 'column' }}
         divider={
           <StackDivider
+            display="flex"
             borderColor="secondary.100"
             color="secondary.100"
             backgroundColor="secondary.100"
