@@ -98,8 +98,8 @@ const Navbar = ({ auth }) => {
       </Flex>
       {showMenu && (
         <Flex direction="column">
-          {NAV_ITEMS.map(({ href, label, icon }, i) => (
-            <NavItem key={i} href={href}>
+          {NAV_ITEMS.map(({ href, query, label, icon }, i) => (
+            <NavItem key={i} href={href} query={query}>
               <Stack direction="row" align="center">
                 {icon}
                 <Text>{label}</Text>

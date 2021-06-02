@@ -62,7 +62,7 @@ const News = ({ article }) => {
           </Flex>
           <Text fontSize="md">{moment(published_at).format('MMM D, YYYY')}</Text>
         </Flex>
-        <Flex width={{ base: 'full', md: '70%' }} padding={{ base: 0, md: 4 }}>
+        <Flex width={{ base: 'full', md: '70%' }} height="auto" padding={{ base: 0, md: 4 }}>
           <Image src={image.url} />
         </Flex>
         <div className={styles.article} dangerouslySetInnerHTML={{ __html: unescape(content) }} />
