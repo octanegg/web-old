@@ -44,7 +44,10 @@ export const Events = ({ events }) => {
                     fontSize="xs"
                     cursor="pointer"
                     borderRadius={8}
-                    _hover={{ backgroundColor: 'secondary.50' }}
+                    _hover={{
+                      backgroundColor: 'secondary.50',
+                      bgGradient: 'linear(to-bl, primary.50, secondary.50)',
+                    }}
                     padding={2}>
                     <Flex direction="column">
                       <Link fontSize="xs" href={`/events/${slug}`}>
@@ -56,7 +59,7 @@ export const Events = ({ events }) => {
                     </Flex>
                     <Flex justify="space-around" align="center">
                       <Image boxSize={10} src={image} />
-                      <SimpleGrid columns={2} spacing={2}>
+                      <SimpleGrid columns={2} spacing={1}>
                         <Flex justify="center">
                           <Tag size="sm">
                             <Stack direction="row" spacing={1} paddingTop={0.5}>

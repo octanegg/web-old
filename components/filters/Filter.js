@@ -26,15 +26,16 @@ import { useOctane } from '@octane/context/octane'
 import Image from '@octane/components/common/Image'
 import groups from '@octane/config/fields/groups'
 import Input from '@octane/components/common/Input'
+import { Heading } from '@octane/components/common/Text'
 
 export const Filter = ({ children, onApply, onReset, alwaysShowFilter }) => {
   const { setLoadingSameRoute } = useOctane()
   const [showFilter, setShowFilter] = useState(false)
 
   return (
-    <Stack>
+    <Stack spacing={0}>
       {!alwaysShowFilter && (
-        <Flex display={{ base: 'flex', lg: 'none' }} marginLeft={4}>
+        <Flex display={{ base: 'flex', lg: 'none' }} marginLeft={2} marginBottom={2}>
           <Button
             buttonType={showFilter ? ButtonTypes.stat.selected : ButtonTypes.stat.default}
             override={{ _hover: {}, borderRadius: 8, width: 24 }}
@@ -46,17 +47,21 @@ export const Filter = ({ children, onApply, onReset, alwaysShowFilter }) => {
       <Stack
         display={{ base: alwaysShowFilter || showFilter ? 'flex' : 'none', lg: 'flex' }}
         direction={{ base: 'column', lg: 'row' }}
-        paddingLeft={2}
         paddingRight={2}
         width="full"
-        justify="space-between">
-        <Stack
-          direction="row"
-          align="center"
-          spacing={{ base: 0, lg: 2 }}
-          wrap={{ base: 'wrap', lg: 'nowrap' }}
-          shouldWrapChildren>
-          {children}
+        justify="space-between"
+        align="flex-end">
+        <Stack>
+          <Heading>Filters</Heading>
+          <Stack
+            paddingLeft={2}
+            direction="row"
+            align="center"
+            spacing={{ base: 0, lg: 2 }}
+            wrap={{ base: 'wrap', lg: 'nowrap' }}
+            shouldWrapChildren>
+            {children}
+          </Stack>
         </Stack>
         <Stack width="full" direction="row" justify="flex-end" align="center" shouldWrapChildren>
           {onApply && (

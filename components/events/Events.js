@@ -94,7 +94,10 @@ const EventRow = ({ event }) => {
         padding={2}
         align="center"
         backgroundColor={color ? '#fafcff' : 'secondary.25'}
-        _hover={{ backgroundColor: 'secondary.50' }}>
+        _hover={{
+          backgroundColor: 'secondary.50',
+          bgGradient: 'linear(to-r, primary.25, secondary.50)',
+        }}>
         <Image boxSize={6} src={image} marginLeft={2} marginRight={2} />
         <Flex align="center">
           <Flex direction="column">

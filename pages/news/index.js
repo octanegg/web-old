@@ -5,98 +5,109 @@ import Meta from '@octane/components/common/Meta'
 import NextLink from 'next/link'
 import moment from 'moment'
 import NewsFilter from '@octane/components/filters/NewsFilter'
-import _ from 'lodash'
 import { Heading } from '@octane/components/common/Text'
 
-const News = ({ articles, filter }) => (
+const News = ({ articles, groups, dates, filter }) => (
   <Content>
     <Meta title="Rocket League News" />
     <Stack width="full">
       <NewsFilter initialFilter={filter} />
       <Stack width="full" height="full" direction="row" padding={{ base: 0, xl: 2 }}>
-        <Stack width="full" spacing={0}>
-          {articles.map(({ _id, slug, published_at, title, authors }, i) => (
-            <NextLink key={_id} passHref href={`/news/${slug}`}>
-              <Link _hover={{}} _focus={{}}>
-                <Flex
-                  justify="space-between"
-                  cursor="pointer"
-                  align="center"
-                  fontSize="sm"
-                  fontWeight="semi"
-                  color="secondary.800"
-                  backgroundColor={i % 2 === 0 ? '#fafcff' : 'secondary.25'}
-                  _hover={{ background: 'secondary.50' }}
-                  padding={2}>
-                  <Stack direction="row" width="full">
-                    <Text
-                      minWidth={12}
-                      fontSize="xs"
-                      fontWeight="semi"
-                      color="secondary.500"
-                      align="end">
-                      {moment(published_at).format('MMM D')}
-                    </Text>
-                    <Text overflow="hidden" whiteSpace="nowrap" textOverflow="ellipsis" width="xl">
-                      {title}
-                    </Text>
-                  </Stack>
-                  <Text
-                    align="end"
-                    fontSize="xs"
-                    fontWeight="medium"
-                    color="secondary.500"
-                    display={{ base: 'none', md: 'flex' }}
-                    whiteSpace="nowrap">
-                    {authors.map((a) => a.name).join(',')}
-                  </Text>
-                </Flex>
-              </Link>
-            </NextLink>
+        <Stack>
+          {groups?.map((group, i) => (
+            <>
+              <Heading>{dates[i]}</Heading>
+              <Flex direction="column">
+                {group.map(({ _id, slug, published_at, title, authors, color }) => (
+                  <NextLink key={_id} passHref href={`/news/${slug}`}>
+                    <Link _hover={{}} _focus={{}}>
+                      <Flex
+                        justify="space-between"
+                        cursor="pointer"
+                        align="center"
+                        fontSize="sm"
+                        fontWeight="semi"
+                        color="secondary.800"
+                        backgroundColor={color ? '#fafcff' : 'secondary.25'}
+                        _hover={{
+                          backgroundColor: 'secondary.50',
+                          bgGradient: 'linear(to-r, primary.25, secondary.50)',
+                        }}
+                        padding={2}>
+                        <Stack direction="row" width="full">
+                          <Text
+                            minWidth={12}
+                            fontSize="xs"
+                            fontWeight="semi"
+                            color="secondary.500"
+                            align="end">
+                            {moment(published_at).format('MMM D')}
+                          </Text>
+                          <Text
+                            overflow="hidden"
+                            whiteSpace="nowrap"
+                            textOverflow="ellipsis"
+                            width="xl">
+                            {title}
+                          </Text>
+                        </Stack>
+                        <Text
+                          align="end"
+                          fontSize="xs"
+                          fontWeight="medium"
+                          color="secondary.500"
+                          display={{ base: 'none', md: 'flex' }}
+                          whiteSpace="nowrap">
+                          {authors.map((a) => a.name).join(',')}
+                        </Text>
+                      </Flex>
+                    </Link>
+                  </NextLink>
+                ))}
+              </Flex>
+            </>
           ))}
         </Stack>
         <Stack width="lg" spacing={2} display={{ base: 'none', xl: 'flex' }}>
-          <Heading>Check out...</Heading>
-          {_.shuffle(articles)
-            .slice(0, Math.floor(articles.length / 5.5))
-            .map((article) => (
-              <NextLink passHref href={`/news/${article.slug}`} key={article._id}>
-                <Link _hover={{}} _focus={{}}>
-                  <Box position="relative" color="primary.200" _hover={{ color: 'primary.50' }}>
-                    <Image
-                      src={`https://octane-content.s3.amazonaws.com/${article.image.hash}${article.image.ext}`}
-                    />
-                    <Box
-                      width="full"
-                      height="full"
-                      position="absolute"
-                      top={0}
-                      background="linear-gradient(to top, rgba(0, 0, 0, 0.65) 0%, transparent 100%)"
-                    />
-                    <Text
-                      position="absolute"
-                      padding={2}
-                      top={0}
-                      right={0}
-                      fontSize="xs"
-                      fontWeight="semi"
-                      color="whitesmoke"
-                      textShadow="1px 1px 2px rgb(28 28 28 / 10%)">
-                      {moment(article.published_at).format('MMM D, YYYY')}
-                    </Text>
-                    <Text
-                      position="absolute"
-                      padding={2}
-                      bottom={0}
-                      fontSize="lg"
-                      fontWeight="bold"
-                      textShadow="1px 1px 2px rgb(28 28 28 / 10%)">
-                      {article.title}
-                    </Text>
-                  </Box>
-                </Link>
-              </NextLink>
-            ))}
+          <Heading>Recent</Heading>
+          {articles.slice(0, Math.floor(articles.length / 5.5)).map((article) => (
+            <NextLink passHref href={`/news/${article.slug}`} key={article._id}>
+              <Link _hover={{}} _focus={{}}>
+                <Box position="relative" color="primary.300" _hover={{ color: 'primary.100' }}>
+                  <Image
+                    src={`https://octane-content.s3.amazonaws.com/${article.image.hash}${article.image.ext}`}
+                  />
+                  <Box
+                    width="full"
+                    height="full"
+                    position="absolute"
+                    top={0}
+                    background="linear-gradient(to top, rgba(0, 0, 0, 0.65) 0%, transparent 100%)"
+                  />
+                  <Text
+                    position="absolute"
+                    padding={2}
+                    top={0}
+                    right={0}
+                    fontSize="xs"
+                    fontWeight="semi"
+                    color="whitesmoke"
+                    textShadow="1px 1px 2px rgb(28 28 28 / 10%)">
+                    {moment(article.published_at).format('MMM D, YYYY')}
+                  </Text>
+                  <Text
+                    position="absolute"
+                    padding={2}
+                    bottom={0}
+                    fontSize="lg"
+                    fontWeight="bold"
+                    textShadow="1px 1px 2px rgb(28 28 28 / 10%)">
+                    {article.title}
+                  </Text>
+                </Box>
+              </Link>
+            </NextLink>
+          ))}
         </Stack>
       </Stack>
     </Stack>
@@ -118,15 +129,36 @@ export async function getServerSideProps({ query }) {
   }
 
   const articles = await res.json()
+  const _articles = articles.filter(
+    ({ published_at }) =>
+      moment(published_at).isAfter(moment(new Date(`${filter.year}-01-01`))) &&
+      moment(published_at).isBefore(moment(new Date(`${filter.year}-12-31`)))
+  )
+
+  let day = moment(_articles[0].published_at)
+  const dates = []
+  const articleGroups = []
+
+  let color = false
+
+  _articles.forEach((article, i) => {
+    const date = moment(article.published_at)
+    if (i === 0 || !date.isSame(day, 'month')) {
+      dates.push(date.format('MMMM YYYY'))
+      articleGroups.push([{ ...article, color }])
+    } else {
+      articleGroups[articleGroups.length - 1].push({ ...article, color })
+    }
+    color = !color
+    day = date
+  })
 
   return {
     props: {
       filter,
-      articles: articles.filter(
-        ({ published_at }) =>
-          moment(published_at).isAfter(moment(new Date(`${filter.year}-01-01`))) &&
-          moment(published_at).isBefore(moment(new Date(`${filter.year}-12-31`)))
-      ),
+      dates,
+      groups: articleGroups,
+      articles: _articles,
     },
   }
 }

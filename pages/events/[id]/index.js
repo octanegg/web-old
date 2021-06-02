@@ -39,7 +39,7 @@ const Event = ({ event, upcoming, completed, ratings, participants }) => (
                 {ratings.map((stat, i) => (
                   <Stat key={i} width={40} padding={2}>
                     <StatLabel fontSize="14px" fontWeight="semi">
-                      <Stack direction="row" align="center" spacing={1}>
+                      <Stack direction="row" align="center" spacing={0.5}>
                         {i < 3 && <Icon color={MEDAL_COLORS[i]} as={RiMedalFill} boxSize={4} />}
                         <Link
                           color={i < 3 ? MEDAL_COLORS[i] : 'secondary.500'}
@@ -53,7 +53,7 @@ const Event = ({ event, upcoming, completed, ratings, participants }) => (
                       {calculateFormattedStat(stat, getPlayerStat('rating'), '')}
                     </StatNumber>
                     <StatHelpText>
-                      <Stack direction="row" spacing={1}>
+                      <Stack direction="row" spacing={1} align="center">
                         <Image src={stat.teams[0].image} boxSize={4} />
                         <Link
                           href={`/teams/${stat.teams[0].slug}`}
@@ -78,7 +78,7 @@ const Event = ({ event, upcoming, completed, ratings, participants }) => (
           {participants?.length > 0 && (
             <Stack>
               <Heading>Participants</Heading>
-              <Participants participants={participants} />
+              <Participants participants={participants} is1v1={event.mode === 1} />
             </Stack>
           )}
         </Stack>

@@ -3,6 +3,7 @@ import {
   Line,
   LineChart as LChart,
   ResponsiveContainer,
+  Tooltip,
   XAxis,
   YAxis,
 } from 'recharts'
@@ -16,6 +17,11 @@ export const LineChart = ({ data, keys }) => (
         top: 30,
         bottom: 30,
       }}>
+      <Tooltip
+        wrapperStyle={{ fontSize: '14px' }}
+        labelFormatter={(t) => moment(new Date(+t)).format('MMM D, YYYY')}
+        formatter={(t) => t.toFixed(4)}
+      />
       <CartesianGrid strokeDasharray="3 3" />
       <XAxis
         tick={{ fontSize: '12px' }}
@@ -27,7 +33,7 @@ export const LineChart = ({ data, keys }) => (
       />
       <YAxis tick={{ fontSize: '12px' }} domain={['auto', 'auto']} />
       {keys.map((key) => (
-        <Line name={key} type="monotone" dataKey={key} stroke="#30C97B" dot={false} />
+        <Line name={key} type="monotone" dataKey={key} stroke="#8B99B1" dot={false} />
       ))}
     </LChart>
   </ResponsiveContainer>

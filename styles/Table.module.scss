@@ -3,6 +3,7 @@
   background-color: white;
   color: #1a2f42;
   text-align: center;
+  background-image: linear-gradient(to bottom, #e0fdef, #d8e6fe);
   thead {
     width: 100%;
     tr {
@@ -12,7 +13,7 @@
       th {
         position: sticky;
         top: 0;
-        z-index: 1;
+        z-index: 4;
         background-color: #fff;
         font-size: 10px;
         font-weight: bold;
@@ -26,13 +27,42 @@
       width: 100%;
       padding: 0;
       &:hover {
-        background-color: #e4f2ff !important;
+        font-weight: bold !important;
+        background-image: linear-gradient(to right, #e5fff4, #e4f2ff);
+        &:not(:last-of-type) {
+          &:nth-child(even) {
+            td {
+              padding: 0;
+            }
+          }
+          &:nth-child(odd) {
+            td {
+              padding: 0;
+            }
+          }
+        }
       }
-      &:nth-child(even) {
-        background-color: #f3f8fb;
-      }
-      td {
-        padding: 0;
+
+      &:not(:hover) {
+        &:not(:last-of-type) {
+          &:nth-child(even) {
+            td {
+              padding: 0;
+
+              &:not(.selected) {
+                background-color: #f1f8ff;
+              }
+            }
+          }
+          &:nth-child(odd) {
+            td {
+              padding: 0;
+              &:not(.selected) {
+                background-color: #fff;
+              }
+            }
+          }
+        }
       }
     }
     tr.total {
@@ -68,7 +98,7 @@
     tr {
       width: 100%;
       &:hover {
-        background-color: #e4f2ff !important;
+        background-image: linear-gradient(to right, #e5fff4, #e4f2ff);
       }
       &:nth-child(odd) {
         background-color: #f3f8fb;

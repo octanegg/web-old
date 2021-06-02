@@ -37,6 +37,10 @@ export const timeUntil = (date) => {
 
 export const timeUntilFull = (date) => {
   const minutes = Math.abs(moment().diff(moment(date), 'minutes'))
+  if (minutes === 0) {
+    return 'Now'
+  }
+
   if (minutes < 60) {
     return `in ${minutes} minute${minutes > 1 ? 's' : ''}`
   }

@@ -29,7 +29,10 @@ export const MatchesWidget = ({ matches, team, player, preventScroll }) => (
               cursor="pointer"
               color="secondary.800"
               borderRadius={8}
-              _hover={{ backgroundColor: 'secondary.50' }}
+              _hover={{
+                backgroundColor: 'secondary.50',
+                bgGradient: 'linear(to-bl, primary.50, secondary.50)',
+              }}
               padding={2}>
               <Flex direction="column" fontSize="xs">
                 <Link fontSize="xs" href={`/events/${event.slug}`}>
@@ -58,16 +61,19 @@ export const MatchesWidget = ({ matches, team, player, preventScroll }) => (
                         {leftScore}
                       </Flex>
                     )}
-                    <Image boxSize={5} src={leftTeam?.team?.team.image} />
-                    <Text
-                      fontSize="xs"
-                      width={32}
-                      overflow="hidden"
-                      textOverflow="ellipsis"
-                      whiteSpace="nowrap"
-                      fontWeight={team || player || leftScore > rightScore ? 'bold' : 'regular'}>
-                      {leftTeam?.team?.team.name || 'TBD'}
-                    </Text>
+                    <Image boxSize={4} src={leftTeam?.team?.team.image} />
+                    {leftTeam?.team ? (
+                      <Link
+                        href={`/teams/${leftTeam.team.team.slug}`}
+                        fontSize="xs"
+                        fontWeight={team || player || leftScore > rightScore ? 'bold' : 'regular'}>
+                        {leftTeam?.team?.team.name}
+                      </Link>
+                    ) : (
+                      <Text fontSize="xs" fontWeight="regular" width={32}>
+                        TBD
+                      </Text>
+                    )}
                   </Stack>
                   <Stack direction="row" align="center">
                     {(rightScore || leftScore) && (
@@ -86,16 +92,19 @@ export const MatchesWidget = ({ matches, team, player, preventScroll }) => (
                         {rightScore}
                       </Flex>
                     )}
-                    <Image boxSize={5} src={rightTeam?.team?.team.image} />
-                    <Text
-                      fontSize="xs"
-                      width={32}
-                      overflow="hidden"
-                      textOverflow="ellipsis"
-                      whiteSpace="nowrap"
-                      fontWeight={!team && !player && rightScore > leftScore ? 'bold' : 'regular'}>
-                      {rightTeam?.team?.team.name || 'TBD'}
-                    </Text>
+                    <Image boxSize={4} src={rightTeam?.team?.team.image} />
+                    {rightTeam?.team ? (
+                      <Link
+                        href={`/teams/${rightTeam.team.team.slug}`}
+                        fontSize="xs"
+                        fontWeight={team || player || rightScore > leftScore ? 'bold' : 'regular'}>
+                        {rightTeam?.team?.team.name}
+                      </Link>
+                    ) : (
+                      <Text fontSize="xs" fontWeight="regular" width={32}>
+                        TBD
+                      </Text>
+                    )}
                   </Stack>
                 </Stack>
                 <Spacer />

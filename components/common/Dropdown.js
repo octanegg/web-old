@@ -400,16 +400,23 @@ export const Dropdown = ({
       <ChakraButton
         margin={{ base: 1, md: 0 }}
         borderRadius={8}
+        bgGradient={
+          isActive
+            ? 'linear(to-bl, primary.50, secondary.100)'
+            : 'linear(to-tr, primary.50, secondary.100)'
+        }
         size="xs"
         fontWeight={isActive ? 'bold' : 'semi'}
         fontSize="xs"
-        color={isActive ? 'primary.600' : 'secondary.800'}
-        backgroundColor={isActive ? 'primary.50' : 'secondary.50'}
+        color={isActive ? 'secondary.700' : 'secondary.500'}
         _focus={{ outline: 'none' }}
         isDisabled={isDisabled}
-        _hover={
-          isActive ? { backgroundColor: 'primary.100' } : { backgroundColor: 'secondary.100' }
-        }
+        _hover={{
+          color: 'secondary.700',
+          bgGradient: isActive
+            ? 'linear(to-tr, primary.50, secondary.100)'
+            : 'linear(to-bl, primary.50, secondary.100)',
+        }}
         onClick={open}>
         {label}
         <ChevronDownIcon marginLeft={1} />

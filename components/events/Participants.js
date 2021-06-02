@@ -24,16 +24,18 @@ const Player = ({ player }) => (
   </Stack>
 )
 
-export const Participants = ({ participants }) => {
+export const Participants = ({ participants, is1v1 }) => {
   const [defaultShow, setDefaultShow] = useState(false)
   return (
     <Stack padding={2}>
-      <Stack direction="row" align="center" marginLeft={2}>
-        <Text fontSize="11px" fontWeight="bold" textTransform="uppercase" color="secondary.800">
-          Show/Hide
-        </Text>
-        <Switch isChecked={defaultShow} onChange={() => setDefaultShow(!defaultShow)} />
-      </Stack>
+      {!is1v1 && (
+        <Stack direction="row" align="center" marginLeft={2}>
+          <Text fontSize="11px" fontWeight="bold" textTransform="uppercase" color="secondary.800">
+            Roster
+          </Text>
+          <Switch isChecked={defaultShow} onChange={() => setDefaultShow(!defaultShow)} />
+        </Stack>
+      )}
       <Stack direction="row" spacing={0} wrap="wrap" shouldWrapChildren>
         {participants?.map(({ team, players }) => {
           const [show, setShow] = useState(false)
@@ -41,6 +43,7 @@ export const Participants = ({ participants }) => {
           return (
             <Box
               backgroundColor="secondary.25"
+              bgGradient="linear(to-tr, primary.25, secondary.100)"
               position="relative"
               margin={2}
               width={40}
@@ -56,39 +59,54 @@ export const Participants = ({ participants }) => {
                 top={0}
                 left={0}
                 zIndex={0}>
-                <Image
-                  src={team.image}
-                  boxSize={28}
-                  opacity={0.1}
-                  display={{ base: 'flex', lg: 'none' }}
-                />
-                <Image
-                  src={team.image}
-                  boxSize={28}
-                  opacity={show || defaultShow ? 0.05 : ''}
-                  display={{ base: 'none', lg: 'flex' }}
-                />
+                {is1v1 ? (
+                  <Image boxSize={28} opacity={0.3} defaultImage="/images/player.png" />
+                ) : (
+                  <>
+                    <Image
+                      src={team.image}
+                      boxSize={28}
+                      opacity={0.1}
+                      display={{ base: 'flex', lg: 'none' }}
+                    />
+                    <Image
+                      src={team.image}
+                      boxSize={28}
+                      opacity={show || defaultShow ? 0.05 : ''}
+                      display={{ base: 'none', lg: 'flex' }}
+                    />
+                  </>
+                )}
                 <Flex
                   height={8}
                   width="full"
                   align="center"
                   justify="center"
                   borderTop="1px solid #BECCE4">
-                  <Link href={`/teams/${team.slug}`}>{team.name}</Link>
+                  {is1v1 ? (
+                    <Stack direction="row" spacing={1} align="center">
+                      <Country country={players[0].country} boxSize={4} />
+                      <Link href={`/players/${players[0].slug}`}>{players[0].tag}</Link>
+                    </Stack>
+                  ) : (
+                    <Link href={`/teams/${team.slug}`}>{team.name}</Link>
+                  )}
                 </Flex>
               </Stack>
-              <Stack
-                spacing={0}
-                divider={<StackDivider borderColor="secondary.200" />}
-                direction="column"
-                justify="space-around"
-                width={40}
-                height={32}
-                display={{ base: 'flex', lg: show || defaultShow ? 'flex' : 'none' }}>
-                {players.slice(0, 5).map((player, i) => (
-                  <Player key={i} player={player} />
-                ))}
-              </Stack>
+              {!is1v1 && (
+                <Stack
+                  spacing={0}
+                  divider={<StackDivider borderColor="secondary.200" />}
+                  direction="column"
+                  justify="space-around"
+                  width={40}
+                  height={32}
+                  display={{ base: 'flex', lg: show || defaultShow ? 'flex' : 'none' }}>
+                  {players.slice(0, 5).map((player, i) => (
+                    <Player key={i} player={player} />
+                  ))}
+                </Stack>
+              )}
             </Box>
           )
         })}

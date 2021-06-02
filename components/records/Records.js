@@ -43,7 +43,10 @@ export const RecordsRow = ({ record, rank, statType }) => {
         paddingLeft={2}
         paddingRight={2}
         align="center"
-        _hover={{ backgroundColor: 'secondary.50' }}
+        _hover={{
+          backgroundColor: 'secondary.50',
+          bgGradient: 'linear(to-r, primary.25, secondary.50)',
+        }}
         cursor="pointer">
         <Flex align="center" width={{ base: 80, sm: 56 }}>
           <Flex
@@ -107,7 +110,7 @@ export const RecordsRow = ({ record, rank, statType }) => {
         </Flex>
         <Flex
           align="center"
-          width={64}
+          width={72}
           display={{ base: 'none', sm: 'flex' }}
           paddingLeft={{ base: 2, md: 0 }}>
           <Text fontSize="xs" width={6}>
@@ -144,7 +147,7 @@ export const RecordsRow = ({ record, rank, statType }) => {
             </LabeledText>
           </Flex>
         </Flex>
-        <Flex align="center" width={{ base: 12, lg: 'md' }}>
+        <Flex align="center" width={{ base: 12, lg: 'sm' }}>
           <Image boxSize={6} marginRight={2} marginLeft={2} src={event.image} />
           <Flex display={{ base: 'none', lg: 'flex' }}>
             <LabeledText

@@ -7,6 +7,7 @@ import NextLink from 'next/link'
 import Image from '@octane/components/common/Image'
 import regions from '@octane/config/fields/regions'
 import { timeUntilFull } from '@octane/util/dates'
+import { Empty } from '@octane/components/common/Error'
 
 export const Matches = ({ matches, team, player, pagination }) => {
   const [groups, setGroups] = useState([])
@@ -42,7 +43,7 @@ export const Matches = ({ matches, team, player, pagination }) => {
     setGroups(matchGroups)
   }, [])
 
-  return (
+  return groups?.length > 0 ? (
     <>
       {groups.map((group, i) => (
         <>
@@ -70,6 +71,8 @@ export const Matches = ({ matches, team, player, pagination }) => {
         </Flex>
       )}
     </>
+  ) : (
+    <Empty />
   )
 }
 
@@ -105,7 +108,10 @@ const Match = ({ match, team, player, highlightResult }) => {
         padding={1}
         paddingLeft={6}
         paddingRight={6}
-        _hover={{ backgroundColor: 'secondary.50' }}>
+        _hover={{
+          backgroundColor: 'secondary.50',
+          bgGradient: 'linear(to-r, primary.25, secondary.50)',
+        }}>
         <Flex width={24} fontSize="xs" color="secondary.700">
           {moment(date).format('h:mm A')}
         </Flex>
@@ -131,15 +137,17 @@ const Match = ({ match, team, player, highlightResult }) => {
         </Flex>
         <Flex width={{ base: 40, sm: 72 }} direction="column">
           <Flex width={56} padding={1} align="center">
-            <Flex minWidth={4} marginLeft={2} marginRight={2}>
-              <Image src={leftTeam?.team?.team?.image} boxSize={4} />
-            </Flex>
             {leftTeam?.team ? (
-              <Link
-                href={`/teams/${leftTeam.team.team.slug}`}
-                fontWeight={team || player || leftScore > rightScore ? 'bold' : 'regular'}>
-                {leftTeam.team.team.name}
-              </Link>
+              <>
+                <Flex minWidth={4} marginLeft={2} marginRight={2}>
+                  <Image src={leftTeam?.team?.team?.image} boxSize={4} />
+                </Flex>
+                <Link
+                  href={`/teams/${leftTeam.team.team.slug}`}
+                  fontWeight={team || player || leftScore > rightScore ? 'bold' : 'regular'}>
+                  {leftTeam.team.team.name}
+                </Link>
+              </>
             ) : (
               <Text fontSize="sm" fontStyle="italic" color="secondary.700">
                 TBD
@@ -147,15 +155,17 @@ const Match = ({ match, team, player, highlightResult }) => {
             )}
           </Flex>
           <Flex width={56} padding={1} align="center">
-            <Flex minWidth={4} marginLeft={2} marginRight={2}>
-              <Image src={rightTeam?.team?.team?.image} boxSize={4} />
-            </Flex>
             {rightTeam?.team ? (
-              <Link
-                href={`/teams/${rightTeam.team.team.slug}`}
-                fontWeight={!team && !player && rightScore > leftScore ? 'bold' : 'regular'}>
-                {rightTeam.team.team.name}
-              </Link>
+              <>
+                <Flex minWidth={4} marginLeft={2} marginRight={2}>
+                  <Image src={rightTeam?.team?.team?.image} boxSize={4} />
+                </Flex>
+                <Link
+                  href={`/teams/${rightTeam.team.team.slug}`}
+                  fontWeight={!team && !player && rightScore > leftScore ? 'bold' : 'regular'}>
+                  {rightTeam.team.team.name}
+                </Link>
+              </>
             ) : (
               <Text fontSize="sm" fontStyle="italic" color="secondary.700">
                 TBD
@@ -167,8 +177,8 @@ const Match = ({ match, team, player, highlightResult }) => {
           direction="row"
           justify="center"
           align="center"
-          width={80}
-          display={{ base: 'none', lg: 'flex' }}>
+          width={64}
+          display={{ base: 'none', sm: 'flex' }}>
           {moment(date).isBefore(moment()) && leftScore === 0 && rightScore === 0 && (
             <Badge colorScheme="yellow">Awaiting Result</Badge>
           )}
@@ -184,8 +194,8 @@ const Match = ({ match, team, player, highlightResult }) => {
             align="flex-end"
             direction="column"
             width={72}
-            display={{ base: 'none', md: 'flex' }}>
-            <Link href={`/events/${event.slug}`} width={80}>
+            display={{ base: 'none', lg: 'flex' }}>
+            <Link href={`/events/${event.slug}`} width={80} textAlign="end">
               {event.name}
             </Link>
             <Stack

@@ -7,7 +7,7 @@ import { Heading } from '@octane/components/common/Text'
 const Banner = ({ article }) => (
   <NextLink passHref href={`/news/${article.slug}`} key={article._id}>
     <Link _hover={{}} _focus={{}}>
-      <Box position="relative" color="primary.200" _hover={{ color: 'primary.50' }}>
+      <Box position="relative" color="primary.300" _hover={{ color: 'primary.100' }}>
         <Image
           src={`https://octane-content.s3.amazonaws.com/${article.image.hash}${article.image.ext}`}
         />
@@ -16,14 +16,14 @@ const Banner = ({ article }) => (
           height="full"
           position="absolute"
           top={0}
-          background="linear-gradient(to top, rgba(0, 0, 0, 0.65) 0%, transparent 100%)"
+          background="linear-gradient(to top, rgba(0, 0, 0, 0.75) 0%, transparent 100%)"
         />
         <Text
           fontSize={{ base: 'xl', sm: '2xl' }}
           fontWeight="bold"
           position="absolute"
           paddingBottom={2}
-          paddingLeft={4}
+          paddingLeft={2}
           bottom={0}
           textShadow="1px 1px 2px rgb(28 28 28 / 10%)">
           {article.title}
@@ -36,45 +36,52 @@ const Banner = ({ article }) => (
 const ArticleGroup = ({ group, articles }) => (
   <Stack paddingBottom={4}>
     <Heading hasDivider>{group}</Heading>
-    {articles.map(({ _id, slug, published_at, title, authors }) => (
-      <NextLink key={_id} passHref href={`/news/${slug}`}>
-        <Link _hover={{}} _focus={{}}>
-          <Flex
-            justify="space-between"
-            cursor="pointer"
-            align="center"
-            fontSize="sm"
-            fontWeight="semi"
-            color="secondary.800"
-            borderRadius={8}
-            _hover={{ background: 'secondary.50' }}
-            padding={1}
-            marginLeft={2}
-            marginRight={2}>
-            <Stack direction="row" width="full">
-              <Text minWidth={12} fontSize="xs" fontWeight="semi" color="secondary.500" align="end">
-                {moment(published_at).format('MMM D')}
-              </Text>
+    <Stack width="full" backgroundColor="#fff" padding={2} spacing={1}>
+      {articles.map(({ _id, slug, published_at, title, authors }) => (
+        <NextLink key={_id} passHref href={`/news/${slug}`}>
+          <Link _hover={{}} _focus={{}}>
+            <Flex
+              justify="space-between"
+              cursor="pointer"
+              align="center"
+              fontSize="sm"
+              fontWeight="semi"
+              color="secondary.800"
+              borderRadius={8}
+              _hover={{
+                bgGradient: 'linear(to-r, primary.25, secondary.50)',
+              }}
+              padding={1.5}>
+              <Stack direction="row" width="full" align="center">
+                <Text
+                  minWidth={12}
+                  fontSize="xs"
+                  fontWeight="semi"
+                  color="secondary.600"
+                  align="end">
+                  {moment(published_at).format('MMM D')}
+                </Text>
+                <Text
+                  width={{ base: 'auto', sm: 'xs', md: 'sm' }}
+                  overflow="hidden"
+                  whiteSpace="nowrap"
+                  textOverflow="ellipsis">
+                  {title}
+                </Text>
+              </Stack>
               <Text
-                width={{ base: 'auto', sm: 'xs', md: 'sm' }}
-                overflow="hidden"
-                whiteSpace="nowrap"
-                textOverflow="ellipsis">
-                {title}
+                align="end"
+                fontSize="xs"
+                fontWeight="medium"
+                color="secondary.600"
+                display={{ base: 'none', xl: 'flex' }}>
+                {authors.map((a) => a.name).join(',')}
               </Text>
-            </Stack>
-            <Text
-              align="end"
-              fontSize="xs"
-              fontWeight="medium"
-              color="secondary.500"
-              display={{ base: 'none', xl: 'flex' }}>
-              {authors.map((a) => a.name).join(',')}
-            </Text>
-          </Flex>
-        </Link>
-      </NextLink>
-    ))}
+            </Flex>
+          </Link>
+        </NextLink>
+      ))}
+    </Stack>
   </Stack>
 )
 

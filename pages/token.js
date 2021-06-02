@@ -54,7 +54,7 @@ export async function getServerSideProps() {
     ),
     fetch(`${process.env.API_URL}/events?date=${moment().toISOString()}&sort=end_date:asc`),
     fetch(`${process.env.API_URL}/events?after=${moment().toISOString()}&sort=start_date:asc`),
-    fetch(`${process.env.CONTENT_URL}/articles?_sort=published_at:desc&_limit=20`),
+    fetch(`${process.env.CONTENT_URL}/articles?_sort=published_at:desc&_limit=17`),
   ])
 
   const [
@@ -77,8 +77,8 @@ export async function getServerSideProps() {
         completed:
           completedMatches.matches
             ?.filter((m) => m.blue && m.orange && (m.blue.score > 0 || m.orange.score > 0))
-            .slice(0, 9) || [],
-        upcoming: upcomingMatches.matches?.slice(0, 9) || [],
+            .slice(0, 8) || [],
+        upcoming: upcomingMatches.matches?.slice(0, 8) || [],
       },
       events: {
         ongoing: ongoingEvents.events
@@ -88,8 +88,8 @@ export async function getServerSideProps() {
 
             return aTier === bTier ? prizeUSD(b.prize) - prizeUSD(a.prize) : aTier - bTier
           })
-          .slice(0, 9),
-        upcoming: upcomingEvents.events.slice(0, 9),
+          .slice(0, 8),
+        upcoming: upcomingEvents.events.slice(0, 8),
       },
     },
   }

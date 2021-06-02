@@ -27,8 +27,10 @@ export const Body = ({ children }) => <tbody>{children}</tbody>
 
 export const Row = ({ children, className }) => <tr className={styles[className]}>{children}</tr>
 
-export const Cell = ({ width, backgroundColor, children }) => (
-  <td style={{ ...(width && { width }), ...(backgroundColor && { backgroundColor }) }}>
+export const Cell = ({ width, backgroundColor, children, className }) => (
+  <td
+    style={{ ...(width && { width }), ...(backgroundColor && { backgroundColor }) }}
+    className={styles[className]}>
     {children}
   </td>
 )

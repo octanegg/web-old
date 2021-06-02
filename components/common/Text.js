@@ -2,21 +2,21 @@ import { Flex, Text, Link as ChakraLink } from '@chakra-ui/react'
 import NextLink from 'next/link'
 
 export const Heading = (props) => (
-  <Flex
-    width={40}
-    align="center"
-    direction="row"
-    bgGradient="linear(to-r, primary.100, primary.50, transparent)">
-    <Text
-      textTransform="uppercase"
-      color="primary.700"
-      fontSize="11px"
-      textShadow="1px 1px 2px rgb(28 28 28 / 10%)"
-      fontWeight="semi"
-      padding={0.25}
-      paddingLeft={1}
-      {...props}
-    />
+  <Flex>
+    <Flex paddingBottom={1} bgGradient="linear(to-r, primary.100, secondary.100)">
+      <Flex
+        backgroundColor="#fff"
+        textTransform="uppercase"
+        color="secondary.600"
+        fontSize="11px"
+        textShadow="1px 1px 2px rgb(28 28 28 / 10%)"
+        fontWeight="semi"
+        padding={0.25}
+        paddingLeft={1}
+        paddingRight={2}
+        {...props}
+      />
+    </Flex>
   </Flex>
 )
 

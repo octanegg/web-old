@@ -7,6 +7,7 @@ import { Link } from '@octane/components/common/Text'
 import { toDateYearString } from '@octane/util/dates'
 import Image from '@octane/components/common/Image'
 import { getTeamStat } from '@octane/config/stats/stats'
+import { Empty } from '@octane/components/common/Error'
 
 export const TeamStats = ({ statGroup, stats, total, period, groupBy, noScroll, isSortable }) => {
   const [teams, setTeams] = useState([])
@@ -58,6 +59,7 @@ export const TeamStats = ({ statGroup, stats, total, period, groupBy, noScroll, 
 
   return (
     <Flex
+      direction="column"
       overflowX={{ base: 'scroll', lg: noScroll ? 'auto' : 'scroll' }}
       maxHeight={{ base: '550px', lg: noScroll ? 'full' : '1500px' }}>
       <Table>
@@ -103,34 +105,36 @@ export const TeamStats = ({ statGroup, stats, total, period, groupBy, noScroll, 
             </HeaderItem>
           ))}
         </Header>
-        <Body>
-          {teams?.map((record, i) => (
-            <StatsRow
-              key={i}
-              record={record}
-              statGroup={statGroup}
-              sort={sort}
-              period={period}
-              groupBy={groupBy}
-              isEven={i % 2 === 0}
-            />
-          ))}
-          {total && (
-            <StatsRow
-              record={total}
-              statGroup={statGroup}
-              sort={sort}
-              period={period}
-              groupBy="total"
-            />
-          )}
-        </Body>
+        {teams?.length > 0 && (
+          <Body>
+            {teams?.map((record, i) => (
+              <StatsRow
+                key={i}
+                record={record}
+                statGroup={statGroup}
+                sort={sort}
+                period={period}
+                groupBy={groupBy}
+              />
+            ))}
+            {total && (
+              <StatsRow
+                record={total}
+                statGroup={statGroup}
+                sort={sort}
+                period={period}
+                groupBy="total"
+              />
+            )}
+          </Body>
+        )}
       </Table>
+      {(!teams || teams.length === 0) && <Empty />}
     </Flex>
   )
 }
 
-const StatsRow = ({ record, statGroup, sort, groupBy, period, isEven }) => {
+const StatsRow = ({ record, statGroup, sort, groupBy, period }) => {
   const { team, events, startDate, endDate, opponents } = record
   const event = events[0]
   const opponent = opponents[0]
@@ -138,7 +142,7 @@ const StatsRow = ({ record, statGroup, sort, groupBy, period, isEven }) => {
   return (
     <Row className={groupBy === 'total' ? 'total' : ''}>
       {groupBy === 'events' && (
-        <Cell backgroundColor={sort === 'event.name' && (isEven ? '#effef7' : '#e0fdef')}>
+        <Cell width="16rem" className={sort === 'event.name' ? 'selected' : ''}>
           <Flex align="center" justify="flex-start" fontSize="sm" paddingTop={1} paddingBottom={1}>
             <Image boxSize={6} marginRight={2} marginLeft={2} src={event.image} />
             <Flex direction="column" width="sm">
@@ -153,9 +157,7 @@ const StatsRow = ({ record, statGroup, sort, groupBy, period, isEven }) => {
         </Cell>
       )}
       {groupBy === 'opponents' && (
-        <Cell
-          width="16rem"
-          backgroundColor={sort === 'opponent.name' && (isEven ? '#effef7' : '#e0fdef')}>
+        <Cell width="16rem" className={sort === 'opponent.name' ? 'selected' : ''}>
           <Stack direction="row" align="center" fontSize="sm" height={10} marginLeft={2}>
             <Image boxSize={6} src={opponent.image} />
             <Link href={`/teams/${opponent.slug}`}>{opponent.name}</Link>
@@ -170,9 +172,7 @@ const StatsRow = ({ record, statGroup, sort, groupBy, period, isEven }) => {
         </Cell>
       )}
       {!groupBy && (
-        <Cell
-          width="16rem"
-          backgroundColor={sort === 'team.name' && (isEven ? '#effef7' : '#e0fdef')}>
+        <Cell width="16rem" className={sort === 'team.name' ? 'selected' : ''}>
           <Stack direction="row" align="center" fontSize="sm" paddingLeft={2}>
             <Image boxSize={6} src={team.image} />
             <Flex width="full">
@@ -182,7 +182,7 @@ const StatsRow = ({ record, statGroup, sort, groupBy, period, isEven }) => {
         </Cell>
       )}
       {statGroup.stats.map((stat) => (
-        <Cell backgroundColor={sort === stat.id && (isEven ? '#effef7' : '#e0fdef')}>
+        <Cell className={sort === stat.id ? 'selected' : ''}>
           <Flex
             width="full"
             padding={2}

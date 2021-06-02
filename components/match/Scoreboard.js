@@ -25,11 +25,10 @@ export const ScoreboardGame = ({ blue, orange, map, duration, ballchasing, showR
         hideMobileLabels
         right={
           <Stack
-            width={{ base: 'full', lg: 'auto' }}
+            width={{ base: 'full', lg: 'lg' }}
             direction="row"
             align="center"
-            justify={{ base: 'center', lg: 'flex-start' }}
-            spacing={{ base: 1, sm: 8 }}
+            justify={{ base: 'center', lg: 'flex-end' }}
             fontSize="xs"
             color="secondary.800"
             wrap="wrap"
@@ -85,7 +84,7 @@ export const ScoreboardMatch = ({ blue, orange, showReplayStats }) => {
 }
 
 const ScoreboardTable = ({ stats, side, showMvp }) => (
-  <>
+  <Stack>
     <Stack paddingTop={2} paddingLeft={2} direction="row" align="center" width={48}>
       <Image boxSize={6} src={side.team.team.image} />
       <Link href={`/teams/${side.team.team.slug}`}>{side.team.team.name}</Link>
@@ -130,7 +129,7 @@ const ScoreboardTable = ({ stats, side, showMvp }) => (
         </tbody>
       </table>
     </Flex>
-  </>
+  </Stack>
 )
 
 export default ScoreboardGame

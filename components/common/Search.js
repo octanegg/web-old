@@ -68,6 +68,7 @@ const Search = ({ isAdmin, width }) => {
             _focus={{ outline: 'none' }}
             value={input}
             onFocus={() => setIsInputting(true)}
+            onBlur={() => setIsInputting(false)}
             onChange={(e) => setInput(e.target.value)}
           />
           <Flex
@@ -103,9 +104,9 @@ const Search = ({ isAdmin, width }) => {
                       direction="row">
                       <Flex
                         fontSize="10px"
-                        color="secondary.500"
-                        fontWeight="light"
-                        width={12}
+                        color="secondary.300"
+                        fontWeight="semi"
+                        width={14}
                         justify="flex-end"
                         marginRight={2}>
                         {type.toUpperCase()}
