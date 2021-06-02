@@ -30,12 +30,9 @@ export const getRecordStat = (records, id) => {
 }
 
 export const formatTime = (time) => {
-  const hours = Math.floor(time / 3600)
-  const minutes = Math.floor((time - hours * 3600) / 60)
-  const seconds = Math.round(time - hours * 3600 - minutes * 60)
-  return `${hours > 0 ? `${hours}:` : ''}${minutes < 10 ? `0${minutes}` : minutes}:${
-    seconds < 10 ? `0${seconds}` : seconds
-  }`
+  const date = new Date(time * 1000).toISOString().substr(11, 8)
+
+  return date.startsWith('00:') ? date.substr(3) : date
 }
 
 export const formatPercentage = (value) => `${value}%`

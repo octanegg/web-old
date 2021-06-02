@@ -302,10 +302,12 @@ export const EventsFilter = ({ events, active, onEventChange, onGroupChange }) =
     if (event) {
       if (newActive.events.includes(event.id)) {
         newActive.events = newActive.events.filter((e) => e !== event.id)
-        newActive.groups = newActive.groups.filter((g) => g !== group.id)
+        if (group.id !== 'other') {
+          newActive.groups = newActive.groups.filter((g) => g !== group.id)
+        }
       } else {
         newActive.events.push(event.id)
-        if (group.events.every((e) => newActive.events.includes(e.id))) {
+        if (group.id !== 'other' && group.events.every((e) => newActive.events.includes(e.id))) {
           newActive.groups.push(group.id)
         }
       }
@@ -318,14 +320,18 @@ export const EventsFilter = ({ events, active, onEventChange, onGroupChange }) =
     }
 
     onGroupChange(newActive.groups)
-    onEventChange(
-      newActive.events.filter(
-        (e) =>
-          !newActive.groups.some((g) =>
-            _groups.find((g1) => g1.id === g).events.find((e1) => e1.id === e)
-          )
+    if (group.id !== 'other') {
+      onEventChange(
+        newActive.events.filter(
+          (e) =>
+            !newActive.groups.some((g) =>
+              _groups.find((g1) => g1.id === g).events.find((e1) => e1.id === e)
+            )
+        )
       )
-    )
+    } else {
+      onEventChange(newActive.events)
+    }
     setActive(newActive)
   }
 
@@ -446,6 +452,10 @@ export const EventsFilter = ({ events, active, onEventChange, onGroupChange }) =
                     size="sm"
                     isChecked={_active.events?.includes(item.id)}
                     isReadOnly
+                    onClick={(e) => {
+                      e.preventDefault()
+                      handleChange(group, item)
+                    }}
                   />
                   <Stack direction="row" align="center">
                     {item.image && <Image src={item.image} boxSize={5} />}

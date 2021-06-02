@@ -78,6 +78,7 @@ export const countries = [
   { id: 'ua', label: 'Ukraine', image: `https://griffon.octane.gg/flags/145-ukraine.svg` },
   { id: 'uy', label: 'Uruguay', image: `https://griffon.octane.gg/flags/088-uruguay.svg` },
   { id: 'wl', label: 'Wales', image: `https://griffon.octane.gg/flags/014-wales.svg` },
+  { id: 'ye', label: 'Yemen', image: `https://griffon.octane.gg/flags/232-yemen.svg` },
 ]
 
 export const getCountry = (countryId) =>
