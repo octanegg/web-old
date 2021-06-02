@@ -7,7 +7,7 @@ import { Heading } from '@octane/components/common/Text'
 const Banner = ({ article }) => (
   <NextLink passHref href={`/news/${article.slug}`} key={article._id}>
     <Link _hover={{}} _focus={{}}>
-      <Box position="relative" color="primary.300" _hover={{ color: 'primary.100' }}>
+      <Box position="relative" color="primary.300" bgClip="text" _hover={{ color: 'primary.100' }}>
         <Image
           src={`https://octane-content.s3.amazonaws.com/${article.image.hash}${article.image.ext}`}
         />
@@ -16,12 +16,17 @@ const Banner = ({ article }) => (
           height="full"
           position="absolute"
           top={0}
-          background="linear-gradient(to top, rgba(0, 0, 0, 0.75) 0%, transparent 100%)"
+          background="linear-gradient(to top, rgba(0, 0, 0, 0.85) 0%, transparent 100%)"
+          _hover={{
+            background: 'linear-gradient(to top, rgba(0, 0, 0, 0.65) 0%, transparent 100%)',
+          }}
         />
         <Text
           fontSize={{ base: 'xl', sm: '2xl' }}
           fontWeight="bold"
           position="absolute"
+          bgGradient="linear(to-r, primary.300, secondary.200)"
+          bgClip="text"
           paddingBottom={2}
           paddingLeft={2}
           bottom={0}
@@ -36,7 +41,7 @@ const Banner = ({ article }) => (
 const ArticleGroup = ({ group, articles }) => (
   <Stack paddingBottom={4}>
     <Heading hasDivider>{group}</Heading>
-    <Stack width="full" backgroundColor="#fff" padding={2} spacing={1}>
+    <Stack width="full" backgroundColor="#fff" paddingLeft={2} paddignRight={2} spacing={1}>
       {articles.map(({ _id, slug, published_at, title, authors }) => (
         <NextLink key={_id} passHref href={`/news/${slug}`}>
           <Link _hover={{}} _focus={{}}>

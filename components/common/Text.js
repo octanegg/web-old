@@ -49,7 +49,11 @@ export const Link = (props) => {
         textAlign: textAlign || 'start',
         zIndex: 2,
         width: width || 'auto',
-        _hover: { color: 'primary.500' },
+        _hover: {
+          color: 'primary.500',
+          bgGradient: 'linear(to-t, primary.300, primary.500)',
+          bgClip: 'text',
+        },
         _focus: { outline: 'none' },
       }
     : {

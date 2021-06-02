@@ -7,6 +7,7 @@ import { unescape } from 'lodash'
 import styles from '@octane/styles/Article.module.scss'
 import { Link } from '@octane/components/common/Text'
 import Meta from '@octane/components/common/Meta'
+import moment from 'moment'
 
 const News = ({ article }) => {
   const { title, authors, image, content, published_at } = article
@@ -18,6 +19,15 @@ const News = ({ article }) => {
     s.setAttribute('src', 'https://platform.twitter.com/widgets.js')
     s.setAttribute('async', 'true')
     document.head.appendChild(s)
+
+    const t = document.createElement('script')
+    s.setAttribute('src', 'https://cdn.quilljs.com/1.1.9/quill.js')
+    document.head.appendChild(t)
+
+    const u = document.createElement('link')
+    s.setAttribute('href', 'https://cdn.quilljs.com/1.1.9/quill.snow.css')
+    s.setAttribute('rel', 'stylesheet')
+    document.head.appendChild(u)
   }, [])
 
   return (
@@ -50,9 +60,7 @@ const News = ({ article }) => {
               </Flex>
             ))}
           </Flex>
-          <Text fontStyle="italic" fontSize="md">
-            {new Date(published_at).toLocaleDateString()}
-          </Text>
+          <Text fontSize="md">{moment(published_at).format('MMM D, YYYY')}</Text>
         </Flex>
         <Flex width={{ base: 'full', md: '70%' }} padding={{ base: 0, md: 4 }}>
           <Image src={image.url} />

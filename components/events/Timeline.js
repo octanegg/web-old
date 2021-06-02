@@ -88,12 +88,11 @@ export const Timeline = ({ data }) => {
           <TimelineItem key={i} item={item} width={item ? itemWidth : separatorWidth} />
         ))}
       </Flex>
-      <Divider
-        width={timelineWidth}
-        borderColor="primary.500"
-        backgroundColor="primary.500"
-        borderWidth={3}
+      <Flex
+        height={1.5}
+        bgGradient="linear(to-r, primary.200, secondary.200)"
         borderRadius={8}
+        width={timelineWidth}
       />
       <Flex width={timelineWidth} justify="space-between">
         {bottom.map((item, i) => (

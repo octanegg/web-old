@@ -125,6 +125,11 @@ const App = ({ Component, pageProps }) => (
           href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap"
           rel="stylesheet"
         />
+        <link href="//cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet" />
+        <link href="//cdn.quilljs.com/1.3.6/quill.bubble.css" rel="stylesheet" />
+
+        <link href="//cdn.quilljs.com/1.3.6/quill.core.css" rel="stylesheet" />
+        <script src="//cdn.quilljs.com/1.3.6/quill.core.js" />
       </Head>
       <Layout>
         <Component {...pageProps} />

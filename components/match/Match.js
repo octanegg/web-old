@@ -149,9 +149,13 @@ export const MatchOverview = ({ match, blue, orange, games, winner, active }) =>
           <Stack
             key={game._id}
             backgroundColor={active === i + 1 ? 'primary.50' : ''}
+            bgGradient={active === i + 1 ? 'linear(to-t, primary.50, secondary.50)' : ''}
             borderRadius={16}
             cursor="pointer"
-            _hover={{ backgroundColor: 'primary.50' }}
+            _hover={{
+              backgroundColor: 'primary.50',
+              bgGradient: 'linear(to-t, primary.50, secondary.50)',
+            }}
             padding={2}>
             <Flex
               fontWeight="medium"
@@ -199,10 +203,16 @@ export const MatchOverview = ({ match, blue, orange, games, winner, active }) =>
     <Link href={`/matches/${match.slug}`}>
       <Stack
         backgroundColor={!active ? 'primary.50' : ''}
+        bgGradient={!active ? 'linear(to-t, primary.50, secondary.50)' : ''}
         borderRadius={16}
         cursor="pointer"
         padding={2}
-        _hover={{ backgroundColor: 'primary.50' }}>
+        paddingLeft={3}
+        paddingRight={3}
+        _hover={{
+          backgroundColor: 'primary.50',
+          bgGradient: 'linear(to-t, primary.50, secondary.50)',
+        }}>
         <Flex
           fontWeight="medium"
           fontSize="xs"

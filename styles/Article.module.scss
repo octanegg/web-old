@@ -3,18 +3,37 @@
   font-size: 16px;
   display: flex;
   width: 100%;
+  font-weight: 400;
   flex-direction: column;
+
+  h1 {
+    font-size: 24px;
+    font-weight: bold;
+    background: -webkit-linear-gradient(top, #30c97b, #3f4d65);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  h2 {
+    font-size: 20px;
+    font-weight: bold;
+    background: -webkit-linear-gradient(top, #a5b3cb, #3f4d65);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
 
   a {
     font-weight: 700;
+    color: #3f4d65 !important;
 
     &:hover {
-      color: #30c97b;
+      color: #30c97b !important;
     }
   }
 
   ul {
-    list-style-type: none;
     padding-top: 5px;
     padding-bottom: 5px;
     padding-left: 20px;

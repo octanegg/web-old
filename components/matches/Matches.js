@@ -183,6 +183,9 @@ const Match = ({ match, team, player, highlightResult }) => {
           )}
           {hasStats && <Badge colorScheme="green">Stats</Badge>}
           {hasReplays && <Badge colorScheme="blue">Replays</Badge>}
+          {(leftScore > 0 || rightScore > 0) && !hasStats && !hasReplays && (
+            <Badge colorScheme="red">No Data</Badge>
+          )}
         </Stack>
         <Spacer />
         <Flex align="center" justify="flex-end" width={{ base: 32, md: 80 }}>
