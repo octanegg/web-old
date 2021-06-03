@@ -8,6 +8,7 @@ import { FaTrophy, FaMedal, FaCalendar } from 'react-icons/fa'
 import { IoStatsChart, IoNewspaper } from 'react-icons/io5'
 import { RiTeamFill } from 'react-icons/ri'
 import { useRouter } from 'next/router'
+import { GiHamburgerMenu } from 'react-icons/gi'
 
 const NAV_ITEMS = [
   { href: '/news', label: 'News', icon: <IoNewspaper /> },
@@ -68,10 +69,7 @@ const NavImage = ({ src, href }) => (
 
 const HamburgerNav = ({ onClick }) => (
   <Flex padding={4} onClick={onClick}>
-    <svg fill="white" width="20px" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-      <title>Menu</title>
-      <path d="M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z" />
-    </svg>
+    <GiHamburgerMenu />
   </Flex>
 )
 
@@ -83,7 +81,6 @@ const Navbar = ({ auth }) => {
   return (
     <Flex
       width="full"
-      height={14}
       backgroundColor="secondary.800"
       justify="center"
       color="whitesmoke"
@@ -93,6 +90,7 @@ const Navbar = ({ auth }) => {
         width="full"
         align="center"
         justify="space-between"
+        height={14}
         display={{ base: 'flex', lg: 'none' }}>
         <NavImage href="/" src="/images/logo.svg" />
         <HamburgerNav onClick={toggleMenu} />
