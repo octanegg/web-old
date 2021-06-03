@@ -83,6 +83,7 @@ const Navbar = ({ auth }) => {
   return (
     <Flex
       width="full"
+      height={14}
       backgroundColor="secondary.800"
       justify="center"
       color="whitesmoke"

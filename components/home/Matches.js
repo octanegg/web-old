@@ -2,6 +2,7 @@ import { Flex } from '@chakra-ui/react'
 import { Button, ButtonTypes } from '@octane/components/common/Button'
 import { useState } from 'react'
 import { MatchesWidget } from '@octane/components/widgets/Matches'
+import { Heading } from '@octane/components/common/Text'
 
 export const Matches = ({ matches }) => {
   const { completed, upcoming } = matches
@@ -23,6 +24,7 @@ export const Matches = ({ matches }) => {
           Results
         </Button>
       </Flex>
+      <Heading display={{ base: 'flex', lg: 'none' }}>Recent Matches</Heading>
       <MatchesWidget matches={toggle ? upcoming : completed} />
     </Flex>
   )

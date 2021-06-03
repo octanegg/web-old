@@ -1,12 +1,4 @@
-import {
-  Flex,
-  Stack,
-  Text,
-  Tag,
-  SimpleGrid,
-  StackDivider,
-  Link as ChakraLink,
-} from '@chakra-ui/react'
+import { Flex, Stack, Text, Tag, SimpleGrid, StackDivider } from '@chakra-ui/react'
 import NextLink from 'next/link'
 import { Heading, Link } from '@octane/components/common/Text'
 import { formatPrizeUSD } from '@octane/util/prizes'
@@ -39,66 +31,55 @@ export const Events = ({ events }) => {
       <Heading display={{ base: 'flex', lg: 'none' }}>Ongoing Events</Heading>
       <Stack
         direction={{ base: 'row', lg: 'column' }}
-        divider={
-          <StackDivider
-            display="flex"
-            borderColor="secondary.100"
-            color="secondary.100"
-            backgroundColor="secondary.100"
-          />
-        }
+        divider={<StackDivider borderColor="secondary.100" />}
         overflowY={{ base: 'scroll', lg: 'auto' }}>
         {(toggle ? ongoing : upcoming).map(
           ({ _id, slug, name, region, stages, startDate, endDate, image, tier, prize }) => {
             const _region = regions.find((r) => region === r.id)
             return (
               <NextLink passHref href={`/events/${slug}`} key={_id}>
-                <ChakraLink _hover={{}} _focus={{}}>
-                  <Stack
-                    minWidth={60}
-                    width={60}
-                    fontSize="xs"
-                    cursor="pointer"
-                    borderRadius={8}
-                    _hover={{
-                      backgroundColor: 'secondary.50',
-                      bgGradient: 'linear(to-bl, primary.50, secondary.50)',
-                    }}
-                    padding={2}>
-                    <Flex direction="column">
-                      <Link fontSize="xs" href={`/events/${slug}`}>
-                        {name}
-                      </Link>
-                      <Text fontSize="xs" fontWeight="medium" color="secondary.500">
-                        {!toggle ? timeUntil(startDate) : toDateString(startDate, endDate)}
-                      </Text>
-                    </Flex>
-                    <Flex justify="space-around" align="center">
-                      <Image boxSize={10} src={image} />
-                      <SimpleGrid columns={2} spacing={1}>
-                        <Flex justify="center">
-                          <Tag size="sm">
-                            <Stack direction="row" spacing={1} paddingTop={0.5}>
-                              <Image width="16px" height="11px" src={_region.image} />
-                              <Text fontSize="xs">{region}</Text>
-                            </Stack>
-                          </Tag>
-                        </Flex>
-                        <Flex justify="center">
-                          <Tag size="sm">
-                            {`${stages.length} stage${stages.length > 1 ? 's' : ''}`}
-                          </Tag>
-                        </Flex>
-                        <Flex justify="center">
-                          <Tag size="sm">{tier.length > 1 ? tier : `${tier}-Tier`}</Tag>
-                        </Flex>
-                        <Flex justify="center">
-                          {prize && <Tag size="sm">{formatPrizeUSD(prize)}</Tag>}
-                        </Flex>
-                      </SimpleGrid>
-                    </Flex>
-                  </Stack>
-                </ChakraLink>
+                <Stack
+                  fontSize="xs"
+                  cursor="pointer"
+                  borderRadius={8}
+                  _hover={{
+                    backgroundColor: 'secondary.50',
+                    bgGradient: 'linear(to-bl, primary.50, secondary.50)',
+                  }}
+                  padding={2}>
+                  <Flex direction="column" width={48}>
+                    <Link fontSize="xs" href={`/events/${slug}`}>
+                      {name}
+                    </Link>
+                    <Text fontSize="xs" fontWeight="medium" color="secondary.500">
+                      {!toggle ? timeUntil(startDate) : toDateString(startDate, endDate)}
+                    </Text>
+                  </Flex>
+                  <Flex justify="space-around" align="center">
+                    <Image boxSize={10} src={image} />
+                    <SimpleGrid columns={2} spacing={1}>
+                      <Flex justify="center">
+                        <Tag size="sm">
+                          <Stack direction="row" spacing={1} paddingTop={0.5}>
+                            <Image width="16px" height="11px" src={_region.image} />
+                            <Text fontSize="xs">{region}</Text>
+                          </Stack>
+                        </Tag>
+                      </Flex>
+                      <Flex justify="center">
+                        <Tag size="sm">
+                          {`${stages.length} stage${stages.length > 1 ? 's' : ''}`}
+                        </Tag>
+                      </Flex>
+                      <Flex justify="center">
+                        <Tag size="sm">{tier.length > 1 ? tier : `${tier}-Tier`}</Tag>
+                      </Flex>
+                      <Flex justify="center">
+                        {prize && <Tag size="sm">{formatPrizeUSD(prize)}</Tag>}
+                      </Flex>
+                    </SimpleGrid>
+                  </Flex>
+                </Stack>
               </NextLink>
             )
           }

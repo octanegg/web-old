@@ -25,7 +25,7 @@ const Banner = ({ article }) => (
           fontSize={{ base: 'xl', sm: '2xl' }}
           fontWeight="bold"
           position="absolute"
-          bgGradient="linear(to-r, primary.300, secondary.200)"
+          bgGradient="linear(to-r, primary.200, secondary.100)"
           bgClip="text"
           paddingBottom={2}
           paddingLeft={2}

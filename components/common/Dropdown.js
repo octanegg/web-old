@@ -177,8 +177,35 @@ export const DropdownList = ({ items, active, label, itemToLabel, itemToId, onCh
   )
 }
 
-export const DropdownNestedList = ({ items, active, label, itemToLabel, itemToId, onChange }) => {
+export const DropdownNestedList = ({
+  items,
+  active,
+  label,
+  itemToLabel,
+  itemToId,
+  onChange,
+  hideSearch,
+}) => {
   const [isOpen, setIsOpen] = useState(false)
+  const [search, setSearch] = useState('')
+  const [groups, setGroups] = useState(items)
+
+  useEffect(() => {
+    if (search) {
+      setGroups(
+        items
+          .map((item) => ({
+            ...item,
+            items: item.items.filter((i) =>
+              (itemToLabel ? itemToLabel(i) : i).toLowerCase().includes(search.toLowerCase())
+            ),
+          }))
+          .filter((item) => item.items.length > 0)
+      )
+    } else {
+      setGroups(items)
+    }
+  }, [search])
 
   return (
     <Dropdown
@@ -188,15 +215,22 @@ export const DropdownNestedList = ({ items, active, label, itemToLabel, itemToId
       open={() => setIsOpen(!isOpen)}
       close={() => setIsOpen(false)}
       isActive={active}>
-      <List maxHeight={400} overflowY="auto">
-        {items.map((group, j) => (
+      <List maxHeight={400} overflowY="auto" padding={2}>
+        {!hideSearch && (
+          <ListItem>
+            <Stack direction="row" padding={2} align="center">
+              <Input size="sm" value={search} onChange={(e) => setSearch(e.currentTarget.value)} />
+            </Stack>
+          </ListItem>
+        )}
+        {groups.map((group, j) => (
           <React.Fragment key={j}>
             <ListItem
               padding={1}
-              fontSize="11px"
-              color="secondary.400"
-              fontWeight="semi"
-              textTransform="uppercase">
+              fontSize="xs"
+              fontWeight="bold"
+              textTransform="uppercase"
+              color="secondary.700">
               {group.label}
             </ListItem>
             {group.items.map((item, i) => (
@@ -207,7 +241,7 @@ export const DropdownNestedList = ({ items, active, label, itemToLabel, itemToId
                 borderBottomRadius={j === items.length - 1 && i === group.items.length - 1 ? 6 : 0}
                 _hover={{ backgroundColor: 'secondary.25' }}
                 fontSize="13px"
-                fontWeight="semi"
+                fontWeight="medium"
                 color="secondary.800"
                 cursor="pointer"
                 value={itemToId ? itemToId(item) : item}

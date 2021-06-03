@@ -13,12 +13,24 @@ const Home = ({ articles, matches, events }) => (
     <Meta />
     <Stack
       width="full"
-      direction={{ base: 'column-reverse', lg: 'row' }}
+      direction="row"
       paddingLeft={2}
       paddingRight={2}
+      display={{ base: 'none', lg: 'flex' }}
       spacing={4}>
       <Events events={events} />
       <Articles articles={articles} />
+      <Matches matches={matches} />
+    </Stack>
+    <Stack
+      width="full"
+      direction="column"
+      paddingLeft={2}
+      paddingRight={2}
+      display={{ base: 'flex', lg: 'none' }}
+      spacing={4}>
+      <Articles articles={articles} />
+      <Events events={events} />
       <Matches matches={matches} />
     </Stack>
   </Content>
@@ -68,8 +80,8 @@ export async function getServerSideProps() {
         completed:
           completedMatches.matches
             ?.filter((m) => m.blue && m.orange && (m.blue.score > 0 || m.orange.score > 0))
-            .slice(0, 8) || [],
-        upcoming: upcomingMatches.matches?.slice(0, 8) || [],
+            .slice(0, 7) || [],
+        upcoming: upcomingMatches.matches?.slice(0, 7) || [],
       },
       events: {
         ongoing: ongoingEvents.events
@@ -79,8 +91,8 @@ export async function getServerSideProps() {
 
             return aTier === bTier ? prizeUSD(b.prize) - prizeUSD(a.prize) : aTier - bTier
           })
-          .slice(0, 8),
-        upcoming: upcomingEvents.events.slice(0, 8),
+          .slice(0, 7),
+        upcoming: upcomingEvents.events.slice(0, 7),
       },
     },
   }

@@ -23,7 +23,7 @@ export const RecordsRow = ({ record, rank, statType }) => {
   const _opponent =
     opponent ||
     (record.blue.score > record.orange.score ? record.orange.team.team : record.blue.team.team)
-  const _winner = winner || true
+  const _winner = team && opponent ? winner : true
 
   const momentDate = moment(date)
   const isToday = momentDate.isAfter(moment().subtract(1, 'day'))
@@ -48,7 +48,7 @@ export const RecordsRow = ({ record, rank, statType }) => {
           bgGradient: 'linear(to-r, primary.25, secondary.50)',
         }}
         cursor="pointer">
-        <Flex align="center" width={{ base: 80, sm: 56 }}>
+        <Flex align="center" width={{ base: 80, sm: 64 }}>
           <Flex
             fontSize="sm"
             fontWeight="bold"
@@ -110,7 +110,7 @@ export const RecordsRow = ({ record, rank, statType }) => {
         </Flex>
         <Flex
           align="center"
-          width={72}
+          width={64}
           display={{ base: 'none', sm: 'flex' }}
           paddingLeft={{ base: 2, md: 0 }}>
           <Text fontSize="xs" width={6}>
@@ -147,7 +147,7 @@ export const RecordsRow = ({ record, rank, statType }) => {
             </LabeledText>
           </Flex>
         </Flex>
-        <Flex align="center" width={{ base: 12, lg: 'sm' }}>
+        <Flex align="center" width={{ base: 12, lg: 'md' }}>
           <Image boxSize={6} marginRight={2} marginLeft={2} src={event.image} />
           <Flex display={{ base: 'none', lg: 'flex' }}>
             <LabeledText
