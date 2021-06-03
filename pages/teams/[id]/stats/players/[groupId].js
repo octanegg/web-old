@@ -79,6 +79,7 @@ export async function getServerSideProps({ params, query }) {
     bestOf: query.bestOf || '',
     cluster: query.cluster || '',
     minGames: query.minGames || '',
+    lan: query.lan || '',
   }
 
   const statGroup = playerStats.find((g) => g.id === groupId)

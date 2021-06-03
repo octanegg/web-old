@@ -82,6 +82,7 @@ export async function getServerSideProps({ params, query }) {
     opponent: query.opponent || '',
     qualifier: query.qualifier || '',
     overtime: query.overtime || '',
+    lan: query.lan || '',
     before: query.before || '',
     after: query.after || '',
     bestOf: query.bestOf || '',

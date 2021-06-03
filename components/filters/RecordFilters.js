@@ -3,6 +3,7 @@ import {
   EventsFilter,
   Filter,
   FormatFilter,
+  LanFilter,
   ModeFilter,
   OvertimeFilter,
   QualifierFilter,
@@ -96,6 +97,7 @@ export const RecordsFilter = ({ type, initialFilter }) => {
         active={filter.overtime}
         onChange={(item) => updateFilter('overtime', item)}
       />
+      <LanFilter active={filter.lan} onChange={(item) => updateFilter('lan', item)} />
     </Filter>
   )
 }

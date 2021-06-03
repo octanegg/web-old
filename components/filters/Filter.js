@@ -250,6 +250,16 @@ export const OvertimeFilter = ({ active, onChange }) => (
   />
 )
 
+export const LanFilter = ({ active, onChange }) => (
+  <DropdownList
+    label="LANs"
+    items={['Incl. LANs', 'Only LANs', 'No LANs']}
+    active={active}
+    itemToId={(result) => (result === 'Only LANs' ? 'true' : result === 'No LANs' ? 'false' : '')}
+    onChange={onChange}
+  />
+)
+
 export const TeamStatsTypeFilter = ({ active, onChange }) => (
   <DropdownList
     label="Type"

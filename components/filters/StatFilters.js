@@ -3,6 +3,7 @@ import {
   EventsFilter,
   Filter,
   FormatFilter,
+  LanFilter,
   MinGamesFilter,
   ModeFilter,
   NationalityFilter,
@@ -94,6 +95,7 @@ export const PlayerStatsFilter = ({ initialFilter }) => {
         active={filter.overtime}
         onChange={(item) => updateFilter('overtime', item)}
       />
+      <LanFilter active={filter.lan} onChange={(item) => updateFilter('lan', item)} />
     </Filter>
   )
 }
@@ -173,6 +175,7 @@ export const TeamStatsFilter = ({ initialFilter }) => {
         active={filter.overtime}
         onChange={(item) => updateFilter('overtime', item)}
       />
+      <LanFilter active={filter.lan} onChange={(item) => updateFilter('lan', item)} />
     </Filter>
   )
 }

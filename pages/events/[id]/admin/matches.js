@@ -74,6 +74,7 @@ const Admin = ({ event, stages, teams }) => {
               name: stage.name,
               format: stage.format,
               qualifier: stage.qualifier,
+              lan: stage.lan,
             }),
           },
         ],
@@ -98,6 +99,7 @@ const Admin = ({ event, stages, teams }) => {
           name: stage.name,
           format: stage.format,
           qualifier: stage.qualifier,
+          lan: stage.lan,
         }),
       })
     }

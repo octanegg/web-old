@@ -54,6 +54,7 @@ export async function getServerSideProps({ params, query }) {
     group: query.group || '',
     player: query.player || '',
     opponent: query.opponent || '',
+    lan: query.lan || '',
     before: query.before || '',
     after: query.after || '',
     page: query.page || 1,

@@ -53,6 +53,7 @@ export async function getServerSideProps({ query }) {
     bestOf: query.bestOf || '',
     qualifier: query.qualifier || '',
     overtime: query.overtime || '',
+    lan: query.lan || '',
   }
 
   const _records = await fetch(`${process.env.API_URL}/records/players${buildQuery(filter, [''])}`)

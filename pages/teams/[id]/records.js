@@ -60,6 +60,7 @@ export async function getServerSideProps({ params, query }) {
     type: query.type || 'game',
     stat: query.stat || 'score',
     bestOf: query.bestOf || '',
+    lan: query.lan || '',
   }
 
   const [_team, _records] = await Promise.all([
