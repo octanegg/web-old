@@ -7,7 +7,7 @@ export const Country = ({ country, boxSize, disableTooltip }) => {
 
   return (
     <Tooltip hasArrow placement="top" label={label} isDisabled={disableTooltip}>
-      <Flex zIndex={2}>
+      <Flex zIndex={2} width={boxSize || 5}>
         <Image boxSize={boxSize || 5} src={image} />
       </Flex>
     </Tooltip>
