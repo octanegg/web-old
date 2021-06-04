@@ -18,10 +18,14 @@ const EventsPage = ({ ongoing, upcoming, filter }) => {
       <Stack width="full" spacing={3}>
         <Navigation type="events" active="ongoing" />
         <UpcomingEventsFilter initialFilter={filter} />
-        {!filter.mode && !filter.tier && !filter.region && !filter.group && (
-          <Events events={ongoing} />
+        {loadingSameRoute ? (
+          <Loading />
+        ) : (
+          <>
+            <Events events={ongoing} />
+            <Events events={upcoming} groupBy="startDate" />
+          </>
         )}
-        {loadingSameRoute ? <Loading /> : <Events events={upcoming} groupBy="startDate" />}
       </Stack>
     </Content>
   )
@@ -33,11 +37,17 @@ export async function getServerSideProps({ query }) {
     tier: query.tier || '',
     region: query.region || '',
     group: query.group || '',
+    lan: query.lan || '',
     after: moment().toISOString(),
     sort: 'start_date:asc',
   }
 
   const ongoingFilter = {
+    mode: query.mode || '',
+    tier: query.tier || '',
+    region: query.region || '',
+    group: query.group || '',
+    lan: query.lan || '',
     date: moment().toISOString(),
     sort: 'start_date:asc',
   }

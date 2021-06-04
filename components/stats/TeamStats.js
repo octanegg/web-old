@@ -10,7 +10,7 @@ import { getTeamStat } from '@octane/config/stats/stats'
 import { Empty } from '@octane/components/common/Error'
 
 export const TeamStats = ({ statGroup, stats, total, period, groupBy, noScroll, isSortable }) => {
-  const [teams, setTeams] = useState([])
+  const [teams, setTeams] = useState()
   const [sort, setSort] = useState('')
   const [order, setOrder] = useState(false)
 
@@ -105,7 +105,7 @@ export const TeamStats = ({ statGroup, stats, total, period, groupBy, noScroll, 
             </HeaderItem>
           ))}
         </Header>
-        {teams?.length > 0 && (
+        {teams && (
           <Body>
             {teams?.map((record, i) => (
               <StatsRow

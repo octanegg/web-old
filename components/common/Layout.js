@@ -24,7 +24,7 @@ export const Content = ({ children }) => {
         align="center"
         paddingBottom={2}>
         <Box width="full" height={2} className={styles.progress}>
-          {loadingNewRoute && <Progress size="xs" isIndeterminate variant="test" />}
+          {loadingNewRoute && <Progress size="xs" isIndeterminate />}
         </Box>
         {children}
       </Flex>

@@ -26,34 +26,36 @@ const NAV_ITEMS = [
 
 const NavItem = ({ href, query, onClick, isActive, children }) => (
   <Flex
-    fontSize="sm"
-    fontWeight="medium"
-    justify={{ base: 'center', lg: 'flex-start' }}
-    borderBottomWidth={{ base: 1, lg: 0 }}
-    borderBottomColor="secondary.700"
-    transition="box-shadow 0.1s ease-out"
-    cursor="pointer"
-    marginLeft={0.5}
-    marginRight={0.5}
-    boxShadow={isActive ? 'navbar' : ''}
-    _hover={{ boxShadow: 'navbar' }}>
-    {href ? (
-      <NextLink passHref href={`${href}${query || ''}`}>
-        <Link
-          display="block"
-          padding={4}
-          paddingLeft={3}
-          paddingRight={3}
-          textDecoration="none !important"
-          _focus={{}}>
+    bgGradient={isActive ? 'linear(to-r, primary.300, secondary.300)' : ''}
+    paddingBottom={1}
+    borderBottom={{ base: '1px solid #3F4D65', lg: 'none' }}
+    _hover={{ bgGradient: 'linear(to-l, primary.300, secondary.300)' }}>
+    <Flex
+      paddingTop={1}
+      fontSize="sm"
+      fontWeight="medium"
+      backgroundColor="secondary.800"
+      width="full"
+      justify={{ base: 'center', lg: 'flex-start' }}
+      cursor="pointer">
+      {href ? (
+        <NextLink passHref href={`${href}${query || ''}`}>
+          <Link
+            display="block"
+            padding={3}
+            paddingLeft={4}
+            paddingRight={4}
+            textDecoration="none !important"
+            _focus={{}}>
+            {children}
+          </Link>
+        </NextLink>
+      ) : (
+        <Flex display="block" padding={4} onClick={onClick}>
           {children}
-        </Link>
-      </NextLink>
-    ) : (
-      <Flex display="block" padding={4} onClick={onClick}>
-        {children}
-      </Flex>
-    )}
+        </Flex>
+      )}
+    </Flex>
   </Flex>
 )
 

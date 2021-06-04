@@ -1,6 +1,7 @@
 import {
   Filter,
   FormatFilter,
+  LanFilter,
   MinGamesFilter,
   ModeFilter,
   OvertimeFilter,
@@ -43,6 +44,7 @@ export const UpcomingEventsFilter = ({ initialFilter }) => {
       <TierFilter active={filter.tier} onChange={(item) => updateFilter('tier', item)} />
       <RegionFilter active={filter.region} onChange={(item) => updateFilter('region', item)} />
       <ModeFilter active={filter.mode} onChange={(item) => updateFilter('mode', item)} />
+      <LanFilter active={filter.lan} onChange={(item) => updateFilter('lan', item)} />
     </Filter>
   )
 }
@@ -73,10 +75,8 @@ export const CompletedEventsFilter = ({ initialFilter }) => {
       <TierFilter active={filter.tier} onChange={(item) => updateFilter('tier', item)} />
       <RegionFilter active={filter.region} onChange={(item) => updateFilter('region', item)} />
       <ModeFilter active={filter.mode} onChange={(item) => updateFilter('mode', item)} />
-      <YearFilter
-        active={filter.after && parseInt(moment(filter.after).format('YYYY'), 10)}
-        onChange={(year) => updateFilter('year', year)}
-      />
+      <YearFilter active={filter.year} onChange={(year) => updateFilter('year', year)} />
+      <LanFilter active={filter.lan} onChange={(item) => updateFilter('lan', item)} />
     </Filter>
   )
 }

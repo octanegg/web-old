@@ -20,7 +20,7 @@ export const PlayerStats = ({
   showTeam,
   isSortable,
 }) => {
-  const [players, setPlayers] = useState([])
+  const [players, setPlayers] = useState()
   const [sort, setSort] = useState('')
   const [order, setOrder] = useState(false)
 
@@ -143,7 +143,7 @@ export const PlayerStats = ({
             </HeaderItem>
           ))}
         </Header>
-        {players?.length > 0 && (
+        {players && (
           <Body>
             {players?.map((record, i) => (
               <StatsRow
@@ -169,7 +169,7 @@ export const PlayerStats = ({
           </Body>
         )}
       </Table>
-      {(!players || players.length === 0) && <Empty />}
+      {players?.length === 0 && <Empty />}
     </Flex>
   )
 }
