@@ -30,8 +30,7 @@ import { Button, ButtonTypes } from './Button'
 
 export const DropdownDate = ({ label, startDate, endDate, onChange }) => {
   const [isOpen, setIsOpen] = useState(false)
-  const [start, setStart] = useState(startDate)
-  const [end, setEnd] = useState(endDate)
+  const [startEnd, setStartEnd] = useState([startDate || '', endDate || ''])
 
   const getOffsetDate = (d) =>
     moment(d).isValid() && new Date(new Date(d).getTime() + new Date(d).getTimezoneOffset() * 60000)
@@ -39,18 +38,18 @@ export const DropdownDate = ({ label, startDate, endDate, onChange }) => {
   const handleChange = ([s, e]) => {
     const _s = moment(s).format('YYYY-MM-DD')
     const _e = e ? moment(e).format('YYYY-MM-DD') : ''
-    setStart(_s)
-    setEnd(_e)
-    onChange([_s, _e])
+    setStartEnd([_s, _e])
   }
 
   const quickChange = ([s, e]) => {
     const _s = moment(s).format('YYYY-MM-DD')
     const _e = moment(e).format('YYYY-MM-DD')
-    setStart(_s)
-    setEnd(_e)
-    onChange([_s, _e])
+    setStartEnd([_s, _e])
   }
+
+  useEffect(() => {
+    onChange(startEnd)
+  }, [startEnd])
 
   return (
     <Dropdown
@@ -64,23 +63,28 @@ export const DropdownDate = ({ label, startDate, endDate, onChange }) => {
         <Stack direction="row" paddingBottom={2} align="center" justify="center">
           <Input
             size="sm"
-            value={start}
-            onChange={(e) => setStart(e.target.value)}
+            value={startEnd[0]}
+            onChange={(e) => setStartEnd([e.target.value, startEnd[1]])}
             width={9 / 20}
           />
           <Text fontSize="sm" fontWeight="medium">
             to
           </Text>
-          <Input size="sm" value={end} onChange={(e) => setEnd(e.target.value)} width={9 / 20} />
+          <Input
+            size="sm"
+            value={startEnd[1]}
+            onChange={(e) => setStartEnd([startEnd[0], e.target.value])}
+            width={9 / 20}
+          />
         </Stack>
         <Flex width="full" justify="center">
           <DatePicker
             minDate={new Date('2015-07-07')}
             maxDate={new Date()}
-            selected={getOffsetDate(start)}
+            selected={getOffsetDate(startEnd[0])}
             onChange={handleChange}
-            startDate={getOffsetDate(start)}
-            endDate={getOffsetDate(end)}
+            startDate={getOffsetDate(startEnd[0])}
+            endDate={getOffsetDate(startEnd[1])}
             selectsRange
             inline
           />

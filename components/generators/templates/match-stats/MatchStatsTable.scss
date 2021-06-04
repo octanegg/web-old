@@ -1,0 +1,38 @@
+$default-font-size: 1.7rem;
+
+.match-data-table {
+  width: 100%;
+  font-size: $default-font-size;
+  font-family: 'Asenine';
+  letter-spacing: 0.07rem;
+  border-collapse: collapse;
+  tbody {
+    tr {
+      &.seperator {
+        height: 1.6rem;
+      }
+    }
+    td {
+      padding: 0.2rem;
+      font-weight: lighter;
+      letter-spacing: 0.12rem;
+      &:first-child {
+        font-size: $default-font-size + 0.2rem;
+        font-weight: bold;
+      }
+      &:not(:first-child) {
+        text-align: center;
+      }
+    }
+  }
+  thead {
+    @extend tbody;
+    letter-spacing: normal;
+    td {
+      font-weight: normal !important;
+      font-size: $default-font-size * 0.85 !important;
+      opacity: 0.8;
+      text-transform: uppercase;
+    }
+  }
+}

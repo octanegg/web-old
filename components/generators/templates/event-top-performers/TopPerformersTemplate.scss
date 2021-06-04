@@ -1,0 +1,32 @@
+.top-performers {
+  width: 100%;
+  height: auto;
+  position: relative;
+  color: white;
+  font-family: 'ArcaMajora2';
+  .template-photo {
+    width: 100%;
+    position: relative;
+    z-index: 1;
+  }
+  .top-text {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: absolute;
+    top: 1rem;
+    z-index: 2;
+    flex-wrap: nowrap;
+    text-align: center;
+    .org-name {
+      font-size: 1.5rem;
+    }
+    .top-ten {
+      font-size: 4rem;
+    }
+    .event-name {
+      font-size: 2.3rem;
+    }
+  }
+}

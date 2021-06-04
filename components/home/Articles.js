@@ -41,7 +41,7 @@ const Banner = ({ article }) => (
 const ArticleGroup = ({ group, articles }) => (
   <Stack paddingBottom={4}>
     <Heading hasDivider>{group}</Heading>
-    <Stack width="full" backgroundColor="#fff" paddingLeft={2} paddignRight={2} spacing={1}>
+    <Stack width="full" backgroundColor="#fff" paddingLeft={2} paddingRight={2} spacing={1}>
       {articles.map(({ _id, slug, published_at, title, authors }) => (
         <NextLink key={_id} passHref href={`/news/${slug}`}>
           <Link _hover={{}} _focus={{}}>

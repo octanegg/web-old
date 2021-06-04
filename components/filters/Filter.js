@@ -317,7 +317,11 @@ export const EventsFilter = ({ events, active, onEventChange, onGroupChange }) =
         }
       } else {
         newActive.events.push(event.id)
-        if (group.id !== 'other' && group.events.every((e) => newActive.events.includes(e.id))) {
+        if (
+          group.id !== 'other' &&
+          !search &&
+          group.events.every((e) => newActive.events.includes(e.id))
+        ) {
           newActive.groups.push(group.id)
         }
       }
