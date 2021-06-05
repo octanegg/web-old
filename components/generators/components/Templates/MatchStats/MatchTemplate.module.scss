@@ -1,4 +1,4 @@
-.match-stats {
+.matchStats {
   width: 100%;
   height: auto;
   position: relative;
@@ -13,7 +13,7 @@
     top: 9%;
     left: 50%;
     transform: translate(-50%, -20%);
-    .team-display {
+    .teamDisplay {
       position: relative;
       display: flex;
       flex-direction: column;
@@ -21,11 +21,11 @@
       align-items: center;
       text-align: center;
       width: 20%;
-      .team-photo {
+      .teamPhoto {
         width: 6.25vw;
         height: 6.25vw;
       }
-      .team-name {
+      .teamName {
         width: 100%;
         margin-top: 0.2rem;
         font-size: 1.4rem;
@@ -35,7 +35,7 @@
       }
     }
   }
-  .match-score {
+  .matchScore {
     position: absolute;
     z-index: 2;
     top: 3rem;
@@ -47,17 +47,17 @@
     display: flex;
     justify-content: space-between;
   }
-  .match-goals {
+  .matchGoals {
     position: absolute;
     z-index: 2;
     width: 50%;
-    top: 10rem;
+    top: 11.5rem;
     left: 50%;
     transform: translateX(-50%);
     font-size: 1.7rem;
     text-align: center;
   }
-  .event-name {
+  .eventName {
     position: absolute;
     z-index: 2;
     width: 100%;
@@ -68,7 +68,7 @@
     letter-spacing: 0.02rem;
     text-align: center;
   }
-  .template-photo {
+  .templatePhoto {
     width: 100%;
     position: relative;
     z-index: 1;

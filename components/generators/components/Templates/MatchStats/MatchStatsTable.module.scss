@@ -1,6 +1,6 @@
 $default-font-size: 1.7rem;
 
-.match-data-table {
+.matchDataTable {
   width: 100%;
   font-size: $default-font-size;
   font-family: 'Asenine';
@@ -33,6 +33,27 @@ $default-font-size: 1.7rem;
       font-size: $default-font-size * 0.85 !important;
       opacity: 0.8;
       text-transform: uppercase;
+    }
+  }
+}
+
+.table {
+  position: absolute;
+  z-index: 2;
+  width: 75%;
+  color: white;
+  top: 60%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  tr {
+    td {
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      &:last-child {
+        border-right: 0;
+      }
+      &:first-child {
+        border-left: 0;
+      }
     }
   }
 }

@@ -129,7 +129,7 @@ const Admin = ({ event, stages, teams }) => {
                   {matches[stage._id]?.length > 0 ? (
                     matches[stage._id].map((match, i) => (
                       <MatchForm
-                        key={match.number}
+                        key={i}
                         data={match}
                         onRemove={(m) => handleMatchRemove(stage._id, i)}
                         onUpdate={(m) => handleMatchUpdate(stage._id, i, m)}
@@ -189,7 +189,9 @@ export async function getServerSideProps({ req, params }) {
   }
   const event = await resEvent.json()
 
-  const resMatches = await fetch(`${process.env.API_URL}/matches?event=${event._id}`)
+  const resMatches = await fetch(
+    `${process.env.API_URL}/matches?event=${event._id}&sort=number:asc`
+  )
   if (resMatches.status !== 200) {
     return {
       notFound: true,

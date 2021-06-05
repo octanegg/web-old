@@ -1,15 +1,15 @@
-.top-performers {
+.topPerformers {
   width: 100%;
   height: auto;
   position: relative;
   color: white;
   font-family: 'ArcaMajora2';
-  .template-photo {
+  .templatePhoto {
     width: 100%;
     position: relative;
     z-index: 1;
   }
-  .top-text {
+  .topText {
     width: 100%;
     display: flex;
     flex-direction: column;
@@ -19,13 +19,14 @@
     z-index: 2;
     flex-wrap: nowrap;
     text-align: center;
-    .org-name {
+    .orgName {
       font-size: 1.5rem;
     }
-    .top-ten {
+    .topTen {
       font-size: 4rem;
+      line-height: 4rem;
     }
-    .event-name {
+    .eventName {
       font-size: 2.3rem;
     }
   }

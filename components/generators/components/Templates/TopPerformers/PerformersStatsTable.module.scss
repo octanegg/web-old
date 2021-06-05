@@ -1,4 +1,4 @@
-.players-stats-table {
+.playersStatsTable {
   width: 85%;
   position: absolute;
   top: 12rem;
@@ -7,18 +7,17 @@
   left: 50%;
   transform: translateX(-50%);
   z-index: 2;
-  font-size: 1.7rem;
+  font-size: 2rem;
   letter-spacing: 0.05rem;
   border-collapse: collapse;
   tbody {
     tr {
       td {
-        padding: 0.3rem;
         border-bottom: 1px solid #9999994d;
         text-align: center;
         &:first-child {
           font-family: 'ArcaMajora2';
-          font-size: 1.3rem;
+          font-size: 1.6rem;
           text-align: left;
         }
         &:last-child {
@@ -56,6 +55,27 @@
       }
       &:last-child {
         text-align: right;
+      }
+    }
+  }
+}
+
+.table {
+  position: absolute;
+  z-index: 2;
+  width: 75%;
+  color: white;
+  top: 60%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  tr {
+    td {
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      &:last-child {
+        border-right: 0;
+      }
+      &:first-child {
+        border-left: 0;
       }
     }
   }

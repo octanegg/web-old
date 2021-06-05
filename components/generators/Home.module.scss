@@ -1,0 +1,61 @@
+@import './fonts.module.scss';
+
+$octane-green: #21c983;
+$bg-color: #eee;
+
+.home {
+  h1 {
+    text-align: center;
+    font-size: 3.3rem;
+    color: $octane-green;
+    margin-bottom: 0.7rem;
+    user-select: none;
+  }
+  .homeInput {
+    animation: appear 0.3s ease-out;
+    display: flex;
+    margin: 0 auto 0.7rem auto;
+    width: 50%;
+    justify-content: center;
+    input {
+      transition: all 0.3s ease-out;
+      font-family: 'Dosis';
+      font-size: 1rem;
+      height: 2rem;
+      padding: 0.2rem;
+      border: 1px solid darken($octane-green, 10);
+      &[type='text'] {
+        flex: 1;
+      }
+      &[type='submit'] [type='button'] {
+        width: 100px;
+        border-left-width: 0;
+        &:hover {
+          cursor: pointer;
+        }
+      }
+      &:focus {
+        box-shadow: 0 0 0.4rem $octane-green;
+        outline: none;
+      }
+    }
+  }
+  .displayArea {
+    animation: appear 0.3s ease-out;
+    width: 80%;
+    padding: 1rem;
+    box-sizing: border-box;
+    margin: 0 auto;
+    border: 1px solid darken($bg-color, 20);
+    position: relative;
+  }
+}
+
+@keyframes appear {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}

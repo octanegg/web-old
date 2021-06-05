@@ -20,6 +20,8 @@
     "@emotion/styled": "^11.3.0",
     "aws-cognito-next": "^3.0.1",
     "aws-sdk": "^2.886.0",
+    "classnames": "^2.2.6",
+    "dom-to-image": "^2.6.0",
     "downshift": "^6.1.2",
     "framer-motion": "^3.10.6",
     "isomorphic-unfetch": "^3.1.0",

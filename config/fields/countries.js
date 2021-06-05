@@ -68,6 +68,11 @@ export const countries = [
   { id: 'sg', label: 'Singapore', image: `https://griffon.octane.gg/flags/230-singapore.svg` },
   { id: 'sk', label: 'Slovakia', image: `https://griffon.octane.gg/flags/091-slovakia.svg` },
   { id: 'si', label: 'Slovenia', image: `https://griffon.octane.gg/flags/010-slovenia.svg` },
+  {
+    id: 'za',
+    label: 'South Africa',
+    image: `https://griffon.octane.gg/flags/200-south-africa.svg`,
+  },
   { id: 'se', label: 'Sweden', image: `https://griffon.octane.gg/flags/184-sweden.svg` },
   { id: 'ch', label: 'Switzerland', image: `https://griffon.octane.gg/flags/205-switzerland.svg` },
   { id: 'es', label: 'Spain', image: `https://griffon.octane.gg/flags/128-spain.svg` },
