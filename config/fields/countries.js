@@ -28,6 +28,7 @@ export const countries = [
   { id: 'fr', label: 'France', image: `https://griffon.octane.gg/flags/195-france.svg` },
   { id: 'de', label: 'Germany', image: `https://griffon.octane.gg/flags/162-germany.svg` },
   { id: 'gr', label: 'Greece', image: `https://griffon.octane.gg/flags/170-greece.svg` },
+  { id: 'gt', label: 'Guatemala', image: `https://griffon.octane.gg/flags/098-guatemala.svg` },
   { id: 'hk', label: 'Hong Kong', image: `https://griffon.octane.gg/flags/183-hong-kong.svg` },
   { id: 'hu', label: 'Hungary', image: `https://griffon.octane.gg/flags/115-hungary.svg` },
   { id: 'id', label: 'Indonesia', image: `https://griffon.octane.gg/flags/209-indonesia.svg` },
