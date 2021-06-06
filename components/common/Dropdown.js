@@ -436,7 +436,7 @@ export const Dropdown = ({
   <Popover placement="bottom" isOpen={isOpen} onClose={close}>
     <PopoverTrigger>
       <ChakraButton
-        margin={{ base: 1, md: 0 }}
+        margin={1}
         borderRadius={8}
         bgGradient={
           isActive

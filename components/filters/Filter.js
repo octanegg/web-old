@@ -48,21 +48,21 @@ export const Filter = ({ children, onApply, onReset, alwaysShowFilter }) => {
         display={{ base: alwaysShowFilter || showFilter ? 'flex' : 'none', lg: 'flex' }}
         direction={{ base: 'column', lg: 'row' }}
         paddingRight={2}
-        width="full"
-        justify="space-between">
+        width="full">
         <Stack>
           <Heading>Filters</Heading>
           <Stack
+            width="full"
             paddingLeft={2}
             direction="row"
             align="center"
-            spacing={{ base: 0, lg: 2 }}
-            wrap={{ base: 'wrap', lg: 'nowrap' }}
+            spacing={0}
+            wrap="wrap"
             shouldWrapChildren>
             {children}
           </Stack>
         </Stack>
-        <Stack width="full" direction="row" justify="flex-end" align="flex-end" shouldWrapChildren>
+        <Stack width={64} direction="row" justify="flex-end" align="flex-end" shouldWrapChildren>
           {onApply && (
             <Button
               buttonType={ButtonTypes.submit}

@@ -32,7 +32,7 @@ export const MatchesWidget = ({ matches, team, player, preventScroll }) => (
               bgGradient: 'linear(to-bl, primary.50, secondary.50)',
             }}
             padding={2}>
-            <Flex direction="column" fontSize="xs" width={48}>
+            <Flex direction="column" fontSize="xs" width={52}>
               <Link fontSize="xs" href={`/events/${event.slug}`}>
                 {event.name}
               </Link>
@@ -42,7 +42,7 @@ export const MatchesWidget = ({ matches, team, player, preventScroll }) => (
             </Flex>
             <Stack direction="row" align="center">
               <Stack>
-                <Stack direction="row" align="center">
+                <Stack direction="row" align="center" width={40}>
                   {(leftScore || rightScore) && (
                     <Flex
                       width={2}
@@ -71,7 +71,7 @@ export const MatchesWidget = ({ matches, team, player, preventScroll }) => (
                     </Text>
                   )}
                 </Stack>
-                <Stack direction="row" align="center">
+                <Stack direction="row" align="center" width={40}>
                   {(rightScore || leftScore) && (
                     <Flex
                       width={2}

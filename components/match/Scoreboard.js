@@ -25,7 +25,7 @@ export const ScoreboardGame = ({ blue, orange, map, duration, ballchasing, showR
         hideMobileLabels
         right={
           <Stack
-            width={{ base: 'full', lg: 'lg' }}
+            width={{ base: 'full', lg: 'xl' }}
             direction="row"
             align="center"
             justify={{ base: 'center', lg: 'flex-end' }}
