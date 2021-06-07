@@ -7,7 +7,7 @@ import DropdownList, {
 } from '@octane/components/common/Dropdown'
 import { getCountries } from '@octane/config/fields/countries'
 import { regions } from '@octane/config/fields/regions'
-import { Checkbox, Divider, Flex, List, ListItem, Stack, Text } from '@chakra-ui/react'
+import { Checkbox, Divider, Flex, List, ListItem, Spacer, Stack, Text } from '@chakra-ui/react'
 import { Button, ButtonTypes } from '@octane/components/common/Button'
 import { CheckIcon, CloseIcon } from '@chakra-ui/icons'
 import {
@@ -62,6 +62,7 @@ export const Filter = ({ children, onApply, onReset, alwaysShowFilter }) => {
             {children}
           </Stack>
         </Stack>
+        <Spacer />
         <Stack width={64} direction="row" justify="flex-end" align="flex-end" shouldWrapChildren>
           {onApply && (
             <Button

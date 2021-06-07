@@ -77,6 +77,7 @@ export const countries = [
   { id: 'se', label: 'Sweden', image: `https://griffon.octane.gg/flags/184-sweden.svg` },
   { id: 'ch', label: 'Switzerland', image: `https://griffon.octane.gg/flags/205-switzerland.svg` },
   { id: 'es', label: 'Spain', image: `https://griffon.octane.gg/flags/128-spain.svg` },
+  { id: 'th', label: 'Thailand', image: `https://griffon.octane.gg/flags/238-thailand.svg` },
   { id: 'tr', label: 'Turkey', image: `https://griffon.octane.gg/flags/218-turkey.svg` },
   {
     id: 'us',
