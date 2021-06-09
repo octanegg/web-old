@@ -58,6 +58,7 @@ export const countries = [
   { id: 'pl', label: 'Poland', image: `https://griffon.octane.gg/flags/211-poland.svg` },
   { id: 'pr', label: 'Puerto Rico', image: `https://griffon.octane.gg/flags/028-puerto-rico.svg` },
   { id: 'pt', label: 'Portugal', image: `https://griffon.octane.gg/flags/224-portugal.svg` },
+  { id: 'ro', label: 'Romania', image: `https://griffon.octane.gg/flags/109-romania.svg` },
   { id: 'ru', label: 'Russia', image: `https://griffon.octane.gg/flags/248-russia.svg` },
   {
     id: 'sa',
