@@ -7,8 +7,11 @@ import { Heading } from '@octane/components/common/Text'
 const Banner = ({ article }) => (
   <NextLink passHref href={`/news/${article.slug}`} key={article._id}>
     <Link _hover={{}} _focus={{}}>
-      <Box position="relative" color="primary.300" bgClip="text" _hover={{ color: 'primary.100' }}>
+      <Box position="relative">
         <Image
+          width="full"
+          maxHeight="22rem"
+          objectFit="cover"
           src={`https://octane-content.s3.amazonaws.com/${article.image.hash}${article.image.ext}`}
         />
         <Box
@@ -17,22 +20,20 @@ const Banner = ({ article }) => (
           position="absolute"
           top={0}
           background="linear-gradient(to top, rgba(0, 0, 0, 0.85) 0%, transparent 100%)"
-          _hover={{
-            background: 'linear-gradient(to top, rgba(0, 0, 0, 0.65) 0%, transparent 100%)',
-          }}
         />
-        <Text
-          fontSize={{ base: 'xl', sm: '2xl' }}
-          fontWeight="bold"
-          position="absolute"
-          bgGradient="linear(to-r, primary.200, secondary.100)"
-          bgClip="text"
-          paddingBottom={2}
-          paddingLeft={2}
-          bottom={0}
-          textShadow="1px 1px 2px rgb(28 28 28 / 10%)">
-          {article.title}
-        </Text>
+        <Flex direction="column" position="absolute" paddingLeft={2} bottom={2}>
+          <Text
+            fontSize={{ base: 'xl', sm: '2xl' }}
+            fontWeight="bold"
+            bgGradient="linear(to-r, primary.200, secondary.100)"
+            bgClip="text"
+            textShadow="1px 1px 2px rgb(28 28 28 / 10%)">
+            {article.title}
+          </Text>
+          <Text color="#fff" fontSize="sm" textShadow="1px 1px 2px rgb(28 28 28 / 10%)">
+            {article.description}
+          </Text>
+        </Flex>
       </Box>
     </Link>
   </NextLink>

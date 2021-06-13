@@ -76,6 +76,9 @@ const News = ({ articles, groups, dates, filter }) => (
                 <Box position="relative" color="primary.300" _hover={{ color: 'primary.100' }}>
                   <Flex minHeight={48}>
                     <Image
+                      width="full"
+                      maxHeight={48}
+                      objectFit="cover"
                       src={`https://octane-content.s3.amazonaws.com/${article.image.hash}${article.image.ext}`}
                     />
                   </Flex>
@@ -97,15 +100,19 @@ const News = ({ articles, groups, dates, filter }) => (
                     textShadow="1px 1px 2px rgb(28 28 28 / 10%)">
                     {moment(article.published_at).format('MMM D, YYYY')}
                   </Text>
-                  <Text
-                    position="absolute"
-                    padding={2}
-                    bottom={0}
-                    fontSize="lg"
-                    fontWeight="bold"
-                    textShadow="1px 1px 2px rgb(28 28 28 / 10%)">
-                    {article.title}
-                  </Text>
+                  <Flex direction="column" position="absolute" paddingLeft={2} bottom={2}>
+                    <Text
+                      fontSize="lg"
+                      fontWeight="bold"
+                      bgGradient="linear(to-r, primary.200, secondary.100)"
+                      bgClip="text"
+                      textShadow="1px 1px 2px rgb(28 28 28 / 10%)">
+                      {article.title}
+                    </Text>
+                    <Text color="#fff" fontSize="xs" textShadow="1px 1px 2px rgb(28 28 28 / 10%)">
+                      {article.description}
+                    </Text>
+                  </Flex>
                 </Box>
               </Link>
             </NextLink>

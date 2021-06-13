@@ -57,7 +57,7 @@ export const calculateStat = (record, stat, period) => {
   const value = stats[stat.id]
 
   if (period === 'total') {
-    return stat.onTotal ? stat.onTotal(value, games, matches) : value
+    return stat.onTotal ? stat.onTotal(value, games, matches) : value.toFixed(0)
   }
 
   if (period === 'series') {
@@ -80,6 +80,10 @@ export const calculateStat = (record, stat, period) => {
 }
 
 export const calculateFormattedStat = (record, stat, period) => {
+  if (!record || !record.stats[stat.id]) {
+    return '-'
+  }
+
   const _value = calculateStat(record, stat, period)
   if (Number.isNaN(_value)) {
     return ''
