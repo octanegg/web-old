@@ -80,7 +80,10 @@ export const calculateStat = (record, stat, period) => {
 }
 
 export const calculateFormattedStat = (record, stat, period) => {
-  if (!record || !record.stats[stat.id]) {
+  if (
+    !record ||
+    (stat.id !== 'played' && stat.id !== 'wins' && record.stats[stat.id] === undefined)
+  ) {
     return '-'
   }
 

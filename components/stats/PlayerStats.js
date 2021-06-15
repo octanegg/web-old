@@ -238,7 +238,7 @@ const StatsRow = ({ record, statGroup, sort, groupBy, period, showTeam }) => {
         </Cell>
       )}
       {showTeam && (
-        <Cell width="16rem" className={sort === 'team.name' ? 'selected' : ''}>
+        <Cell width="4rem" className={sort === 'team.name' ? 'selected' : ''}>
           <Flex justify="center">
             <Link href={`/teams/${team.slug}`}>
               <Image boxSize={6} src={team.image} />

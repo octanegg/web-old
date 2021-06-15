@@ -85,7 +85,7 @@ export const ScoreboardMatch = ({ match, group, stats, teamStats, showReplayStat
         }
         period={period}
         onPeriodChange={setPeriod}
-        hideMobileLabels
+        hideSeries
       />
       {match.blue?.players && (
         <MatchScoreboardTable

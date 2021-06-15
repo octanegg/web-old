@@ -81,6 +81,7 @@ export const StatsNavigation = ({
   onPeriodChange,
   right,
   hideMobileLabels,
+  hideSeries,
 }) => {
   const [isOpen, setIsOpen] = useState(false)
   const mainStats = groups.slice(0, MAX_STATS)
@@ -145,7 +146,7 @@ export const StatsNavigation = ({
       </Stack>
       {right}
       {onPeriodChange && (
-        <Stack width={{ base: 'full', lg: 80 }}>
+        <Stack width={{ base: 'full', lg: hideSeries ? 52 : 80 }}>
           {!hideMobileLabels && <Heading>Period</Heading>}
           <Stack
             paddingLeft={2}
@@ -175,15 +176,17 @@ export const StatsNavigation = ({
                 <Text>Game</Text>
               </Stack>
             </Button>
-            <Button
-              buttonType={
-                period === 'series' ? ButtonTypes.stat.selected : ButtonTypes.stat.default
-              }
-              onClick={() => onPeriodChange('series')}>
-              <Stack direction="row" spacing={1} align="center">
-                <Text>Series</Text>
-              </Stack>
-            </Button>
+            {!hideSeries && (
+              <Button
+                buttonType={
+                  period === 'series' ? ButtonTypes.stat.selected : ButtonTypes.stat.default
+                }
+                onClick={() => onPeriodChange('series')}>
+                <Stack direction="row" spacing={1} align="center">
+                  <Text>Series</Text>
+                </Stack>
+              </Button>
+            )}
           </Stack>
         </Stack>
       )}

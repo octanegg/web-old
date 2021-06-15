@@ -73,7 +73,7 @@ export const timeSince = (date) => {
   }
 
   if (minutes < 60 * 24 * 7) {
-    return `${Math.floor(minutes / 60 / 7)}d ago`
+    return `${Math.floor(minutes / 60 / 24)}d ago`
   }
 
   if (moment().year() === moment(date).year()) {

@@ -14,8 +14,9 @@ const Footer = () => (
     paddingTop={2}
     paddingBottom={2}
     backgroundColor="secondary.800">
-    <FooterIcon icon="twitter" href="http://twitter.com/octane_gg" />
-    <FooterIcon icon="discord" href="http://discord.gg/gxHfxWq" />
+    <FooterIcon icon="twitter" href="https://twitter.com/octane_gg" />
+    <FooterIcon icon="discord" href="https://discord.gg/gxHfxWq" />
+    <FooterIcon icon="patreon" href="https://www.patreon.com/octanegg" />
   </Flex>
 )
 
