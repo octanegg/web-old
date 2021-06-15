@@ -1,7 +1,7 @@
 import styles from './MatchStatsTable.module.scss'
 
 import React from 'react'
-import { formatStatFromObj, getFieldFromObj } from '@octane/util/stats'
+import { calculateFormattedStat } from '@octane/util/stats'
 import { getPlayerStat } from '@octane/config/stats/stats'
 
 export default class MatchStatsTable extends React.PureComponent {
@@ -30,40 +30,40 @@ export default class MatchStatsTable extends React.PureComponent {
           {sortedTeam1.map((playerData, i) => (
             <tr key={`1-${i}`}>
               <td style={{ borderColor: tableColor }}>{playerData.player.tag}</td>
-              {['score', 'goals', 'assists', 'saves', 'shots'].map((stat) => (
+              {[
+                'score',
+                'goals',
+                'assists',
+                'saves',
+                'shots',
+                'shootingPercentage',
+                'goalParticipation',
+                'rating',
+              ].map((stat) => (
                 <td style={{ borderColor: tableColor }}>
-                  {(getFieldFromObj(playerData, getPlayerStat(stat).field) / games).toFixed(2)}
+                  {calculateFormattedStat(playerData, getPlayerStat(stat), '')}
                 </td>
               ))}
-              <td style={{ borderColor: tableColor }}>
-                {formatStatFromObj(playerData, getPlayerStat('shootingPercentage'), games)}
-              </td>
-              <td style={{ borderColor: tableColor }}>
-                {formatStatFromObj(playerData, getPlayerStat('goalParticipation'), games)}
-              </td>
-              <td style={{ borderColor: tableColor }}>
-                {formatStatFromObj(playerData, getPlayerStat('rating'), games)}
-              </td>
             </tr>
           ))}
           <tr key="sep" className={styles.separator}></tr>
           {sortedTeam2.map((playerData, i) => (
             <tr key={`2-${i}`}>
               <td style={{ borderColor: tableColor }}>{playerData.player.tag}</td>
-              {['score', 'goals', 'assists', 'saves', 'shots'].map((stat) => (
+              {[
+                'score',
+                'goals',
+                'assists',
+                'saves',
+                'shots',
+                'shootingPercentage',
+                'goalParticipation',
+                'rating',
+              ].map((stat) => (
                 <td style={{ borderColor: tableColor }}>
-                  {(getFieldFromObj(playerData, getPlayerStat(stat).field) / games).toFixed(2)}
+                  {calculateFormattedStat(playerData, getPlayerStat(stat), '')}
                 </td>
               ))}
-              <td style={{ borderColor: tableColor }}>
-                {formatStatFromObj(playerData, getPlayerStat('shootingPercentage'), games)}
-              </td>
-              <td style={{ borderColor: tableColor }}>
-                {formatStatFromObj(playerData, getPlayerStat('goalParticipation'), games)}
-              </td>
-              <td style={{ borderColor: tableColor }}>
-                {formatStatFromObj(playerData, getPlayerStat('rating'), games)}
-              </td>
             </tr>
           ))}
         </tbody>
@@ -71,5 +71,5 @@ export default class MatchStatsTable extends React.PureComponent {
     )
   }
 
-  _sortPlayerByRating = (a, b) => b.advanced.rating - a.advanced.rating
+  _sortPlayerByRating = (a, b) => b.stats.rating - a.stats.rating
 }

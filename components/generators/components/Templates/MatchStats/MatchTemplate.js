@@ -7,13 +7,17 @@ const OCTANE_TEAM_PHOTOS = 'https://griffon.octane.gg/team-logos/'
 
 const TeamDisplay = ({ team }) => (
   <div className={styles.teamDisplay}>
-    <img className={styles.teamPhoto} src={team.image || '/generators/DefaultTeamPic.png'} />
+    <img
+      className={styles.teamPhoto}
+      src={team.image || '/generators/DefaultTeamPic.png'}
+      crossOrigin="anonymous"
+    />
     <div className={styles.teamName}>{team.name}</div>
   </div>
 )
 
 const MatchTemplate = (props) => {
-  const { data, org, photo, tableColor, textColor } = props
+  const { data, data2, org, photo, tableColor, textColor } = props
 
   console.log(data)
 
@@ -32,8 +36,8 @@ const MatchTemplate = (props) => {
         {`( ${data.blue.team.stats.core.goals} - ${data.orange.team.stats.core.goals} )`}
       </div>
       <TeamStatsTable
-        team1={data.blue.players}
-        team2={data.orange.players}
+        team1={data2.stats.filter(({ teams }) => teams[0]._id === data.blue.team.team._id)}
+        team2={data2.stats.filter(({ teams }) => teams[0]._id === data.orange.team.team._id)}
         teamSize={data.blue.players.length}
         games={data.games.length}
         textColor={textColor}

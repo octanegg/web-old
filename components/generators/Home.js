@@ -6,6 +6,8 @@ import TopPerformers from './components/Templates/TopPerformers/TopPerformersTem
 import TemplateSelector from './components/TemplateSelector'
 
 const MATCH_API_ENDPOINT = 'https://zsr.octane.gg/matches/'
+const MATCH_API_ENDPOINT_2 =
+  'https://zsr.octane.gg/stats/players?stat=score&stat=goals&stat=assists&stat=saves&stat=shots&stat=shootingPercentage&stat=goalParticipation&stat=rating&match='
 const TOPPERFORMERS_API_ENDPOINT =
   'https://zsr.octane.gg/stats/players?stat=score&stat=goals&stat=assists&stat=saves&stat=shots&stat=shootingPercentage&stat=goalParticipation&stat=rating&event='
 
@@ -34,6 +36,7 @@ const TEMPLATES = [
 
 const INITIAL_STATE = {
   data: null,
+  data2: null,
   matchId: '',
   minGames: 0,
   noQualifier: false,
@@ -45,7 +48,7 @@ export default class HomeComponent extends React.PureComponent {
   state = INITIAL_STATE
 
   render() {
-    const { data, templates, currentTemplate, matchId, minGames, noQualifier } = this.state
+    const { data, data2, templates, currentTemplate, matchId, minGames, noQualifier } = this.state
     const templateData = templates && templates.find((_) => _.id === currentTemplate)
 
     return (
@@ -75,7 +78,9 @@ export default class HomeComponent extends React.PureComponent {
         )}
         {data && (
           <div className={styles.displayArea}>
-            {templateData.type === 'MATCH' && <MatchTemplate data={data} {...templateData} />}
+            {templateData.type === 'MATCH' && (
+              <MatchTemplate data={data} data2={data2} {...templateData} />
+            )}
             {templateData.type === 'TOPPERFORMERS' && (
               <TopPerformers data={data} minGames={minGames} {...templateData} />
             )}
@@ -96,9 +101,11 @@ export default class HomeComponent extends React.PureComponent {
 
     const templateType = templates && templates.find((_) => _.id === currentTemplate)?.type
     let templateApi
+    let templateApi2
 
     if (templateType === 'MATCH') {
-      templateApi = `${MATCH_API_ENDPOINT}${matchId}`
+      templateApi = `${MATCH_API_ENDPOINT}${matchId.split(',')[0]}`
+      templateApi2 = `${MATCH_API_ENDPOINT_2}${matchId.split(',').join('&match=')}`
     } else if (templateType === 'TOPPERFORMERS') {
       templateApi = `${TOPPERFORMERS_API_ENDPOINT}${matchId}&minGames=${minGames}${
         noQualifier ? '&qualifier=false' : ''
@@ -106,7 +113,8 @@ export default class HomeComponent extends React.PureComponent {
     }
 
     const apiData = await (await fetch(templateApi)).json()
+    const apiData2 = templateApi2 ? await (await fetch(templateApi2)).json() : {}
 
-    this.setState({ data: apiData })
+    this.setState({ data: apiData, data2: apiData2 })
   }
 }
