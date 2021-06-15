@@ -1,7 +1,7 @@
 import styles from './MatchStatsTable.module.scss'
 
 import React from 'react'
-import { calculateFormattedStat, formatStatFromObj } from '@octane/util/stats'
+import { formatStatFromObj, getFieldFromObj } from '@octane/util/stats'
 import { getPlayerStat } from '@octane/config/stats/stats'
 
 export default class MatchStatsTable extends React.PureComponent {
@@ -30,21 +30,11 @@ export default class MatchStatsTable extends React.PureComponent {
           {sortedTeam1.map((playerData, i) => (
             <tr key={`1-${i}`}>
               <td style={{ borderColor: tableColor }}>{playerData.player.tag}</td>
-              <td style={{ borderColor: tableColor }}>
-                {formatStatFromObj(playerData, getPlayerStat('score'), games)}
-              </td>
-              <td style={{ borderColor: tableColor }}>
-                {formatStatFromObj(playerData, getPlayerStat('goals'), games)}
-              </td>
-              <td style={{ borderColor: tableColor }}>
-                {formatStatFromObj(playerData, getPlayerStat('assists'), games)}
-              </td>
-              <td style={{ borderColor: tableColor }}>
-                {formatStatFromObj(playerData, getPlayerStat('saves'), games)}
-              </td>
-              <td style={{ borderColor: tableColor }}>
-                {formatStatFromObj(playerData, getPlayerStat('shots'), games)}
-              </td>
+              {['score', 'goals', 'assists', 'saves', 'shots'].map((stat) => (
+                <td style={{ borderColor: tableColor }}>
+                  {(getFieldFromObj(playerData, getPlayerStat(stat).field) / games).toFixed(2)}
+                </td>
+              ))}
               <td style={{ borderColor: tableColor }}>
                 {formatStatFromObj(playerData, getPlayerStat('shootingPercentage'), games)}
               </td>
@@ -60,21 +50,11 @@ export default class MatchStatsTable extends React.PureComponent {
           {sortedTeam2.map((playerData, i) => (
             <tr key={`2-${i}`}>
               <td style={{ borderColor: tableColor }}>{playerData.player.tag}</td>
-              <td style={{ borderColor: tableColor }}>
-                {formatStatFromObj(playerData, getPlayerStat('score'), games)}
-              </td>
-              <td style={{ borderColor: tableColor }}>
-                {formatStatFromObj(playerData, getPlayerStat('goals'), games)}
-              </td>
-              <td style={{ borderColor: tableColor }}>
-                {formatStatFromObj(playerData, getPlayerStat('assists'), games)}
-              </td>
-              <td style={{ borderColor: tableColor }}>
-                {formatStatFromObj(playerData, getPlayerStat('saves'), games)}
-              </td>
-              <td style={{ borderColor: tableColor }}>
-                {formatStatFromObj(playerData, getPlayerStat('shots'), games)}
-              </td>
+              {['score', 'goals', 'assists', 'saves', 'shots'].map((stat) => (
+                <td style={{ borderColor: tableColor }}>
+                  {(getFieldFromObj(playerData, getPlayerStat(stat).field) / games).toFixed(2)}
+                </td>
+              ))}
               <td style={{ borderColor: tableColor }}>
                 {formatStatFromObj(playerData, getPlayerStat('shootingPercentage'), games)}
               </td>
