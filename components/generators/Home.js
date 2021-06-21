@@ -107,9 +107,20 @@ export default class HomeComponent extends React.PureComponent {
       templateApi = `${MATCH_API_ENDPOINT}${matchId.split(',')[0]}`
       templateApi2 = `${MATCH_API_ENDPOINT_2}${matchId.split(',').join('&match=')}`
     } else if (templateType === 'TOPPERFORMERS') {
-      templateApi = `${TOPPERFORMERS_API_ENDPOINT}${matchId
-        .split(',')
-        .join('&event=')}&minGames=${minGames}${noQualifier ? '&qualifier=false' : ''}`
+      if (matchId.includes(',')) {
+        templateApi = `${TOPPERFORMERS_API_ENDPOINT}${matchId
+          .split(',')
+          .join('&event=')}&minGames=${minGames}${noQualifier ? '&qualifier=false' : ''}`
+      } else if (matchId.includes('/')) {
+        templateApi = `${TOPPERFORMERS_API_ENDPOINT}${matchId.split('/')[0]}&stage=${matchId
+          .split('/')
+          .slice(1)
+          .join('&stage=')}&minGames=${minGames}${noQualifier ? '&qualifier=false' : ''}`
+      } else {
+        templateApi = `${TOPPERFORMERS_API_ENDPOINT}${matchId}&minGames=${minGames}${
+          noQualifier ? '&qualifier=false' : ''
+        }`
+      }
     }
 
     const apiData = await (await fetch(templateApi)).json()
