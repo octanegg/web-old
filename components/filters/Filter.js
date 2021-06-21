@@ -334,16 +334,16 @@ export const EventsFilter = ({ events, active, onEventChange, onGroupChange }) =
       newActive.events = [...new Set(newActive.events.concat(group.events.map((e) => e.id)))]
     }
 
-    onGroupChange(newActive.groups)
+    onGroupChange(newActive.groups.length > 0 ? newActive.groups : '')
     if (group.id !== 'other') {
-      onEventChange(
-        newActive.events.filter(
-          (e) =>
-            !newActive.groups.some((g) =>
-              _groups.find((g1) => g1.id === g).events.find((e1) => e1.id === e)
-            )
-        )
+      const newEvents = newActive.events.filter(
+        (e) =>
+          !newActive.groups.some((g) =>
+            _groups.find((g1) => g1.id === g).events.find((e1) => e1.id === e)
+          )
       )
+
+      onEventChange(newEvents.length > 0 ? newEvents : '')
     } else {
       onEventChange(newActive.events)
     }

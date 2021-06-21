@@ -1,7 +1,7 @@
 export const groups = [
   {
     id: 'rlcsxchampionships',
-    label: 'RLCS X Championship',
+    label: 'RLCS X Championships',
   },
   {
     id: 'rlcsxspring',

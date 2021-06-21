@@ -16,7 +16,8 @@ const NAV_ITEMS = [
   { href: '/events', label: 'Events', icon: <FaCalendar /> },
   {
     href: '/stats/players',
-    query: '?mode=3&minGames=50&group=rlcsxspring&group=rlcsxwinter&group=rlcsxfall&group=grid',
+    query:
+      '?mode=3&minGames=50&group=rlcsxspring&group=rlcsxwinter&group=rlcsxfall&group=grid&group=rlcsxchampionships',
     label: 'Stats',
     icon: <IoStatsChart />,
   },

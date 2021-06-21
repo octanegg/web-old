@@ -127,8 +127,8 @@ export const Articles = ({ articles }) => {
       <Flex direction="column" marginTop={2} height="full">
         {today.length > 0 && <ArticleGroup group="Today" articles={today} />}
         {yesterday.length > 0 && <ArticleGroup group="Yesterday" articles={yesterday} />}
-        {lastWeek.length > 0 && <ArticleGroup group="Last Week" articles={lastWeek} />}
-        {lastMonth.length > 0 && <ArticleGroup group="Last Month" articles={lastMonth} />}
+        {lastWeek.length > 0 && <ArticleGroup group="This Week" articles={lastWeek} />}
+        {lastMonth.length > 0 && <ArticleGroup group="This Month" articles={lastMonth} />}
         {older.length > 0 && <ArticleGroup group="Older" articles={older} />}
       </Flex>
     </Flex>

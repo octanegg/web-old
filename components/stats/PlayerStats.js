@@ -14,6 +14,7 @@ export const PlayerStats = ({
   statGroup,
   stats,
   total,
+  average,
   groupBy,
   period,
   noScroll,
@@ -166,6 +167,16 @@ export const PlayerStats = ({
                 showTeam={showTeam}
               />
             )}
+            {average && (
+              <StatsRow
+                record={average}
+                statGroup={statGroup}
+                sort={sort}
+                period={period}
+                groupBy="average"
+                showTeam={showTeam}
+              />
+            )}
           </Body>
         )}
       </Table>
@@ -181,7 +192,7 @@ const StatsRow = ({ record, statGroup, sort, groupBy, period, showTeam }) => {
   const opponent = opponents[0]
 
   return (
-    <Row className={groupBy === 'total' ? 'total' : ''}>
+    <Row className={groupBy === 'total' || groupBy === 'average' ? 'total' : ''}>
       {groupBy === 'events' && (
         <Cell width="16rem" className={sort === 'event.name' ? 'selected' : ''}>
           <Flex align="center" justify="flex-start" fontSize="sm" paddingTop={1} paddingBottom={1}>
@@ -224,6 +235,13 @@ const StatsRow = ({ record, statGroup, sort, groupBy, period, showTeam }) => {
         <Cell width="12rem">
           <Flex fontWeight="bold" fontSize="sm" marginLeft={4}>
             Total
+          </Flex>
+        </Cell>
+      )}
+      {groupBy === 'average' && (
+        <Cell width="12rem">
+          <Flex fontWeight="bold" fontSize="sm" marginLeft={4}>
+            Average
           </Flex>
         </Cell>
       )}
