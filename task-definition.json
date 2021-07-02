@@ -31,6 +31,14 @@
         {
           "valueFrom": "api-key",
           "name": "API_KEY"
+        },
+        {
+          "valueFrom": "access-key-id",
+          "name": "AWS_ACCESS_KEY_ID"
+        },
+        {
+          "valueFrom": "secret-access-key",
+          "name": "AWS_SECRET_ACCESS_KEY"
         }
       ],
       "dockerSecurityOptions": null,

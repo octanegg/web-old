@@ -20,6 +20,8 @@ module.exports = (phase) => {
           REDIRECT_SIGN_OUT: 'http://localhost:3000/',
           AUTH_COOKIE_DOMAIN: 'localhost',
           GOOGLE_ANALYTICS: 'G-76KQWXWMBV',
+          AWS_ACCESS_KEY_ID: process.env.AWS_ACCESS_KEY_ID,
+          AWS_SECRET_ACCESS_KEY: process.env.AWS_SECRET_ACCESS_KEY,
         },
       }
     default:
@@ -40,6 +42,8 @@ module.exports = (phase) => {
           REDIRECT_SIGN_OUT: 'https://www.octane.gg/',
           AUTH_COOKIE_DOMAIN: 'octane.gg',
           GOOGLE_ANALYTICS: 'G-76KQWXWMBV',
+          AWS_ACCESS_KEY_ID: process.env.AWS_ACCESS_KEY_ID,
+          AWS_SECRET_ACCESS_KEY: process.env.AWS_SECRET_ACCESS_KEY,
         },
       }
   }

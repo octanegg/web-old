@@ -2,8 +2,8 @@
 import AWS from 'aws-sdk'
 
 AWS.config.update({
-  accessKeyId: 'AKIAQZEUPQDBRYVJBDC4',
-  secretAccessKey: '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',
+  accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+  secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
 })
 
 export const upload = async (fileName, file) => {
