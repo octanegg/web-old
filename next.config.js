@@ -6,6 +6,8 @@ module.exports = (phase) => {
       return {
         publicRuntimeConfig: {
           API_KEY: 'LOCALAPIKEY',
+          AWS_ACCESS_KEY_ID: process.env.AWS_ACCESS_KEY_ID,
+          AWS_SECRET_ACCESS_KEY: process.env.AWS_SECRET_ACCESS_KEY,
         },
         env: {
           API_URL: 'http://localhost:8080',
@@ -28,6 +30,8 @@ module.exports = (phase) => {
       return {
         publicRuntimeConfig: {
           API_KEY: process.env.API_KEY,
+          AWS_ACCESS_KEY_ID: process.env.AWS_ACCESS_KEY_ID,
+          AWS_SECRET_ACCESS_KEY: process.env.AWS_SECRET_ACCESS_KEY,
         },
         env: {
           API_URL: 'https://zsr-internal.octane.gg',
