@@ -1,23 +1,11 @@
 export const groups = [
   {
-    id: 'rlcsxchampionships',
-    label: 'RLCS X Championships',
+    id: 'rlcs2122fall',
+    label: 'RLCS 2021-22',
   },
   {
-    id: 'rlcsxspring',
-    label: 'RLCS X Spring',
-  },
-  {
-    id: 'rlcsxwinter',
-    label: 'RLCS X Winter',
-  },
-  {
-    id: 'rlcsxfall',
-    label: 'RLCS X Fall',
-  },
-  {
-    id: 'grid',
-    label: 'RLCS X The Grid',
+    id: 'rlcsx',
+    label: 'RLCS X',
   },
   {
     id: 'rlcs19',
