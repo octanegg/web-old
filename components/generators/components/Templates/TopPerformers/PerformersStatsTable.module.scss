@@ -1,13 +1,14 @@
 .playersStatsTable {
   width: 83%;
   position: absolute;
-  top: 8.3rem;
+  top: 22.5%;
   font-family: 'OpenSans';
   color: white;
   left: 50%;
   transform: translateX(-50%);
   z-index: 2;
   font-size: 2rem;
+  height: 63%;
   border-collapse: collapse;
   tbody {
     font-size: 1.3rem;
