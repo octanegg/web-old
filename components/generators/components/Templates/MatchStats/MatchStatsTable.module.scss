@@ -1,23 +1,18 @@
-$default-font-size: 1.7rem;
-
 .matchDataTable {
   width: 100%;
-  font-size: $default-font-size;
   font-family: 'Asenine';
-  letter-spacing: 0.07rem;
   border-collapse: collapse;
   tbody {
+    font-size: 1.5rem;
     tr {
       &.separator {
-        height: 1.6rem;
+        height: 0.75rem;
       }
     }
     td {
-      padding: 0.2rem;
       font-weight: lighter;
       letter-spacing: 0.12rem;
       &:first-child {
-        font-size: $default-font-size + 0.2rem;
         font-weight: bold;
       }
       &:not(:first-child) {
@@ -27,11 +22,10 @@ $default-font-size: 1.7rem;
   }
   thead {
     @extend tbody;
+    font-size: 1.6rem;
     letter-spacing: normal;
     td {
-      font-weight: normal !important;
-      font-size: $default-font-size * 0.85 !important;
-      opacity: 0.8;
+      font-weight: bold;
       text-transform: uppercase;
     }
   }
@@ -40,14 +34,13 @@ $default-font-size: 1.7rem;
 .table {
   position: absolute;
   z-index: 2;
-  width: 75%;
+  width: 74%;
   color: white;
-  top: 60%;
+  top: 59%;
   left: 50%;
   transform: translate(-50%, -50%);
   tr {
     td {
-      border: 1px solid rgba(255, 255, 255, 0.3);
       &:last-child {
         border-right: 0;
       }

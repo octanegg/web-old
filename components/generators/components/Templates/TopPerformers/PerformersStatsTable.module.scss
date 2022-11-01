@@ -1,7 +1,7 @@
 .playersStatsTable {
   width: 85%;
   position: absolute;
-  top: 12rem;
+  top: 8.2rem;
   font-family: 'Asenine';
   color: white;
   left: 50%;
@@ -11,13 +11,12 @@
   letter-spacing: 0.05rem;
   border-collapse: collapse;
   tbody {
+    font-size: 1.4rem;
     tr {
       td {
-        border-bottom: 1px solid #9999994d;
         text-align: center;
         &:first-child {
           font-family: 'ArcaMajora2';
-          font-size: 1.6rem;
           text-align: left;
         }
         &:last-child {
@@ -46,12 +45,12 @@
   }
   thead {
     @extend tbody;
+    font-size: 1.6rem;
+    font-weight: bold;
     td {
       text-transform: uppercase;
-      font-size: 1.4rem;
       &:first-child {
         font-family: 'Asenine' !important;
-        font-size: 1.4rem;
       }
       &:last-child {
         text-align: right;
