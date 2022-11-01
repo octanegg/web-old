@@ -3,7 +3,7 @@
   height: auto;
   position: relative;
   color: white;
-  font-family: 'ArcaMajora2';
+  font-family: 'OpenSans';
   .teams {
     position: absolute;
     display: flex;
@@ -51,7 +51,7 @@
     position: absolute;
     z-index: 2;
     width: 50%;
-    top: 8rem;
+    top: 8.5rem;
     left: 50%;
     transform: translateX(-50%);
     font-size: 1.7rem;

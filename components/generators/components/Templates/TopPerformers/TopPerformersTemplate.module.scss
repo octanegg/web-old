@@ -3,7 +3,7 @@
   height: auto;
   position: relative;
   color: white;
-  font-family: 'ArcaMajora2';
+  font-family: 'OpenSans';
   .templatePhoto {
     width: 100%;
     position: relative;
@@ -27,6 +27,7 @@
       line-height: 4rem;
     }
     .eventName {
+      font-weight: bold;
       font-size: 2.3rem;
     }
   }

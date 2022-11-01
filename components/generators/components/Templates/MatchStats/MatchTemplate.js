@@ -7,19 +7,13 @@ const OCTANE_TEAM_PHOTOS = 'https://griffon.octane.gg/team-logos/'
 
 const TeamDisplay = ({ team }) => (
   <div className={styles.teamDisplay}>
-    <img
-      className={styles.teamPhoto}
-      src={team.image || '/generators/DefaultTeamPic.png'}
-      crossOrigin="anonymous"
-    />
+    <img className={styles.teamPhoto} src={team.image || '/generators/DefaultTeamPic.png'} />
     <div className={styles.teamName}>{team.name}</div>
   </div>
 )
 
 const MatchTemplate = (props) => {
   const { data, data2, org, photo, tableColor, textColor } = props
-
-  console.log(data)
 
   return (
     <div id="photo-area" className={styles.matchStats} style={{ color: `${textColor} !important` }}>
