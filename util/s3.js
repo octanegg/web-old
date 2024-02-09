@@ -1,12 +1,9 @@
 /* eslint-disable no-console */
 import AWS from 'aws-sdk'
-import getConfig from 'next/config'
-
-const { publicRuntimeConfig } = getConfig()
 
 AWS.config.update({
-  accessKeyId: publicRuntimeConfig.AWS_ACCESS_KEY_ID,
-  secretAccessKey: publicRuntimeConfig.AWS_SECRET_ACCESS_KEY,
+  accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+  secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
 })
 
 export const upload = async (fileName, file) => {
