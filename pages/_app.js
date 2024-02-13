@@ -9,29 +9,29 @@ import '@octane/styles/date-picker.css'
 import OctaneProvider from '@octane/context/octane'
 import theme from '@octane/config/theme/theme'
 
-Amplify.configure({
-  Auth: {
-    region: 'us-east-1',
-    userPoolId: process.env.USER_POOL_ID,
-    userPoolWebClientId: process.env.USER_POOL_CLIENT_ID,
-    cookieStorage: {
-      domain: process.env.AUTH_COOKIE_DOMAIN,
-      path: '/',
-      expires: 7,
-      secure: false,
-    },
-  },
-})
+// Amplify.configure({
+//   Auth: {
+//     region: 'us-east-1',
+//     userPoolId: process.env.USER_POOL_ID,
+//     userPoolWebClientId: process.env.USER_POOL_CLIENT_ID,
+//     cookieStorage: {
+//       domain: process.env.AUTH_COOKIE_DOMAIN,
+//       path: '/',
+//       expires: 7,
+//       secure: false,
+//     },
+//   },
+// })
 
-Auth.configure({
-  oauth: {
-    domain: process.env.IDP_DOMAIN,
-    scope: ['email', 'openid'],
-    redirectSignIn: process.env.REDIRECT_SIGN_IN,
-    redirectSignOut: process.env.REDIRECT_SIGN_OUT,
-    responseType: 'token',
-  },
-})
+// Auth.configure({
+//   oauth: {
+//     domain: process.env.IDP_DOMAIN,
+//     scope: ['email', 'openid'],
+//     redirectSignIn: process.env.REDIRECT_SIGN_IN,
+//     redirectSignOut: process.env.REDIRECT_SIGN_OUT,
+//     responseType: 'token',
+//   },
+// })
 
 const App = ({ Component, pageProps }) => (
   <OctaneProvider>
